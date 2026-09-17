@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DirectX\DXKeyboardInputProvider.cpp" />
-    <ClCompile Include="DirectX\DXMouseInputProvider.cpp" />
+    <ClCompile Include="Keyboard\DXKeyboardInputProvider.cpp" />
+    <ClCompile Include="Mouse\DXMouseInputProvider.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -29,13 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectX\DXKeyboardInputProvider.h" />
-    <ClInclude Include="DirectX\DXKeyMap.h" />
-    <ClInclude Include="DirectX\DXMouseInputProvider.h" />
+    <ClInclude Include="Keyboard\DXKeyboardInputProvider.h" />
+    <ClInclude Include="Keyboard\DXKeyMap.h" />
+    <ClInclude Include="Mouse\DXMouseInputProvider.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Core.vcxproj">
+    <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -100,8 +100,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;$(StrawberryRoot)Game\ThirdParty\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -120,8 +118,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;$(StrawberryRoot)Game\ThirdParty\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -138,8 +134,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;$(StrawberryRoot)Game\ThirdParty\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -158,8 +152,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;$(StrawberryRoot)Game\ThirdParty\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

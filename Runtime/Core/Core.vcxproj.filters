@@ -16,9 +16,6 @@
     <Filter Include="Math">
       <UniqueIdentifier>{53f50aa7-27b9-492c-a91e-d98e08482188}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Logging">
-      <UniqueIdentifier>{845a224d-49c0-41f9-8bfa-4da3e8923ecf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils\Allocator">
       <UniqueIdentifier>{ed39e6a6-5566-4c6e-9a36-2c928bcd3359}</UniqueIdentifier>
     </Filter>

@@ -38,11 +38,6 @@
     <ClInclude Include="Service\Input\MouseButton.h" />
     <ClInclude Include="Service\Input\MouseState.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -104,8 +99,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/Zc:__cplusplus /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -124,8 +118,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/Zc:__cplusplus /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -142,8 +135,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/Zc:__cplusplus /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -162,8 +154,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalOptions>/Zc:__cplusplus /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(StrawberryRoot)Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>

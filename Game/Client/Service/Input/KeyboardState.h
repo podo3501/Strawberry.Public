@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include "KeyCode.h"
 #include "InputState.h"
 

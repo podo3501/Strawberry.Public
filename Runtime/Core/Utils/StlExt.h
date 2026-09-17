@@ -40,7 +40,7 @@ namespace StlExt
 		if constexpr (!PointerLike<ValueType>)
 			return lhs == rhs;
 
-		return ranges::equal(lhs, rhs, [](const ValueType& a, const ValueType& b) {
+		return std::ranges::equal(lhs, rhs, [](const ValueType& a, const ValueType& b) {
 			return Compare(a, b);
 			});
 	}
@@ -53,7 +53,7 @@ namespace StlExt
 		if constexpr (!PointerLike<MappedType>)
 			return lhs == rhs;
 
-		return ranges::equal(lhs, rhs, [](const auto& a, const auto& b) {
+		return std::ranges::equal(lhs, rhs, [](const auto& a, const auto& b) {
 			return a.first == b.first && Compare(a.second, b.second); });
 	}
 

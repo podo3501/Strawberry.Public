@@ -2,5 +2,36 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <StrawberryRoot>$(MSBuildThisFileDirectory)</StrawberryRoot>
+    <StrawberryRootFwd>$(StrawberryRoot.Replace('\', '/'))</StrawberryRootFwd>
   </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+
+      <!-- CRT -->
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreadedDLL</RuntimeLibrary>
+
+      <!-- Common compiler options -->
+      <AdditionalOptions>/utf-8 /Zc:__cplusplus /permissive- /MP %(AdditionalOptions)</AdditionalOptions>
+
+      <!-- Common include -->
+      <AdditionalIncludeDirectories>
+        $(StrawberryRoot);
+	$(StrawberryRoot)Game;
+        $(StrawberryRoot)Runtime;
+        $(StrawberryRoot)ThirdParty\Include;
+        $(StrawberryRoot)ThirdParty;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+
+    <Link>
+      <AdditionalLibraryDirectories>
+        $(StrawberryRoot)ThirdParty\Libs;
+        %(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+    </Link>
+
+  </ItemDefinitionGroup>
 </Project>

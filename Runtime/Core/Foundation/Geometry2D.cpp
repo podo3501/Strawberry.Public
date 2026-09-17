@@ -62,10 +62,10 @@ Rect Rect::Intersect(const Rect& other) const //결과가 음수가 나올 수 �
     float r2 = other.x + other.width;
     float b2 = other.y + other.height;
 
-    float l = max(l1, l2);
-    float t = max(t1, t2);
-    float r = min(r1, r2);
-    float b = min(b1, b2);
+    float l = std::max(l1, l2);
+    float t = std::max(t1, t2);
+    float r = std::min(r1, r2);
+    float b = std::min(b1, b2);
 
     return { l, t, r - l, b - t }; 
 }
