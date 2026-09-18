@@ -29,13 +29,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Service\Input\IKeyboardInputProvider.h" />
+    <ClInclude Include="Service\Input\IKeyboardInputProvider.ixx" />
     <ClInclude Include="Service\Input\IMouseInputProvider.h" />
     <ClInclude Include="Service\Input\InputService.h" />
-    <ClInclude Include="Service\Input\InputState.h" />
-    <ClInclude Include="Service\Input\KeyboardState.h" />
-    <ClInclude Include="Service\Input\KeyCode.h" />
-    <ClInclude Include="Service\Input\MouseButton.h" />
+    <ClInclude Include="Service\Input\InputState.ixx" />
+    <ClInclude Include="Service\Input\KeyboardState.ixx" />
+    <ClInclude Include="Service\Input\KeyCode.ixx" />
+    <ClInclude Include="Service\Input\MouseButton.ixx" />
     <ClInclude Include="Service\Input\MouseState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

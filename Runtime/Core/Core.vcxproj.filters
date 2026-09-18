@@ -4,9 +4,6 @@
     <Filter Include="Foundation">
       <UniqueIdentifier>{c2db4bb7-b0e9-4dc7-8a7d-829bdc57bded}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Service">
-      <UniqueIdentifier>{d2b1f40b-798d-4476-af53-254a0537f9a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{2464969a-ccc9-47e9-a47b-fab764013851}</UniqueIdentifier>
     </Filter>
@@ -21,19 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Foundation\NoCopyNoMove.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Foundation\NonCopyable.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Foundation\NonMovable.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Locator.h">
-      <Filter>Service</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\EnumHelpers.h">
+    <ClInclude Include="Utils\EnumHelpers.ixx">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Memory.h">
@@ -48,11 +33,10 @@
     <ClInclude Include="Utils\StlTypeExt.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Foundation\Types.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="Foundation\Foundation.h">
+    <ClInclude Include="Foundation\Foundation.ixx">
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="Foundation\Assert.h">
@@ -70,47 +54,17 @@
     <ClInclude Include="Foundation\Geometry2D.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\StringUtils.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Handle\IDHandle.h">
-      <Filter>Utils\Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Handle\HandlePool.h">
-      <Filter>Utils\Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Handle\FixedHandlePool.h">
-      <Filter>Utils\Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Handle\GenerationalHandle.h">
-      <Filter>Utils\Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\CameraMatrices.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Hash.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Utils.h">
+    <ClInclude Include="Math\MatiUtils.ixx">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Constants.h">
+    <ClInclude Include="Math\Constants.ixx">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Foundation\ResourceID.h">
       <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector2.h">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Foundation\Color.h">
       <Filter>Foundation</Filter>
@@ -118,53 +72,19 @@
     <ClInclude Include="Foundation\Align.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="Foundation\Logger.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\BitUtils.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Foundation\Cast.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Allocator\IndexAllocator.h">
-      <Filter>Utils\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Allocator\IndexType.h">
-      <Filter>Utils\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Allocator\DualIndexAllocator.h">
-      <Filter>Utils\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Allocator\LinearIndexAllocator.h">
-      <Filter>Utils\Allocator</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Utils\EnumHelpers.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\StlExt.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Utils\CycleIterator.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Foundation\Geometry2D.cpp">
       <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\StringUtils.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector3.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\CameraMatrices.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Utils\CommonUtils.cpp">
       <Filter>Utils</Filter>
@@ -172,29 +92,63 @@
     <ClCompile Include="Foundation\ResourceID.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Vector4.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector2.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="Foundation\Color.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="Foundation\Logger.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\BitUtils.cpp">
+    <ClCompile Include="Foundation\Geometry2D.ixx">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\Logger.ixx">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CameraMatrices.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreTypes.ixx" />
+    <ClCompile Include="Utils\Allocator\DualIndexAllocator.ixx">
+      <Filter>Utils\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Allocator\IndexType.ixx">
+      <Filter>Utils\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Allocator\IndexAllocator.ixx">
+      <Filter>Utils\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx">
+      <Filter>Utils\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Handle\IDHandle.ixx">
+      <Filter>Utils\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Handle\GenerationalHandle.ixx">
+      <Filter>Utils\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Handle\FixedHandlePool.ixx">
+      <Filter>Utils\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Handle\HandlePool.ixx">
+      <Filter>Utils\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\BitUtils.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Allocator\IndexAllocator.cpp">
-      <Filter>Utils\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Allocator\DualIndexAllocator.cpp">
-      <Filter>Utils\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Allocator\LinearIndexAllocator.cpp">
-      <Filter>Utils\Allocator</Filter>
+    <ClCompile Include="Utils\StringUtils.ixx">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ std::unique_ptr<InputService> InputService::Create(
 {
 	if (!keyboardProvider || !mouseProvider) return nullptr;
 
-	std::unique_ptr<InputService> service(new InputService(move(keyboardProvider), std::move(mouseProvider)));
+	std::unique_ptr<InputService> service(new InputService(std::move(keyboardProvider), std::move(mouseProvider)));
 	return service;
 }
 

@@ -17,6 +17,7 @@
 
       <!-- Common include -->
       <AdditionalIncludeDirectories>
+        $(ProjectDir);
         $(StrawberryRoot);
 	$(StrawberryRoot)Game;
         $(StrawberryRoot)Runtime;

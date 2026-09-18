@@ -8,13 +8,16 @@
     <ClCompile Include="Mouse\DXMouseInputProvider.cpp">
       <Filter>Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="Keyboard\DXKeyboardInputProvider.ixx">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Keyboard\DXKeyboardInputProvider.h">
       <Filter>Keyboard</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard\DXKeyMap.h">
+    <ClInclude Include="Keyboard\DXKeyMap.ixx">
       <Filter>Keyboard</Filter>
     </ClInclude>
     <ClInclude Include="Mouse\DXMouseInputProvider.h">
