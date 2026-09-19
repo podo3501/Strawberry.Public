@@ -1,37 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Service\Input\InputService.cpp">
       <Filter>Service\Input</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Service\Input\IKeyboardInputProvider.ixx">
+    <ClCompile Include="Service\Input\IKeyboardInputProvider.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\IMouseInputProvider.h">
+    </ClCompile>
+    <ClCompile Include="Service\Input\KeyboardState.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\InputService.h">
+    </ClCompile>
+    <ClCompile Include="Service\Input\MouseButton.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\InputState.ixx">
+    </ClCompile>
+    <ClCompile Include="Service\Input\KeyCode.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\KeyboardState.ixx">
+    </ClCompile>
+    <ClCompile Include="Service\Input\InputState.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\KeyCode.ixx">
+    </ClCompile>
+    <ClCompile Include="Service\Input\MouseState.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\MouseButton.ixx">
+    </ClCompile>
+    <ClCompile Include="Service\Input\IMouseInputProvider.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\Input\MouseState.h">
+    </ClCompile>
+    <ClCompile Include="Service\Input\InputService.ixx">
       <Filter>Service\Input</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="Service\Input\Input.ixx">
+      <Filter>Service\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

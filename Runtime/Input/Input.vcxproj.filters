@@ -1,28 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Keyboard\DXKeyboardInputProvider.cpp">
+    <ClCompile Include="Keyboard\KeyboardInputProvider.ixx">
       <Filter>Keyboard</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse\DXMouseInputProvider.cpp">
+    <ClCompile Include="Keyboard\KeyMap.ixx">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.ixx" />
+    <ClCompile Include="Mouse\MouseInputProvider.ixx">
       <Filter>Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard\DXKeyboardInputProvider.ixx">
-      <Filter>Keyboard</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Keyboard\DXKeyboardInputProvider.h">
-      <Filter>Keyboard</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard\DXKeyMap.ixx">
-      <Filter>Keyboard</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse\DXMouseInputProvider.h">
-      <Filter>Mouse</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Keyboard">

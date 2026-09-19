@@ -1,6 +1,6 @@
 module;
 
-#include "Foundation/Assert.h"
+#include "Foundation/Preprocessor/Assert.h"
 
 export module Core.IndexAllocator;
 

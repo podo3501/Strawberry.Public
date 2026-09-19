@@ -2,14 +2,15 @@ module;
 
 #include "DirectXTK12/Keyboard.h"
 
-export module DXKeyMap;
+export module Input.DirectX:KeyMap;
 
 import std;
-import KeyCode;
+import Client.Input;
 
 using DXKey = DirectX::Keyboard::Keys;
+using Client::KeyCode;
 
-export constexpr std::pair<DXKey, KeyCode> DXKeyMap[] = {
+export constexpr std::pair<DXKey, KeyCode> KeyMap[] = {
     { DXKey::A, KeyCode::A },
     { DXKey::B, KeyCode::B },
     { DXKey::C, KeyCode::C },

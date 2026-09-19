@@ -1,14 +1,17 @@
-export module MouseButton;
+export module Client.Input:MouseButton;
 
 import std;
 
-export enum class MouseButton : std::uint8_t
+namespace Client
 {
-    Left,
-    Right,
-    Middle,
-    X1,
-    X2,
+    export enum class MouseButton : std::uint8_t
+    {
+        Left,
+        Right,
+        Middle,
+        X1,
+        X2,
 
-    Count
-};
+        Count
+    };
+}

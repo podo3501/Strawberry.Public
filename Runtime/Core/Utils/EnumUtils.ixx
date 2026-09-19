@@ -1,4 +1,4 @@
-export module EnumUtils; // 모듈 이름은 프로젝트 규칙에 맞춰 변경 가능합니다.
+export module Core.EnumUtils; // 모듈 이름은 프로젝트 규칙에 맞춰 변경 가능합니다.
 
 import std;
 

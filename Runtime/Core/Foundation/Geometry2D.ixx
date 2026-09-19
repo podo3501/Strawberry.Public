@@ -1,8 +1,8 @@
 module;
 
-#include "Assert.h"
+#include "Preprocessor/Assert.h"
 
-export module Geometry;
+export module Core.Geometry2D;
 
 import std;
 

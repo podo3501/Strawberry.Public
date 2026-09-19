@@ -19,56 +19,51 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Foundation\Align.ixx" />
+    <ClCompile Include="Foundation\Cast.ixx" />
+    <ClCompile Include="Foundation\Color.ixx" />
+    <ClCompile Include="Foundation\ResourceID.ixx" />
+    <ClCompile Include="Foundation\Types.ixx" />
+    <ClCompile Include="Utils\CycleIterator.ixx" />
+    <ClCompile Include="Utils\Hash.ixx" />
+    <ClCompile Include="Utils\StlUtils.ixx" />
     <ClCompile Include="Utils\StringUtils.ixx" />
-    <ClInclude Include="Foundation\Align.h" />
-    <ClInclude Include="Foundation\Assert.h" />
-    <ClInclude Include="Foundation\Cast.hpp" />
-    <ClInclude Include="Foundation\Color.h" />
-    <ClInclude Include="Foundation\Foundation.ixx" />
+    <ClInclude Include="Foundation\Foundation.h" />
+    <ClCompile Include="Foundation\Foundation.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
     <ClCompile Include="Foundation\Logger.ixx">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClInclude Include="Foundation\Macros.h" />
-    <ClInclude Include="Foundation\Geometry2D.h" />
-    <ClInclude Include="Foundation\ResourceID.h" />
-    <ClInclude Include="Foundation\Types.h" />
-    <ClInclude Include="Math\Constants.ixx" />
-    <ClInclude Include="Math\MatiUtils.ixx" />
-    <ClCompile Include="Utils\Allocator\IndexAllocator.ixx" />
-    <ClCompile Include="Utils\Allocator\IndexType.ixx">
+    <ClInclude Include="Foundation\Preprocessor\Assert.h" />
+    <ClInclude Include="Foundation\Preprocessor\Macros.h" />
+    <ClInclude Include="Foundation\Preprocessor\TypeDefine.h" />
+    <ClCompile Include="Math\Constants.ixx">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClInclude Include="Utils\CommonUtils.h" />
-    <ClInclude Include="Utils\CycleIterator.h" />
-    <ClInclude Include="Utils\EnumHelpers.ixx" />
-    <ClInclude Include="Utils\Hash.h" />
-    <ClInclude Include="Utils\Memory.h" />
-    <ClInclude Include="Utils\StlExt.h" />
-    <ClInclude Include="Utils\StlExtTraitsConcepts.hpp" />
-    <ClInclude Include="Utils\StlTypeExt.hpp" />
+    <ClCompile Include="Math\MathUtils.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
+    <ClCompile Include="Utils\Allocator\IndexAllocator.ixx" />
+    <ClCompile Include="Utils\EnumUtils.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Foundation\Color.cpp" />
-    <ClCompile Include="Foundation\Geometry2D.cpp" />
     <ClCompile Include="Foundation\Geometry2D.ixx" />
     <ClCompile Include="Foundation\Logger.cpp" />
-    <ClCompile Include="Foundation\ResourceID.cpp" />
     <ClCompile Include="Math\CameraMatrices.ixx" />
     <ClCompile Include="Math\Matrix.ixx" />
     <ClCompile Include="Math\Vector2.ixx" />
     <ClCompile Include="Math\Vector3.ixx" />
     <ClCompile Include="Math\Vector4.ixx" />
-    <ClCompile Include="CoreTypes.ixx" />
     <ClCompile Include="Utils\Allocator\DualIndexAllocator.ixx" />
     <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx" />
     <ClCompile Include="Utils\BitUtils.ixx" />
-    <ClCompile Include="Utils\CommonUtils.cpp" />
-    <ClCompile Include="Utils\CycleIterator.cpp" />
     <ClCompile Include="Utils\Handle\FixedHandlePool.ixx" />
     <ClCompile Include="Utils\Handle\GenerationalHandle.ixx" />
     <ClCompile Include="Utils\Handle\HandlePool.ixx" />
     <ClCompile Include="Utils\Handle\IDHandle.ixx" />
-    <ClCompile Include="Utils\StlExt.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -125,7 +120,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -149,7 +143,6 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -171,7 +164,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -195,7 +187,6 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

@@ -1,18 +1,21 @@
-export module InputState;
+export module Client.Input:InputState;
 
-export struct InputState
+namespace Client
 {
-    bool previous{ false };
-    bool current{ false };
-
-    void Update(bool isDown)
+    export struct InputState
     {
-        previous = current;
-        current = isDown;
-    }
+        bool previous{ false };
+        bool current{ false };
 
-    [[nodiscard]] bool IsPressed() const noexcept { return current && !previous; }
-    [[nodiscard]] bool IsReleased() const noexcept { return !current && previous; }
-    [[nodiscard]] bool IsHeld() const noexcept { return current; }
-    [[nodiscard]] bool IsUp() const noexcept { return !current; }
-};
+        void Update(bool isDown)
+        {
+            previous = current;
+            current = isDown;
+        }
+
+        [[nodiscard]] bool IsPressed() const noexcept { return current && !previous; }
+        [[nodiscard]] bool IsReleased() const noexcept { return !current && previous; }
+        [[nodiscard]] bool IsHeld() const noexcept { return current; }
+        [[nodiscard]] bool IsUp() const noexcept { return !current; }
+    };
+}
