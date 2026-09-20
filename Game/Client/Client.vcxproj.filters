@@ -25,10 +25,10 @@
     <ClCompile Include="Service\Input\IMouseInputProvider.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\InputService.ixx">
+    <ClCompile Include="Service\Input\Input.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\Input.ixx">
+    <ClCompile Include="Service\Input\InputService.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
   </ItemGroup>

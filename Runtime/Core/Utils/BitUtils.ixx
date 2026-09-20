@@ -1,4 +1,4 @@
-export module Core.BitUtils;
+export module Core.Utils:Bit;
 
 import std;
 

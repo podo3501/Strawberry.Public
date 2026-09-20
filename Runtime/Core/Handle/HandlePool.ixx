@@ -1,7 +1,7 @@
-export module Core.HandlePool;
+export module Core.Handle:Pool;
 
 import std;
-import Core.Handle;
+import :ID;
 
 namespace Core
 {

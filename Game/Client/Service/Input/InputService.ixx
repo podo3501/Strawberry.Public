@@ -1,8 +1,12 @@
-export module Client.InputService;
+export module Client.Input:Service;
 
 import std;
-import Client.Input;
-import Core.Geometry2D;
+import :KeyCode;
+import :KeyboardState;
+import :MouseState;
+import :IKeyboardInputProvider;
+import :IMouseInputProvider;
+import Core.Math;
 
 namespace Client
 {
@@ -31,7 +35,7 @@ namespace Client
 
         void Update() noexcept;
 
-        void SetMousePositionOffset(const Point& offset) noexcept;
+        void SetMousePositionOffset(const Core::Point& offset) noexcept;
         KeyboardState GetKeyboardState() const noexcept;
         MouseState GetMouseState() const noexcept;
 
@@ -46,6 +50,6 @@ namespace Client
         KeyboardState m_keyboardState{};
         MouseState m_mouseState{};
 
-        Point m_mouseOffset{};
+        Core::Point m_mouseOffset{};
     };
 }

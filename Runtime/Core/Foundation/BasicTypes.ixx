@@ -1,4 +1,4 @@
-export module Core.Types;
+export module Core.BasicTypes;
 
 import std;
 
@@ -16,7 +16,7 @@ namespace Core
     export inline constexpr TypeID InvalidTypeID = 0;
 
     export template <typename T>
-        TypeID GetTypeID()
+    TypeID GetTypeID()
     {
         static const char unique = 0;
         return reinterpret_cast<TypeID>(&unique);

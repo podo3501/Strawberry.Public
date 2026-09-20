@@ -1,7 +1,7 @@
-export module Core.Vector4;
+export module Core.Math:Vector4;
 
 import std;
-import Core.Vector3;
+import :Vector3;
 
 namespace Core
 {

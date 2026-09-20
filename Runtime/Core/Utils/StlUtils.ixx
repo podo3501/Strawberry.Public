@@ -1,4 +1,4 @@
-export module Core.StlUtils;
+export module Core.Utils:STL;
 
 import std;
 

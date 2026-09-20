@@ -1,7 +1,7 @@
-export module Core.FixedHandlePool;
+export module Core.Handle:FixedPool;
 
 import std;
-import Core.GenerationalHandle;
+import :Generational;
 
 namespace Core
 {

@@ -1,7 +1,7 @@
 export module Core.Cast;
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 
 namespace Core
 {

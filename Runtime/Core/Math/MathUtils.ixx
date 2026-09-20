@@ -1,6 +1,6 @@
-export module Core.MathUtils;
+export module Core.Math:Utils;
 
-import Core.Constants;
+import :Constants;
 
 namespace Core
 {

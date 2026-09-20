@@ -1,8 +1,8 @@
-export module Core.CameraMatrices;
+export module Core.Math:CameraMatrices;
 
 import std;
-import Core.Matrix;
-import Core.Vector3;
+import :Vector3;
+import :Matrix;
 
 namespace Core
 {

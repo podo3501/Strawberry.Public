@@ -1,10 +1,7 @@
-module;
-
-#include "Preprocessor/Assert.h"
-
 export module Core.Align;
 
 import std;
+import Core.Assert;
 
 namespace Core
 {

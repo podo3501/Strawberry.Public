@@ -1,4 +1,4 @@
-export module Core.Handle;
+export module Core.Handle:ID;
 
 import std;
 

@@ -1,11 +1,8 @@
-module;
-
-#include "Preprocessor/Assert.h"
-
 export module Core.ResourceID;
 
 import std;
-import Core.StringUtils;
+import Core.Assert;
+import Core.Utils;
 
 namespace
 {

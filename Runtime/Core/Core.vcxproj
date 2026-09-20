@@ -20,24 +20,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Foundation\Align.ixx" />
+    <ClCompile Include="Foundation\Assert.ixx" />
     <ClCompile Include="Foundation\Cast.ixx" />
-    <ClCompile Include="Foundation\Color.ixx" />
     <ClCompile Include="Foundation\ResourceID.ixx" />
-    <ClCompile Include="Foundation\Types.ixx" />
+    <ClCompile Include="Foundation\TypeHierarchy.ixx" />
+    <ClCompile Include="Foundation\BasicTypes.ixx" />
+    <ClCompile Include="Handle\FixedHandlePool.ixx" />
+    <ClCompile Include="Handle\GenerationalHandle.ixx" />
+    <ClCompile Include="Handle\Handle.ixx" />
+    <ClCompile Include="Handle\HandlePool.ixx" />
+    <ClCompile Include="Handle\IDHandle.ixx" />
+    <ClCompile Include="Math\Color.ixx" />
+    <ClCompile Include="Math\Geometry2D.ixx" />
+    <ClCompile Include="Math\Math.ixx" />
+    <ClCompile Include="Types\Types.ixx" />
     <ClCompile Include="Utils\CycleIterator.ixx" />
     <ClCompile Include="Utils\Hash.ixx" />
     <ClCompile Include="Utils\StlUtils.ixx" />
     <ClCompile Include="Utils\StringUtils.ixx" />
-    <ClInclude Include="Foundation\Foundation.h" />
     <ClCompile Include="Foundation\Foundation.ixx">
       <FileType>Document</FileType>
     </ClCompile>
     <ClCompile Include="Foundation\Logger.ixx">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClInclude Include="Foundation\Preprocessor\Assert.h" />
-    <ClInclude Include="Foundation\Preprocessor\Macros.h" />
-    <ClInclude Include="Foundation\Preprocessor\TypeDefine.h" />
     <ClCompile Include="Math\Constants.ixx">
       <FileType>Document</FileType>
     </ClCompile>
@@ -48,9 +54,9 @@
     <ClCompile Include="Utils\EnumUtils.ixx">
       <FileType>Document</FileType>
     </ClCompile>
+    <ClCompile Include="Utils\Utils.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Foundation\Geometry2D.ixx" />
     <ClCompile Include="Foundation\Logger.cpp" />
     <ClCompile Include="Math\CameraMatrices.ixx" />
     <ClCompile Include="Math\Matrix.ixx" />
@@ -60,10 +66,6 @@
     <ClCompile Include="Utils\Allocator\DualIndexAllocator.ixx" />
     <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx" />
     <ClCompile Include="Utils\BitUtils.ixx" />
-    <ClCompile Include="Utils\Handle\FixedHandlePool.ixx" />
-    <ClCompile Include="Utils\Handle\GenerationalHandle.ixx" />
-    <ClCompile Include="Utils\Handle\HandlePool.ixx" />
-    <ClCompile Include="Utils\Handle\IDHandle.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -126,7 +128,6 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -149,7 +150,6 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -170,7 +170,6 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -193,7 +192,6 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>

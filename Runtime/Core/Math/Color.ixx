@@ -1,7 +1,7 @@
-export module Core.Color;
+export module Core.Math:Color;
 
 import std;
-import Core.Vector4; // Vector4 타입 모듈 import
+import :Vector4; // Vector4 타입 모듈 import
 
 namespace Core
 {

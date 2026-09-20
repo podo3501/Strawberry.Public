@@ -7,3 +7,4 @@ export import :KeyboardState;
 export import :MouseState;
 export import :IKeyboardInputProvider;
 export import :IMouseInputProvider;
+export import :Service;

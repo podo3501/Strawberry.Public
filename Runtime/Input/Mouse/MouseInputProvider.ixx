@@ -2,11 +2,11 @@ module;
 
 #include <Windows.h>
 #include "DirectXTK12/Mouse.h"
-#include "Core/Foundation/Foundation.h"
 
 export module Input.DirectX:MouseInputProvider;
 
 import std;
+import Core.Assert;
 import Client.Input;
 
 namespace Client::Input::DX
@@ -30,7 +30,7 @@ namespace Client::Input::DX
 			{
 				UpdateButton(raw, UpdateMode::Sync);
 
-				const auto rawPos = ToPoint(raw.x, raw.y);
+				const auto rawPos = Core::ToPoint(raw.x, raw.y);
 				m_state.prevPosition = rawPos;
 				m_state.position = rawPos;
 
@@ -44,7 +44,7 @@ namespace Client::Input::DX
 			UpdateButton(raw, UpdateMode::Normal);
 
 			m_state.prevPosition = m_state.position;
-			m_state.position = ToPoint(raw.x, raw.y);
+			m_state.position = Core::ToPoint(raw.x, raw.y);
 
 			m_state.prevWheel = m_state.wheel;
 			m_state.wheel = raw.scrollWheelValue;
@@ -52,7 +52,7 @@ namespace Client::Input::DX
 
 		const Client::MouseState& GetState() const noexcept override
 		{
-			Assert(m_initialized); // MouseInputProvider not initialized
+			Core::Assert(m_initialized); // MouseInputProvider not initialized
 			return m_state;
 		}
 

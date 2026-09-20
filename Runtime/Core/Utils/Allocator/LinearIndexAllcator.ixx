@@ -1,11 +1,8 @@
-module;
-
-#include "Foundation/Preprocessor/Assert.h"
-
 export module Core.LinearIndexAllocator;
 
 import std;
-import Core.Types;
+import Core.Assert;
+import Core.BasicTypes;
 
 namespace Core
 {

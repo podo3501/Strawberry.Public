@@ -1,4 +1,4 @@
-export module Core.Vector2;
+export module Core.Math:Vector2;
 
 import std; // 표준 라이브러리 모듈 전체 가져오기
 

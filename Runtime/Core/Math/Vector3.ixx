@@ -1,4 +1,4 @@
-export module Core.Vector3;
+export module Core.Math:Vector3;
 
 import std;
 

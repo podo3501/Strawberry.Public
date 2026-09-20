@@ -1,10 +1,7 @@
-module;
-
-#include "Foundation/Preprocessor/Assert.h"
-
 export module Core.CycleIterator;
 
 import std;
+import Core.Assert;
 
 namespace Core
 {

@@ -1,4 +1,4 @@
-export module Core.GenerationalHandle;
+export module Core.Handle:Generational;
 
 import std;
 

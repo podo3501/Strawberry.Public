@@ -1,4 +1,4 @@
-module Client.InputService;
+module Client.Input;
 
 import std;
 
@@ -100,7 +100,7 @@ namespace Client
         m_mouseState = m_mouseProvider->GetState();
     }
 
-    void InputService::SetMousePositionOffset(const Point& offset) noexcept
+    void InputService::SetMousePositionOffset(const Core::Point& offset) noexcept
     {
         m_mouseOffset = offset;
     }

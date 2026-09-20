@@ -7,38 +7,21 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{2464969a-ccc9-47e9-a47b-fab764013851}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\Handle">
-      <UniqueIdentifier>{eac12419-8692-4464-a024-da52e933e990}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{53f50aa7-27b9-492c-a91e-d98e08482188}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utils\Allocator">
       <UniqueIdentifier>{ed39e6a6-5566-4c6e-9a36-2c928bcd3359}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Foundation\Preprocessor">
-      <UniqueIdentifier>{67321ec4-6f8c-42c9-b236-4852aeffc912}</UniqueIdentifier>
+    <Filter Include="Handle">
+      <UniqueIdentifier>{542ebfcd-8642-4250-9c1e-2c06c908fe37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{b56b3f9b-1ad6-408f-960d-f21eea455870}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Foundation\Foundation.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Foundation\Preprocessor\Assert.h">
-      <Filter>Foundation\Preprocessor</Filter>
-    </ClInclude>
-    <ClInclude Include="Foundation\Preprocessor\Macros.h">
-      <Filter>Foundation\Preprocessor</Filter>
-    </ClInclude>
-    <ClInclude Include="Foundation\Preprocessor\TypeDefine.h">
-      <Filter>Foundation\Preprocessor</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Foundation\Logger.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Geometry2D.ixx">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="Foundation\Logger.ixx">
@@ -68,18 +51,6 @@
     <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx">
       <Filter>Utils\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Handle\IDHandle.ixx">
-      <Filter>Utils\Handle</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Handle\GenerationalHandle.ixx">
-      <Filter>Utils\Handle</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Handle\FixedHandlePool.ixx">
-      <Filter>Utils\Handle</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Handle\HandlePool.ixx">
-      <Filter>Utils\Handle</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\BitUtils.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -98,13 +69,10 @@
     <ClCompile Include="Foundation\Align.ixx">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Foundation\Types.ixx">
+    <ClCompile Include="Foundation\BasicTypes.ixx">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="Foundation\ResourceID.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Color.ixx">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="Foundation\Cast.ixx">
@@ -121,6 +89,42 @@
     </ClCompile>
     <ClCompile Include="Math\Constants.ixx">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Math.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Color.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry2D.ixx">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Utils.ixx">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle\FixedHandlePool.ixx">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle\GenerationalHandle.ixx">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle\Handle.ixx">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle\HandlePool.ixx">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle\IDHandle.ixx">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\TypeHierarchy.ixx">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\Assert.ixx">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Types.ixx">
+      <Filter>Types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

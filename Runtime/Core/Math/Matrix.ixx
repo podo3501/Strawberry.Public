@@ -1,4 +1,4 @@
-export module Core.Matrix;
+export module Core.Math:Matrix;
 
 import std;
 

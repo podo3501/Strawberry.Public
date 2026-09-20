@@ -1,4 +1,4 @@
-export module Core.StringUtils;
+export module Core.Utils:String;
 
 import std;
 

@@ -1,4 +1,4 @@
-export module Core.Constants;
+export module Core.Math:Constants;
 
 namespace Core
 {
