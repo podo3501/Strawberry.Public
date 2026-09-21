@@ -1,15 +1,15 @@
-export module Core.IndexAllocator;
+export module Core.IndexAllocator:Reusable;
 
 import std;
 import Core.Assert;
-import Core.BasicTypes;
+import Core.Types;
 
 namespace Core
 {
-    export class IndexAllocator
+    export class ReusableIndexAllocator
     {
     public:
-        IndexAllocator() = default;
+        ReusableIndexAllocator() = default;
 
         void Initialize(Index capacity) noexcept
         {

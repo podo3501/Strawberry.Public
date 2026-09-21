@@ -19,53 +19,51 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Foundation\Align.ixx" />
-    <ClCompile Include="Foundation\Assert.ixx" />
-    <ClCompile Include="Foundation\Cast.ixx" />
-    <ClCompile Include="Foundation\ResourceID.ixx" />
-    <ClCompile Include="Foundation\TypeHierarchy.ixx" />
-    <ClCompile Include="Foundation\BasicTypes.ixx" />
+    <ClCompile Include="Allocator\Allocator.ixx" />
+    <ClCompile Include="Allocator\DualIndexAllocator.ixx" />
+    <ClCompile Include="Allocator\ReusableIndexAllocator.ixx" />
+    <ClCompile Include="Allocator\LinearIndexAllcator.ixx" />
+    <ClCompile Include="Assert.ixx" />
+    <ClCompile Include="Bit\Align.ixx" />
+    <ClCompile Include="Bit\Bit.ixx" />
+    <ClCompile Include="Bit\Nibble.ixx" />
     <ClCompile Include="Handle\FixedHandlePool.ixx" />
     <ClCompile Include="Handle\GenerationalHandle.ixx" />
     <ClCompile Include="Handle\Handle.ixx" />
     <ClCompile Include="Handle\HandlePool.ixx" />
     <ClCompile Include="Handle\IDHandle.ixx" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Logger.ixx" />
     <ClCompile Include="Math\Color.ixx" />
     <ClCompile Include="Math\Geometry2D.ixx" />
     <ClCompile Include="Math\Math.ixx" />
-    <ClCompile Include="Types\Types.ixx" />
+    <ClCompile Include="ResourceID.ixx" />
+    <ClCompile Include="TypeHierarchy\TypeCast.ixx" />
+    <ClCompile Include="TypeHierarchy\Relation.ixx" />
+    <ClCompile Include="TypeHierarchy\TypeHierarchy.ixx" />
+    <ClCompile Include="TypeHierarchy\TypeID.ixx" />
+    <ClCompile Include="Types.ixx" />
     <ClCompile Include="Utils\CycleIterator.ixx" />
     <ClCompile Include="Utils\Hash.ixx" />
     <ClCompile Include="Utils\StlUtils.ixx" />
     <ClCompile Include="Utils\StringUtils.ixx" />
-    <ClCompile Include="Foundation\Foundation.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Foundation\Logger.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
     <ClCompile Include="Math\Constants.ixx">
       <FileType>Document</FileType>
     </ClCompile>
     <ClCompile Include="Math\MathUtils.ixx">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClCompile Include="Utils\Allocator\IndexAllocator.ixx" />
     <ClCompile Include="Utils\EnumUtils.ixx">
       <FileType>Document</FileType>
     </ClCompile>
     <ClCompile Include="Utils\Utils.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Foundation\Logger.cpp" />
     <ClCompile Include="Math\CameraMatrices.ixx" />
     <ClCompile Include="Math\Matrix.ixx" />
     <ClCompile Include="Math\Vector2.ixx" />
     <ClCompile Include="Math\Vector3.ixx" />
     <ClCompile Include="Math\Vector4.ixx" />
-    <ClCompile Include="Utils\Allocator\DualIndexAllocator.ixx" />
-    <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx" />
-    <ClCompile Include="Utils\BitUtils.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -124,7 +122,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
@@ -146,7 +143,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
@@ -166,7 +162,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
@@ -188,7 +183,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>

@@ -1,32 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Foundation">
-      <UniqueIdentifier>{c2db4bb7-b0e9-4dc7-8a7d-829bdc57bded}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{2464969a-ccc9-47e9-a47b-fab764013851}</UniqueIdentifier>
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{53f50aa7-27b9-492c-a91e-d98e08482188}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\Allocator">
-      <UniqueIdentifier>{ed39e6a6-5566-4c6e-9a36-2c928bcd3359}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Handle">
       <UniqueIdentifier>{542ebfcd-8642-4250-9c1e-2c06c908fe37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Types">
-      <UniqueIdentifier>{b56b3f9b-1ad6-408f-960d-f21eea455870}</UniqueIdentifier>
+    <Filter Include="TypeHierarchy">
+      <UniqueIdentifier>{599a948f-8984-4559-8ea5-61aaf6a4736a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bit">
+      <UniqueIdentifier>{173a009e-b31f-43da-8014-c1d19529bcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allocator">
+      <UniqueIdentifier>{093ef8de-b941-43d5-b8ec-948603804664}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Foundation\Logger.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Logger.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Vector2.ixx">
       <Filter>Math</Filter>
     </ClCompile>
@@ -42,44 +36,14 @@
     <ClCompile Include="Math\CameraMatrices.ixx">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Allocator\DualIndexAllocator.ixx">
-      <Filter>Utils\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Allocator\IndexAllocator.ixx">
-      <Filter>Utils\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Allocator\LinearIndexAllcator.ixx">
-      <Filter>Utils\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\BitUtils.ixx">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\StringUtils.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\CycleIterator.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Hash.ixx">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\StlUtils.ixx">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Align.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\BasicTypes.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\ResourceID.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Cast.ixx">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Foundation\Foundation.ixx">
-      <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="Utils\EnumUtils.ixx">
       <Filter>Utils</Filter>
@@ -117,14 +81,46 @@
     <ClCompile Include="Handle\IDHandle.ixx">
       <Filter>Handle</Filter>
     </ClCompile>
-    <ClCompile Include="Foundation\TypeHierarchy.ixx">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="TypeHierarchy\TypeHierarchy.ixx">
+      <Filter>TypeHierarchy</Filter>
     </ClCompile>
-    <ClCompile Include="Foundation\Assert.ixx">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="TypeHierarchy\Relation.ixx">
+      <Filter>TypeHierarchy</Filter>
     </ClCompile>
-    <ClCompile Include="Types\Types.ixx">
-      <Filter>Types</Filter>
+    <ClCompile Include="TypeHierarchy\TypeID.ixx">
+      <Filter>TypeHierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeHierarchy\TypeCast.ixx">
+      <Filter>TypeHierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit\Bit.ixx">
+      <Filter>Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit\Align.ixx">
+      <Filter>Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit\Nibble.ixx">
+      <Filter>Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DualIndexAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\ReusableIndexAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\LinearIndexAllcator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\Allocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Assert.ixx" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Logger.ixx" />
+    <ClCompile Include="ResourceID.ixx" />
+    <ClCompile Include="Types.ixx" />
+    <ClCompile Include="Utils\Hash.ixx">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

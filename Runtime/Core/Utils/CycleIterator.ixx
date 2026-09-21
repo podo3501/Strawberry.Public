@@ -1,4 +1,4 @@
-export module Core.CycleIterator;
+export module Core.Utils:CycleIterator;
 
 import std;
 import Core.Assert;

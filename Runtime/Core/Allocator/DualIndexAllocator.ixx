@@ -1,8 +1,8 @@
-export module Core.DualIndexAllocator;
+export module Core.IndexAllocator:Dual;
 
 import std;
 import Core.Assert;
-import Core.BasicTypes;
+import Core.Types;
 
 namespace Core
 {

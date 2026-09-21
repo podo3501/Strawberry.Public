@@ -1,4 +1,4 @@
-export module Core.Utils:Bit;
+export module Core.Bit:Nibble;
 
 import std;
 

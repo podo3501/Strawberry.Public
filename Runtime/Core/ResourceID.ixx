@@ -4,11 +4,11 @@ import std;
 import Core.Assert;
 import Core.Utils;
 
-namespace
+namespace Core
 {
-    constexpr std::string_view kBuiltinPrefix = "builtin://";
-    constexpr std::string_view kRuntimePrefix = "runtime://";
-    constexpr std::string_view kPathPrefix = "path://";
+    inline constexpr std::string_view kBuiltinPrefix = "builtin://";
+    inline constexpr std::string_view kRuntimePrefix = "runtime://";
+    inline constexpr std::string_view kPathPrefix = "path://";
 
     // 필요 시 내부에서 사용하는 간단한 경로 정규화 함수
     std::string NormalizePath(const std::filesystem::path& path)
@@ -16,10 +16,7 @@ namespace
         std::string s = path.lexically_normal().generic_string();
         return Core::ToLowerCopy(s);
     }
-}
 
-namespace Core
-{
     export enum class ResourceIDType
     {
         Invalid,
@@ -96,7 +93,6 @@ namespace Core
         void clear() { m_value.clear(); }
 
     private:
-        explicit ResourceID(const char* str) : m_value(str) {}
         explicit ResourceID(std::string str) : m_value(std::move(str)) {}
 
         std::string m_value;

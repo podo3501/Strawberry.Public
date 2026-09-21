@@ -1,8 +1,8 @@
-export module Core.LinearIndexAllocator;
+export module Core.IndexAllocator:Linear;
 
 import std;
 import Core.Assert;
-import Core.BasicTypes;
+import Core.Types;
 
 namespace Core
 {

@@ -1,11 +1,11 @@
-export module Core.TypeHierarchy;
+export module Core.TypeHierarchy:Relation;
 
-import Core.BasicTypes;
+import :TypeID;
 
 namespace Core
 {
     export template <typename Derived>
-    class TypeRoot
+        class TypeRoot
     {
     public:
         static TypeID StaticTypeID() { return Core::GetTypeID<Derived>(); }
@@ -16,7 +16,7 @@ namespace Core
     };
 
     export template <typename Derived, typename Base>
-    class TypeNode : public Base
+        class TypeNode : public Base
     {
     public:
         static TypeID StaticTypeID() { return Core::GetTypeID<Derived>(); }

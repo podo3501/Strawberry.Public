@@ -1,4 +1,4 @@
-export module Core.Hash;
+export module Core.Utils:Hash;
 
 import std;
 

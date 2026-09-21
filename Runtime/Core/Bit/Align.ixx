@@ -1,4 +1,4 @@
-export module Core.Align;
+export module Core.Bit:Align;
 
 import std;
 import Core.Assert;

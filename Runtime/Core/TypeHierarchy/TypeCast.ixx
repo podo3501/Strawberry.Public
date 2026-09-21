@@ -1,7 +1,7 @@
-export module Core.Cast;
+export module Core.TypeHierarchy:Cast;
 
 import std;
-import Core.BasicTypes;
+import :TypeID;
 
 namespace Core
 {
