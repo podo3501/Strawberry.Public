@@ -31,6 +31,15 @@
     <ClCompile Include="Service\Input\InputService.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Asset\Asset.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\IReadStream.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\IAssetStorage.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
@@ -38,6 +47,9 @@
     </Filter>
     <Filter Include="Service\Input">
       <UniqueIdentifier>{1414625b-a3d4-4348-b428-e24223279cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Asset">
+      <UniqueIdentifier>{ddaa336d-5ff7-479c-8451-77e39004ddd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

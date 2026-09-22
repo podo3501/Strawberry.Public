@@ -45,6 +45,7 @@
     <ClCompile Include="Types.ixx" />
     <ClCompile Include="Utils\CycleIterator.ixx" />
     <ClCompile Include="Utils\Hash.ixx" />
+    <ClCompile Include="Utils\PathUtils.ixx" />
     <ClCompile Include="Utils\StlUtils.ixx" />
     <ClCompile Include="Utils\StringUtils.ixx" />
     <ClCompile Include="Math\Constants.ixx">

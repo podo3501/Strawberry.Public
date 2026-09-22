@@ -122,5 +122,8 @@
     <ClCompile Include="Utils\Hash.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\PathUtils.ixx">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

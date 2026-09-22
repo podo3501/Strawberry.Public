@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Service\Asset\Asset.ixx" />
+    <ClCompile Include="Service\Asset\IAssetStorage.ixx" />
+    <ClCompile Include="Service\Asset\IReadStream.ixx" />
     <ClCompile Include="Service\Input\IMouseInputProvider.ixx" />
     <ClCompile Include="Service\Input\Input.ixx" />
     <ClCompile Include="Service\Input\InputService.cpp" />
