@@ -4,7 +4,7 @@ import std;
 import :ReadStream;
 import Core.Types;
 import Core.Utils;
-import Client.Asset;
+import Client.Asset.Contract;
 
 export class AssetStorage : public Client::IAssetStorage
 {

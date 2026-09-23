@@ -1,4 +1,4 @@
-export module Client.Input:MouseState;
+export module Client.Input.Contract:MouseState;
 
 import std;
 import :InputState;

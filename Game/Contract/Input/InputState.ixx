@@ -1,4 +1,4 @@
-export module Client.Input:InputState;
+export module Client.Input.Contract:InputState;
 
 namespace Client
 {

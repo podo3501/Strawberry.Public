@@ -1,4 +1,4 @@
-export module Client.Input:MouseButton;
+export module Client.Input.Contract:MouseButton;
 
 import std;
 

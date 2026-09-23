@@ -1,11 +1,7 @@
-export module Client.Input:Service;
+export module Client.Input.Service;
 
 import std;
-import :KeyCode;
-import :KeyboardState;
-import :MouseState;
-import :IKeyboardInputProvider;
-import :IMouseInputProvider;
+import Client.Input.Contract;
 import Core.Math;
 
 namespace Client

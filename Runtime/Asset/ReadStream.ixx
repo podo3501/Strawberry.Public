@@ -5,7 +5,8 @@ module;
 export module Asset:ReadStream;
 
 import std;
-import Client.Asset;
+import Core.Types;
+import Client.Asset.Contract;
 
 export class ReadStream : public Client::IReadStream
 {
@@ -38,7 +39,7 @@ public:
 		return std::make_unique<ReadStream>(m_filePath);
 	}
 
-	std::size_t Read(std::span<std::byte> buffer) override
+	std::size_t Read(std::span<Core::Byte> buffer) override
 	{
 		if (!m_file)
 			return 0;

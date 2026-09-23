@@ -1,10 +1,7 @@
-export module Client.Input:IMouseInputProvider;
+export module Client.Input.Contract:IMouseInputProvider;
 
 import std;
 import :MouseState;
-
-struct HWND__;
-using HWND = struct HWND__*;
 
 namespace Client
 {
@@ -15,5 +12,6 @@ namespace Client
         virtual const MouseState& GetState() const noexcept = 0;
     };
 
-    export std::unique_ptr<IMouseInputProvider> CreateDXMouseInputProvider(HWND hwnd);
+    export using NativeWindowHandle = void*;
+    export std::unique_ptr<IMouseInputProvider> CreateDXMouseInputProvider(NativeWindowHandle handle);
 }

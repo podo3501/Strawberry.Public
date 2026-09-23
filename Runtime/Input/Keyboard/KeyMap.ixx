@@ -5,7 +5,7 @@ module;
 export module Input.DirectX:KeyMap;
 
 import std;
-import Client.Input;
+import Client.Input.Contract;
 
 using DXKey = DirectX::Keyboard::Keys;
 using Client::KeyCode;

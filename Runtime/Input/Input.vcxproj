@@ -29,8 +29,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\Client\Client.vcxproj">
-      <Project>{c3074755-5643-4867-804d-023448eb3b82}</Project>
+    <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">
+      <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>

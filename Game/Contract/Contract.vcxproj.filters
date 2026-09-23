@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{86df86f5-ad84-4e1f-a602-647a5d8c85ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{13ed9020-e1cb-484f-9811-4ecad6736c65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Asset\IReadStream.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetContract.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\IAssetStorage.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\IKeyboardInputProvider.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\IMouseInputProvider.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputContract.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputState.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyboardState.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyCode.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\MouseButton.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\MouseState.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

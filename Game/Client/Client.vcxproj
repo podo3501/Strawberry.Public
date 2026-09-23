@@ -20,34 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Service\Asset\Asset.ixx" />
-    <ClCompile Include="Service\Asset\IAssetStorage.ixx" />
-    <ClCompile Include="Service\Asset\IReadStream.ixx" />
-    <ClCompile Include="Service\Input\IMouseInputProvider.ixx" />
     <ClCompile Include="Service\Input\Input.ixx" />
     <ClCompile Include="Service\Input\InputService.cpp" />
     <ClCompile Include="Service\Input\InputService.ixx" />
-    <ClCompile Include="Service\Input\MouseState.ixx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Service\Input\IKeyboardInputProvider.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Service\Input\InputState.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Service\Input\KeyboardState.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Service\Input\KeyCode.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Service\Input\MouseButton.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.vcxproj">
+      <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

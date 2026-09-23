@@ -5,7 +5,7 @@ module;
 export module Input.DirectX:KeyboardInputProvider;
 
 import std;
-import Client.Input;
+import Client.Input.Contract;
 import :KeyMap;
 
 export class KeyboardInputProvider : public Client::IKeyboardInputProvider
@@ -35,7 +35,7 @@ private:
 	Client::KeyboardState m_keyboardState{};
 };
 
-export std::unique_ptr<Client::IKeyboardInputProvider> CreateDXKeyboardInputProvider()
+std::unique_ptr<Client::IKeyboardInputProvider> Client::CreateDXKeyboardInputProvider()
 {
 	return std::make_unique<KeyboardInputProvider>();
 }

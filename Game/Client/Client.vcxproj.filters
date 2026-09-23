@@ -4,40 +4,13 @@
     <ClCompile Include="Service\Input\InputService.cpp">
       <Filter>Service\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\IKeyboardInputProvider.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\KeyboardState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\MouseButton.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\KeyCode.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\InputState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\MouseState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\IMouseInputProvider.ixx">
+    <ClCompile Include="Service\Input\InputService.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
     <ClCompile Include="Service\Input\Input.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\InputService.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Asset\Asset.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\IReadStream.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\IAssetStorage.ixx">
       <Filter>Service\Asset</Filter>
     </ClCompile>
   </ItemGroup>

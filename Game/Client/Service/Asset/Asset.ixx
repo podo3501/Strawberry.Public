@@ -1,4 +1,3 @@
 export module Client.Asset;
 
-export import :IAssetStorage;
-export import :IReadStream;
+export import Client.Asset.Contract;

@@ -19,23 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">
-      <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
-    </ProjectReference>
+    <ClCompile Include="Asset\AssetContract.ixx" />
+    <ClCompile Include="Asset\IAssetStorage.ixx" />
+    <ClCompile Include="Asset\IReadStream.ixx" />
+    <ClCompile Include="Input\IKeyboardInputProvider.ixx" />
+    <ClCompile Include="Input\IMouseInputProvider.ixx" />
+    <ClCompile Include="Input\InputContract.ixx" />
+    <ClCompile Include="Input\InputState.ixx" />
+    <ClCompile Include="Input\KeyboardState.ixx" />
+    <ClCompile Include="Input\KeyCode.ixx" />
+    <ClCompile Include="Input\MouseButton.ixx" />
+    <ClCompile Include="Input\MouseState.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Asset.ixx" />
-    <ClCompile Include="AssetStorage.ixx" />
-    <ClCompile Include="ReadStream.ixx" />
+    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+      <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9253bcf9-c241-4a6f-b171-d78c90a08064}</ProjectGuid>
-    <RootNamespace>Asset</RootNamespace>
+    <ProjectGuid>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</ProjectGuid>
+    <RootNamespace>Contract</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
