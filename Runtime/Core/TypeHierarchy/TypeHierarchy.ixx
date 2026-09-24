@@ -1,4 +1,4 @@
-export module Core.TypeHierarchy:Relation;
+export module Core.TypeHierarchy;
 
 export import :TypeID;
 export import :Relation;

@@ -19,7 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Asset\AssetCacheKeys.ixx" />
     <ClCompile Include="Asset\AssetContract.ixx" />
+    <ClCompile Include="Asset\AssetInput.ixx" />
+    <ClCompile Include="Asset\AssetLoaderDesc.ixx" />
+    <ClCompile Include="Asset\AssetRepository.ixx" />
+    <ClCompile Include="Asset\Data\ShaderAsset.ixx" />
+    <ClCompile Include="Asset\IAssetLoader.ixx" />
+    <ClCompile Include="Asset\IAssetMetaRegistry.ixx" />
+    <ClCompile Include="Asset\Data\AssetData.ixx" />
+    <ClCompile Include="Asset\Data\Data.ixx" />
+    <ClCompile Include="Asset\IAssetProvider.ixx" />
     <ClCompile Include="Asset\IAssetStorage.ixx" />
     <ClCompile Include="Asset\IReadStream.ixx" />
     <ClCompile Include="Input\IKeyboardInputProvider.ixx" />

@@ -2,7 +2,7 @@ module;
 
 #include <cstdio>
 
-export module Asset:ReadStream;
+export module Runtime.Asset:ReadStream;
 
 import std;
 import Core.Types;

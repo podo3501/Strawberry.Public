@@ -4,5 +4,16 @@
     <ClCompile Include="ReadStream.ixx" />
     <ClCompile Include="Asset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
+    <ClCompile Include="Loader\HLSLShaderLoader.ixx">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\AssetLoader.ixx">
+      <Filter>Loader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{e677abe8-f6b0-4285-abda-b7c453046318}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

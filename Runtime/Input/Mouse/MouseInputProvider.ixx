@@ -3,7 +3,7 @@ module;
 #include <Windows.h>
 #include "DirectXTK12/Mouse.h"
 
-export module Input.DirectX:MouseInputProvider;
+export module Runtime.Input:MouseInputProvider;
 
 import std;
 import Core.Assert;

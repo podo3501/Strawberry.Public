@@ -2,7 +2,7 @@ module;
 
 #include "DirectXTK12/Keyboard.h"
 
-export module Input.DirectX:KeyMap;
+export module Runtime.Input:KeyMap;
 
 import std;
 import Client.Input.Contract;

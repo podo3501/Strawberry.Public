@@ -1,4 +1,4 @@
-export module Asset:AssetStorage;
+export module Runtime.Asset:AssetStorage;
 
 import std;
 import :ReadStream;

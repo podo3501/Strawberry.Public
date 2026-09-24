@@ -7,6 +7,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{13ed9020-e1cb-484f-9811-4ecad6736c65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Data">
+      <UniqueIdentifier>{28867b48-be47-4bd8-9a26-3d192688fefe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -41,6 +44,36 @@
     </ClCompile>
     <ClCompile Include="Input\MouseState.ixx">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\AssetData.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\Data.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\IAssetProvider.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\IAssetMetaRegistry.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetInput.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\IAssetLoader.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetLoaderDesc.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\ShaderAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetCacheKeys.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetRepository.ixx">
+      <Filter>Asset</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
