@@ -1,4 +1,4 @@
-export module Client.Asset.Contract:AssetCacheKeys;
+export module Client.Asset.Service:AssetCacheKeys;
 
 import std;
 import Core.TypeHierarchy;

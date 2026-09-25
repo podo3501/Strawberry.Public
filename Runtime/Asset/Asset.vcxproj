@@ -30,6 +30,7 @@
     <ClCompile Include="Asset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
     <ClCompile Include="Loader\AssetLoader.ixx" />
+    <ClCompile Include="Loader\BinaryLoader.ixx" />
     <ClCompile Include="Loader\HLSLShaderLoader.ixx" />
     <ClCompile Include="ReadStream.ixx" />
   </ItemGroup>

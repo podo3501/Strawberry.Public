@@ -1,6 +1,7 @@
 export module Runtime.AssetLoader:HLSLShader;
 
 import std;
+import Core.Types;
 import Client.Asset.Contract;
 
 export class HLSLShaderLoader : public Client::IAssetLoader
@@ -17,7 +18,7 @@ public:
 	}
 
 private:
-	std::shared_ptr<Client::ShaderAsset> LoadFromMemory(std::vector<std::byte> buffer)
+	std::shared_ptr<Client::ShaderAsset> LoadFromMemory(Core::ByteBuffer buffer)
 	{
 		auto asset = std::make_shared<Client::ShaderAsset>();
 

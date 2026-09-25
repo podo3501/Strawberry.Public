@@ -1,7 +1,7 @@
-export module Client.Asset.Contract:AssetLoaderDesc;
+export module Client.Asset.Service:AssetLoaderDesc;
 
 import std;
-import :IAssetLoader;
+import Client.Asset.Contract;
 import Core.TypeHierarchy;
 
 namespace Client

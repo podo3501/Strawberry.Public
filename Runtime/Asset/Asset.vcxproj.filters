@@ -10,6 +10,9 @@
     <ClCompile Include="Loader\AssetLoader.ixx">
       <Filter>Loader</Filter>
     </ClCompile>
+    <ClCompile Include="Loader\BinaryLoader.ixx">
+      <Filter>Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">

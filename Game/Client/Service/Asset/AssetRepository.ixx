@@ -1,12 +1,9 @@
-export module Client.Asset.Contract:AssetRepository;
+export module Client.Asset.Service:AssetRepository;
 
 import std;
-import :IAssetProvider;
-import :IAssetLoader;
-import :AssetLoaderDesc;
 import :AssetCacheKeys;
-import :IAssetStorage;
-import Client.Asset.Data;
+import :AssetLoaderDesc;
+import Client.Asset.Contract;
 import Core.ResourceID;
 import Core.Utils;
 import Core.Assert;

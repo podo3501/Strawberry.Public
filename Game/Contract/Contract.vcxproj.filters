@@ -63,17 +63,14 @@
     <ClCompile Include="Asset\IAssetLoader.ixx">
       <Filter>Asset</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\AssetLoaderDesc.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
     <ClCompile Include="Asset\Data\ShaderAsset.ixx">
       <Filter>Asset\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\AssetCacheKeys.ixx">
-      <Filter>Asset</Filter>
+    <ClCompile Include="Asset\Data\BinaryAsset.ixx">
+      <Filter>Asset\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\AssetRepository.ixx">
-      <Filter>Asset</Filter>
+    <ClCompile Include="Asset\Data\MeshAsset.ixx">
+      <Filter>Asset\Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

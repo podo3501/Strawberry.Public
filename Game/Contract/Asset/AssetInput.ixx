@@ -2,6 +2,7 @@ export module Client.Asset.Contract:AssetInput;
 
 import std;
 import Core.ResourceID;
+import Core.Types;
 import :IReadStream;
 
 namespace Client
@@ -20,7 +21,7 @@ namespace Client
 
 	export struct MemoryInput : public AssetInput
 	{
-		std::vector<std::byte> buffer;
+		Core::ByteBuffer buffer;
 
 		MemoryInput(const Core::ResourceID& resID, std::vector<std::byte>&& buf) noexcept :
 			AssetInput{ resID },

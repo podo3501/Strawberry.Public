@@ -13,6 +13,18 @@
     <ClCompile Include="Service\Asset\Asset.ixx">
       <Filter>Service\Asset</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Asset\AssetService.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetCacheKeys.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetRepository.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetLoaderDesc.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
