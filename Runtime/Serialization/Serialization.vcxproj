@@ -19,8 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClassSerialize.ixx" />
+    <ClCompile Include="Concepts.ixx" />
+    <ClCompile Include="Format\KeyConverter.ixx" />
+    <ClCompile Include="Format\Traits.ixx" />
+    <ClCompile Include="Format\TraitsHelper.ixx" />
     <ClCompile Include="Serialization.ixx" />
-    <ClCompile Include="TraitsHelper.ixx" />
+    <ClCompile Include="Serializer.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

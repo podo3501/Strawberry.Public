@@ -6,7 +6,7 @@ import Core.Types;
 import Core.Utils;
 import Client.Asset.Contract;
 
-export class AssetStorage : public Client::IAssetStorage
+class AssetStorage : public IAssetStorage
 {
 public:
 	~AssetStorage() override = default;
@@ -91,7 +91,7 @@ public:
 		return Core::ResolvePath(m_path, filename);
 	}
 
-	std::unique_ptr<Client::IReadStream> CreateReadStream(const std::filesystem::path& filename) override
+	std::unique_ptr<IReadStream> CreateReadStream(const std::filesystem::path& filename) override
 	{
 		auto stream = std::make_unique<ReadStream>(Core::ResolvePath(m_path, filename));
 		if (!stream->IsOpen())
@@ -104,7 +104,7 @@ private:
 	std::filesystem::path m_path;
 };
 
-std::unique_ptr<Client::IAssetStorage> Client::CreateAssetStorage(const std::filesystem::path& path)
+std::unique_ptr<IAssetStorage> CreateAssetStorage(const std::filesystem::path& path)
 {
 	return std::make_unique<AssetStorage>(path);
 }

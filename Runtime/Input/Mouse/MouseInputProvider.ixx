@@ -9,7 +9,7 @@ import std;
 import Core.Assert;
 import Client.Input.Contract;
 
-export class MouseInputProvider : public Client::IMouseInputProvider
+class MouseInputProvider : public IMouseInputProvider
 {
 public:
 	MouseInputProvider() noexcept = default;
@@ -48,7 +48,7 @@ public:
 		m_state.wheel = raw.scrollWheelValue;
 	}
 
-	const Client::MouseState& GetState() const noexcept override
+	const MouseState& GetState() const noexcept override
 	{
 		Core::Assert(m_initialized); // MouseInputProvider not initialized
 		return m_state;
@@ -86,15 +86,15 @@ private:
 	};
 
 	static inline constexpr size_t ButtonCount = std::size(ButtonMap);
-	static_assert(ButtonCount == static_cast<size_t>(Client::MouseButton::Count),
+	static_assert(ButtonCount == static_cast<size_t>(MouseButton::Count),
 		"ButtonMap and MouseState::buttons size mismatch");
 
 	static inline DirectX::Mouse m_mouse{}; // inline static으로 선언하여 별도 .cpp 정적 변수 정의를 제거
 	bool m_initialized{ false };
-	Client::MouseState m_state{};
+	MouseState m_state{};
 };
 
-std::unique_ptr<Client::IMouseInputProvider> Client::CreateDXMouseInputProvider(Client::NativeWindowHandle handle)
+std::unique_ptr<IMouseInputProvider> CreateDXMouseInputProvider(NativeWindowHandle handle)
 {
 	return std::make_unique<MouseInputProvider>(reinterpret_cast<HWND>(handle));
 }

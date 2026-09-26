@@ -8,7 +8,6 @@ import std;
 import Client.Input.Contract;
 
 using DXKey = DirectX::Keyboard::Keys;
-using Client::KeyCode;
 
 export constexpr std::pair<DXKey, KeyCode> KeyMap[] = {
     { DXKey::A, KeyCode::A },

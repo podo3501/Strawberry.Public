@@ -2,6 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Serialization.ixx" />
-    <ClCompile Include="TraitsHelper.ixx" />
+    <ClCompile Include="Format\KeyConverter.ixx">
+      <Filter>Format</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Traits.ixx">
+      <Filter>Format</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\TraitsHelper.ixx">
+      <Filter>Format</Filter>
+    </ClCompile>
+    <ClCompile Include="Concepts.ixx" />
+    <ClCompile Include="ClassSerialize.ixx" />
+    <ClCompile Include="Serializer.ixx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Format">
+      <UniqueIdentifier>{874f418f-fc1d-4867-bcf1-105f847554cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

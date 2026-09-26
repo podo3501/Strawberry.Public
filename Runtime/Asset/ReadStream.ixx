@@ -8,7 +8,7 @@ import std;
 import Core.Types;
 import Client.Asset.Contract;
 
-export class ReadStream : public Client::IReadStream
+export class ReadStream : public IReadStream
 {
 public:
 	~ReadStream() override

@@ -2,123 +2,120 @@ module Client.Input;
 
 import std;
 
-namespace Client
+InputService::~InputService() = default;
+
+InputService::InputService(
+    std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
+    std::unique_ptr<IMouseInputProvider> mouseProvider) noexcept :
+    m_keyboardProvider{ std::move(keyboardProvider) },
+    m_mouseProvider{ std::move(mouseProvider) }
 {
-    InputService::~InputService() = default;
+}
 
-    InputService::InputService(
-        std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
-        std::unique_ptr<IMouseInputProvider> mouseProvider) noexcept :
-        m_keyboardProvider{ std::move(keyboardProvider) },
-        m_mouseProvider{ std::move(mouseProvider) }
+std::unique_ptr<InputService> InputService::Create(
+    std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
+    std::unique_ptr<IMouseInputProvider> mouseProvider)
+{
+    if (!keyboardProvider || !mouseProvider) return nullptr;
+
+    return std::unique_ptr<InputService>(
+        new InputService(std::move(keyboardProvider), std::move(mouseProvider))
+    );
+}
+
+bool InputService::IsKeyPressed(KeyCode key) const noexcept
+{
+    return m_keyboardState[key].IsPressed();
+}
+
+bool InputService::IsKeyHeld(KeyCode key) const noexcept
+{
+    return m_keyboardState[key].IsHeld();
+}
+
+bool InputService::IsKeyReleased(KeyCode key) const noexcept
+{
+    return m_keyboardState[key].IsReleased();
+}
+
+bool InputService::IsKeyUp(KeyCode key) const noexcept
+{
+    return m_keyboardState[key].IsUp();
+}
+
+bool InputService::IsMouseButtonPressed(MouseButton button) const noexcept
+{
+    return m_mouseState[button].IsPressed();
+}
+
+bool InputService::IsMouseButtonHeld(MouseButton button) const noexcept
+{
+    return m_mouseState[button].IsHeld();
+}
+
+bool InputService::IsMouseButtonReleased(MouseButton button) const noexcept
+{
+    return m_mouseState[button].IsReleased();
+}
+
+bool InputService::IsMouseButtonUp(MouseButton button) const noexcept
+{
+    return m_mouseState[button].IsUp();
+}
+
+bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode pressedKey) const noexcept
+{
+    if (heldKeys.size() == 0) return false;
+
+    for (KeyCode key : heldKeys)
     {
+        if (!IsKeyHeld(key))
+            return false;
     }
 
-    std::unique_ptr<InputService> InputService::Create(
-        std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
-        std::unique_ptr<IMouseInputProvider> mouseProvider)
-    {
-        if (!keyboardProvider || !mouseProvider) return nullptr;
+    return IsKeyPressed(pressedKey);
+}
 
-        return std::unique_ptr<InputService>(
-            new InputService(std::move(keyboardProvider), std::move(mouseProvider))
-        );
+bool InputService::AreKeysMouseCombo(std::initializer_list<KeyCode> heldKeys, MouseButton pressedButton) const noexcept
+{
+    if (heldKeys.size() == 0) return false;
+
+    for (KeyCode key : heldKeys)
+    {
+        if (!IsKeyHeld(key))
+            return false;
     }
 
-    bool InputService::IsKeyPressed(KeyCode key) const noexcept
-    {
-        return m_keyboardState[key].IsPressed();
-    }
+    return IsMouseButtonPressed(pressedButton);
+}
 
-    bool InputService::IsKeyHeld(KeyCode key) const noexcept
-    {
-        return m_keyboardState[key].IsHeld();
-    }
+void InputService::Update() noexcept
+{
+    m_keyboardProvider->Update();
+    m_mouseProvider->Update();
 
-    bool InputService::IsKeyReleased(KeyCode key) const noexcept
-    {
-        return m_keyboardState[key].IsReleased();
-    }
+    m_keyboardState = m_keyboardProvider->GetState();
+    m_mouseState = m_mouseProvider->GetState();
+}
 
-    bool InputService::IsKeyUp(KeyCode key) const noexcept
-    {
-        return m_keyboardState[key].IsUp();
-    }
+void InputService::SetMousePositionOffset(const Core::Point& offset) noexcept
+{
+    m_mouseOffset = offset;
+}
 
-    bool InputService::IsMouseButtonPressed(MouseButton button) const noexcept
-    {
-        return m_mouseState[button].IsPressed();
-    }
+KeyboardState InputService::GetKeyboardState() const noexcept
+{
+    return m_keyboardState;
+}
 
-    bool InputService::IsMouseButtonHeld(MouseButton button) const noexcept
-    {
-        return m_mouseState[button].IsHeld();
-    }
+MouseState InputService::GetMouseState() const noexcept
+{
+    MouseState state = m_mouseState;
 
-    bool InputService::IsMouseButtonReleased(MouseButton button) const noexcept
-    {
-        return m_mouseState[button].IsReleased();
-    }
+    state.position.x += m_mouseOffset.x;
+    state.position.y += m_mouseOffset.y;
+    state.prevPosition.x += m_mouseOffset.x;
+    state.prevPosition.y += m_mouseOffset.y;
 
-    bool InputService::IsMouseButtonUp(MouseButton button) const noexcept
-    {
-        return m_mouseState[button].IsUp();
-    }
-
-    bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode pressedKey) const noexcept
-    {
-        if (heldKeys.size() == 0) return false;
-
-        for (KeyCode key : heldKeys)
-        {
-            if (!IsKeyHeld(key))
-                return false;
-        }
-
-        return IsKeyPressed(pressedKey);
-    }
-
-    bool InputService::AreKeysMouseCombo(std::initializer_list<KeyCode> heldKeys, MouseButton pressedButton) const noexcept
-    {
-        if (heldKeys.size() == 0) return false;
-
-        for (KeyCode key : heldKeys)
-        {
-            if (!IsKeyHeld(key))
-                return false;
-        }
-
-        return IsMouseButtonPressed(pressedButton);
-    }
-
-    void InputService::Update() noexcept
-    {
-        m_keyboardProvider->Update();
-        m_mouseProvider->Update();
-
-        m_keyboardState = m_keyboardProvider->GetState();
-        m_mouseState = m_mouseProvider->GetState();
-    }
-
-    void InputService::SetMousePositionOffset(const Core::Point& offset) noexcept
-    {
-        m_mouseOffset = offset;
-    }
-
-    KeyboardState InputService::GetKeyboardState() const noexcept
-    {
-        return m_keyboardState;
-    }
-
-    MouseState InputService::GetMouseState() const noexcept
-    {
-        MouseState state = m_mouseState;
-
-        state.position.x += m_mouseOffset.x;
-        state.position.y += m_mouseOffset.y;
-        state.prevPosition.x += m_mouseOffset.x;
-        state.prevPosition.y += m_mouseOffset.y;
-
-        return state;
-    }
+    return state;
 }

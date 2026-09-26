@@ -5,11 +5,8 @@ import Client.Asset.Data;
 import Core.TypeHierarchy;
 import Core.ResourceID;
 
-namespace Client
+export struct IAssetProvider
 {
-	export struct IAssetProvider
-	{
-		virtual ~IAssetProvider() = default;
-		virtual std::shared_ptr<AssetData> Load(Core::TypeID type, const Core::ResourceID& resID) = 0;
-	};
-}
+	virtual ~IAssetProvider() = default;
+	virtual std::shared_ptr<AssetData> Load(Core::TypeID type, const Core::ResourceID& resID) = 0;
+};

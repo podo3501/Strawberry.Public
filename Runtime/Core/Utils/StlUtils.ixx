@@ -52,7 +52,7 @@ concept PointerLike = RawPointerLike<T> || StlExtDetail::IsSmartPointer<T>::valu
 
 
 // STL Utilities 영역
-namespace StlExt
+namespace Core
 {
     // set, unordered_set, map, unordered_map 에 insert를 할 때 없으면 insert, 있으면 false를 리턴하는 helper
     export template <typename Container, typename... Args>

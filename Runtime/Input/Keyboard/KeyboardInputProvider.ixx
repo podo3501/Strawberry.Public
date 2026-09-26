@@ -8,7 +8,7 @@ import std;
 import Client.Input.Contract;
 import :KeyMap;
 
-export class KeyboardInputProvider : public Client::IKeyboardInputProvider
+class KeyboardInputProvider : public IKeyboardInputProvider
 {
 public:
 	KeyboardInputProvider() noexcept = default;
@@ -20,22 +20,22 @@ public:
 
 		for (auto [dxKey, code] : KeyMap)
 		{
-			Client::InputState& state = m_keyboardState[code];
+			InputState& state = m_keyboardState[code];
 			state.Update(dxState.IsKeyDown(dxKey));
 		}
 	}
 
-	const Client::KeyboardState& GetState() const noexcept override
+	const KeyboardState& GetState() const noexcept override
 	{
 		return m_keyboardState;
 	}
 
 private:
 	static inline DirectX::Keyboard m_keyboard{}; // inline static을 사용하면 .cpp 파일에 별도로 정적 변수 정의를 작성할 필요가 없음.
-	Client::KeyboardState m_keyboardState{};
+	KeyboardState m_keyboardState{};
 };
 
-std::unique_ptr<Client::IKeyboardInputProvider> Client::CreateDXKeyboardInputProvider()
+std::unique_ptr<IKeyboardInputProvider> CreateDXKeyboardInputProvider()
 {
 	return std::make_unique<KeyboardInputProvider>();
 }

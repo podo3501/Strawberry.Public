@@ -5,41 +5,38 @@ import Core.ResourceID;
 import Core.Types;
 import :IReadStream;
 
-namespace Client
+export struct AssetInput
 {
-	export struct AssetInput
-	{
-		virtual ~AssetInput() = default;
-		virtual bool IsStream() const = 0;
+	virtual ~AssetInput() = default;
+	virtual bool IsStream() const = 0;
 
-		explicit AssetInput(const Core::ResourceID& id) noexcept :
-			resID{ id }
-		{}
+	explicit AssetInput(const Core::ResourceID& id) noexcept :
+		resID{ id }
+	{}
 
-		Core::ResourceID resID;
-	};
+	Core::ResourceID resID;
+};
 
-	export struct MemoryInput : public AssetInput
-	{
-		Core::ByteBuffer buffer;
+export struct MemoryInput : public AssetInput
+{
+	Core::ByteBuffer buffer;
 
-		MemoryInput(const Core::ResourceID& resID, std::vector<std::byte>&& buf) noexcept :
-			AssetInput{ resID },
-			buffer{ std::move(buf) }
-		{}
+	MemoryInput(const Core::ResourceID& resID, std::vector<std::byte>&& buf) noexcept :
+		AssetInput{ resID },
+		buffer{ std::move(buf) }
+	{}
 
-		bool IsStream() const override { return false; }
-	};
+	bool IsStream() const override { return false; }
+};
 
-	export struct StreamInput : public AssetInput
-	{
-		std::unique_ptr<IReadStream> stream;
+export struct StreamInput : public AssetInput
+{
+	std::unique_ptr<IReadStream> stream;
 
-		StreamInput(const Core::ResourceID& resID, std::unique_ptr<IReadStream>&& s) noexcept :
-			AssetInput{ resID },
-			stream{ std::move(s) }
-		{}
+	StreamInput(const Core::ResourceID& resID, std::unique_ptr<IReadStream>&& s) noexcept :
+		AssetInput{ resID },
+		stream{ std::move(s) }
+	{}
 
-		bool IsStream() const override { return true; }
-	};
-}
+	bool IsStream() const override { return true; }
+};

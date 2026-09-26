@@ -4,13 +4,16 @@
     <ClCompile Include="ReadStream.ixx" />
     <ClCompile Include="Asset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
-    <ClCompile Include="Loader\HLSLShaderLoader.ixx">
+    <ClCompile Include="Loader\HLSLShaderLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Loader\AssetLoader.ixx">
+    <ClCompile Include="Loader\BinaryLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Loader\BinaryLoader.ixx">
+    <ClCompile Include="Loader\MeshJsonLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\MeshGltfLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
   </ItemGroup>

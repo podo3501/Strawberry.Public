@@ -25,13 +25,17 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
+      <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
-    <ClCompile Include="Loader\AssetLoader.ixx" />
-    <ClCompile Include="Loader\BinaryLoader.ixx" />
-    <ClCompile Include="Loader\HLSLShaderLoader.ixx" />
+    <ClCompile Include="Loader\BinaryLoader.cpp" />
+    <ClCompile Include="Loader\HLSLShaderLoader.cpp" />
+    <ClCompile Include="Loader\MeshGltfLoader.cpp" />
+    <ClCompile Include="Loader\MeshJsonLoader.cpp" />
     <ClCompile Include="ReadStream.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

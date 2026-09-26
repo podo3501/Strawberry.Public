@@ -36,7 +36,7 @@
     <ClCompile Include="Math\CameraMatrices.ixx">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\StringUtils.ixx">
+    <ClCompile Include="Utils\StringOperations.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\CycleIterator.ixx">
@@ -123,6 +123,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\PathUtils.ixx">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\StringConvert.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

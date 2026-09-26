@@ -5,12 +5,9 @@ import :AssetData;
 import Core.TypeHierarchy;
 import Core.Types;
 
-namespace Client
+export struct BinaryAsset : public Core::TypeNode<BinaryAsset, AssetData>
 {
-	export struct BinaryAsset : public Core::TypeNode<BinaryAsset, AssetData>
-	{
-		virtual ~BinaryAsset() = default;
+	virtual ~BinaryAsset() = default;
 
-		Core::ByteBuffer buffer;
-	};
-}
+	Core::ByteBuffer buffer;
+};

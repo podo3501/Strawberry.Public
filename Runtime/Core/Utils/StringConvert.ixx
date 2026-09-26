@@ -1,63 +1,9 @@
-export module Core.Utils:String;
+export module Core.Utils:StringConvert;
 
 import std;
 
 namespace Core
 {
-    export void ToLower(std::string& s)
-    {
-        std::transform(s.begin(), s.end(), s.begin(),
-            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    }
-
-    export void ToUpper(std::string& s)
-    {
-        std::transform(s.begin(), s.end(), s.begin(),
-            [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
-    }
-
-    export std::string ToLowerCopy(std::string s)
-    {
-        ToLower(s);
-        return s;
-    }
-
-    export std::string ToUpperCopy(std::string s)
-    {
-        ToUpper(s);
-        return s;
-    }
-
-    export std::string ToLower(std::string_view s)
-    {
-        std::string result(s);
-        ToLower(result);
-        return result;
-    }
-
-    export std::string ToUpper(std::string_view s)
-    {
-        std::string result(s);
-        ToUpper(result);
-        return result;
-    }
-
-    export std::string_view GetExtension(std::string_view path)
-    {
-        std::size_t slashPos = path.find_last_of("/\\");
-        std::size_t dotPos = path.find_last_of('.');
-
-        if (dotPos == std::string_view::npos)
-            return {};
-
-        if (slashPos != std::string_view::npos && dotPos < slashPos)
-        {
-            return {};
-        }
-
-        return path.substr(dotPos);
-    }
-
     export std::wstring UTF8ToWString(const std::string& str)
     {
         if (str.empty())
@@ -260,5 +206,60 @@ namespace Core
             UTF32ToUTF8Char(c, result);
 
         return result;
+    }
+
+    //------------------------------
+    // C-String 출력 유틸리티
+    //------------------------------
+
+    export std::wstring StringToWString(const std::string& str)
+    {
+        return UTF8ToWString(str);
+    }
+
+    export std::string WStringToString(const std::wstring& wstr)
+    {
+        std::string result;
+        result.reserve(wstr.size() * 3);
+
+        for (wchar_t wc : wstr)
+        {
+            if (wc <= 0x7F)
+            {
+                result.push_back(static_cast<char>(wc));
+            }
+            else if (wc <= 0x7FF)
+            {
+                result.push_back(static_cast<char>(0xC0 | (wc >> 6)));
+                result.push_back(static_cast<char>(0x80 | (wc & 0x3F)));
+            }
+            else
+            {
+                result.push_back(static_cast<char>(0xE0 | (wc >> 12)));
+                result.push_back(static_cast<char>(0x80 | ((wc >> 6) & 0x3F)));
+                result.push_back(static_cast<char>(0x80 | (wc & 0x3F)));
+            }
+        }
+
+        return result;
+    }
+
+    export void StringToChar(const std::string& str, std::span<char> outstr) noexcept
+    {
+        if (outstr.empty()) return;
+
+        std::size_t copySize = (std::min)(str.size(), outstr.size() - 1);
+        std::copy_n(str.data(), copySize, outstr.data());
+        outstr[copySize] = '\0';
+    }
+
+    export void WStringToChar(const std::wstring& wstr, std::span<char> outstr) noexcept
+    {
+        StringToChar(WStringToString(wstr), outstr);
+    }
+
+    export std::wstring CharToWString(std::span<const char> str) noexcept
+    {
+        return UTF8ToWString(std::string(str.data(), str.size()));
     }
 }

@@ -47,7 +47,8 @@
     <ClCompile Include="Utils\Hash.ixx" />
     <ClCompile Include="Utils\PathUtils.ixx" />
     <ClCompile Include="Utils\StlUtils.ixx" />
-    <ClCompile Include="Utils\StringUtils.ixx" />
+    <ClCompile Include="Utils\StringConvert.ixx" />
+    <ClCompile Include="Utils\StringOperations.ixx" />
     <ClCompile Include="Math\Constants.ixx">
       <FileType>Document</FileType>
     </ClCompile>
