@@ -1,7 +1,7 @@
 export module Client.Asset.Data:MeshAsset;
 
 import std;
-import :AssetData;
+import Client.Asset.AssetData;
 import Core.TypeHierarchy;
 import Core.Math;
 

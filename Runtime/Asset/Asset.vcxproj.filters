@@ -16,6 +16,27 @@
     <ClCompile Include="Loader\MeshGltfLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
+    <ClCompile Include="Loader\OggStaticLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\AudioProcessing.ixx">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\VorbisDecoder.ixx">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\WavStaticLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\OggStreamLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\SoundTableAsset.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\JsonLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">

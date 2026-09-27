@@ -1,4 +1,4 @@
-export module Client.Asset.Data:AssetData;
+export module Client.Asset.AssetData;
 
 import std;
 import Core.TypeHierarchy;

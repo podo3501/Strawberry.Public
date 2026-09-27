@@ -45,9 +45,6 @@
     <ClCompile Include="Input\MouseState.ixx">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Data\AssetData.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
     <ClCompile Include="Asset\Data\Data.ixx">
       <Filter>Asset\Data</Filter>
     </ClCompile>
@@ -70,6 +67,30 @@
       <Filter>Asset\Data</Filter>
     </ClCompile>
     <ClCompile Include="Asset\Data\MeshAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\StaticSoundAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\StreamSoundAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Interfaces.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetData.ixx">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\SoundTableAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\AudioTypes.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\TextureMetaAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\TextureTypes.ixx">
       <Filter>Asset\Data</Filter>
     </ClCompile>
   </ItemGroup>

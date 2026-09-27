@@ -20,16 +20,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\AssetContract.ixx" />
+    <ClCompile Include="Asset\AssetData.ixx" />
     <ClCompile Include="Asset\AssetInput.ixx" />
+    <ClCompile Include="Asset\Data\AudioTypes.ixx" />
     <ClCompile Include="Asset\Data\BinaryAsset.ixx" />
     <ClCompile Include="Asset\Data\MeshAsset.ixx" />
     <ClCompile Include="Asset\Data\ShaderAsset.ixx" />
+    <ClCompile Include="Asset\Data\SoundTableAsset.ixx" />
+    <ClCompile Include="Asset\Data\StaticSoundAsset.ixx" />
+    <ClCompile Include="Asset\Data\StreamSoundAsset.ixx" />
+    <ClCompile Include="Asset\Data\TextureMetaAsset.ixx" />
+    <ClCompile Include="Asset\Data\TextureTypes.ixx" />
     <ClCompile Include="Asset\IAssetLoader.ixx" />
     <ClCompile Include="Asset\IAssetMetaRegistry.ixx" />
-    <ClCompile Include="Asset\Data\AssetData.ixx" />
     <ClCompile Include="Asset\Data\Data.ixx" />
     <ClCompile Include="Asset\IAssetProvider.ixx" />
     <ClCompile Include="Asset\IAssetStorage.ixx" />
+    <ClCompile Include="Asset\Interfaces.ixx" />
     <ClCompile Include="Asset\IReadStream.ixx" />
     <ClCompile Include="Input\IKeyboardInputProvider.ixx" />
     <ClCompile Include="Input\IMouseInputProvider.ixx" />

@@ -1,6 +1,7 @@
 export module Core.Utils:Enum; // 모듈 이름은 프로젝트 규칙에 맞춰 변경 가능합니다.
 
 import std;
+import Core.Assert;
 
 export namespace Core
 {
@@ -9,6 +10,9 @@ export namespace Core
 	concept CountEnum =
 		std::is_enum_v<T> &&
 		requires { T::Count; };
+
+	template<CountEnum T>
+	inline constexpr T Invalid = static_cast<T>(std::numeric_limits<std::underlying_type_t<T>>::max());
 
 	template<CountEnum T>
 	inline constexpr std::size_t EnumSize = static_cast<std::size_t>(T::Count); //사용법 EnumSize<xxx> 뒤에 괄호가 없다.
@@ -25,5 +29,36 @@ export namespace Core
 	constexpr auto ToIndex(T value) noexcept
 	{
 		return static_cast<std::underlying_type_t<T>>(value);
+	}
+
+	template<CountEnum T, typename... Names>
+		requires (sizeof...(Names) == EnumSize<T>)
+	constexpr auto MakeEnumStringMap(Names... names)
+	{
+		return std::array<const char*, EnumSize<T>>{ names... };
+	}
+
+	template<CountEnum T>
+	constexpr std::array<const char*, EnumSize<T>> EnumToStringMap();
+
+	template<CountEnum T>
+	constexpr std::string EnumToString(T value)
+	{
+		constexpr auto list = EnumToStringMap<T>();
+		auto idx = static_cast<std::size_t>(ToIndex(value));
+		Core::Assert(idx < list.size()); //out of range
+		return list[idx];
+	}
+
+	template<CountEnum T>
+	std::optional<T> StringToEnum(std::string_view str)
+	{
+		constexpr auto list = EnumToStringMap<T>();
+		for (std::size_t i = 0; i < list.size(); ++i)
+		{
+			if (str == list[i])
+				return static_cast<T>(i);
+		}
+		return std::nullopt;
 	}
 }

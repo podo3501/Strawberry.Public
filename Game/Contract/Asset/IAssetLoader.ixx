@@ -1,7 +1,7 @@
-export module Client.Asset.Contract:IAssetLoader;
+export module Client.Asset.Interfaces:IAssetLoader;
 
 import std;
-import Client.Asset.Data;
+import Client.Asset.AssetData;
 import :AssetInput;
 import :IAssetProvider;
 import :IAssetMetaRegistry;

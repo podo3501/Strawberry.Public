@@ -25,6 +25,24 @@
     <ClCompile Include="Service\Asset\AssetLoaderDesc.ixx">
       <Filter>Service\Asset</Filter>
     </ClCompile>
+    <ClCompile Include="IAssetAsyncLoader.ixx">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetAsyncStore.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\AssetAsyncTypes.ixx">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetAsyncLoader.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetExtensions.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\AssetAsyncHelper.ixx">
+      <Filter>Service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

@@ -19,8 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IAssetAsyncLoader.ixx" />
+    <ClCompile Include="Service\AssetAsyncHelper.ixx" />
+    <ClCompile Include="Service\AssetAsyncTypes.ixx" />
     <ClCompile Include="Service\Asset\Asset.ixx" />
+    <ClCompile Include="Service\Asset\AssetAsyncLoader.ixx" />
+    <ClCompile Include="Service\Asset\AssetAsyncStore.ixx" />
     <ClCompile Include="Service\Asset\AssetCacheKeys.ixx" />
+    <ClCompile Include="Service\Asset\AssetExtensions.ixx" />
     <ClCompile Include="Service\Asset\AssetLoaderDesc.ixx" />
     <ClCompile Include="Service\Asset\AssetRepository.ixx" />
     <ClCompile Include="Service\Asset\AssetService.ixx" />
