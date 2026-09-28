@@ -10,6 +10,9 @@
     <Filter Include="Asset\Data">
       <UniqueIdentifier>{28867b48-be47-4bd8-9a26-3d192688fefe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{78923563-3bc1-40d0-a7e3-6196ef923b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -75,7 +78,7 @@
     <ClCompile Include="Asset\Data\StreamSoundAsset.ixx">
       <Filter>Asset\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Interfaces.ixx">
+    <ClCompile Include="Asset\AssetInterfaces.ixx">
       <Filter>Asset</Filter>
     </ClCompile>
     <ClCompile Include="Asset\AssetData.ixx">
@@ -92,6 +95,42 @@
     </ClCompile>
     <ClCompile Include="Asset\Data\TextureTypes.ixx">
       <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\TextureCubeAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\SphericalHarmonicsAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\EnvironmentAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\TextureAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\MaterialTypes.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\MaterialAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\PbrSurface.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\PbrMaterialAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\PhongSurface.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\PhongMaterialAsset.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\ISoundBuffer.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioInterfaces.ixx">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -28,6 +28,8 @@
     <ClCompile Include="Service\Asset\AssetCacheKeys.ixx" />
     <ClCompile Include="Service\Asset\AssetExtensions.ixx" />
     <ClCompile Include="Service\Asset\AssetLoaderDesc.ixx" />
+    <ClCompile Include="Service\Asset\AssetLoaderRegistry.ixx" />
+    <ClCompile Include="Service\Asset\AssetMetaRegistry.ixx" />
     <ClCompile Include="Service\Asset\AssetRepository.ixx" />
     <ClCompile Include="Service\Asset\AssetService.ixx" />
     <ClCompile Include="Service\Input\Input.ixx" />

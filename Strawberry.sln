@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Contract", "Game\Contract\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serialization", "Runtime\Serialization\Serialization.vcxproj", "{026D70D2-E39D-42D4-A5ED-441D0AF53C35}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Runtime\Audio\Audio.vcxproj", "{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{026D70D2-E39D-42D4-A5ED-441D0AF53C35}.Release|x64.Build.0 = Release|x64
 		{026D70D2-E39D-42D4-A5ED-441D0AF53C35}.Release|x86.ActiveCfg = Release|Win32
 		{026D70D2-E39D-42D4-A5ED-441D0AF53C35}.Release|x86.Build.0 = Release|Win32
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Debug|x64.ActiveCfg = Debug|x64
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Debug|x64.Build.0 = Debug|x64
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Debug|x86.ActiveCfg = Debug|Win32
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Debug|x86.Build.0 = Debug|Win32
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Release|x64.ActiveCfg = Release|x64
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Release|x64.Build.0 = Release|x64
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Release|x86.ActiveCfg = Release|Win32
+		{40208DCB-FA20-42F4-8ADA-D6F944A11ABE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

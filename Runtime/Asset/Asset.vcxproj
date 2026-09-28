@@ -32,15 +32,21 @@
   <ItemGroup>
     <ClCompile Include="Asset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
+    <ClCompile Include="EnvironmentLoader.cpp" />
     <ClCompile Include="Loader\AudioProcessing.ixx" />
     <ClCompile Include="Loader\BinaryLoader.cpp" />
     <ClCompile Include="Loader\HLSLShaderLoader.cpp" />
     <ClCompile Include="Loader\JsonLoader.cpp" />
+    <ClCompile Include="Loader\MaterialJsonLoader.cpp" />
     <ClCompile Include="Loader\MeshGltfLoader.cpp" />
     <ClCompile Include="Loader\MeshJsonLoader.cpp" />
     <ClCompile Include="Loader\OggStaticLoader.cpp" />
     <ClCompile Include="Loader\OggStreamLoader.cpp" />
     <ClCompile Include="Loader\SoundTableAsset.cpp" />
+    <ClCompile Include="Loader\SphericalHarmonicsLoader.cpp" />
+    <ClCompile Include="Loader\TextureCubeLoader.cpp" />
+    <ClCompile Include="Loader\TextureLoader.cpp" />
+    <ClCompile Include="Loader\TextureMetaLoader.cpp" />
     <ClCompile Include="Loader\VorbisDecoder.ixx" />
     <ClCompile Include="Loader\WavStaticLoader.cpp" />
     <ClCompile Include="ReadStream.ixx" />

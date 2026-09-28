@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Static">
+      <UniqueIdentifier>{29c875b2-2886-40e5-b2de-28b346d6d5f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Static\StaticSoundBuffer.ixx">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.ixx" />
+  </ItemGroup>
+</Project>

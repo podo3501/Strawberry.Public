@@ -43,6 +43,12 @@
     <ClCompile Include="Service\AssetAsyncHelper.ixx">
       <Filter>Service</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Asset\AssetMetaRegistry.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetLoaderRegistry.ixx">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

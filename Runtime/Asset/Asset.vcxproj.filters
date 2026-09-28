@@ -37,6 +37,24 @@
     <ClCompile Include="Loader\JsonLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
+    <ClCompile Include="Loader\MaterialJsonLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TextureMetaLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\SphericalHarmonicsLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TextureLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TextureCubeLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">

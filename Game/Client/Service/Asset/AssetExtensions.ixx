@@ -1,4 +1,4 @@
-export module Client.Asset.Service:ImageExtensions;
+export module Client.Asset.ImageExtensions;
 
 import std;
 
