@@ -3,13 +3,13 @@ module;
 #include "d3dx12.h"
 #include <dxgi1_6.h>
 
-export module Runtime.Render.Core:Device;
+export module Runtime.Render.Core:DxDevice;
 
 import std;
 import :DebugHelper;
 import :DebugOptions;
+import :DxResource;
 import Core.Assert;
-import Runtime.Render.Resource;
 
 using Microsoft::WRL::ComPtr;
 

@@ -20,4 +20,13 @@ namespace Core
         (void)condition;
 #endif
     }
+
+    // explicit operator bool을 가진 타입(포인터 래퍼, Resource 등)을 그대로 받기 위한 오버로드.
+    // bool 인자는 위의 non-template 함수가 우선 선택되므로 별도 제외 조건이 필요 없다.
+    export template <typename T>
+    requires requires(const T& v) { static_cast<bool>(v); }
+    constexpr __forceinline void Assert(const T& value)
+    {
+        Assert(static_cast<bool>(value));
+    }
 }

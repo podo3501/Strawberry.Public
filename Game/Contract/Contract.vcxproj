@@ -61,6 +61,12 @@
     <ClCompile Include="Input\KeyCode.ixx" />
     <ClCompile Include="Input\MouseButton.ixx" />
     <ClCompile Include="Input\MouseState.ixx" />
+    <ClCompile Include="Render\Definition\Config.ixx" />
+    <ClCompile Include="Render\Definition\Definition.ixx" />
+    <ClCompile Include="Render\Definition\RegistryShader.ixx" />
+    <ClCompile Include="Render\Definition\ShaderTypes.ixx" />
+    <ClCompile Include="Render\IResource.ixx" />
+    <ClCompile Include="Render\RenderInterfaces.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

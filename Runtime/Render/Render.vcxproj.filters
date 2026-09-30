@@ -16,6 +16,21 @@
     <Filter Include="Definition">
       <UniqueIdentifier>{4e6ec8b2-6699-4c68-809e-49a4f54cbecd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{9407f2ee-2425-4446-9856-b3326358a732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allocator">
+      <UniqueIdentifier>{4ba1ca7f-5b1c-4fbd-ba6f-5945a5c1eab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factory">
+      <UniqueIdentifier>{006de935-b631-45d7-8835-ec93c57b4e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Material">
+      <UniqueIdentifier>{c5d21e89-3dc0-4b08-8d86-2ce1f3d6c80c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{3a990c6d-f56a-47ae-bbe6-bb4beca03521}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -27,7 +42,7 @@
     <ClCompile Include="Core\DebugHelper.ixx">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Device.ixx">
+    <ClCompile Include="Core\DxDevice.ixx">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Command\CommandType.ixx">
@@ -38,6 +53,125 @@
     </ClCompile>
     <ClCompile Include="Definition\RenderStateTypes.ixx">
       <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderState.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Command.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\Definition.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Graph.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandList.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Core.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxCheck.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\D3D12Conversions.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\Helper.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Conversions.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.ixx" />
+    <ClCompile Include="RenderConstants.ixx" />
+    <ClCompile Include="Command\CommandQueue.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandScheduler.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\BindlessDescriptorAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\Allocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DescriptorAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameConstantAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\UploadAllocation.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameUploadAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\TextureResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\TextureCubeResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\IPendingResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BrushResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\EnvironmentResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderFormat.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\TextureHelper.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ShadowResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\DescriptorFactory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\Factory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DescriptorAllocationType.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\ResourceFactory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxResource.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\MaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\PbrMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\PhongMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\DebugMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\GridDebugMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\MeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\StaticMeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\TransientMeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
