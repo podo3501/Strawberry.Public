@@ -32,6 +32,13 @@
     <ClCompile Include="Service\Asset\AssetMetaRegistry.ixx" />
     <ClCompile Include="Service\Asset\AssetRepository.ixx" />
     <ClCompile Include="Service\Asset\AssetService.ixx" />
+    <ClCompile Include="Service\Audio\AudioService.ixx" />
+    <ClCompile Include="Service\Audio\LoadedSound.ixx" />
+    <ClCompile Include="Service\Audio\SoundHandle.ixx" />
+    <ClCompile Include="Service\Audio\SoundRepository.ixx" />
+    <ClCompile Include="Service\Audio\Voice.ixx" />
+    <ClCompile Include="Service\Audio\VoiceHandle.ixx" />
+    <ClCompile Include="Service\Audio\VoicePool.ixx" />
     <ClCompile Include="Service\Input\Input.ixx" />
     <ClCompile Include="Service\Input\InputService.cpp" />
     <ClCompile Include="Service\Input\InputService.ixx" />
@@ -39,6 +46,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Runtime\Serialization\Serialization.vcxproj">
+      <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>

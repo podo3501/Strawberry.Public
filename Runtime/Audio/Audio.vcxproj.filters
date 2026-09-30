@@ -4,11 +4,31 @@
     <Filter Include="Static">
       <UniqueIdentifier>{29c875b2-2886-40e5-b2de-28b346d6d5f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stream">
+      <UniqueIdentifier>{2526dcc9-af0a-46a4-b9b4-cebea43fc17e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Static\StaticSoundBuffer.ixx">
       <Filter>Static</Filter>
     </ClCompile>
     <ClCompile Include="Audio.ixx" />
+    <ClCompile Include="Static\StaticSoundInstance.ixx">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundBuffer.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\VorbisStreamCallbacks.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundInstance.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLAudioConfig.ixx" />
+    <ClCompile Include="AudioDevice.ixx" />
+    <ClCompile Include="AudioFormat.ixx" />
+    <ClCompile Include="AudioMixer.ixx" />
+    <ClCompile Include="SDLAudioBackend.ixx" />
   </ItemGroup>
 </Project>

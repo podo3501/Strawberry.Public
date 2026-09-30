@@ -49,7 +49,10 @@
     <ClCompile Include="Asset\AssetInterfaces.ixx" />
     <ClCompile Include="Asset\IReadStream.ixx" />
     <ClCompile Include="Audio\AudioInterfaces.ixx" />
+    <ClCompile Include="Audio\IAudioBackend.ixx" />
     <ClCompile Include="Audio\ISoundBuffer.ixx" />
+    <ClCompile Include="Audio\ISoundInstance.ixx" />
+    <ClCompile Include="Audio\PlaybackTypes.ixx" />
     <ClCompile Include="Input\IKeyboardInputProvider.ixx" />
     <ClCompile Include="Input\IMouseInputProvider.ixx" />
     <ClCompile Include="Input\InputContract.ixx" />

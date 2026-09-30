@@ -49,6 +49,27 @@
     <ClCompile Include="Service\Asset\AssetLoaderRegistry.ixx">
       <Filter>Service\Asset</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Audio\AudioService.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\VoiceHandle.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\SoundHandle.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\Voice.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\LoadedSound.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\SoundRepository.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\VoicePool.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
@@ -59,6 +80,9 @@
     </Filter>
     <Filter Include="Service\Asset">
       <UniqueIdentifier>{ddaa336d-5ff7-479c-8451-77e39004ddd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Audio">
+      <UniqueIdentifier>{63a4f16d-909c-4003-ae87-e57ccb4d3616}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

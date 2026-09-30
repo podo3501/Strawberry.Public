@@ -132,5 +132,14 @@
     <ClCompile Include="Audio\AudioInterfaces.ixx">
       <Filter>Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\PlaybackTypes.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\ISoundInstance.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\IAudioBackend.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

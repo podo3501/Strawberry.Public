@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{fdd5e389-7b16-4e11-a52f-63eb29ad8316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6863c4f3-3aa7-45ec-ad1c-84296b24b046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{b36a2ef7-314f-48cc-bb8a-cf0f1107c5b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph">
+      <UniqueIdentifier>{a9812be7-d41b-4111-b5d5-17731c85f19d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definition">
+      <UniqueIdentifier>{4e6ec8b2-6699-4c68-809e-49a4f54cbecd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Resource\Resource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugOptions.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugHelper.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Device.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandType.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGTypes.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderStateTypes.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

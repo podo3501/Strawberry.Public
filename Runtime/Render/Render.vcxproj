@@ -19,19 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Audio.ixx" />
-    <ClCompile Include="AudioDevice.ixx" />
-    <ClCompile Include="AudioFormat.ixx" />
-    <ClCompile Include="AudioMixer.ixx" />
-    <ClCompile Include="SDLAudioBackend.ixx" />
-    <ClCompile Include="SDLAudioConfig.ixx" />
-    <ClCompile Include="Static\StaticSoundBuffer.ixx" />
-    <ClCompile Include="Static\StaticSoundInstance.ixx" />
-    <ClCompile Include="Stream\StreamSoundBuffer.ixx" />
-    <ClCompile Include="Stream\StreamSoundInstance.ixx" />
-    <ClCompile Include="Stream\VorbisStreamCallbacks.ixx" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
@@ -39,11 +26,20 @@
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Command\CommandType.ixx" />
+    <ClCompile Include="Core\DebugHelper.ixx" />
+    <ClCompile Include="Core\DebugOptions.ixx" />
+    <ClCompile Include="Core\Device.ixx" />
+    <ClCompile Include="Definition\RenderStateTypes.ixx" />
+    <ClCompile Include="Graph\RGTypes.ixx" />
+    <ClCompile Include="Resource\Resource.ixx" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{40208dcb-fa20-42f4-8ada-d6f944a11abe}</ProjectGuid>
-    <RootNamespace>Audio</RootNamespace>
+    <ProjectGuid>{83df7ebf-f20a-4125-a6c2-ecc736d64ac4}</ProjectGuid>
+    <RootNamespace>Render</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

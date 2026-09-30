@@ -12,7 +12,7 @@ export namespace Core
 		requires { T::Count; };
 
 	template<CountEnum T>
-	inline constexpr T Invalid = static_cast<T>(std::numeric_limits<std::underlying_type_t<T>>::max());
+	inline constexpr T InvalidEnum = static_cast<T>(std::numeric_limits<std::underlying_type_t<T>>::max());
 
 	template<CountEnum T>
 	inline constexpr std::size_t EnumSize = static_cast<std::size_t>(T::Count); //사용법 EnumSize<xxx> 뒤에 괄호가 없다.
@@ -61,4 +61,11 @@ export namespace Core
 		}
 		return std::nullopt;
 	}
+
+	template<CountEnum T>
+	inline constexpr auto EnumValues = [] { //for에서 사용하기 좋음. 0 부터 시작.
+		std::array<T, static_cast<size_t>(T::Count)> v{};
+		for (size_t i = 0; i < v.size(); ++i) v[i] = static_cast<T>(i);
+		return v;
+		}();
 }
