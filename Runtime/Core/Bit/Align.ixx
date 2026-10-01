@@ -60,4 +60,9 @@ namespace Core
 
         return ((value + alignment - 1) / alignment) * alignment;
     }
+
+    // 타입 크기가 N의 배수인지 컴파일 타임에 검사 (N이 2의 거듭제곱이 아니어도 동작)
+    export template <typename T, std::size_t N>
+        requires (N > 0)
+    inline constexpr bool IsSizeAligned = (sizeof(T) % N == 0);
 }

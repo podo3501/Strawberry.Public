@@ -19,6 +19,15 @@
     <Filter Include="Render\Definition">
       <UniqueIdentifier>{8fc656cf-d968-4d98-b4d7-9c2bf05067d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\View">
+      <UniqueIdentifier>{37130e09-07e0-4e93-97af-d31ee8d0aaa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\View\Scene">
+      <UniqueIdentifier>{c1f25954-bde6-45f4-a00e-c5368d672970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\View\Overlay">
+      <UniqueIdentifier>{9970228b-cf0f-4488-af52-23f04f4c343b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -164,6 +173,51 @@
     </ClCompile>
     <ClCompile Include="Render\Definition\RegistryShader.ixx">
       <Filter>Render\Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Definition\ShaderDesc.ixx">
+      <Filter>Render\Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\CameraData.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\DirectionalLightData.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\DrawShadowCasterItem.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\View.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\ViewID.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\ViewTargetInfo.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Overlay\OverlayViewContext.ixx">
+      <Filter>Render\View\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Definition\TextStyle.ixx">
+      <Filter>Render\Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Overlay\OverlayViewDrawList.ixx">
+      <Filter>Render\View\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Overlay\OverlayViewData.ixx">
+      <Filter>Render\View\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Scene\SceneViewContext.ixx">
+      <Filter>Render\View\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Scene\SceneViewDrawList.ixx">
+      <Filter>Render\View\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\Scene\SceneViewData.ixx">
+      <Filter>Render\View\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\SceneFrameData.ixx">
+      <Filter>Render\View</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

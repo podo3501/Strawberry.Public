@@ -66,21 +66,29 @@ namespace Core
         constexpr std::uint8_t G8() const { return static_cast<std::uint8_t>(g * 255.0f + 0.5f); }
         constexpr std::uint8_t B8() const { return static_cast<std::uint8_t>(b * 255.0f + 0.5f); }
         constexpr std::uint8_t A8() const { return static_cast<std::uint8_t>(a * 255.0f + 0.5f); }
+
+        static const Color White;
+        static const Color Black;
+        static const Color Red;
+        static const Color Green;
+        static const Color Blue;
+        static const Color Yellow;
+        static const Color Cyan;
+        static const Color Magenta;
+        static const Color Gray;
+        static const Color Transparent;
     };
 
-    export namespace Colors
-    {
-        inline constexpr Color White{ 1.0f, 1.0f, 1.0f, 1.0f };
-        inline constexpr Color Black{ 0.0f, 0.0f, 0.0f, 1.0f };
-        inline constexpr Color Red{ 1.0f, 0.0f, 0.0f, 1.0f };
-        inline constexpr Color Green{ 0.0f, 1.0f, 0.0f, 1.0f };
-        inline constexpr Color Blue{ 0.0f, 0.0f, 1.0f, 1.0f };
-        inline constexpr Color Yellow{ 1.0f, 1.0f, 0.0f, 1.0f };
-        inline constexpr Color Cyan{ 0.1f, 1.0f, 1.0f, 1.0f };
-        inline constexpr Color Magenta{ 1.0f, 0.0f, 1.0f, 1.0f };
-        inline constexpr Color Gray{ 0.5f, 0.5f, 0.5f, 1.0f };
-        inline constexpr Color Transparent{ 0.0f, 0.0f, 0.0f, 0.0f };
-    }
+    inline constexpr Color Color::White{ 1.0f, 1.0f, 1.0f, 1.0f };
+    inline constexpr Color Color::Black{ 0.0f, 0.0f, 0.0f, 1.0f };
+    inline constexpr Color Color::Red{ 1.0f, 0.0f, 0.0f, 1.0f };
+    inline constexpr Color Color::Green{ 0.0f, 1.0f, 0.0f, 1.0f };
+    inline constexpr Color Color::Blue{ 0.0f, 0.0f, 1.0f, 1.0f };
+    inline constexpr Color Color::Yellow{ 1.0f, 1.0f, 0.0f, 1.0f };
+    inline constexpr Color Color::Cyan{ 0.0f, 1.0f, 1.0f, 1.0f };
+    inline constexpr Color Color::Magenta{ 1.0f, 0.0f, 1.0f, 1.0f };
+    inline constexpr Color Color::Gray{ 0.5f, 0.5f, 0.5f, 1.0f };
+    inline constexpr Color Color::Transparent{ 0.0f, 0.0f, 0.0f, 0.0f };
 
     static_assert(sizeof(Color) == sizeof(Vector4));
     static_assert(alignof(Color) == alignof(Vector4));

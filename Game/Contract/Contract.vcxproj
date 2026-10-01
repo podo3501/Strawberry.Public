@@ -64,9 +64,24 @@
     <ClCompile Include="Render\Definition\Config.ixx" />
     <ClCompile Include="Render\Definition\Definition.ixx" />
     <ClCompile Include="Render\Definition\RegistryShader.ixx" />
+    <ClCompile Include="Render\Definition\ShaderDesc.ixx" />
     <ClCompile Include="Render\Definition\ShaderTypes.ixx" />
+    <ClCompile Include="Render\Definition\TextStyle.ixx" />
     <ClCompile Include="Render\IResource.ixx" />
     <ClCompile Include="Render\RenderInterfaces.ixx" />
+    <ClCompile Include="Render\View\CameraData.ixx" />
+    <ClCompile Include="Render\View\DirectionalLightData.ixx" />
+    <ClCompile Include="Render\View\DrawShadowCasterItem.ixx" />
+    <ClCompile Include="Render\View\Overlay\OverlayViewContext.ixx" />
+    <ClCompile Include="Render\View\Overlay\OverlayViewData.ixx" />
+    <ClCompile Include="Render\View\Overlay\OverlayViewDrawList.ixx" />
+    <ClCompile Include="Render\View\SceneFrameData.ixx" />
+    <ClCompile Include="Render\View\Scene\SceneViewContext.ixx" />
+    <ClCompile Include="Render\View\Scene\SceneViewData.ixx" />
+    <ClCompile Include="Render\View\Scene\SceneViewDrawList.ixx" />
+    <ClCompile Include="Render\View\View.ixx" />
+    <ClCompile Include="Render\View\ViewID.ixx" />
+    <ClCompile Include="Render\View\ViewTargetInfo.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

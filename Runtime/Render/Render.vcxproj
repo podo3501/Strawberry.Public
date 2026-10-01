@@ -36,6 +36,7 @@
     <ClCompile Include="Allocator\UploadAllocation.ixx" />
     <ClCompile Include="Command\Command.ixx" />
     <ClCompile Include="Command\CommandList.ixx" />
+    <ClCompile Include="Command\CommandListHelper.ixx" />
     <ClCompile Include="Command\CommandQueue.ixx" />
     <ClCompile Include="Command\CommandScheduler.ixx" />
     <ClCompile Include="Command\CommandType.ixx" />
@@ -53,11 +54,31 @@
     <ClCompile Include="Factory\DescriptorFactory.ixx" />
     <ClCompile Include="Factory\Factory.ixx" />
     <ClCompile Include="Factory\ResourceFactory.ixx" />
+    <ClCompile Include="Graph\BarrierBuilder.ixx" />
     <ClCompile Include="Graph\Graph.ixx" />
+    <ClCompile Include="Graph\RenderGraph.cpp" />
+    <ClCompile Include="Graph\RenderGraph.ixx" />
+    <ClCompile Include="Graph\ResourceID\ResourceID.ixx" />
+    <ClCompile Include="Graph\ResourceID\ResourceIDAllocator.ixx" />
+    <ClCompile Include="Graph\ResourceID\ResourceIDGenerator.ixx" />
+    <ClCompile Include="Graph\ResourceID\ResourceIDTypes.ixx" />
+    <ClCompile Include="Graph\RGDefinitions.ixx" />
+    <ClCompile Include="Graph\RGPass.ixx" />
     <ClCompile Include="Graph\RGTypes.ixx" />
+    <ClCompile Include="Graph\RGUtils.ixx" />
     <ClCompile Include="Helper\D3D12Conversions.ixx" />
     <ClCompile Include="Helper\Helper.ixx" />
+    <ClCompile Include="Helper\MathHelpers.ixx" />
     <ClCompile Include="Helper\TextureHelper.ixx" />
+    <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx" />
+    <ClCompile Include="Pipeline\Renderer\Renderer.ixx" />
+    <ClCompile Include="Pipeline\Renderer\RendererConfig.ixx" />
+    <ClCompile Include="Pipeline\Renderer\RendererConstants.ixx" />
+    <ClCompile Include="Pipeline\Renderer\RendererUtils.ixx" />
+    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.ixx" />
+    <ClCompile Include="Pipeline\Renderer\SkyboxRenderer.ixx" />
+    <ClCompile Include="Pipeline\Renderer\SurfaceRenderer.ixx" />
+    <ClCompile Include="Pipeline\Renderer\UIRenderer.ixx" />
     <ClCompile Include="Render.ixx" />
     <ClCompile Include="RenderConstants.ixx" />
     <ClCompile Include="Resource\BrushResource.ixx" />
@@ -75,6 +96,17 @@
     <ClCompile Include="Resource\ShadowResource.ixx" />
     <ClCompile Include="Resource\TextureCubeResource.ixx" />
     <ClCompile Include="Resource\TextureResource.ixx" />
+    <ClCompile Include="Shader\ShaderLibrary.ixx" />
+    <ClCompile Include="Task\CompiledTask.ixx" />
+    <ClCompile Include="Task\LocalTaskID.ixx" />
+    <ClCompile Include="Task\Task.ixx" />
+    <ClCompile Include="Task\TaskCommandLists.ixx" />
+    <ClCompile Include="Task\TaskContext.ixx" />
+    <ClCompile Include="Task\TaskEntry.ixx" />
+    <ClCompile Include="Task\TaskHandle.ixx" />
+    <ClCompile Include="Task\TaskNode.ixx" />
+    <ClCompile Include="Task\TaskScheduler.ixx" />
+    <ClCompile Include="Task\TaskUtils.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

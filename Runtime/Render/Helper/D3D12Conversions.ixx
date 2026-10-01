@@ -8,7 +8,6 @@ export module Runtime.Render.Helper:D3D12Conversions;
 import std;
 import Core.Assert;
 import Runtime.Render.Definition;
-import Runtime.Render.Graph;
 import Client.Asset.Data;
 
 export D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12_PSO(PrimitiveTopologyType topology)
@@ -20,23 +19,6 @@ export D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12_PSO(PrimitiveTopologyType topology)
     default:                              
         Core::Assert(false); 
         return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
-    }
-}
-
-export D3D12_RESOURCE_STATES ToD3D12(RGAccess access)
-{
-    switch (access)
-    {
-    case RGAccess::SRV:        return D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-    case RGAccess::UAV:        return D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-        //case RGAccess::CopySrc:  return D3D12_RESOURCE_STATE_COPY_SOURCE;
-        //case RGAccess::CopyDst:  return D3D12_RESOURCE_STATE_COPY_DEST;
-    case RGAccess::RTV:        return D3D12_RESOURCE_STATE_RENDER_TARGET;
-    case RGAccess::DepthWrite: return D3D12_RESOURCE_STATE_DEPTH_WRITE;
-    case RGAccess::DepthRead:  return D3D12_RESOURCE_STATE_DEPTH_READ;
-    case RGAccess::Present:    return D3D12_RESOURCE_STATE_PRESENT;
-    default:                   
-        return D3D12_RESOURCE_STATE_COMMON;
     }
 }
 

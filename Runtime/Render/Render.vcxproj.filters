@@ -31,6 +31,21 @@
     <Filter Include="Resource\Mesh">
       <UniqueIdentifier>{3a990c6d-f56a-47ae-bbe6-bb4beca03521}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Task">
+      <UniqueIdentifier>{3068afcb-cc5e-4d23-b92f-6f2e066e87dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\ResourceID">
+      <UniqueIdentifier>{59bb1c32-084e-45bd-9caa-dc77b361ec0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{a77ce90a-f29f-4cb8-820b-d9011267146b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline">
+      <UniqueIdentifier>{193150c6-eb7e-4044-8d78-416e87f346a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\Renderer">
+      <UniqueIdentifier>{c3096733-238c-4864-a6e7-37e1e8b4af07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -172,6 +187,102 @@
     </ClCompile>
     <ClCompile Include="Resource\Mesh\TransientMeshResource.ixx">
       <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\LocalTaskID.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Task.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskHandle.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskContext.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskCommandLists.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskNode.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskUtils.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\CompiledTask.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskScheduler.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskEntry.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGDefinitions.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGPass.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceID.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDTypes.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDGenerator.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDAllocator.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGUtils.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandListHelper.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\BarrierBuilder.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RenderGraph.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RenderGraph.cpp">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderLibrary.ixx">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\Renderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererConstants.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererConfig.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererUtils.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\UIRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\MathHelpers.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SurfaceRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SkyboxRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
