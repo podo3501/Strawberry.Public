@@ -31,6 +31,11 @@ struct SkyboxCB
 };
 static_assert(Core::IsSizeAligned<SkyboxCB, 16>);
 
+enum class RootSlot : uint32_t
+{
+    FrameCB = 0,
+};
+
 export class SkyboxRenderer
 {
 public:
@@ -76,11 +81,6 @@ public:
     }
 
 private:
-    enum class RootSlot : uint32_t
-    {
-        FrameCB = 0,
-    };
-
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

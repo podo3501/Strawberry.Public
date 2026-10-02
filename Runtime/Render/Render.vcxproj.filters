@@ -46,6 +46,15 @@
     <Filter Include="Pipeline\Renderer">
       <UniqueIdentifier>{c3096733-238c-4864-a6e7-37e1e8b4af07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pipeline\GraphBuilder">
+      <UniqueIdentifier>{138349e7-0096-4081-a4c3-124511541f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\GraphBuilder\Feature">
+      <UniqueIdentifier>{25abe7df-c80f-4c60-9f4d-d0b569519e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\GraphBuilder\View">
+      <UniqueIdentifier>{4b97467d-bbb7-4f06-8cfb-95fdf6694493}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -283,6 +292,68 @@
     </ClCompile>
     <ClCompile Include="Pipeline\Renderer\SkyboxRenderer.ixx">
       <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\ShadowRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\DebugSurfaceRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\CompositeRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\Renderers.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SwapChainPresenter.ixx" />
+    <ClCompile Include="Definition\RenderData.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ViewTargetResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\DebugSurfaceGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\OpaqueGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\RenderRecordPool.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ShadowGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\SkyboxGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\UIGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ViewTargetClearGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\GraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="Release.ixx" />
+    <ClCompile Include="Pipeline\GraphBuilder\View\CompositeGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\OverlayViewGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\SceneViewGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,56 @@
+export module Pipeline.GraphBuilder:Composite;
+
+import std;
+import Runtime.Render.RGResourceID;
+import Runtime.Render.Graph;
+import Pipeline.Renderer;
+import Runtime.Render.SwapChainPresenter;
+import Runtime.Render.Definition;
+import Runtime.Render.Command;
+import Runtime.Render.Task;
+
+export class CompositeGraphBuilder
+{
+public:
+    CompositeGraphBuilder(
+        CompositeRenderer& compositeRenderer,
+        SwapChainPresenter& swapChain) noexcept :
+        m_compositeRenderer{ compositeRenderer },
+        m_swapChain{ swapChain }
+    {}
+
+    void Build(
+        RenderGraph& graph,
+        RGResourceID backBufferResID,
+        const std::vector<ViewRenderOutput>& viewOutputs)
+    {
+        auto& composite = graph.AddGraphicsPass("Composite");
+
+        for (const auto& info : viewOutputs)
+            composite.Read(info.colorID, RGAccess::SRV);
+        composite.Write(backBufferResID, RGAccess::RTV);
+
+        composite.execute =
+            [
+                &compositeRenderer = m_compositeRenderer,
+                &swapChain = m_swapChain,
+                viewOutputs
+            ]
+            (TaskCommandLists cmds, TaskContext& ctx)
+            {
+                CommandList& cmd = cmds.Single();
+                swapChain.SetRenderTarget(cmd);
+
+                compositeRenderer.PrepareDraw(cmd);
+                for (const auto& info : viewOutputs)
+                {
+                    swapChain.SetViewport(cmd, info.viewport);
+                    compositeRenderer.Draw(cmd, info.heapIndex);
+                }
+            };
+    }
+
+private:
+    CompositeRenderer& m_compositeRenderer;
+    SwapChainPresenter& m_swapChain;
+};
