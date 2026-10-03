@@ -24,6 +24,8 @@
     <ClCompile Include="Asset\AssetInput.ixx" />
     <ClCompile Include="Asset\Data\AudioTypes.ixx" />
     <ClCompile Include="Asset\Data\BinaryAsset.ixx" />
+    <ClCompile Include="Asset\Data\DebugMaterialAsset.ixx" />
+    <ClCompile Include="Asset\Data\DebugMaterialType.ixx" />
     <ClCompile Include="Asset\Data\EnvironmentAsset.ixx" />
     <ClCompile Include="Asset\Data\MaterialAsset.ixx" />
     <ClCompile Include="Asset\Data\MaterialTypes.ixx" />
@@ -67,8 +69,9 @@
     <ClCompile Include="Render\Definition\ShaderDesc.ixx" />
     <ClCompile Include="Render\Definition\ShaderTypes.ixx" />
     <ClCompile Include="Render\Definition\TextStyle.ixx" />
-    <ClCompile Include="Render\IResource.ixx" />
-    <ClCompile Include="Render\RenderInterfaces.ixx" />
+    <ClCompile Include="Render\Interfaces\IResource.ixx" />
+    <ClCompile Include="Render\Interfaces\IResourceProvider.ixx" />
+    <ClCompile Include="Render\Interfaces\RenderInterfaces.ixx" />
     <ClCompile Include="Render\View\CameraData.ixx" />
     <ClCompile Include="Render\View\DirectionalLightData.ixx" />
     <ClCompile Include="Render\View\DrawShadowCasterItem.ixx" />

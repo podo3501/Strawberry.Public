@@ -85,6 +85,10 @@
     <ClCompile Include="Pipeline\GraphBuilder\View\SceneViewGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.ixx" />
+    <ClCompile Include="Pipeline\Inspector\Inspector.ixx" />
+    <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx" />
+    <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx" />
+    <ClCompile Include="Pipeline\Inspector\InspectorRenderers.ixx" />
     <ClCompile Include="Pipeline\Renderer\CompositeRenderer.ixx" />
     <ClCompile Include="Pipeline\Renderer\DebugSurfaceRenderer.ixx" />
     <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx" />
@@ -99,11 +103,38 @@
     <ClCompile Include="Pipeline\Renderer\SurfaceRenderer.ixx" />
     <ClCompile Include="Pipeline\Renderer\SwapChainPresenter.ixx" />
     <ClCompile Include="Pipeline\Renderer\UIRenderer.ixx" />
+    <ClCompile Include="Provider\BrushProvider.ixx" />
+    <ClCompile Include="Provider\EnvironmentProvider.ixx" />
+    <ClCompile Include="Provider\FontProvider.ixx" />
+    <ClCompile Include="Provider\IUpdatableProvider.ixx" />
+    <ClCompile Include="Provider\Material\DebugMaterialProvider.ixx" />
+    <ClCompile Include="Provider\Material\MaterialProvider.ixx" />
+    <ClCompile Include="Provider\Mesh\MeshCreateGraphBuilder.ixx" />
+    <ClCompile Include="Provider\Mesh\MeshLoadRequest.ixx" />
+    <ClCompile Include="Provider\Mesh\MeshProvider.ixx" />
+    <ClCompile Include="Provider\Mesh\MeshUtils.ixx" />
+    <ClCompile Include="Provider\PendingLoadQueue.ixx" />
+    <ClCompile Include="Provider\PendingUploadQueue.ixx" />
+    <ClCompile Include="Provider\Provider.ixx" />
+    <ClCompile Include="Provider\ProviderBudget.ixx" />
+    <ClCompile Include="Provider\Texture\BuiltinTextureType.ixx" />
+    <ClCompile Include="Provider\Texture\MipGenerator.ixx" />
+    <ClCompile Include="Provider\Texture\TextureCreateGraphBuilder.ixx" />
+    <ClCompile Include="Provider\Texture\TextureCubeCreateGraphBuilder.ixx" />
+    <ClCompile Include="Provider\Texture\TextureCubeLoadRequest.ixx" />
+    <ClCompile Include="Provider\Texture\TextureCubeProvider.ixx" />
+    <ClCompile Include="Provider\Texture\TextureLoadRequest.ixx" />
+    <ClCompile Include="Provider\Texture\TextureProvider.ixx" />
+    <ClCompile Include="Provider\Texture\TextureUtils.ixx" />
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx" />
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx" />
     <ClCompile Include="Release.ixx" />
     <ClCompile Include="Render.ixx" />
     <ClCompile Include="RenderConstants.ixx" />
     <ClCompile Include="Resource\BrushResource.ixx" />
     <ClCompile Include="Resource\EnvironmentResource.ixx" />
+    <ClCompile Include="Resource\FontResource.ixx" />
+    <ClCompile Include="Resource\FreeTypeLibrary.ixx" />
     <ClCompile Include="Resource\IPendingResource.ixx" />
     <ClCompile Include="Resource\Material\DebugMaterialResource.ixx" />
     <ClCompile Include="Resource\Material\GridDebugMaterialResource.ixx" />
@@ -186,10 +217,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -203,10 +234,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -218,10 +249,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -235,10 +266,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>

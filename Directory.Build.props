@@ -8,6 +8,8 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <!-- 모든 프로젝트 공통 -->
+      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+
       <SDLCheck>true</SDLCheck>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion> <!-- Assert 사용하기 위해서 인라인 함수확장을 /Ob1로 변경 -->

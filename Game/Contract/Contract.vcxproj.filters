@@ -28,6 +28,9 @@
     <Filter Include="Render\View\Overlay">
       <UniqueIdentifier>{9970228b-cf0f-4488-af52-23f04f4c343b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\Interfaces">
+      <UniqueIdentifier>{dd707412-3df6-473a-aaf1-f40f84dec3e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -165,12 +168,6 @@
     <ClCompile Include="Render\Definition\Config.ixx">
       <Filter>Render\Definition</Filter>
     </ClCompile>
-    <ClCompile Include="Render\RenderInterfaces.ixx">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\IResource.ixx">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Definition\RegistryShader.ixx">
       <Filter>Render\Definition</Filter>
     </ClCompile>
@@ -218,6 +215,21 @@
     </ClCompile>
     <ClCompile Include="Render\View\SceneFrameData.ixx">
       <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Interfaces\IResource.ixx">
+      <Filter>Render\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Interfaces\RenderInterfaces.ixx">
+      <Filter>Render\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Interfaces\IResourceProvider.ixx">
+      <Filter>Render\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\DebugMaterialType.ixx">
+      <Filter>Asset\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Data\DebugMaterialAsset.ixx">
+      <Filter>Asset\Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

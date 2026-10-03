@@ -55,6 +55,27 @@
     <Filter Include="Pipeline\GraphBuilder\View">
       <UniqueIdentifier>{4b97467d-bbb7-4f06-8cfb-95fdf6694493}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pipeline\Inspector">
+      <UniqueIdentifier>{98bb9ee3-89ef-40a4-bea2-efc4892a6648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider">
+      <UniqueIdentifier>{b38cc893-eabe-4841-9600-3b2498883152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Texture">
+      <UniqueIdentifier>{6717f232-31d9-432b-963b-7da0bb5eb99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{9da33d28-b779-466e-a793-75432c9f0299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Material">
+      <UniqueIdentifier>{904ea529-78ca-46df-bf5c-a4c560fb4e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Mesh">
+      <UniqueIdentifier>{1860b609-a783-440b-abdd-15172b064335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\TransientMesh">
+      <UniqueIdentifier>{a2fcee3e-89e4-4e2d-b2c5-3e761ca26ba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -354,6 +375,99 @@
     </ClCompile>
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.ixx">
       <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\Inspector.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorRenderers.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Provider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\IUpdatableProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\PendingLoadQueue.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureLoadRequest.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\MipGenerator.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureUtils.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCreateGraphBuilder.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\PendingUploadQueue.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\BuiltinTextureType.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureProvider.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\ProviderBudget.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\BrushProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FontResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FreeTypeLibrary.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\EnvironmentProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeCreateGraphBuilder.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeLoadRequest.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeProvider.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\FontProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\DebugMaterialProvider.ixx">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\MaterialProvider.ixx">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshLoadRequest.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshUtils.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshCreateGraphBuilder.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshProvider.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx">
+      <Filter>Provider\TransientMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,7 +8,6 @@ import std;
 import Core.Math;
 import Runtime.Render.Core;
 import Runtime.Render.Definition;
-import Runtime.Render.Factory;
 import Runtime.Render.Helper;
 
 constexpr Core::Size ShadowMapSize = { 2048, 2048 };
@@ -41,17 +40,14 @@ public:
     ShadowResource(ShadowResource&&) noexcept = default;
     ShadowResource& operator=(ShadowResource&&) noexcept = default;
 
-    bool Initialize(Device& device, DescriptorFactory& factory)
+    bool Initialize(Resource resource, UINT dsvIndex, UINT srvIndex) noexcept
     {
-        m_resource = CreateShadowResource(device);
-        if (!m_resource)
+        if (dsvIndex == UINT_MAX || srvIndex == UINT_MAX)
             return false;
 
-        m_dsvIndex = factory.CreateTextureDSV(m_resource, DXGI_FORMAT_D32_FLOAT);
-        m_srvIndex = factory.CreateTextureSRV(m_resource, DXGI_FORMAT_R32_FLOAT);
-
-        if (m_dsvIndex == UINT_MAX || m_srvIndex == UINT_MAX)
-            return false;
+        m_resource = std::move(resource);
+        m_dsvIndex = dsvIndex;
+        m_srvIndex = srvIndex;
 
         return true;
     }

@@ -6,4 +6,6 @@ export import :Skybox;
 export import :Surface;
 export import :DebugSurface;
 export import :Composite;
+export import :PipelineCache;
+export import :RootSignatureBuilder;
 export import :Renderers;

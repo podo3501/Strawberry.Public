@@ -110,65 +110,52 @@ public:
         return index;
     }
 
-    //이 함수는 DescriptorFactory에 존재하면 안된다. 이 함수를 호출하는 시점에서 이 함수를 복사해서 그 클래스의 private 멤버 함수로 넣어놓자.
-    //bool CreateTextureViews(
-    //    TextureResource* texRes,
-    //    bool generateMips,
-    //    std::vector<UINT>* outMipSrvIndices = nullptr,
-    //    std::vector<UINT>* outMipUavIndices = nullptr)
-    //{
-    //    if (!texRes) return false;
+    UINT CreateMipSRV(const Resource& res, DXGI_FORMAT format, UINT mipLevel)
+    {
+        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+        srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+        srvDesc.Format = format;
+        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MostDetailedMip = mipLevel;
+        srvDesc.Texture2D.MipLevels = 1;
 
-    //    auto& res = texRes->Get();
-    //    const auto& resDesc = res->GetDesc();
-    //    const UINT mipCount = resDesc.MipLevels;
+        UINT index = m_bindlessAllocator.AllocateDynamic();
+        if (index == UINT_MAX) return UINT_MAX;
 
-    //    DXGI_FORMAT srvFormat = resDesc.Format;
-    //    if (texRes->GetDesc().colorSpace == ColorSpace::SRGB)
-    //        srvFormat = ToSRGB(resDesc.Format);
+        m_device->CreateShaderResourceView(res.Get(), &srvDesc, GetBindlessCpuHandle(index));
+        return index;
+    }
 
-    //    UINT mainMipLevels = generateMips ? mipCount : 1;
-    //    UINT mainIndex = CreateTextureSRV(res, srvFormat, mainMipLevels);
-    //    if (mainIndex == UINT_MAX) return false;
+    UINT CreateMipUAV(const Resource& res, DXGI_FORMAT format, UINT mipLevel)
+    {
+        D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+        uavDesc.Format = format;
+        uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+        uavDesc.Texture2D.MipSlice = mipLevel;
 
-    //    texRes->SetHeapIndex(mainIndex);
+        UINT index = m_bindlessAllocator.AllocateDynamic();
+        if (index == UINT_MAX) return UINT_MAX;
 
-    //    if (generateMips && mipCount > 1)
-    //    {
-    //        if (outMipSrvIndices) outMipSrvIndices->reserve(mipCount);
-    //        if (outMipUavIndices) outMipUavIndices->reserve(mipCount);
+        m_device->CreateUnorderedAccessView(res.Get(), nullptr, &uavDesc, GetBindlessCpuHandle(index));
+        return index;
+    }
 
-    //        for (UINT i = 0; i < mipCount; ++i)
-    //        {
-    //            UINT mipSrvIndex = CreateMipSRV(res, srvFormat, i);
-    //            if (mipSrvIndex == UINT_MAX) return false;
-    //            if (outMipSrvIndices) outMipSrvIndices->push_back(mipSrvIndex);
+    UINT CreateTextureCubeSRV(const Resource& res, DXGI_FORMAT format, UINT mipLevels)
+    {
+        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+        srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+        srvDesc.Format = format;
+        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+        srvDesc.TextureCube.MipLevels = mipLevels;
+        srvDesc.TextureCube.MostDetailedMip = 0;
+        srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
 
-    //            UINT mipUavIndex = CreateMipUAV(res, resDesc.Format, i);
-    //            if (mipUavIndex == UINT_MAX) return false;
-    //            if (outMipUavIndices) outMipUavIndices->push_back(mipUavIndex);
-    //        }
-    //    }
+        UINT index = m_bindlessAllocator.AllocatePersistent();
+        if (index == UINT_MAX) return UINT_MAX;
 
-    //    return true;
-    //}
-
-    //이 함수는 DescriptorFactory에 존재하면 안된다. 이 함수를 호출하는 시점에서 이 함수를 복사해서 그 클래스의 private 멤버 함수로 넣어놓자.
-    //bool CreateTextureCubeViews(TextureCubeResource* texRes)
-    //{
-    //    if (!texRes) return false;
-
-    //    auto& res = texRes->Get();
-    //    const auto& resDesc = res->GetDesc();
-    //    const UINT mipCount = resDesc.MipLevels;
-
-    //    DXGI_FORMAT srvFormat = resDesc.Format; // 큐브맵은 항상 Linear -> sRGB 변환 불필요
-    //    UINT index = CreateTextureCubeSRV(res, srvFormat, mipCount);
-    //    if (index == UINT_MAX) return false;
-
-    //    texRes->SetHeapIndex(index);
-    //    return true;
-    //}
+        m_device->CreateShaderResourceView(res.Get(), &srvDesc, GetBindlessCpuHandle(index));
+        return index;
+    }
 
     void FreeRTV(UINT rtvIndex)
     {
@@ -222,53 +209,6 @@ private:
         desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
         return desc;
-    }
-
-    UINT CreateMipSRV(const Resource& res, DXGI_FORMAT format, UINT mipLevel)
-    {
-        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-        srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-        srvDesc.Format = format;
-        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-        srvDesc.Texture2D.MostDetailedMip = mipLevel;
-        srvDesc.Texture2D.MipLevels = 1;
-
-        UINT index = m_bindlessAllocator.AllocateDynamic();
-        if (index == UINT_MAX) return UINT_MAX;
-
-        m_device->CreateShaderResourceView(res.Get(), &srvDesc, GetBindlessCpuHandle(index));
-        return index;
-    }
-
-    UINT CreateMipUAV(const Resource& res, DXGI_FORMAT format, UINT mipLevel)
-    {
-        D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
-        uavDesc.Format = format;
-        uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-        uavDesc.Texture2D.MipSlice = mipLevel;
-
-        UINT index = m_bindlessAllocator.AllocateDynamic();
-        if (index == UINT_MAX) return UINT_MAX;
-
-        m_device->CreateUnorderedAccessView(res.Get(), nullptr, &uavDesc, GetBindlessCpuHandle(index));
-        return index;
-    }
-
-    UINT CreateTextureCubeSRV(const Resource& res, DXGI_FORMAT format, UINT mipLevels)
-    {
-        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-        srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-        srvDesc.Format = format;
-        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
-        srvDesc.TextureCube.MipLevels = mipLevels;
-        srvDesc.TextureCube.MostDetailedMip = 0;
-        srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
-
-        UINT index = m_bindlessAllocator.AllocatePersistent();
-        if (index == UINT_MAX) return UINT_MAX;
-
-        m_device->CreateShaderResourceView(res.Get(), &srvDesc, GetBindlessCpuHandle(index));
-        return index;
     }
 
     Device& m_device;
