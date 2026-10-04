@@ -76,6 +76,18 @@
     <Filter Include="Provider\TransientMesh">
       <UniqueIdentifier>{a2fcee3e-89e4-4e2d-b2c5-3e761ca26ba8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Text\Atlas">
+      <UniqueIdentifier>{89c652ff-bf70-41fd-b683-457d9f192393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Atlas\Glyph">
+      <UniqueIdentifier>{809d4ebf-9bcc-472a-9d0f-e51eb6e4ecbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Geometry">
+      <UniqueIdentifier>{2f9990fd-316c-4352-9653-49090478ca47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{5b0a3424-4ce1-4895-9565-1c6285dedfd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -468,6 +480,111 @@
     </ClCompile>
     <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx">
       <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\GlyphFormat.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\FontAtlasUploadGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Text.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\BitmapGlyphGenerator.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\GlyphTypes.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\MTSDFGlyphGenerator.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\GlyphUploadData.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\FontSetting.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasUtils.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextTypes.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPacker.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPage.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\GlyphCache.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\BitmapFontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\MTSDFFontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextLayoutUtils.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\GlyphCursor.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIBatchBuffer.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\Packet.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextGeometryUtils.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\UnderlineBatcher.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlas.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextGeometry.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextLayout.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextSystem.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Pipeline.ixx">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\RenderSortKey.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\SurfaceItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIMeshAppend.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\DebugSurfaceItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\PacketBuilder.ixx">
+      <Filter>Packet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

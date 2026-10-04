@@ -4,3 +4,5 @@ export import :RenderData;
 export import :RenderState;
 export import :RenderStateTypes;
 export import :RenderFormat;
+export import :GlyphFormat;
+export import :GlyphUploadData;

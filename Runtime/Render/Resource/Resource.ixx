@@ -11,7 +11,7 @@ export import :ViewTarget;
 
 export import :Mesh;
 export import :StaticMesh;
-//export import :TransientMesh;
+export import :TransientMesh;
 
 export import :Material;
 export import :PbrMaterial;

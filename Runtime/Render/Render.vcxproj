@@ -48,6 +48,8 @@
     <ClCompile Include="Core\DxCheck.ixx" />
     <ClCompile Include="Core\DxResource.ixx" />
     <ClCompile Include="Definition\Definition.ixx" />
+    <ClCompile Include="Definition\GlyphFormat.ixx" />
+    <ClCompile Include="Definition\GlyphUploadData.ixx" />
     <ClCompile Include="Definition\RenderData.ixx" />
     <ClCompile Include="Definition\RenderFormat.ixx" />
     <ClCompile Include="Definition\RenderState.ixx" />
@@ -71,8 +73,18 @@
     <ClCompile Include="Helper\Helper.ixx" />
     <ClCompile Include="Helper\MathHelpers.ixx" />
     <ClCompile Include="Helper\TextureHelper.ixx" />
+    <ClCompile Include="Packet\DebugSurfaceItemBuilder.ixx" />
+    <ClCompile Include="Packet\Packet.ixx" />
+    <ClCompile Include="Packet\PacketBuilder.ixx" />
+    <ClCompile Include="Packet\RenderSortKey.ixx" />
+    <ClCompile Include="Packet\SurfaceItemBuilder.ixx" />
+    <ClCompile Include="Packet\UIBatchBuffer.ixx" />
+    <ClCompile Include="Packet\UIItemBuilder.ixx" />
+    <ClCompile Include="Packet\UIMeshAppend.ixx" />
+    <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\DebugSurfaceGraphBuilder.ixx" />
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\FontAtlasUploadGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\OpaqueGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\RenderRecordPool.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ShadowGraphBuilder.ixx" />
@@ -89,6 +101,7 @@
     <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx" />
     <ClCompile Include="Pipeline\Inspector\InspectorRenderers.ixx" />
+    <ClCompile Include="Pipeline\Pipeline.ixx" />
     <ClCompile Include="Pipeline\Renderer\CompositeRenderer.ixx" />
     <ClCompile Include="Pipeline\Renderer\DebugSurfaceRenderer.ixx" />
     <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx" />
@@ -128,6 +141,7 @@
     <ClCompile Include="Provider\Texture\TextureUtils.ixx" />
     <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx" />
     <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx" />
+    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx" />
     <ClCompile Include="Release.ixx" />
     <ClCompile Include="Render.ixx" />
     <ClCompile Include="RenderConstants.ixx" />
@@ -160,6 +174,27 @@
     <ClCompile Include="Task\TaskNode.ixx" />
     <ClCompile Include="Task\TaskScheduler.ixx" />
     <ClCompile Include="Task\TaskUtils.ixx" />
+    <ClCompile Include="Text\Atlas\AtlasPacker.ixx" />
+    <ClCompile Include="Text\Atlas\AtlasPage.ixx" />
+    <ClCompile Include="Text\Atlas\AtlasUtils.ixx" />
+    <ClCompile Include="Text\Atlas\BitmapFontAtlasBucket.ixx" />
+    <ClCompile Include="Text\Atlas\FontAtlas.ixx" />
+    <ClCompile Include="Text\Atlas\FontAtlasBucket.ixx" />
+    <ClCompile Include="Text\Atlas\GlyphCache.ixx" />
+    <ClCompile Include="Text\Atlas\Glyph\BitmapGlyphGenerator.ixx" />
+    <ClCompile Include="Text\Atlas\Glyph\GlyphTypes.ixx" />
+    <ClCompile Include="Text\Atlas\Glyph\MTSDFGlyphGenerator.ixx" />
+    <ClCompile Include="Text\Atlas\MTSDFFontAtlasBucket.ixx" />
+    <ClCompile Include="Text\FontSetting.ixx" />
+    <ClCompile Include="Text\Geometry\GlyphCursor.ixx" />
+    <ClCompile Include="Text\Geometry\TextGeometry.ixx" />
+    <ClCompile Include="Text\Geometry\TextGeometryUtils.ixx" />
+    <ClCompile Include="Text\Geometry\TextLayoutUtils.ixx" />
+    <ClCompile Include="Text\Geometry\UnderlineBatcher.ixx" />
+    <ClCompile Include="Text\Text.ixx" />
+    <ClCompile Include="Text\TextLayout.ixx" />
+    <ClCompile Include="Text\TextSystem.ixx" />
+    <ClCompile Include="Text\TextTypes.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

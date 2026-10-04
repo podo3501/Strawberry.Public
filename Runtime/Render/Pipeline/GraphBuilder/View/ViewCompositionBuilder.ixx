@@ -27,7 +27,7 @@ public:
         SwapChainPresenter& swapChain,
         RenderGraph& renderGraph,
         RGResourceIDAllocator& idAllocator) :
-        m_viewPool{ device, taskScheduler, descFactory },
+        m_viewPool{ device, taskScheduler, idAllocator, descFactory },
         m_sceneViewBuilder{ device, descFactory, renderers },
         m_overlayViewBuilder{ descFactory, renderers },
         m_compositeBuilder{ renderers.GetCompositeRenderer(), swapChain },
@@ -71,7 +71,7 @@ private:
     {
         activeViews.set(targetInfo.id);
         auto size = Core::ToSize(targetInfo.viewport.width, targetInfo.viewport.height);
-        return m_viewPool.Acquire(targetInfo.id, m_idAllocator, size);
+        return m_viewPool.Acquire(targetInfo.id, size);
     }
 
     void AppendSceneViewOutputs(

@@ -1,8 +1,10 @@
+module;
+
+#include <d3d12.h>
+
 export module Pipeline.GraphBuilder:ViewTargetPool;
 
 import std;
-import Core.Math;
-import Client.Render.View;
 import Runtime.Render.Release;
 import Runtime.Render.Factory;
 import Runtime.Render.Resource;
@@ -10,41 +12,42 @@ import Runtime.Render.Task;
 import Runtime.Render.Core;
 import Runtime.Render.RGResourceID;
 import Runtime.Render.Definition;
+import Runtime.Render.Helper;
+import Core.Assert;
+import Core.Math;
+import Client.Render.View;
 
-namespace
+Resource CreateColorTarget(Device& device, const Core::Size& size)
 {
-    Resource CreateColorTarget(Device& device, const Core::Size& size)
-    {
-        auto desc = CreateTextureDescriptor(size.width, size.height, RenderFormat::BackBufferFormat);
-        desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+    auto desc = CreateTextureDescriptor(size.width, size.height, RenderFormat::BackBufferFormat);
+    desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
-        D3D12_CLEAR_VALUE clearValue{};
-        clearValue.Format = RenderFormat::BackBufferFormat;
-        clearValue.Color[0] = clearValue.Color[1] = clearValue.Color[2] = clearValue.Color[3] = 0.0f; // PMA 컨벤션: 완전 투명 = RGBA 모두 0
+    D3D12_CLEAR_VALUE clearValue{};
+    clearValue.Format = RenderFormat::BackBufferFormat;
+    clearValue.Color[0] = clearValue.Color[1] = clearValue.Color[2] = clearValue.Color[3] = 0.0f; // PMA 컨벤션: 완전 투명 = RGBA 모두 0
 
-        return device.CreateResource(
-            desc,
-            D3D12_HEAP_TYPE_DEFAULT,
-            D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-            &clearValue);
-    }
+    return device.CreateResource(
+        desc,
+        D3D12_HEAP_TYPE_DEFAULT,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+        &clearValue);
+}
 
-    Resource CreateDepthTarget(Device& device, const Core::Size& size)
-    {
-        auto desc = CreateTextureDescriptor(size.width, size.height, DXGI_FORMAT_R32_TYPELESS);
-        desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+Resource CreateDepthTarget(Device& device, const Core::Size& size)
+{
+    auto desc = CreateTextureDescriptor(size.width, size.height, DXGI_FORMAT_R32_TYPELESS);
+    desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
-        D3D12_CLEAR_VALUE clearValue{};
-        clearValue.Format = RenderFormat::DepthFormat;
-        clearValue.DepthStencil.Depth = 1.0f;
-        clearValue.DepthStencil.Stencil = 0;
+    D3D12_CLEAR_VALUE clearValue{};
+    clearValue.Format = RenderFormat::DepthFormat;
+    clearValue.DepthStencil.Depth = 1.0f;
+    clearValue.DepthStencil.Stencil = 0;
 
-        return device.CreateResource(
-            desc,
-            D3D12_HEAP_TYPE_DEFAULT,
-            D3D12_RESOURCE_STATE_DEPTH_WRITE,
-            &clearValue);
-    }
+    return device.CreateResource(
+        desc,
+        D3D12_HEAP_TYPE_DEFAULT,
+        D3D12_RESOURCE_STATE_DEPTH_WRITE,
+        &clearValue);
 }
 
 export class ViewTargetPool
@@ -57,15 +60,14 @@ public:
         Device& device,
         TaskScheduler& taskScheduler,
         RGResourceIDAllocator& idAllocator,
-        DescriptorFactory& descFactory) noexcept
-        : m_device{ device }
-        , m_idAllocator{ idAllocator }
-        , m_descFactory{ descFactory }
-        , m_pendingRelease{ taskScheduler }
-    {
-    }
+        DescriptorFactory& descFactory) noexcept :
+        m_device{ device },
+        m_idAllocator{ idAllocator },
+        m_descFactory{ descFactory },
+        m_deferredReleaser{ taskScheduler }
+    {}
 
-    ViewTargetResource& Acquire(ViewID id, const Size& requiredSize)
+    ViewTargetResource& Acquire(ViewID id, const Core::Size& requiredSize)
     {
         auto index = static_cast<std::size_t>(id);
         auto& view = m_views[index];
@@ -74,7 +76,7 @@ public:
             if (view->GetSize() == requiredSize)
                 return *view;
 
-            m_pendingRelease.Add(view);
+            m_deferredReleaser.Add(view);
             view.reset();
         }
 
@@ -104,18 +106,18 @@ public:
             if (activeViews.test(i))
                 continue;
 
-            m_pendingRelease.Add(view);
+            m_deferredReleaser.Add(view);
             view.reset();
         }
     }
 
     void Update()
     {
-        m_pendingRelease.Flush();
+        m_deferredReleaser.Flush();
     }
 
 private:
-    std::shared_ptr<ViewTargetResource> CreateViewTargetResource(const Size& size)
+    std::shared_ptr<ViewTargetResource> CreateViewTargetResource(const Core::Size& size)
     {
         ViewTargetResourceDesc desc;
         desc.size = size;
@@ -132,7 +134,7 @@ private:
             desc.heapIndex = m_descFactory.CreateTextureSRV(desc.color, RenderFormat::BackBufferFormat);
         }
 
-        Assert(desc.colorRTVIndex != std::numeric_limits<std::uint32_t>::max() &&
+        Core::Assert(desc.colorRTVIndex != std::numeric_limits<std::uint32_t>::max() &&
             desc.depthDSVIndex != std::numeric_limits<std::uint32_t>::max() &&
             desc.heapIndex != std::numeric_limits<std::uint32_t>::max());
 

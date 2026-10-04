@@ -1,6 +1,7 @@
 export module Core.Bit:Nibble;
 
 import std;
+import Core.Assert;
 
 namespace Core
 {
@@ -38,7 +39,7 @@ namespace Core
         return std::apply([]<typename... Nibbles>(Nibbles... nibbles) -> std::uint32_t
         {
             static_assert(sizeof...(nibbles) <= 8, "니블 8개(32비트)를 초과할 수 없습니다.");
-            assert(((static_cast<std::uint32_t>(nibbles) < 16) && ...)); // 값이 16을 넘어가면 짤린다.
+            Assert(((static_cast<std::uint32_t>(nibbles) < 16) && ...)); // 값이 16을 넘어가면 짤린다.
 
             std::uint32_t packed = 0;
             std::uint32_t offset = 0;

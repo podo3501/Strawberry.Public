@@ -1,5 +1,7 @@
 export module Core.Assert;
 
+import std;
+
 namespace Core
 {
     // 주의: /Ob1(Only __inline) 이상이어야 Debug 빌드에서도 __forceinline이 실제로 적용된다.
@@ -28,5 +30,14 @@ namespace Core
     constexpr __forceinline void Assert(const T& value)
     {
         Assert(static_cast<bool>(value));
+    }
+
+    // 모든 enum 케이스를 처리한 switch 뒤처럼 "도달하면 안 되는" 지점에 사용한다.
+    // Debug: Assert(false)로 즉시 멈춤. Release: Assert가 사라지므로 std::unreachable()에 의한 UB.
+    // 코드가 직접 값을 고르는 enum에만 쓰고, 파일/설정/네트워크에서 읽은 값에는 쓰지 않는다.
+    export [[noreturn]] __forceinline void Unreachable()
+    {
+        Assert(false);
+        std::unreachable();
     }
 }

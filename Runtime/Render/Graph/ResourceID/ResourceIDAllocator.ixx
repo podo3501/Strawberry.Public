@@ -8,7 +8,7 @@ import Core.IndexAllocator;
 static constexpr std::uint32_t PersistentResourceIDCapacity = 150;
 static constexpr std::uint32_t DynamicResourceIDCapacity = 50;
 static constexpr std::uint32_t TransientResourceIDCapacity = 100;
-static constexpr std::uint32_t TotalResourceIDCapacity =
+export constexpr std::uint32_t TotalResourceIDCapacity =
     PersistentResourceIDCapacity + DynamicResourceIDCapacity + TransientResourceIDCapacity;
 
 export class RGResourceIDAllocator

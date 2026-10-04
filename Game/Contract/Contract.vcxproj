@@ -69,6 +69,7 @@
     <ClCompile Include="Render\Definition\ShaderDesc.ixx" />
     <ClCompile Include="Render\Definition\ShaderTypes.ixx" />
     <ClCompile Include="Render\Definition\TextStyle.ixx" />
+    <ClCompile Include="Render\Definition\VertexTypes.ixx" />
     <ClCompile Include="Render\Interfaces\IResource.ixx" />
     <ClCompile Include="Render\Interfaces\IResourceProvider.ixx" />
     <ClCompile Include="Render\Interfaces\RenderInterfaces.ixx" />

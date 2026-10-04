@@ -231,5 +231,8 @@
     <ClCompile Include="Asset\Data\DebugMaterialAsset.ixx">
       <Filter>Asset\Data</Filter>
     </ClCompile>
+    <ClCompile Include="Render\Definition\VertexTypes.ixx">
+      <Filter>Render\Definition</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
