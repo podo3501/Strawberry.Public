@@ -5,7 +5,6 @@ module;
 export module Runtime.Render.Packet:UIMeshAppend;
 
 import std;
-import :UIBatchBuffer;
 import Runtime.Render.Helper;
 import Runtime.Render.Definition;
 import Runtime.Render.Resource;
@@ -13,6 +12,7 @@ import Core.Assert;
 import Core.Math;
 import Client.Render.View;
 import Client.Asset.Data;
+import Client.Render.Definition;
 
 namespace
 {

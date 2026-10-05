@@ -6,3 +6,4 @@ export import :RenderStateTypes;
 export import :RenderFormat;
 export import :GlyphFormat;
 export import :GlyphUploadData;
+export import :UIBatchBuffer;

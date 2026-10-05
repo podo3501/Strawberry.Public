@@ -88,6 +88,9 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{5b0a3424-4ce1-4895-9565-1c6285dedfd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{71329b91-4b7d-45e5-b44a-2bf69cfe7c5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource\Resource.ixx">
@@ -538,9 +541,6 @@
     <ClCompile Include="Text\Geometry\GlyphCursor.ixx">
       <Filter>Text\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Packet\UIBatchBuffer.ixx">
-      <Filter>Packet</Filter>
-    </ClCompile>
     <ClCompile Include="Packet\Packet.ixx">
       <Filter>Packet</Filter>
     </ClCompile>
@@ -585,6 +585,19 @@
     </ClCompile>
     <ClCompile Include="Packet\PacketBuilder.ixx">
       <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\UIBatchBuffer.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Providers.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBackend.ixx" />
+    <ClCompile Include="Diagnostics\FrameProfiler.ixx">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Diagnostics\Diagnostics.ixx">
+      <Filter>Diagnostics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

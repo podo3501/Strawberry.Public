@@ -1,7 +1,7 @@
 export module Runtime.Render.Release;
 
 import std;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 import Runtime.Render.Task;
 
 export class DeferredReleaser

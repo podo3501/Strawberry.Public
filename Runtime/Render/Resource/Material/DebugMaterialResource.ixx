@@ -1,7 +1,7 @@
 export module Runtime.Render.Resource:DebugMaterial;
 
 import Runtime.Render.Definition;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 export class DebugMaterialResource : public IResource
 {

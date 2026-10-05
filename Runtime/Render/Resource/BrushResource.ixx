@@ -5,7 +5,7 @@ import :IPendingResource;
 import :Texture;
 import Core.Assert;
 import Core.Math;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 export class BrushResource : public IResource, public IPendingResource
 {

@@ -2,7 +2,7 @@ export module Runtime.Render.Resource:Environment;
 
 import std;
 import Core.Math;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 import :IPendingResource;
 import :TextureCube;
 

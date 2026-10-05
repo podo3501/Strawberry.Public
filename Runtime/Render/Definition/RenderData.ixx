@@ -6,7 +6,7 @@ import Core.Math;
 import Runtime.Render.RGResourceID;
 import Client.Render.Definition;
 import Client.Render.View;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 export struct RenderSurfaceItem
 {

@@ -2,7 +2,7 @@ export module Client.Render.View:DrawShadowCasterItem;
 
 import std;
 import Core.Math;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 export struct DrawShadowCasterItem
 {

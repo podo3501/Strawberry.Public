@@ -1,4 +1,4 @@
-export module Client.Render.Interfaces:IResource;
+export module Client.Render.IResource;
 
 export struct IResource
 {

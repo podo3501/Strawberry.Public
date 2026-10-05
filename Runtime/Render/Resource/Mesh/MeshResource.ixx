@@ -4,7 +4,7 @@ module;
 
 export module Runtime.Render.Resource:Mesh;
 
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 export class MeshResource : public IResource
 {

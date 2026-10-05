@@ -14,5 +14,6 @@ export import :OverlayDrawList;
 export import :OverlayData;
 
 export import :SceneFrameData;
+export import :TargetInfo;
 
 

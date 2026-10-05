@@ -1,7 +1,6 @@
 export module Runtime.Render.Packet:UIItemBuilder;
 
 import std;
-import :UIBatchBuffer;
 import :UIMeshAppend;
 import Runtime.Render.Definition;
 import Runtime.Render.Text;

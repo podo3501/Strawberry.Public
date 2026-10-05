@@ -54,6 +54,9 @@
     <ClCompile Include="Definition\RenderFormat.ixx" />
     <ClCompile Include="Definition\RenderState.ixx" />
     <ClCompile Include="Definition\RenderStateTypes.ixx" />
+    <ClCompile Include="Definition\UIBatchBuffer.ixx" />
+    <ClCompile Include="Diagnostics\Diagnostics.ixx" />
+    <ClCompile Include="Diagnostics\FrameProfiler.ixx" />
     <ClCompile Include="Factory\DescriptorFactory.ixx" />
     <ClCompile Include="Factory\Factory.ixx" />
     <ClCompile Include="Factory\ResourceFactory.ixx" />
@@ -78,7 +81,6 @@
     <ClCompile Include="Packet\PacketBuilder.ixx" />
     <ClCompile Include="Packet\RenderSortKey.ixx" />
     <ClCompile Include="Packet\SurfaceItemBuilder.ixx" />
-    <ClCompile Include="Packet\UIBatchBuffer.ixx" />
     <ClCompile Include="Packet\UIItemBuilder.ixx" />
     <ClCompile Include="Packet\UIMeshAppend.ixx" />
     <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx" />
@@ -130,6 +132,7 @@
     <ClCompile Include="Provider\PendingUploadQueue.ixx" />
     <ClCompile Include="Provider\Provider.ixx" />
     <ClCompile Include="Provider\ProviderBudget.ixx" />
+    <ClCompile Include="Provider\Providers.ixx" />
     <ClCompile Include="Provider\Texture\BuiltinTextureType.ixx" />
     <ClCompile Include="Provider\Texture\MipGenerator.ixx" />
     <ClCompile Include="Provider\Texture\TextureCreateGraphBuilder.ixx" />
@@ -144,6 +147,7 @@
     <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx" />
     <ClCompile Include="Release.ixx" />
     <ClCompile Include="Render.ixx" />
+    <ClCompile Include="RenderBackend.ixx" />
     <ClCompile Include="RenderConstants.ixx" />
     <ClCompile Include="Resource\BrushResource.ixx" />
     <ClCompile Include="Resource\EnvironmentResource.ixx" />

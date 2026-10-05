@@ -11,7 +11,7 @@ import :Entry;
 import Core.Assert;
 import Core.Handle;
 import Runtime.Render.Command;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 // 지연 해제 대상 리소스 항목
 struct PendingResourceRelease

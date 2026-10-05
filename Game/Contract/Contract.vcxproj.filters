@@ -234,5 +234,14 @@
     <ClCompile Include="Render\Definition\VertexTypes.ixx">
       <Filter>Render\Definition</Filter>
     </ClCompile>
+    <ClCompile Include="Render\Definition\ProviderTypes.ixx">
+      <Filter>Render\Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Interfaces\IRenderBackend.ixx">
+      <Filter>Render\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Definition\RenderMetrics.ixx">
+      <Filter>Render\Definition</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

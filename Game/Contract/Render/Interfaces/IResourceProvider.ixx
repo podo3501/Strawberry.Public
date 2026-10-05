@@ -1,7 +1,7 @@
 export module Client.Render.Interfaces:IResourceProvider;
 
 import std;
-import :IResource;
+import Client.Render.IResource;
 import Client.Asset.AssetData;
 
 export struct IResourceProvider

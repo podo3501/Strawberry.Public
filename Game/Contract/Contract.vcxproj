@@ -65,11 +65,14 @@
     <ClCompile Include="Input\MouseState.ixx" />
     <ClCompile Include="Render\Definition\Config.ixx" />
     <ClCompile Include="Render\Definition\Definition.ixx" />
+    <ClCompile Include="Render\Definition\ProviderTypes.ixx" />
     <ClCompile Include="Render\Definition\RegistryShader.ixx" />
+    <ClCompile Include="Render\Definition\RenderMetrics.ixx" />
     <ClCompile Include="Render\Definition\ShaderDesc.ixx" />
     <ClCompile Include="Render\Definition\ShaderTypes.ixx" />
     <ClCompile Include="Render\Definition\TextStyle.ixx" />
     <ClCompile Include="Render\Definition\VertexTypes.ixx" />
+    <ClCompile Include="Render\Interfaces\IRenderBackend.ixx" />
     <ClCompile Include="Render\Interfaces\IResource.ixx" />
     <ClCompile Include="Render\Interfaces\IResourceProvider.ixx" />
     <ClCompile Include="Render\Interfaces\RenderInterfaces.ixx" />

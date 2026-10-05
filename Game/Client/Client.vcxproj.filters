@@ -70,6 +70,114 @@
     <ClCompile Include="Service\Audio\VoicePool.ixx">
       <Filter>Service\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Repository.ixx">
+      <Filter>Service\Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\Descriptors.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\ResourceDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\IResourceRepository.ixx">
+      <Filter>Service\Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepository.ixx">
+      <Filter>Service\Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.ixx">
+      <Filter>Service\Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Base\ResourceTypes.ixx">
+      <Filter>Service\Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypes.ixx">
+      <Filter>Service\Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Handle\ResourceHandles.ixx">
+      <Filter>Service\Render\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx">
+      <Filter>Service\Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypeTraits.ixx">
+      <Filter>Service\Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryContainer.ixx">
+      <Filter>Service\Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\MeshDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\MaterialDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\PbrMaterialDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\PhongMaterialDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\DebugMeshDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\DebugMaterialDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\GridDebugMaterialDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\BrushDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\EnvironmentDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Descriptors\FontDesc.ixx">
+      <Filter>Service\Render\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\RenderRepository.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Render.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\SceneObject.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\Camera.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\WorldCamera.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\UICamera.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\Transform.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\DirectionalLight.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\CameraInputState.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\CameraInputMapper.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneObject\CameraController.ixx">
+      <Filter>Graphics\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\RenderView.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\SceneView.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\OverlayView.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
@@ -83,6 +191,30 @@
     </Filter>
     <Filter Include="Service\Audio">
       <UniqueIdentifier>{63a4f16d-909c-4003-ae87-e57ccb4d3616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render">
+      <UniqueIdentifier>{3a566ed0-9cf6-4199-84b7-310a374b3cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Repository">
+      <UniqueIdentifier>{115a2bfe-e772-42cf-9f4b-d36845b13c7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Descriptors">
+      <UniqueIdentifier>{97006acc-7d56-4890-b07b-e25b878136a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Repository\Base">
+      <UniqueIdentifier>{49e83822-8289-4e4e-a579-8dc46fb728b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Repository\Container">
+      <UniqueIdentifier>{dfd746e8-3cdd-46b3-8c51-bc8de63e1f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Handle">
+      <UniqueIdentifier>{a6842a12-3e94-4b01-8388-05ded7601140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{f9751a6e-50a7-4c9d-ae4c-93d82be4178f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SceneObject">
+      <UniqueIdentifier>{aeb9ac06-b252-4654-b81a-418353a4ddb6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

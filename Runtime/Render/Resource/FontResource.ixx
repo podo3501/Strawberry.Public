@@ -11,7 +11,7 @@ export module Runtime.Render.Resource:Font;
 import std;
 import :FreeTypeLibrary;
 import Client.Asset.Data;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 
 // 하나의 폰트 파일(.ttf)에 대응하는 런타임 폰트 객체.
 // GPU 리소스가 아니므로 펜스로 Release할 필요가 없음. FreeType의 FT_Face 및 HarfBuzz 캐시 관리.

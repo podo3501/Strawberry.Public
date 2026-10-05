@@ -2,7 +2,7 @@ export module Client.Render.View:SceneDrawList;
 
 import std;
 import Core.Math;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 import Client.Render.Definition;
 
 export struct DrawSurfaceItem

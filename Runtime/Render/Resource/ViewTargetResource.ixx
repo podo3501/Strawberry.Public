@@ -2,7 +2,7 @@ export module Runtime.Render.Resource:ViewTarget;
 
 import std;
 import Core.Math;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 import Runtime.Render.Core;
 import Runtime.Render.RGResourceID;
 

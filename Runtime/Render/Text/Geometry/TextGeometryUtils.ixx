@@ -2,7 +2,7 @@ export module Runtime.Render.Text:TextGeometryUtils;
 
 import std;
 import :TextTypes;
-import Runtime.Render.Packet;
+import Runtime.Render.Definition;
 import Core.Math;
 import Core.Assert;
 import Core.Bit;

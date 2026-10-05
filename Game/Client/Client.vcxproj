@@ -19,6 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\SceneObject\Camera.ixx" />
+    <ClCompile Include="Graphics\SceneObject\CameraController.ixx" />
+    <ClCompile Include="Graphics\SceneObject\CameraInputMapper.ixx" />
+    <ClCompile Include="Graphics\SceneObject\CameraInputState.ixx" />
+    <ClCompile Include="Graphics\SceneObject\DirectionalLight.ixx" />
+    <ClCompile Include="Graphics\SceneObject\SceneObject.ixx" />
+    <ClCompile Include="Graphics\SceneObject\Transform.ixx" />
+    <ClCompile Include="Graphics\SceneObject\UICamera.ixx" />
+    <ClCompile Include="Graphics\SceneObject\WorldCamera.ixx" />
     <ClCompile Include="IAssetAsyncLoader.ixx" />
     <ClCompile Include="Service\AssetAsyncHelper.ixx" />
     <ClCompile Include="Service\AssetAsyncTypes.ixx" />
@@ -42,6 +51,33 @@
     <ClCompile Include="Service\Input\Input.ixx" />
     <ClCompile Include="Service\Input\InputService.cpp" />
     <ClCompile Include="Service\Input\InputService.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\BrushDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\DebugMaterialDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\DebugMeshDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\Descriptors.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\EnvironmentDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\FontDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\GridDebugMaterialDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\MeshDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\MaterialDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\PbrMaterialDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\PhongMaterialDesc.ixx" />
+    <ClCompile Include="Service\Render\Descriptors\ResourceDesc.ixx" />
+    <ClCompile Include="Service\Render\Handle\ResourceHandles.ixx" />
+    <ClCompile Include="Service\Render\OverlayView.ixx" />
+    <ClCompile Include="Service\Render\Render.ixx" />
+    <ClCompile Include="Service\Render\RenderRepository.ixx" />
+    <ClCompile Include="Service\Render\RenderView.ixx" />
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepository.ixx" />
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.ixx" />
+    <ClCompile Include="Service\Render\Repository\Base\ResourceTypes.ixx" />
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryContainer.ixx" />
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypes.ixx" />
+    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypeTraits.ixx" />
+    <ClCompile Include="Service\Render\Repository\IResourceRepository.ixx" />
+    <ClCompile Include="Service\Render\Repository\Repository.ixx" />
+    <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx" />
+    <ClCompile Include="Service\Render\SceneView.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

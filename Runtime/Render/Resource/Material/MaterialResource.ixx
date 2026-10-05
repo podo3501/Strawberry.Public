@@ -2,7 +2,7 @@ export module Runtime.Render.Resource:Material;
 
 import std;
 import Runtime.Render.Definition;
-import Client.Render.Interfaces;
+import Client.Render.IResource;
 import Client.Render.Definition;
 import Client.Asset.Data;
 
