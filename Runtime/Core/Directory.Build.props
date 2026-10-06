@@ -9,17 +9,5 @@
       </PreprocessorDefinitions>
     </ClCompile>
 
-    <Link>
-      <AdditionalDependencies Condition="'$(Configuration)' == 'Debug'">
-        spdlog_Debug.lib;
-        %(AdditionalDependencies)
-      </AdditionalDependencies>
-
-      <AdditionalDependencies Condition="'$(Configuration)' == 'Release'">
-        spdlog_Release.lib;
-        %(AdditionalDependencies)
-      </AdditionalDependencies>
-    </Link>
-
   </ItemDefinitionGroup>
 </Project>

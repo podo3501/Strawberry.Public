@@ -28,6 +28,7 @@ public:
     bool AreKeysMouseCombo(std::initializer_list<KeyCode> heldKeys, MouseButton pressedButton) const noexcept;
 
     void Update() noexcept;
+    void ProcessWindowMessage(std::uint32_t msg, std::uint64_t wParam, std::int64_t lParam) noexcept;
 
     void SetMousePositionOffset(const Core::Point& offset) noexcept;
     KeyboardState GetKeyboardState() const noexcept;

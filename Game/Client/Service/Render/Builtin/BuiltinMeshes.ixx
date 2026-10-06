@@ -1,0 +1,43 @@
+export module Client.Render:BuiltinMeshes;
+
+import std;
+import Core.ResourceID;
+import Core.Math;
+import Client.Render.ResourceHandles;
+import Client.Render.Descriptors;
+import Client.Render.Repository;
+import Client.Render.Definition;
+import Client.Asset.Data;
+
+static std::shared_ptr<MeshAsset> CreateUIQuadAsset()
+{
+    auto asset = std::make_shared<MeshAsset>();
+    asset->format = VertexFormat::UI;
+
+    UITextProps textProps{};
+    std::vector<UIVertex> vertices =
+    {
+        // mode = 0 (일반 UI/비트맵 모드), textureIndex = 0 (기본값)
+        { { 0.0f, 0.0f, 0.0f }, Core::Color::White, { 0.0f, 0.0f }, 0, UIRenderMode::UI, textProps }, // 0, 좌상단
+        { { 1.0f, 0.0f, 0.0f }, Core::Color::White, { 1.0f, 0.0f }, 0, UIRenderMode::UI, textProps }, // 1, 우상단
+        { { 1.0f, 1.0f, 0.0f }, Core::Color::White, { 1.0f, 1.0f }, 0, UIRenderMode::UI, textProps }, // 2, 우하단
+        { { 0.0f, 1.0f, 0.0f }, Core::Color::White, { 0.0f, 1.0f }, 0, UIRenderMode::UI, textProps }, // 3, 좌하단
+    };
+
+    std::vector<std::uint32_t> indices =
+    {
+        0, 1, 2,
+        0, 2, 3
+    };
+
+    asset->SetVertices(vertices);
+    asset->indices = std::move(indices);
+
+    return asset;
+}
+
+export MeshHandle CreateBuiltinUIQuad(ResourceRepository<MeshTag>& repository)
+{
+    MeshDesc desc{ Core::ResourceID::MakeBuiltin("ui_quad") };
+    return repository.AcquireFromAsset(desc, CreateUIQuadAsset());
+}

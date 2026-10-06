@@ -2,6 +2,12 @@ module;
 
 #include <spdlog/fwd.h>
 
+#ifdef _DEBUG
+#pragma comment(lib, "spdlog_Debug.lib")
+#else
+#pragma comment(lib, "spdlog_Release.lib")
+#endif
+
 export module Core.Logger;
 
 import std;

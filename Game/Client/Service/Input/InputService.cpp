@@ -98,6 +98,12 @@ void InputService::Update() noexcept
     m_mouseState = m_mouseProvider->GetState();
 }
 
+void InputService::ProcessWindowMessage(std::uint32_t msg, std::uint64_t wParam, std::int64_t lParam) noexcept
+{
+    m_keyboardProvider->ProcessMessage(msg, wParam, lParam);
+    m_mouseProvider->ProcessMessage(msg, wParam, lParam);
+}
+
 void InputService::SetMousePositionOffset(const Core::Point& offset) noexcept
 {
     m_mouseOffset = offset;

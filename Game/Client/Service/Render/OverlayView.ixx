@@ -41,119 +41,116 @@ std::vector<TextRun> BuildTextRuns(std::span<const TextSpan> spans)
     return runs;
 }
 
-namespace Render
+export class OverlayView : public RenderView
 {
-    export class OverlayView : public RenderView
+public:
+    virtual ~OverlayView() override = default;
+
+    OverlayView(
+        RepositoryContainer& repositories,
+        MeshHandle uiQuad,
+        BrushHandle defaultBrush)
+        : RenderView{ ViewType::Overlay, repositories }
+        , m_uiQuad{ uiQuad }
+        , m_defaultBrush{ defaultBrush }
     {
-    public:
-        virtual ~OverlayView() override = default;
+    }
 
-        OverlayView(
-            RepositoryContainer& repositories,
-            MeshHandle uiQuad,
-            BrushHandle defaultBrush)
-            : RenderView{ ViewType::Overlay, repositories }
-            , m_uiQuad{ uiQuad }
-            , m_defaultBrush{ defaultBrush }
+    virtual bool IsEmpty() const override
+    {
+        return m_data.draws.IsEmpty();
+    }
+
+    void Reset(const OverlayViewContext& context)
+    {
+        m_data.context = context;
+        m_data.draws.Clear();
+    }
+
+    OverlayViewData TakeData()
+    {
+        return std::move(m_data);
+    }
+
+    void DrawUI(
+        BrushHandle bh,
+        const Core::Rect& dest,
+        const Core::Rect* source = nullptr)
+    {
+        if (!bh)
+            bh = m_defaultBrush;
+
+        auto& meshRepository = m_repositories.Get<MeshRepository>();
+        auto meshRes = meshRepository.GetIfReady(m_uiQuad);
+        if (!meshRes)
+            return;
+
+        auto& brushRepository = m_repositories.Get<BrushRepository>();
+        auto brushRes = brushRepository.GetIfReady(bh);
+        if (!brushRes)
+            return;
+
+        float width = dest.width;
+        float height = dest.height;
+
+        Core::Matrix scale = Core::Matrix::Scale(width, height, 1.0f);
+        Core::Matrix translation = Core::Matrix::Translation(dest.x, dest.y, 0.0f);
+        Core::Matrix world = scale * translation;
+
+        m_data.draws.ui.push_back(DrawUIItem{
+            meshRes, brushRes, world, source ? std::optional<Core::Rect>(*source) : std::nullopt
+            });
+    }
+
+    void DrawText(
+        FontHandle hF,
+        TextRenderMode mode,
+        std::string_view text,
+        std::uint32_t size,
+        const Core::Rect& bounds,
+        const TextLayout& layout = {},
+        const TextStyle& style = {})
+    {
+        TextSpan span{ text, style };
+        DrawText(hF, mode, std::span{ &span, 1 }, size, bounds, layout);
+    }
+
+    void DrawText(
+        FontHandle hF,
+        TextRenderMode mode,
+        std::span<const TextSpan> spans,
+        std::uint32_t size,
+        const Core::Rect& bounds,
+        const TextLayout& layout)
+    {
+        if (spans.empty()) return;
+
+        auto& fontRepository = m_repositories.Get<FontRepository>();
+        auto fontRes = fontRepository.GetIfReady(hF);
+        if (!fontRes)
+            return;
+
+        if (mode == TextRenderMode::Bitmap)
         {
-        }
-
-        virtual bool IsEmpty() const override
-        {
-            return m_data.draws.IsEmpty();
-        }
-
-        void Reset(const OverlayViewContext& context)
-        {
-            m_data.context = context;
-            m_data.draws.Clear();
-        }
-
-        OverlayViewData TakeData()
-        {
-            return std::move(m_data);
-        }
-
-        void DrawUI(
-            BrushHandle bh,
-            const Core::Rect& dest,
-            const Core::Rect* source = nullptr)
-        {
-            if (!bh)
-                bh = m_defaultBrush;
-
-            auto& meshRepository = m_repositories.Get<MeshRepository>();
-            auto meshRes = meshRepository.GetIfReady(m_uiQuad);
-            if (!meshRes)
-                return;
-
-            auto& brushRepository = m_repositories.Get<BrushRepository>();
-            auto brushRes = brushRepository.GetIfReady(bh);
-            if (!brushRes)
-                return;
-
-            float width = dest.width;
-            float height = dest.height;
-
-            Core::Matrix scale = Core::Matrix::Scale(width, height, 1.0f);
-            Core::Matrix translation = Core::Matrix::Translation(dest.x, dest.y, 0.0f);
-            Core::Matrix world = scale * translation;
-
-            m_data.draws.ui.push_back(DrawUIItem{
-                meshRes, brushRes, world, source ? std::optional<Core::Rect>(*source) : std::nullopt
-                });
-        }
-
-        void DrawText(
-            FontHandle hF,
-            TextRenderMode mode,
-            std::string_view text,
-            std::uint32_t size,
-            const Core::Rect& bounds,
-            const TextLayout& layout = {},
-            const TextStyle& style = {})
-        {
-            TextSpan span{ text, style };
-            DrawText(hF, mode, std::span{ &span, 1 }, size, bounds, layout);
-        }
-
-        void DrawText(
-            FontHandle hF,
-            TextRenderMode mode,
-            std::span<const TextSpan> spans,
-            std::uint32_t size,
-            const Core::Rect& bounds,
-            const TextLayout& layout)
-        {
-            if (spans.empty()) return;
-
-            auto& fontRepository = m_repositories.Get<FontRepository>();
-            auto fontRes = fontRepository.GetIfReady(hF);
-            if (!fontRes)
-                return;
-
-            if (mode == TextRenderMode::Bitmap)
+            for (auto& span : spans)
             {
-                for (auto& span : spans)
-                {
-                    auto& style = span.style;
-                    //비트맵에는 이 기능들이 없다. 만약 Bitmap에 기능을 추가하면 여기서 assert를 제거.
-                    //아예 style을 따로 갈수도 있지만, 그러기에는 구현 비용이 크다. 그리고 bitmap이라고 이 기능이 구현이 안되는것도 아니다.
-                    Core::Assert(!style.outline.has_value());
-                    Core::Assert(!style.shadow.has_value());
-                    Core::Assert(!style.gradient.has_value());
-                    Core::Assert(!style.glow.has_value());
-                }
+                auto& style = span.style;
+                //비트맵에는 이 기능들이 없다. 만약 Bitmap에 기능을 추가하면 여기서 assert를 제거.
+                //아예 style을 따로 갈수도 있지만, 그러기에는 구현 비용이 크다. 그리고 bitmap이라고 이 기능이 구현이 안되는것도 아니다.
+                Core::Assert(!style.outline.has_value());
+                Core::Assert(!style.shadow.has_value());
+                Core::Assert(!style.gradient.has_value());
+                Core::Assert(!style.glow.has_value());
             }
-
-            m_data.draws.texts.push_back(DrawTextItem{
-                fontRes, mode, size, bounds, layout, BuildTextRuns(spans)
-                });
         }
 
-    private:
-        MeshHandle m_uiQuad;
-        BrushHandle m_defaultBrush;
-        OverlayViewData m_data;
-    };
-}
+        m_data.draws.texts.push_back(DrawTextItem{
+            fontRes, mode, size, bounds, layout, BuildTextRuns(spans)
+            });
+    }
+
+private:
+    MeshHandle m_uiQuad;
+    BrushHandle m_defaultBrush;
+    OverlayViewData m_data;
+};

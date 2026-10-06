@@ -1,5 +1,31 @@
 module;
 
+//DirectX관련
+#pragma comment(lib, "dxcompiler.lib") //셰이더 관련
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxguid.lib")
+
+//text 관련
+#ifdef _DEBUG
+#pragma comment(lib, "freetype_Debug.lib")
+#pragma comment(lib, "harfbuzz_Debug.lib")
+#pragma comment(lib, "msdfgen-core_Debug.lib")
+#pragma comment(lib, "msdfgen-ext_Debug.lib")
+#else
+#pragma comment(lib, "freetype_Release.lib")
+#pragma comment(lib, "harfbuzz_Release.lib")
+#pragma comment(lib, "msdfgen-core_Release.lib")
+#pragma comment(lib, "msdfgen-ext_Release.lib")
+#endif
+
+//cube texture
+#ifdef _DEBUG
+#pragma comment(lib, "ktx_Debug.lib")
+#else
+#pragma comment(lib, "ktx_Release.lib")
+#endif
+
 #include <windows.h>
 
 export module Runtime.Render:RenderBackend;

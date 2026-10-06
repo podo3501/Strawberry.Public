@@ -1,0 +1,122 @@
+export module Client.Render:SceneRenderer;
+
+import std;
+import :SceneView;
+import :OverlayView;
+import :Builtin;
+import Client.Render.View;
+import Client.Render.ResourceHandles;
+import Client.Render.Repository;
+import Graphics.SceneObject;
+import Core.Assert;
+import Core.Math;
+
+export class SceneRenderer
+{
+public:
+    ~SceneRenderer() = default;
+    SceneRenderer() = delete;
+
+    explicit SceneRenderer(RepositoryContainer& repositories)
+        : m_repositories{ repositories }
+    {
+        auto& meshRepository = m_repositories.Get<MeshRepository>();
+        m_uiQuad = CreateBuiltinUIQuad(meshRepository);
+
+        auto& materialRepository = m_repositories.Get<MaterialRepository>();
+        m_defaultMaterial = CreateBuiltinMaterials(materialRepository);
+
+        auto& brushRepository = m_repositories.Get<BrushRepository>();
+        m_defaultBrush = CreateBuiltinBrush(brushRepository);
+    }
+
+    SceneView& AcquireView(const SceneViewContext& context)
+    {
+        Core::Assert(context.target.id < MaxViewCount);
+
+        auto& slot = m_views[context.target.id];
+        if (!slot || slot->Type() != ViewType::Scene) // 비어있거나, 다른 타입이 자리잡고 있었다면 새로 생성해서 교체
+        {
+            slot = std::make_unique<SceneView>(m_repositories, m_defaultMaterial);
+        }
+
+        auto* view = static_cast<SceneView*>(slot.get());
+        view->Reset(context);
+
+        return *view;
+    }
+
+    OverlayView& AcquireView(const OverlayViewContext& context)
+    {
+        Core::Assert(context.target.id < MaxViewCount);
+
+        auto& slot = m_views[context.target.id];
+        if (!slot || slot->Type() != ViewType::Overlay)
+        {
+            slot = std::make_unique<OverlayView>(m_repositories, m_uiQuad, m_defaultBrush);
+        }
+
+        auto* view = static_cast<OverlayView*>(slot.get());
+        view->Reset(context);
+
+        return *view;
+    }
+
+    void SetLight(const DirectionalLightData& light)
+    {
+        m_pendingLight = light; // Flush에서 SceneFrameData::light로 옮김
+    }
+
+    void DrawShadowCaster(MeshHandle hM, const Core::Matrix& world)
+    {
+        auto& meshRepository = m_repositories.Get<MeshRepository>();
+        auto meshRes = meshRepository.GetIfReady(hM);
+        if (!meshRes)
+            return;
+
+        m_shadowCasters.push_back(DrawShadowCasterItem{ meshRes, world });
+    }
+
+    SceneFrameData Flush()
+    {
+        SceneFrameData frameData;
+        frameData.light = std::move(m_pendingLight);
+        frameData.shadowCasters = std::move(m_shadowCasters);
+
+        for (auto& view : m_views)
+        {
+            if (!view || view->IsEmpty())
+                continue;
+
+            switch (view->Type())
+            {
+            case ViewType::Scene:
+                frameData.sceneViews.push_back(static_cast<SceneView*>(view.get())->TakeData());
+                break;
+            case ViewType::Overlay:
+                frameData.overlayViews.push_back(static_cast<OverlayView*>(view.get())->TakeData());
+                break;
+            default:
+                Core::Assert(false); // None 상태의 슬롯이 배열에 남아있으면 안 됨
+                break;
+            }
+        }
+
+        m_pendingLight = {};
+        m_shadowCasters.clear();
+
+        return frameData;
+    }
+
+private:
+    RepositoryContainer& m_repositories;
+
+    // Default (Built-in)
+    MeshHandle m_uiQuad{};
+    MaterialHandle m_defaultMaterial;
+    BrushHandle m_defaultBrush;
+
+    DirectionalLightData m_pendingLight;
+    std::vector<DrawShadowCasterItem> m_shadowCasters;
+    std::array<std::unique_ptr<RenderView>, MaxViewCount> m_views;
+};

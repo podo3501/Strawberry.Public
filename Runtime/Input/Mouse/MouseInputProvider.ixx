@@ -1,5 +1,11 @@
 module;
 
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTK12_Debug.lib")
+#else
+#pragma comment(lib, "DirectXTK12_Release.lib")
+#endif
+
 #include <Windows.h>
 #include "DirectXTK12/Mouse.h"
 
@@ -46,6 +52,11 @@ public:
 
 		m_state.prevWheel = m_state.wheel;
 		m_state.wheel = raw.scrollWheelValue;
+	}
+
+	void ProcessMessage(std::uint32_t msg, std::uint64_t wParam, std::int64_t lParam) noexcept override
+	{
+		DirectX::Mouse::ProcessMessage(msg, static_cast<WPARAM>(wParam), static_cast<LPARAM>(lParam));
 	}
 
 	const MouseState& GetState() const noexcept override

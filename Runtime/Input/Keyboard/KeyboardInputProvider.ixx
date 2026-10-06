@@ -1,5 +1,12 @@
 module;
 
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTK12_Debug.lib")
+#else
+#pragma comment(lib, "DirectXTK12_Release.lib")
+#endif
+
+#include <Windows.h>
 #include "DirectXTK12/Keyboard.h"
 
 export module Runtime.Input:KeyboardInputProvider;
@@ -23,6 +30,11 @@ public:
 			InputState& state = m_keyboardState[code];
 			state.Update(dxState.IsKeyDown(dxKey));
 		}
+	}
+
+	void ProcessMessage(std::uint32_t msg, std::uint64_t wParam, std::int64_t lParam) noexcept override
+	{
+		DirectX::Keyboard::ProcessMessage(msg, static_cast<WPARAM>(wParam), static_cast<LPARAM>(lParam));
 	}
 
 	const KeyboardState& GetState() const noexcept override

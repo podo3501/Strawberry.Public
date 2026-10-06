@@ -94,7 +94,7 @@
     <ClCompile Include="Service\Render\Repository\Container\RepositoryTypes.ixx">
       <Filter>Service\Render\Repository\Container</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Render\Handle\ResourceHandles.ixx">
+    <ClCompile Include="Service\Render\Handle\Handle.ixx">
       <Filter>Service\Render\Handle</Filter>
     </ClCompile>
     <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx">
@@ -178,6 +178,27 @@
     <ClCompile Include="Service\Render\OverlayView.ixx">
       <Filter>Service\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Render\Builtin\Builtin.ixx">
+      <Filter>Service\Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Builtin\BuiltinBrush.ixx">
+      <Filter>Service\Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Builtin\BuiltinMaterials.ixx">
+      <Filter>Service\Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\Builtin\BuiltinMeshes.ixx">
+      <Filter>Service\Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\SceneRenderer.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\ShaderStageBuilder.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\RenderService.ixx">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
@@ -215,6 +236,9 @@
     </Filter>
     <Filter Include="Graphics\SceneObject">
       <UniqueIdentifier>{aeb9ac06-b252-4654-b81a-418353a4ddb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Render\Builtin">
+      <UniqueIdentifier>{13aac4a0-d99d-4b29-a75a-b672a1de69d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

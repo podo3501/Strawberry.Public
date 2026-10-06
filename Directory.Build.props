@@ -8,7 +8,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <!-- 모든 프로젝트 공통 -->
-      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;NODRAWTEXT;NOGDI;NOBITMAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 
       <SDLCheck>true</SDLCheck>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
@@ -34,9 +34,14 @@
       </AdditionalIncludeDirectories>
     </ClCompile>
 
+    <!-- Lib 디렉토리는 여기서 모두 등록하고 자식 프로젝트는 이 폴더를 참고 해서 각자 맞는 Lib를 등록하는 식으로 -->
     <Link>
       <AdditionalLibraryDirectories>
         $(StrawberryRoot)ThirdParty\Libs;
+	$(StrawberryRoot)ThirdParty\KTX\lib;
+	$(StrawberryRoot)ThirdParty\SDL3\lib;
+	$(StrawberryRoot)ThirdParty\FreeType\lib;
+	$(StrawberryRoot)ThirdParty\HarfBuzz\lib;
         %(AdditionalLibraryDirectories)
       </AdditionalLibraryDirectories>
     </Link>
