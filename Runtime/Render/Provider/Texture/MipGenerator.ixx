@@ -165,7 +165,7 @@ private:
                 blob->GetBufferSize()
             };
 
-            if (!m_device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&m_psoMap[i]))) return false;
+            if (FAILED(m_device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&m_psoMap[i])))) return false;
         }
 
         return true;

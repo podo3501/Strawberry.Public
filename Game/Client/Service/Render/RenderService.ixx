@@ -5,18 +5,19 @@ module;
 export module Client.Render:RenderService;
 
 import std;
-import Core.ResourceID;
-import Core.Math;
-import Core.TypeHierarchy;
-import Client.Render.Repository;
 import :SceneRenderer;
+import :ShaderStageBuilder;
+import :Repository;
+import Client.Render.Repository;
 import Client.Render.Interfaces;
 import Client.IAssetAsyncLoader;
 import Client.AssetAsyncHelper;
 import Client.Render.Definition;
 import Client.Asset.Data;
-import :ShaderStageBuilder;
-import :Repository;
+import Core.Assert;
+import Core.ResourceID;
+import Core.Math;
+import Core.TypeHierarchy;
 
 namespace
 {
@@ -40,15 +41,15 @@ namespace
 
     const RegistryShaderInfo g_shaderRegistry[] =
     {
-        { RegistryShader::Shadow, RID::MakePath("Test/Graphics/Shader/Shadow.hlsl"), ShaderType::Graphics },
-        { RegistryShader::Phong, RID::MakePath("Test/Graphics/Shader/Phong.hlsl"), ShaderType::Graphics },
-        { RegistryShader::PBR, RID::MakePath("Test/Graphics/Shader/PBR.hlsl"), ShaderType::Graphics },
-        { RegistryShader::Grid, RID::MakePath("Test/Graphics/Shader/Grid.hlsl"), ShaderType::Graphics },
-        { RegistryShader::UI, RID::MakePath("Test/Graphics/Shader/UI.hlsl"), ShaderType::Graphics },
-        { RegistryShader::Skybox, RID::MakePath("Test/Graphics/Shader/Skybox.hlsl"), ShaderType::Graphics },
-        { RegistryShader::Composite, RID::MakePath("Test/Graphics/Shader/Composite.hlsl"), ShaderType::Graphics },
-        { RegistryShader::MipGenerator, RID::MakePath("Test/Graphics/Shader/MipGen.hlsl"), ShaderType::Compute },
-        { RegistryShader::InspectorImage, RID::MakePath("Test/Graphics/Shader/InspectorImageRenderer.hlsl"), ShaderType::Graphics }
+        { RegistryShader::Shadow, RID::MakePath("Shader/Shadow.hlsl"), ShaderType::Graphics },
+        { RegistryShader::Phong, RID::MakePath("Shader/Phong.hlsl"), ShaderType::Graphics },
+        { RegistryShader::PBR, RID::MakePath("Shader/PBR.hlsl"), ShaderType::Graphics },
+        { RegistryShader::Grid, RID::MakePath("Shader/Grid.hlsl"), ShaderType::Graphics },
+        { RegistryShader::UI, RID::MakePath("Shader/UI.hlsl"), ShaderType::Graphics },
+        { RegistryShader::Skybox, RID::MakePath("Shader/Skybox.hlsl"), ShaderType::Graphics },
+        { RegistryShader::Composite, RID::MakePath("Shader/Composite.hlsl"), ShaderType::Graphics },
+        { RegistryShader::MipGenerator, RID::MakePath("Shader/MipGen.hlsl"), ShaderType::Compute },
+        { RegistryShader::InspectorImage, RID::MakePath("Shader/InspectorImageRenderer.hlsl"), ShaderType::Graphics }
     };
 }
 
@@ -76,9 +77,7 @@ public:
     {
         auto shaderDescs = SetupRegistryShaders();
         if (!m_backend->Initialize(hwnd, screenSize, shaderDescs))
-        {
             return false;
-        }
 
         m_repository = std::make_unique<RenderRepository>(m_repositories);
         m_renderer = std::make_unique<SceneRenderer>(m_repositories);

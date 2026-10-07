@@ -24,9 +24,9 @@ public:
 
     bool Initialize(Device& device, CommandType type)
     {
-        if (!device->CreateCommandAllocator(ToD3D12(type), IID_PPV_ARGS(&m_allocator))) return false;
-        if (!device->CreateCommandList(0, ToD3D12(type), m_allocator.Get(), nullptr, IID_PPV_ARGS(&m_command))) return false;
-        m_command->Close(); // 초기 상태는 닫아둠
+        if (FAILED(device->CreateCommandAllocator(ToD3D12(type), IID_PPV_ARGS(&m_allocator)))) return false;
+        if (FAILED(device->CreateCommandList(0, ToD3D12(type), m_allocator.Get(), nullptr, IID_PPV_ARGS(&m_command)))) return false;
+        if (FAILED(m_command->Close())) return false; // 초기 상태는 닫아둠
 
         m_type = type;
         return true;

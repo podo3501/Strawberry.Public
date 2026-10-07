@@ -3,10 +3,10 @@ export module Client.Asset.Service:AssetRepository;
 import std;
 import :AssetCacheKeys;
 import :AssetLoaderDesc;
-import Client.Asset.Contract;
 import Core.ResourceID;
 import Core.Utils;
 import Core.Assert;
+import Client.Asset.Contract;
 
 export class AssetRepository : public IAssetProvider
 {
@@ -94,6 +94,7 @@ std::shared_ptr<AssetData> AssetRepository::LoadWithSource(IAssetLoader* loader,
 	if (loader->PreferStream())
 	{
 		auto stream = m_assetStorage->CreateReadStream(path);
+		Core::Assert(stream != nullptr); // 파일이 없거나 열 수 없음
 		if (!stream) return nullptr;
 
 		StreamInput source(resID, std::move(stream));
@@ -101,7 +102,9 @@ std::shared_ptr<AssetData> AssetRepository::LoadWithSource(IAssetLoader* loader,
 	}
 
 	std::vector<std::byte> buffer;
-	if (!m_assetStorage->Read(path, buffer)) return nullptr;
+	const bool readOk = m_assetStorage->Read(path, buffer);
+	Core::Assert(readOk); // 파일이 없거나 읽기 실패
+	if (!readOk) return nullptr;
 
 	MemoryInput source(resID, std::move(buffer));
 	return loader->Load(source);

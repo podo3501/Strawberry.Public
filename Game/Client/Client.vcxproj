@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Primitives\PrimitiveMesh.ixx" />
+    <ClCompile Include="Graphics\Primitives\Primitives.ixx" />
     <ClCompile Include="Graphics\SceneObject\Camera.ixx" />
     <ClCompile Include="Graphics\SceneObject\CameraController.ixx" />
     <ClCompile Include="Graphics\SceneObject\CameraInputMapper.ixx" />

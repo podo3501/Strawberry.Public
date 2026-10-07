@@ -199,6 +199,12 @@
     <ClCompile Include="Service\Render\RenderService.ixx">
       <Filter>Service\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Primitives\PrimitiveMesh.ixx">
+      <Filter>Graphics\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Primitives\Primitives.ixx">
+      <Filter>Graphics\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
@@ -239,6 +245,9 @@
     </Filter>
     <Filter Include="Service\Render\Builtin">
       <UniqueIdentifier>{13aac4a0-d99d-4b29-a75a-b672a1de69d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Primitives">
+      <UniqueIdentifier>{fc3b5357-8ed3-481c-b5f8-d1731d8543a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
