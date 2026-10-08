@@ -34,13 +34,6 @@ struct ShadowObjectCB
 };
 static_assert(Core::IsSizeAligned<ShadowObjectCB, 16>);
 
-enum class RootSlot : std::uint32_t
-{
-    MeshData = 0,
-    FrameCB = 1,
-    ObjectCB = 2
-};
-
 export class ShadowRenderer
 {
 public:
@@ -92,6 +85,13 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        MeshData = 0,
+        FrameCB = 1,
+        ObjectCB = 2
+    };
+
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

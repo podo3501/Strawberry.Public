@@ -8,6 +8,7 @@ export module Pipeline.Renderer:DebugSurface;
 
 import std;
 import :Config;
+import :Constants;
 import :PipelineCache;
 import :RootSignatureBuilder;
 import Core.Math;
@@ -22,25 +23,18 @@ import Runtime.Render.Helper;
 import Client.Render.Definition;
 import Client.Render.View;
 
-struct FrameCB
-{
-    DirectX::XMFLOAT4X4 view;
-    DirectX::XMFLOAT4X4 proj;
-};
-static_assert(Core::IsSizeAligned<FrameCB, 16>);
+//struct FrameCB
+//{
+//    DirectX::XMFLOAT4X4 view;
+//    DirectX::XMFLOAT4X4 proj;
+//};
+//static_assert(Core::IsSizeAligned<FrameCB, 16>);
 
-struct ObjectCB
-{
-    DirectX::XMFLOAT4X4 world;
-};
-static_assert(Core::IsSizeAligned<ObjectCB, 16>);
-
-enum class RootSlot : std::uint32_t
-{
-    VertexIndex = 0,
-    FrameCB = 1,
-    ObjectCB = 2
-};
+//struct ObjectCB
+//{
+//    DirectX::XMFLOAT4X4 world;
+//};
+//static_assert(Core::IsSizeAligned<ObjectCB, 16>);
 
 export class DebugSurfaceRenderer
 {
@@ -95,6 +89,13 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        VertexIndex = 0,
+        FrameCB = 1,
+        ObjectCB = 2
+    };
+
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

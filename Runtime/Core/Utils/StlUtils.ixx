@@ -8,11 +8,11 @@ namespace StlExtDetail
     export template <typename T>
         struct IsSmartPointer : std::false_type {};
 
-    export template <typename T>
-        struct IsSmartPointer<std::unique_ptr<T>> : std::true_type {};
+    template <typename T>
+    struct IsSmartPointer<std::unique_ptr<T>> : std::true_type {};
 
-    export template <typename T>
-        struct IsSmartPointer<std::shared_ptr<T>> : std::true_type {};
+    template <typename T>
+    struct IsSmartPointer<std::shared_ptr<T>> : std::true_type {};
 
     export template <typename SmartPtr>
         struct SmartMake
@@ -20,8 +20,8 @@ namespace StlExtDetail
         static_assert(sizeof(SmartPtr) == 0, "SmartMake is not specialized for this type.");
     };
 
-    export template <typename T>
-        struct SmartMake<std::unique_ptr<T>>
+    template <typename T>
+    struct SmartMake<std::unique_ptr<T>>
     {
         template <typename... Args>
         static std::unique_ptr<T> make(Args&&... args)
@@ -30,8 +30,8 @@ namespace StlExtDetail
         }
     };
 
-    export template <typename T>
-        struct SmartMake<std::shared_ptr<T>>
+    template <typename T>
+    struct SmartMake<std::shared_ptr<T>>
     {
         template <typename... Args>
         static std::shared_ptr<T> make(Args&&... args)

@@ -15,14 +15,14 @@ struct JsonTraitsBase
 	static T DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
 };
 
-export template<>
+template<>
 struct JsonTraitsBase<std::string>
 {
 	static nlohmann::json SerializeToJson(const std::string& data) { return data; }
 	static std::string DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
 };
 
-export template<>
+template<>
 struct JsonTraitsBase<std::wstring>
 {
 	static nlohmann::json SerializeToJson(const std::wstring& data) { return Core::WStringToString(data); }
@@ -34,7 +34,7 @@ struct JsonTraitsBase<std::wstring>
 };
 
 // filesystem::path는 utf-8로 저장하고 읽어들인다.
-export template<>
+template<>
 struct JsonTraitsBase<std::filesystem::path>
 {
 	static nlohmann::json SerializeToJson(const std::filesystem::path& data) { return data.string(); }

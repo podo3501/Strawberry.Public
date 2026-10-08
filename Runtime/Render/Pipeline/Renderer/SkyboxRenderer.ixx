@@ -26,15 +26,10 @@ using Microsoft::WRL::ComPtr;
 struct SkyboxCB
 {
     DirectX::XMFLOAT4X4 invViewProj; // translation 제거된 회전만 반영된 역행렬
-    uint32_t skyboxTextureIndex;
-    uint32_t padding[3];
+    std::uint32_t skyboxTextureIndex;
+    std::uint32_t padding[3];
 };
 static_assert(Core::IsSizeAligned<SkyboxCB, 16>);
-
-enum class RootSlot : uint32_t
-{
-    FrameCB = 0,
-};
 
 export class SkyboxRenderer
 {
@@ -81,6 +76,11 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        FrameCB = 0,
+    };
+
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

@@ -32,12 +32,6 @@ struct MipShaderDesc
     std::vector<ShaderMacroDesc> macros;
 };
 
-inline const MipShaderDesc g_mipShaders[] =
-{
-    { MipType::SRGB, {} },
-    { MipType::Data, { {"IS_DATA_MAP"} } }
-};
-
 inline MipType GetMipType(ColorSpace colorSpace)
 {
     switch (colorSpace)
@@ -47,11 +41,6 @@ inline MipType GetMipType(ColorSpace colorSpace)
     default: return MipType::Data;
     }
 }
-
-enum class RootSlot : std::uint32_t
-{
-    Constants = 0
-};
 
 export class MipGenerator
 {
@@ -122,10 +111,21 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        Constants = 0
+    };
+
     bool LoadShader(ShaderLibrary& shaderLibrary)
     {
+        static const MipShaderDesc shaders[] =
+        {
+            { MipType::SRGB,{} },
+            { MipType::Data,{ { "IS_DATA_MAP" } } }
+        };
+
         std::size_t loadedCount = 0;
-        for (auto& desc : g_mipShaders)
+        for (auto& desc : shaders)
         {
             ShaderVariant variant{ RegistryShader::MipGenerator };
             variant.runtimeMacros = desc.macros;
@@ -137,7 +137,7 @@ private:
             }
         }
 
-        return loadedCount == std::size(g_mipShaders);
+        return loadedCount == std::size(shaders);
     }
 
     bool CreateRootSignature()

@@ -29,12 +29,6 @@ struct UIDrawCB
     DirectX::XMFLOAT4X4 viewProj;
 };
 
-enum class RootSlot : uint32_t
-{
-    ResourceIndices = 0, // vb index, ib index, tex index
-    DrawCB = 1
-};
-
 export class UIRenderer
 {
 public:
@@ -58,7 +52,7 @@ public:
 
     void ResetFrameResources(uint32_t slot)
     {
-        m_uiDrawCBAllocator.Reset(slot);
+        m_uiDrawCBAllocator.Reset(slot); 
     }
 
     void BeginFrame(CommandList& cmd)
@@ -86,6 +80,12 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        ResourceIndices = 0, // vb index, ib index, tex index
+        DrawCB = 1
+    };
+
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

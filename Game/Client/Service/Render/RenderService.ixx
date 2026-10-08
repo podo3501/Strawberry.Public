@@ -76,7 +76,8 @@ public:
     bool Initialize(HWND hwnd, const Core::Size& screenSize)
     {
         auto shaderDescs = SetupRegistryShaders();
-        if (!m_backend->Initialize(hwnd, screenSize, shaderDescs))
+        std::span<RegistryShaderDesc> descs{ shaderDescs };
+        if (!m_backend->Initialize(hwnd, screenSize, descs))
             return false;
 
         m_repository = std::make_unique<RenderRepository>(m_repositories);

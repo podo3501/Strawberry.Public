@@ -16,11 +16,6 @@ import Runtime.Render.Definition;
 import Runtime.Render.Command;
 import Client.Render.Definition;
 
-enum class RootSlot : std::uint32_t
-{
-    CompositeData = 0
-};
-
 export class CompositeRenderer
 {
 public:
@@ -57,6 +52,11 @@ public:
     }
 
 private:
+    enum class RootSlot : std::uint32_t
+    {
+        CompositeData = 0
+    };
+
     bool CreateRootSignature(Device& device)
     {
         RootSignatureBuilder builder;

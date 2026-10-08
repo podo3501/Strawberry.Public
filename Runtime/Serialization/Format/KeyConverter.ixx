@@ -10,14 +10,14 @@ struct KeyConverter
 	static K FromKey(const std::string& key) { return key; }
 };
 
-export template<>
+template<>
 struct KeyConverter<int>
 {
 	static std::string ToKey(const int& key) { return std::to_string(key); }
 	static int FromKey(const std::string& key) { return std::stoi(key); }
 };
 
-export template<>
+template<>
 struct KeyConverter<std::wstring>
 {
 	static std::string ToKey(const std::wstring& key) { return Core::WStringToString(key); }
