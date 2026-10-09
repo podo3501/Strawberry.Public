@@ -1,4 +1,4 @@
-export module Client.Render.View:ID;
+export module Contract.Render.View:ID;
 
 import std;
 

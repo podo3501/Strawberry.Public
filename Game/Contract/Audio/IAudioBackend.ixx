@@ -1,4 +1,4 @@
-export module Client.Audio.Interfaces:IAudioBackend;
+export module Contract.Audio.Interfaces:IAudioBackend;
 
 import std;
 export import :ISoundBuffer;

@@ -1,7 +1,7 @@
-export module Client.Asset.Data:ShaderAsset;
+export module Contract.Asset.Data:ShaderAsset;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 import Core.Types;
 

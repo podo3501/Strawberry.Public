@@ -1,9 +1,9 @@
-export module Client.Render.View:SceneDrawList;
+export module Contract.Render.View:SceneDrawList;
 
 import std;
 import Core.Math;
-import Client.Render.IResource;
-import Client.Render.Definition;
+import Contract.Render.IResource;
+import Contract.Render.Definition;
 
 export struct DrawSurfaceItem
 {

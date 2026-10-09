@@ -1,4 +1,4 @@
-export module Client.Input.Contract:KeyCode;
+export module Contract.Input:KeyCode;
 
 import std;
 

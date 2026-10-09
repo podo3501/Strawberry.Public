@@ -1,4 +1,4 @@
-export module Client.Audio:VoiceHandle;
+export module Service.Audio:VoiceHandle;
 
 import Core.Handle;
 

@@ -1,4 +1,4 @@
-export module Client.Audio.Interfaces:ISoundInstance;
+export module Contract.Audio.Interfaces:ISoundInstance;
 
 import std;
 export import :Playback;

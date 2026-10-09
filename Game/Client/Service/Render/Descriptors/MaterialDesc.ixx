@@ -1,4 +1,4 @@
-export module Client.Render.Descriptors:Material;
+export module Service.Render.Descriptors:Material;
 
 import :Resource;
 

@@ -205,6 +205,9 @@
     <ClCompile Include="Graphics\Primitives\Primitives.ixx">
       <Filter>Graphics\Primitives</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Audio\Audio.ixx">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

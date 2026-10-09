@@ -1,4 +1,4 @@
-export module Client.Input.Contract:KeyboardState;
+export module Contract.Input:KeyboardState;
 
 import std;
 import :KeyCode;

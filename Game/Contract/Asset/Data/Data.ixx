@@ -1,4 +1,4 @@
-export module Client.Asset.Data;
+export module Contract.Asset.Data;
 
 export import :BinaryAsset;
 export import :ShaderAsset;

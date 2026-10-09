@@ -1,4 +1,4 @@
-export module Client.Asset;
+export module Service.Asset;
 
-export import Client.Asset.Service;
-export import Client.Asset.Contract;
+export import :AssetService;
+export import Contract.Asset;

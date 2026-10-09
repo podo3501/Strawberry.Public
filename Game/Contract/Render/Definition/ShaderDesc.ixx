@@ -1,8 +1,8 @@
-export module Client.Render.Definition:ShaderDesc;
+export module Contract.Render.Definition:ShaderDesc;
 
 import std;
 import :ShaderTypes;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export enum class ShaderStage
 {

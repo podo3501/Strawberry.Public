@@ -1,7 +1,7 @@
-export module Client.Render.Descriptors:DebugMesh;
+export module Service.Render.Descriptors:DebugMesh;
 
 import :Resource;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export struct DebugMeshDesc : public ResourceDesc
 {

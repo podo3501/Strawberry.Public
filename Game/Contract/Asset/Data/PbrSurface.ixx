@@ -1,4 +1,4 @@
-export module Client.Asset.Data:PbrSurface;
+export module Contract.Asset.Data:PbrSurface;
 
 export struct PbrSurface
 {

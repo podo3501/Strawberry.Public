@@ -1,7 +1,7 @@
-export module Client.Asset.Data:StaticSound;
+export module Contract.Asset.Data:StaticSound;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.Types;
 import Core.TypeHierarchy;
 

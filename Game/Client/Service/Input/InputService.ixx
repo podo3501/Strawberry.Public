@@ -1,7 +1,7 @@
-export module Client.Input.Service;
+export module Service.Input:InputService;
 
 import std;
-import Client.Input.Contract;
+import Contract.Input;
 import Core.Math;
 
 export class InputService

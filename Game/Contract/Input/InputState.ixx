@@ -1,4 +1,4 @@
-export module Client.Input.Contract:InputState;
+export module Contract.Input:InputState;
 
 export struct InputState
 {

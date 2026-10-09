@@ -1,12 +1,12 @@
-export module Client.Render:SceneView;
+export module Service.Render:SceneView;
 
 import std;
 import :RenderView;
 import Core.Math;
-import Client.Render.View;
-import Client.Render.Definition;
-import Client.Render.Repository;
-import Client.Render.ResourceHandles;
+import Contract.Render.View;
+import Contract.Render.Definition;
+import Service.Render.Repository;
+import Service.Render.ResourceHandles;
 
 constexpr float DegToRad(float deg) noexcept
 {

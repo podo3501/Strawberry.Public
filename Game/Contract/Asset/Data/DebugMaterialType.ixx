@@ -1,4 +1,4 @@
-export module Client.Asset.Data:DebugMaterialType;
+export module Contract.Asset.Data:DebugMaterialType;
 
 export enum class DebugMaterialType
 {

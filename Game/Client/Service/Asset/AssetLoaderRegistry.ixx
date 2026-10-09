@@ -1,11 +1,11 @@
-export module Client.Asset.Service:AssetLoaderRegistry;
+export module Service.Asset:AssetLoaderRegistry;
 
 import std;
 import :AssetRepository;
 import Core.Utils;
-import Client.Asset.Contract;
-import Client.AssetMetaRegistry;
-import Client.Asset.ImageExtensions;
+import Contract.Asset;
+import Service.AssetMetaRegistry;
+import Service.Asset.ImageExtensions;
 
 export class AssetLoaderRegistry
 {

@@ -1,4 +1,4 @@
-export module Client.Render.Descriptors:Resource;
+export module Service.Render.Descriptors:Resource;
 
 import std;
 import Core.ResourceID;

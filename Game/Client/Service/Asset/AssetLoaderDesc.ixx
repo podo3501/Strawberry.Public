@@ -1,7 +1,7 @@
-export module Client.Asset.Service:AssetLoaderDesc;
+export module Service.Asset:AssetLoaderDesc;
 
 import std;
-import Client.Asset.Contract;
+import Contract.Asset;
 import Core.TypeHierarchy;
 
 export struct AssetLoaderDesc

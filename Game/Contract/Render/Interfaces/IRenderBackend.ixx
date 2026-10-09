@@ -2,13 +2,13 @@ module;
 
 #include <windows.h>
 
-export module Client.Render.Interfaces:IRenderBackend;
+export module Contract.Render.Interfaces:IRenderBackend;
 
 import std;
 import :IResourceProvider;
 import Core.Math;
-import Client.Render.Definition;
-import Client.Render.View;
+import Contract.Render.Definition;
+import Contract.Render.View;
 
 export struct IRenderBackend
 {

@@ -1,4 +1,4 @@
-export module Client.Render.View:SceneFrameData;
+export module Contract.Render.View:SceneFrameData;
 
 import std;
 import :DirectionalLightData;

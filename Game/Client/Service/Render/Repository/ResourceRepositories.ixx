@@ -1,8 +1,8 @@
-export module Client.Render.Repository:ResourceRepositories;
+export module Service.Render.Repository:ResourceRepositories;
 
 import std;
 import :ResourceRepository;
-import Client.Render.ResourceHandles;
+import Service.Render.ResourceHandles;
 
 export using BrushRepository = ResourceRepository<BrushTag>;
 export using DebugMaterialRepository = ResourceRepository<DebugMaterialTag>;

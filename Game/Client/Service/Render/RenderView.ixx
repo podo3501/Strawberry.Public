@@ -1,8 +1,8 @@
-export module Client.Render:RenderView;
+export module Service.Render:RenderView;
 
 import std;
 import Core.Math;
-import Client.Render.Repository;
+import Service.Render.Repository;
 
 export enum class ViewType : std::uint8_t
 {

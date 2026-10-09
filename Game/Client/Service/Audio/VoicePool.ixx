@@ -1,4 +1,4 @@
-export module Client.Audio:VoicePool;
+export module Service.Audio:VoicePool;
 
 import std;
 import :VoiceHandle;
@@ -7,8 +7,8 @@ import :Voice;
 import :LoadedSound;
 import Core.Utils;
 import Core.Handle;
-import Client.Asset.Data;
-import Client.Audio.Interfaces;
+import Contract.Asset.Data;
+import Contract.Audio.Interfaces;
 
 static void SortStealCandidateList(std::vector<Voice*>& stealCandidates)
 {

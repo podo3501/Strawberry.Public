@@ -1,14 +1,14 @@
-export module Client.Render.Repository:ResourceRepository;
+export module Service.Render.Repository:ResourceRepository;
 
 import std;
 import :Interface;
 import :Implementation;
 import :ResourceTypes;
 import Core.Handle;
-import Client.Render.Descriptors;
-import Client.IAssetAsyncLoader;
-import Client.Render.Interfaces;
-import Client.Render.IResource;
+import Service.Render.Descriptors;
+import Service.IAssetAsyncLoader;
+import Contract.Render.Interfaces;
+import Contract.Render.IResource;
 
 export template <typename Tag>
     class ResourceRepository : public IResourceRepository

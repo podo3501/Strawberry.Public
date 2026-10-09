@@ -1,4 +1,4 @@
-export module Client.Asset.Data:AudioTypes;
+export module Contract.Asset.Data:AudioTypes;
 
 import std;
 

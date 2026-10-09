@@ -1,4 +1,4 @@
-export module Client.Asset.Data:PhongMaterialAsset;
+export module Contract.Asset.Data:PhongMaterialAsset;
 
 import std;
 import :MaterialAsset;

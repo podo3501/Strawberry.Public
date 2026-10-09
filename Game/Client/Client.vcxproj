@@ -43,6 +43,7 @@
     <ClCompile Include="Service\Asset\AssetMetaRegistry.ixx" />
     <ClCompile Include="Service\Asset\AssetRepository.ixx" />
     <ClCompile Include="Service\Asset\AssetService.ixx" />
+    <ClCompile Include="Service\Audio\Audio.ixx" />
     <ClCompile Include="Service\Audio\AudioService.ixx" />
     <ClCompile Include="Service\Audio\LoadedSound.ixx" />
     <ClCompile Include="Service\Audio\SoundHandle.ixx" />

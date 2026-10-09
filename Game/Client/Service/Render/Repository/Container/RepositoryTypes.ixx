@@ -1,4 +1,4 @@
-export module Client.Render.Repository:RepositoryTypes;
+export module Service.Render.Repository:RepositoryTypes;
 
 export enum class RepositoryType
 {

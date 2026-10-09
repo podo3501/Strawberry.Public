@@ -1,7 +1,7 @@
-export module Client.Render.Descriptors:PbrMaterial;
+export module Service.Render.Descriptors:PbrMaterial;
 
 import :Material;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export struct PbrMaterialDesc : public MaterialDesc
 {

@@ -1,7 +1,7 @@
-export module Client.Asset.Service:AsyncStore;
+export module Service.Asset:AsyncStore;
 
 import std;
-import Client.AssetAsyncTypes;
+import Service.AssetAsyncTypes;
 import Core.Assert;
 
 export template<typename T>

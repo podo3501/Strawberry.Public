@@ -1,4 +1,4 @@
-export module Client.Audio:SoundRepository;
+export module Service.Audio:SoundRepository;
 
 import std;
 import :SoundHandle;
@@ -6,10 +6,10 @@ import :VoiceHandle;
 import :LoadedSound;
 import Core.ResourceID;
 import Core.Handle;
-import Client.Asset.Data;
-import Client.Audio.Interfaces;
-import Client.IAssetAsyncLoader;
-import Client.AssetAsyncHelper;
+import Contract.Asset.Data;
+import Contract.Audio.Interfaces;
+import Service.IAssetAsyncLoader;
+import Service.AssetAsyncHelper;
 
 struct PendingSoundRequest
 {

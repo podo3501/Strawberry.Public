@@ -1,7 +1,7 @@
-export module Client.Audio.Interfaces:ISoundBuffer;
+export module Contract.Audio.Interfaces:ISoundBuffer;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 
 export struct ISoundBuffer
 {

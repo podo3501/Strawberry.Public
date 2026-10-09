@@ -1,9 +1,9 @@
-export module Client.Render.Descriptors:DebugMaterial;
+export module Service.Render.Descriptors:DebugMaterial;
 
 import :Resource;
 import Core.Utils;
-import Client.Asset.AssetData;
-import Client.Asset.Data;
+import Contract.Asset.AssetData;
+import Contract.Asset.Data;
 
 export struct DebugMaterialDesc : public ResourceDesc
 {

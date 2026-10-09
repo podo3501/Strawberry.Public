@@ -1,4 +1,4 @@
-export module Client.Asset.Data:TextureTypes;
+export module Contract.Asset.Data:TextureTypes;
 
 export enum class PixelFormat
 {

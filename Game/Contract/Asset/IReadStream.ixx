@@ -1,4 +1,4 @@
-export module Client.Asset.Interfaces:IReadStream;
+export module Contract.Asset.Interfaces:IReadStream;
 
 import std;
 import Core.Types;

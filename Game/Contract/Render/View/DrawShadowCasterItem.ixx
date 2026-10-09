@@ -1,8 +1,8 @@
-export module Client.Render.View:DrawShadowCasterItem;
+export module Contract.Render.View:DrawShadowCasterItem;
 
 import std;
 import Core.Math;
-import Client.Render.IResource;
+import Contract.Render.IResource;
 
 export struct DrawShadowCasterItem
 {

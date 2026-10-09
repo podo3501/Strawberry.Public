@@ -1,7 +1,7 @@
-export module Client.Render.Descriptors:PhongMaterial;
+export module Service.Render.Descriptors:PhongMaterial;
 
 import :Material;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export struct PhongMaterialDesc : public MaterialDesc
 {

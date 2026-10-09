@@ -1,7 +1,7 @@
-export module Client.Asset.Interfaces:IAssetProvider;
+export module Contract.Asset.Interfaces:IAssetProvider;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 import Core.ResourceID;
 

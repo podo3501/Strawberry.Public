@@ -1,4 +1,4 @@
-export module Client.Asset.Service:AssetRepository;
+export module Service.Asset:AssetRepository;
 
 import std;
 import :AssetCacheKeys;
@@ -6,7 +6,7 @@ import :AssetLoaderDesc;
 import Core.ResourceID;
 import Core.Utils;
 import Core.Assert;
-import Client.Asset.Contract;
+import Contract.Asset;
 
 export class AssetRepository : public IAssetProvider
 {

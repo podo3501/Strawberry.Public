@@ -1,4 +1,4 @@
-export module Client.Audio.Interfaces:Playback;
+export module Contract.Audio.Interfaces:Playback;
 
 export struct PlaybackParams
 {

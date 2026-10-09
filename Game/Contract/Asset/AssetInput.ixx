@@ -1,4 +1,4 @@
-export module Client.Asset.Interfaces:AssetInput;
+export module Contract.Asset.Interfaces:AssetInput;
 
 import std;
 import Core.ResourceID;

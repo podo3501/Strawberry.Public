@@ -1,4 +1,4 @@
-export module Client.Render.View:OverlayData;
+export module Contract.Render.View:OverlayData;
 
 import std;
 import :ID;

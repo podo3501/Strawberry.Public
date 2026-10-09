@@ -1,7 +1,7 @@
-export module Client.Render.Descriptors:Brush;
+export module Service.Render.Descriptors:Brush;
 
 import :Resource;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export struct BrushDesc : public ResourceDesc
 {

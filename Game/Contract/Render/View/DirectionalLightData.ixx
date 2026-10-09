@@ -1,4 +1,4 @@
-export module Client.Render.View:DirectionalLightData;
+export module Contract.Render.View:DirectionalLightData;
 
 import Core.Math;
 

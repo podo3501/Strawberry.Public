@@ -1,15 +1,15 @@
-export module Client.Audio;
+export module Service.Audio:AudioService;
 
 import std;
-export import :VoiceHandle;
-export import :SoundHandle;
+import :VoiceHandle;
+import :SoundHandle;
 import :LoadedSound;
 import :SoundRepository;
 import :VoicePool;
 import Core.Utils;
-import Client.Asset.Data;
-import Client.Audio.Interfaces;
-import Client.IAssetAsyncLoader;
+import Contract.Asset.Data;
+import Contract.Audio.Interfaces;
+import Service.IAssetAsyncLoader;
 
 struct GroupInfo
 {

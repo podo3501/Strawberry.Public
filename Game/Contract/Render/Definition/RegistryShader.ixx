@@ -1,4 +1,4 @@
-export module Client.Render.Definition:RegistryShader;
+export module Contract.Render.Definition:RegistryShader;
 
 import std;
 import :ShaderTypes;

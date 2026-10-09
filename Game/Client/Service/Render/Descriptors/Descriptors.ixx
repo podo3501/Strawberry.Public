@@ -1,4 +1,4 @@
-export module Client.Render.Descriptors;
+export module Service.Render.Descriptors;
 
 export import :Resource;
 export import :Environment;

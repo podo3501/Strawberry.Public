@@ -1,4 +1,4 @@
-export module Client.Audio.Interfaces;
+export module Contract.Audio.Interfaces;
 
 export import :ISoundBuffer;
 export import :ISoundInstance;

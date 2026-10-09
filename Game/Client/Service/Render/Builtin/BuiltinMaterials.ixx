@@ -1,10 +1,10 @@
-export module Client.Render:BuiltinMaterials;
+export module Service.Render:BuiltinMaterials;
 
 import std;
 import Core.ResourceID;
-import Client.Render.ResourceHandles;
-import Client.Render.Descriptors;
-import Client.Render.Repository;
+import Service.Render.ResourceHandles;
+import Service.Render.Descriptors;
+import Service.Render.Repository;
 
 export MaterialHandle CreateBuiltinMaterials(ResourceRepository<MaterialTag>& repository)
 {

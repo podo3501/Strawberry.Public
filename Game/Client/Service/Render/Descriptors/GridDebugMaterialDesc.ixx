@@ -1,4 +1,4 @@
-export module Client.Render.Descriptors:GridDebugMaterial;
+export module Service.Render.Descriptors:GridDebugMaterial;
 
 import :DebugMaterial;
 

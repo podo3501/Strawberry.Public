@@ -1,5 +1,5 @@
-export module Client.Asset.Contract;
+export module Contract.Asset;
 
-export import Client.Asset.AssetData;
-export import Client.Asset.Data;
-export import Client.Asset.Interfaces;
+export import Contract.Asset.AssetData;
+export import Contract.Asset.Data;
+export import Contract.Asset.Interfaces;

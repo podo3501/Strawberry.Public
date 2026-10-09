@@ -1,4 +1,4 @@
-export module Client.Render;
+export module Service.Render;
 
 export import :SceneView;
 export import :OverlayView;
@@ -7,6 +7,6 @@ export import :RenderService;
 export import :SceneRenderer;
 export import :Repository;
 
-export import Client.Render.Definition;
-export import Client.Render.Descriptors;
-export import Client.Render.ResourceHandles;
+export import Contract.Render.Definition;
+export import Service.Render.Descriptors;
+export import Service.Render.ResourceHandles;

@@ -1,4 +1,4 @@
-export module Client.Render.Repository:ResourceTypes;
+export module Service.Render.Repository:ResourceTypes;
 
 import std;
 import Core.Utils;

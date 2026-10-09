@@ -1,7 +1,7 @@
-export module Client.Asset.Data:TextureMetaAsset;
+export module Contract.Asset.Data:TextureMetaAsset;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import :TextureTypes;
 import Core.TypeHierarchy;
 

@@ -1,12 +1,12 @@
-export module Client.Render:SceneRenderer;
+export module Service.Render:SceneRenderer;
 
 import std;
 import :SceneView;
 import :OverlayView;
 import :Builtin;
-import Client.Render.View;
-import Client.Render.ResourceHandles;
-import Client.Render.Repository;
+import Contract.Render.View;
+import Service.Render.ResourceHandles;
+import Service.Render.Repository;
 import Graphics.SceneObject;
 import Core.Assert;
 import Core.Math;

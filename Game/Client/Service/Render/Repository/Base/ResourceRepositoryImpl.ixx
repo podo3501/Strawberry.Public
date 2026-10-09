@@ -1,15 +1,15 @@
-export module Client.Render.Repository:Implementation;
+export module Service.Render.Repository:Implementation;
 
 import std;
 import :ResourceTypes;
 import Core.Handle;
 import Core.Assert;
-import Client.Asset.AssetData;
-import Client.Render.Descriptors;
-import Client.Render.IResource;
-import Client.Render.Interfaces;
-import Client.AssetAsyncHelper;
-import Client.IAssetAsyncLoader;
+import Contract.Asset.AssetData;
+import Service.Render.Descriptors;
+import Contract.Render.IResource;
+import Contract.Render.Interfaces;
+import Service.AssetAsyncHelper;
+import Service.IAssetAsyncLoader;
 
 struct ResourceImplTag {}; // 내부 전용 Tag - 외부 Tag와 무관
 

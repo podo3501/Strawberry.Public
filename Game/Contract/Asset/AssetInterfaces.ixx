@@ -1,4 +1,4 @@
-export module Client.Asset.Interfaces;
+export module Contract.Asset.Interfaces;
 
 export import :AssetInput;
 export import :IAssetStorage;

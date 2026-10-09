@@ -1,4 +1,4 @@
-export module Client.Input.Contract:IMouseInputProvider;
+export module Contract.Input:IMouseInputProvider;
 
 import std;
 import :MouseState;

@@ -1,4 +1,4 @@
-export module Client.Render.Definition;
+export module Contract.Render.Definition;
 
 export import :Config;
 export import :ShaderTypes;

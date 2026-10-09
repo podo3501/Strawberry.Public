@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Static">
+      <UniqueIdentifier>{29c875b2-2886-40e5-b2de-28b346d6d5f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stream">
+      <UniqueIdentifier>{2526dcc9-af0a-46a4-b9b4-cebea43fc17e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Static\StaticSoundBuffer.ixx">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLAudio.ixx" />
+    <ClCompile Include="Static\StaticSoundInstance.ixx">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundBuffer.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\VorbisStreamCallbacks.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundInstance.ixx">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioConfig.ixx" />
+    <ClCompile Include="AudioDevice.ixx" />
+    <ClCompile Include="AudioFormat.ixx" />
+    <ClCompile Include="AudioMixer.ixx" />
+    <ClCompile Include="AudioBackend.ixx" />
+  </ItemGroup>
+</Project>

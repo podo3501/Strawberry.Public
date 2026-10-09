@@ -1,4 +1,4 @@
-export module Client.Render.Definition:RenderMetrics;
+export module Contract.Render.Definition:RenderMetrics;
 
 export struct RenderMetrics
 {

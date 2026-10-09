@@ -1,13 +1,13 @@
-export module Client.Render:BuiltinMeshes;
+export module Service.Render:BuiltinMeshes;
 
 import std;
 import Core.ResourceID;
 import Core.Math;
-import Client.Render.ResourceHandles;
-import Client.Render.Descriptors;
-import Client.Render.Repository;
-import Client.Render.Definition;
-import Client.Asset.Data;
+import Service.Render.ResourceHandles;
+import Service.Render.Descriptors;
+import Service.Render.Repository;
+import Contract.Render.Definition;
+import Contract.Asset.Data;
 
 static std::shared_ptr<MeshAsset> CreateUIQuadAsset()
 {

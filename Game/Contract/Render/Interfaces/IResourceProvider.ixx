@@ -1,8 +1,8 @@
-export module Client.Render.Interfaces:IResourceProvider;
+export module Contract.Render.Interfaces:IResourceProvider;
 
 import std;
-import Client.Render.IResource;
-import Client.Asset.AssetData;
+import Contract.Render.IResource;
+import Contract.Asset.AssetData;
 
 export struct IResourceProvider
 {

@@ -1,9 +1,9 @@
-export module Client.Asset.Data:StreamSound;
+export module Contract.Asset.Data:StreamSound;
 
 import std;
 import Core.TypeHierarchy;
-import Client.Asset.AssetData;
-import Client.Asset.Interfaces;
+import Contract.Asset.AssetData;
+import Contract.Asset.Interfaces;
 
 export struct StreamSoundAsset : public Core::TypeNode<StreamSoundAsset, AssetData>
 {

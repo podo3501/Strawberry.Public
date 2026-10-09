@@ -1,8 +1,8 @@
-export module Client.Asset.Data:TextureCubeAsset;
+export module Contract.Asset.Data:TextureCubeAsset;
 
 import std;
 import :TextureTypes;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 
 export struct TextureCubeMipFace

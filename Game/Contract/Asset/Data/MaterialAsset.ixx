@@ -1,9 +1,9 @@
-export module Client.Asset.Data:MaterialAsset;
+export module Contract.Asset.Data:MaterialAsset;
 
 import std;
 import :MaterialTypes;
 import :TextureAsset;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 
 export struct MaterialAsset : public Core::TypeNode<MaterialAsset, AssetData>

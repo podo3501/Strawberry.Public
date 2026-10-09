@@ -1,13 +1,13 @@
-export module Client.Asset.Service;
+export module Service.Asset:AssetService;
 
 import std;
 import :AssetRepository;
 import :AssetLoaderRegistry;
 import :AsyncLoader;
 import Core.Utils;
-import Client.Asset.Contract;
-import Client.AssetMetaRegistry;
-import Client.IAssetAsyncLoader;
+import Contract.Asset;
+import Service.AssetMetaRegistry;
+import Service.IAssetAsyncLoader;
 
 export class AssetService
 {

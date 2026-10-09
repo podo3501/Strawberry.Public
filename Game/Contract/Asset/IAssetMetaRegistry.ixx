@@ -1,8 +1,8 @@
-export module Client.Asset.Interfaces:IAssetMetaRegistry;
+export module Contract.Asset.Interfaces:IAssetMetaRegistry;
 
 import std;
 import Core.ResourceID;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 
 export struct IAssetMetaRegistry
 {

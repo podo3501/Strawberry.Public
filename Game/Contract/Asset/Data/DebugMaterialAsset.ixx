@@ -1,7 +1,7 @@
-export module Client.Asset.Data:DebugMaterialAsset;
+export module Contract.Asset.Data:DebugMaterialAsset;
 
 import :DebugMaterialType;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 
 export struct DebugMaterialAsset : public Core::TypeNode<DebugMaterialAsset, AssetData>

@@ -1,8 +1,8 @@
 export module Graphics.Primitives:Mesh;
 
 import std;
-import Client.Render.Definition;
-import Client.Asset.Data;
+import Contract.Render.Definition;
+import Contract.Asset.Data;
 import Core.Math;
 
 export class PrimitiveMesh

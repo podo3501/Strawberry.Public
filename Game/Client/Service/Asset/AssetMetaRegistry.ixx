@@ -1,14 +1,14 @@
-export module Client.AssetMetaRegistry;
+export module Service.AssetMetaRegistry;
 
 import std;
 import Core.ResourceID;
 import Core.TypeHierarchy;
 import Core.Utils;
-import Client.IAssetAsyncLoader;
-import Client.AssetAsyncHelper;
-import Client.Asset.AssetData;
-import Client.Asset.Contract;
-import Client.Asset.ImageExtensions;
+import Service.IAssetAsyncLoader;
+import Service.AssetAsyncHelper;
+import Contract.Asset.AssetData;
+import Contract.Asset;
+import Service.Asset.ImageExtensions;
 
 export class AssetMetaRegistry : public IAssetMetaRegistry
 {

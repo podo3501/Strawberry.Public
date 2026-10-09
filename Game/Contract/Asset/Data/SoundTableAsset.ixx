@@ -1,8 +1,8 @@
-export module Client.Asset.Data:SoundTable;
+export module Contract.Asset.Data:SoundTable;
 
 import std;
 import :AudioTypes;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.ResourceID;
 import Core.TypeHierarchy;
 

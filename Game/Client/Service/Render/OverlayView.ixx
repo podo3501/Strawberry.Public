@@ -1,11 +1,11 @@
-export module Client.Render:OverlayView;
+export module Service.Render:OverlayView;
 
 import std;
 import :RenderView;
-import Client.Render.ResourceHandles;
-import Client.Render.Definition;
-import Client.Render.View;
-import Client.Render.Repository;
+import Service.Render.ResourceHandles;
+import Contract.Render.Definition;
+import Contract.Render.View;
+import Service.Render.Repository;
 import Core.Math;
 import Core.Utils;
 import Core.Assert;

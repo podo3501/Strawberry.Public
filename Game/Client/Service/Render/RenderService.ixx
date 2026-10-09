@@ -2,18 +2,18 @@ module;
 
 #include <Windows.h>
 
-export module Client.Render:RenderService;
+export module Service.Render:RenderService;
 
 import std;
 import :SceneRenderer;
 import :ShaderStageBuilder;
 import :Repository;
-import Client.Render.Repository;
-import Client.Render.Interfaces;
-import Client.IAssetAsyncLoader;
-import Client.AssetAsyncHelper;
-import Client.Render.Definition;
-import Client.Asset.Data;
+import Service.Render.Repository;
+import Contract.Render.Interfaces;
+import Service.IAssetAsyncLoader;
+import Service.AssetAsyncHelper;
+import Contract.Render.Definition;
+import Contract.Asset.Data;
 import Core.Assert;
 import Core.ResourceID;
 import Core.Math;

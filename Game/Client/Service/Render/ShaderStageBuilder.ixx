@@ -1,8 +1,8 @@
-export module Client.Render:ShaderStageBuilder;
+export module Service.Render:ShaderStageBuilder;
 
 import std;
-import Client.Render.Definition;
-import Client.Asset.Data;
+import Contract.Render.Definition;
+import Contract.Asset.Data;
 import Core.Assert;
 
 namespace

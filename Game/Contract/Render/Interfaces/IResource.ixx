@@ -1,4 +1,4 @@
-export module Client.Render.IResource;
+export module Contract.Render.IResource;
 
 export struct IResource
 {

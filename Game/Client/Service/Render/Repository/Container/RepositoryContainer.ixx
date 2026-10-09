@@ -1,4 +1,4 @@
-export module Client.Render.Repository:RepositoryContainer;
+export module Service.Render.Repository:RepositoryContainer;
 
 import std;
 import :Interface;

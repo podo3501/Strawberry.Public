@@ -1,4 +1,4 @@
-module Client.Input;
+module Service.Input;
 
 import std;
 

@@ -1,4 +1,4 @@
-export module Client.Render.View:SceneData;
+export module Contract.Render.View:SceneData;
 
 import std;
 import :ID;

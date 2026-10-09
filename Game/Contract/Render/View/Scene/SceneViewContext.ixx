@@ -1,9 +1,9 @@
-export module Client.Render.View:SceneContext;
+export module Contract.Render.View:SceneContext;
 
 import std;
 import :ID;
 import :TargetInfo;
-import Client.Render.Definition;
+import Contract.Render.Definition;
 
 export struct RenderOverride
 {

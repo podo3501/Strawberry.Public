@@ -1,7 +1,7 @@
-export module Client.Asset.Data:SphericalHarmonicsAsset;
+export module Contract.Asset.Data:SphericalHarmonicsAsset;
 
 import std;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 import Core.Math;
 

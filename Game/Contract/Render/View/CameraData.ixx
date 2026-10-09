@@ -1,4 +1,4 @@
-export module Client.Render.View:CameraData;
+export module Contract.Render.View:CameraData;
 
 import std;
 import Core.Math;

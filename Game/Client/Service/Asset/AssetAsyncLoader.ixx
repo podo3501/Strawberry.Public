@@ -1,7 +1,7 @@
-export module Client.Asset.Service:AsyncLoader;
+export module Service.Asset:AsyncLoader;
 
 import std;
-import Client.IAssetAsyncLoader;
+import Service.IAssetAsyncLoader;
 import :AsyncStore;
 import Core.Assert;
 

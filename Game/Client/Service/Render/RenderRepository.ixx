@@ -1,10 +1,10 @@
-export module Client.Render:Repository;
+export module Service.Render:Repository;
 
 import std;
-import Client.Render.ResourceHandles;
-import Client.Render.Descriptors;
-import Client.Render.Repository;
-import Client.Asset.Data;
+import Service.Render.ResourceHandles;
+import Service.Render.Descriptors;
+import Service.Render.Repository;
+import Contract.Asset.Data;
 import Core.ResourceID;
 import Core.Assert;
 

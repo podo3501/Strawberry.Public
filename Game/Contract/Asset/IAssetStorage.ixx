@@ -1,4 +1,4 @@
-export module Client.Asset.Interfaces:IAssetStorage;
+export module Contract.Asset.Interfaces:IAssetStorage;
 
 import std;
 import :IReadStream;

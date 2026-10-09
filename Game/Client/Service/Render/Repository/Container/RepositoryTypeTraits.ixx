@@ -1,4 +1,4 @@
-export module Client.Render.Repository:TypeTraits;
+export module Service.Render.Repository:TypeTraits;
 
 import std;
 import :ResourceRepositories;

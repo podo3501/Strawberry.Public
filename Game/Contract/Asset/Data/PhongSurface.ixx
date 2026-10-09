@@ -1,4 +1,4 @@
-export module Client.Asset.Data:PhongSurface;
+export module Contract.Asset.Data:PhongSurface;
 
 export struct PhongSurface
 {

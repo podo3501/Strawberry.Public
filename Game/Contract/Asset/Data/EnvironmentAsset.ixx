@@ -1,9 +1,9 @@
-export module Client.Asset.Data:EnvironmentAsset;
+export module Contract.Asset.Data:EnvironmentAsset;
 
 import std;
 import :TextureCubeAsset;
 import :SphericalHarmonicsAsset;
-import Client.Asset.AssetData;
+import Contract.Asset.AssetData;
 import Core.TypeHierarchy;
 
 export struct EnvironmentAsset : public Core::TypeNode<EnvironmentAsset, AssetData>

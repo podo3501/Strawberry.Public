@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{fdd5e389-7b16-4e11-a52f-63eb29ad8316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6863c4f3-3aa7-45ec-ad1c-84296b24b046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{b36a2ef7-314f-48cc-bb8a-cf0f1107c5b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph">
+      <UniqueIdentifier>{a9812be7-d41b-4111-b5d5-17731c85f19d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definition">
+      <UniqueIdentifier>{4e6ec8b2-6699-4c68-809e-49a4f54cbecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{9407f2ee-2425-4446-9856-b3326358a732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allocator">
+      <UniqueIdentifier>{4ba1ca7f-5b1c-4fbd-ba6f-5945a5c1eab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factory">
+      <UniqueIdentifier>{006de935-b631-45d7-8835-ec93c57b4e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Material">
+      <UniqueIdentifier>{c5d21e89-3dc0-4b08-8d86-2ce1f3d6c80c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{3a990c6d-f56a-47ae-bbe6-bb4beca03521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Task">
+      <UniqueIdentifier>{3068afcb-cc5e-4d23-b92f-6f2e066e87dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\ResourceID">
+      <UniqueIdentifier>{59bb1c32-084e-45bd-9caa-dc77b361ec0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{a77ce90a-f29f-4cb8-820b-d9011267146b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline">
+      <UniqueIdentifier>{193150c6-eb7e-4044-8d78-416e87f346a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\Renderer">
+      <UniqueIdentifier>{c3096733-238c-4864-a6e7-37e1e8b4af07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\GraphBuilder">
+      <UniqueIdentifier>{138349e7-0096-4081-a4c3-124511541f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\GraphBuilder\Feature">
+      <UniqueIdentifier>{25abe7df-c80f-4c60-9f4d-d0b569519e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\GraphBuilder\View">
+      <UniqueIdentifier>{4b97467d-bbb7-4f06-8cfb-95fdf6694493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipeline\Inspector">
+      <UniqueIdentifier>{98bb9ee3-89ef-40a4-bea2-efc4892a6648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider">
+      <UniqueIdentifier>{b38cc893-eabe-4841-9600-3b2498883152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Texture">
+      <UniqueIdentifier>{6717f232-31d9-432b-963b-7da0bb5eb99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{9da33d28-b779-466e-a793-75432c9f0299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Material">
+      <UniqueIdentifier>{904ea529-78ca-46df-bf5c-a4c560fb4e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\Mesh">
+      <UniqueIdentifier>{1860b609-a783-440b-abdd-15172b064335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provider\TransientMesh">
+      <UniqueIdentifier>{a2fcee3e-89e4-4e2d-b2c5-3e761ca26ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Atlas">
+      <UniqueIdentifier>{89c652ff-bf70-41fd-b683-457d9f192393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Atlas\Glyph">
+      <UniqueIdentifier>{809d4ebf-9bcc-472a-9d0f-e51eb6e4ecbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Geometry">
+      <UniqueIdentifier>{2f9990fd-316c-4352-9653-49090478ca47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{5b0a3424-4ce1-4895-9565-1c6285dedfd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{71329b91-4b7d-45e5-b44a-2bf69cfe7c5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Resource\Resource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugOptions.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugHelper.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxDevice.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandType.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGTypes.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderStateTypes.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderState.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Command.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\Definition.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Graph.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandList.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Core.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxCheck.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\D3D12Conversions.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\Helper.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Conversions.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="DxRender.ixx" />
+    <ClCompile Include="RenderConstants.ixx" />
+    <ClCompile Include="Command\CommandQueue.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandScheduler.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\BindlessDescriptorAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\Allocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DescriptorAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameConstantAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\UploadAllocation.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameUploadAllocator.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\TextureResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\TextureCubeResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\IPendingResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BrushResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\EnvironmentResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderFormat.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\TextureHelper.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ShadowResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\DescriptorFactory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\Factory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DescriptorAllocationType.ixx">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\ResourceFactory.ixx">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxResource.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\MaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\PbrMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\PhongMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\DebugMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Material\GridDebugMaterialResource.ixx">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\MeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\StaticMeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Mesh\TransientMeshResource.ixx">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\LocalTaskID.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Task.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskHandle.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskContext.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskCommandLists.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskNode.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskUtils.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\CompiledTask.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskScheduler.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskEntry.ixx">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGDefinitions.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGPass.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceID.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDTypes.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDGenerator.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDAllocator.ixx">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RGUtils.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandListHelper.ixx">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\BarrierBuilder.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RenderGraph.ixx">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\RenderGraph.cpp">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderLibrary.ixx">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\Renderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererConstants.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererConfig.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RendererUtils.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\UIRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\MathHelpers.ixx">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SurfaceRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SkyboxRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\ShadowRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\DebugSurfaceRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\CompositeRenderer.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\Renderers.ixx">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SwapChainPresenter.ixx" />
+    <ClCompile Include="Definition\RenderData.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ViewTargetResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\DebugSurfaceGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\OpaqueGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\RenderRecordPool.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ShadowGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\SkyboxGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\UIGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ViewTargetClearGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\GraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="Release.ixx" />
+    <ClCompile Include="Pipeline\GraphBuilder\View\CompositeGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\OverlayViewGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\SceneViewGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\Inspector.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorRenderers.ixx">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Provider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\IUpdatableProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\PendingLoadQueue.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureLoadRequest.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\MipGenerator.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureUtils.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCreateGraphBuilder.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\PendingUploadQueue.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\BuiltinTextureType.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureProvider.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\ProviderBudget.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\BrushProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FontResource.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FreeTypeLibrary.ixx">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\EnvironmentProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeCreateGraphBuilder.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeLoadRequest.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeProvider.ixx">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\FontProvider.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\DebugMaterialProvider.ixx">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\MaterialProvider.ixx">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshLoadRequest.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshUtils.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshCreateGraphBuilder.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshProvider.ixx">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\GlyphFormat.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\FontAtlasUploadGraphBuilder.ixx">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Text.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\BitmapGlyphGenerator.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\GlyphTypes.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\Glyph\MTSDFGlyphGenerator.ixx">
+      <Filter>Text\Atlas\Glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\GlyphUploadData.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\FontSetting.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasUtils.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextTypes.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPacker.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPage.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\GlyphCache.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\BitmapFontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\MTSDFFontAtlasBucket.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextLayoutUtils.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\GlyphCursor.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\Packet.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextGeometryUtils.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\UnderlineBatcher.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlas.ixx">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\TextGeometry.ixx">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextLayout.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextSystem.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Pipeline.ixx">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\RenderSortKey.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\SurfaceItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIMeshAppend.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\DebugSurfaceItemBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\PacketBuilder.ixx">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\UIBatchBuffer.ixx">
+      <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Providers.ixx">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBackend.ixx" />
+    <ClCompile Include="Diagnostics\FrameProfiler.ixx">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Diagnostics\Diagnostics.ixx">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

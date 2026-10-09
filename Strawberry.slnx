@@ -1,0 +1,14 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Game/Client/Client.vcxproj" Id="c3074755-5643-4867-804d-023448eb3b82" />
+  <Project Path="Game/Contract/Contract.vcxproj" Id="f7556b13-a62e-4c01-852d-ed9c8c582ad7" />
+  <Project Path="Runtime/Core/Core.vcxproj" Id="e0dcdedb-6f54-4b60-b549-20de9df2ba39" />
+  <Project Path="Runtime/DxInput/DxInput.vcxproj" Id="a613f1a5-731d-46ed-be4f-aca6d289c21e" />
+  <Project Path="Runtime/DxRender/DxRender.vcxproj" Id="83df7ebf-f20a-4125-a6c2-ecc736d64ac4" />
+  <Project Path="Runtime/FileAsset/FileAsset.vcxproj" Id="9253bcf9-c241-4a6f-b171-d78c90a08064" />
+  <Project Path="Runtime/SDLAudio/SDLAudio.vcxproj" Id="40208dcb-fa20-42f4-8ada-d6f944a11abe" />
+  <Project Path="Runtime/Serialization/Serialization.vcxproj" Id="026d70d2-e39d-42d4-a5ed-441d0af53c35" />
+</Solution>

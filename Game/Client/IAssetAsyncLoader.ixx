@@ -1,6 +1,6 @@
-export module Client.IAssetAsyncLoader;
+export module Service.IAssetAsyncLoader;
 
-export import Client.AssetAsyncTypes;
+export import Service.AssetAsyncTypes;
 
 export struct IAssetAsyncLoader
 {

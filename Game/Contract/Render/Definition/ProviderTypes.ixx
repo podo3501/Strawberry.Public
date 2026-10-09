@@ -1,4 +1,4 @@
-export module Client.Render.Definition:ProviderTypes;
+export module Contract.Render.Definition:ProviderTypes;
 
 export enum class ProviderType
 {

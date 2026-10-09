@@ -1,4 +1,4 @@
-export module Client.Asset.Data:PbrMaterialAsset;
+export module Contract.Asset.Data:PbrMaterialAsset;
 
 import std;
 import :PbrSurface;

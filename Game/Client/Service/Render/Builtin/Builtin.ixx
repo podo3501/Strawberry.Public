@@ -1,4 +1,4 @@
-export module Client.Render:Builtin;
+export module Service.Render:Builtin;
 
 export import :BuiltinBrush;
 export import :BuiltinMaterials;

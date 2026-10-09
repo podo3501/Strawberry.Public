@@ -1,4 +1,4 @@
-export module Client.Render.Repository:Interface;
+export module Service.Render.Repository:Interface;
 
 export class IResourceRepository
 {

@@ -1,4 +1,4 @@
-export module Client.Render.View;
+export module Contract.Render.View;
 
 export import :ID;
 export import :CameraData;

@@ -1,4 +1,4 @@
-export module Client.Asset.Data:MaterialTypes;
+export module Contract.Asset.Data:MaterialTypes;
 
 export enum class MaterialType
 {

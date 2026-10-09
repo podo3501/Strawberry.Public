@@ -1,7 +1,7 @@
-export module Client.Render.Descriptors:Environment;
+export module Service.Render.Descriptors:Environment;
 
 import :Resource;
-import Client.Asset.Data;
+import Contract.Asset.Data;
 
 export struct EnvironmentDesc : public ResourceDesc
 {
