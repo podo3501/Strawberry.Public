@@ -1,8 +1,7 @@
-export module DxRender.Resource:ViewTarget;
+export module Pipeline.GraphBuilder:ViewTargetResources;
 
 import std;
 import Core.Math;
-import Contract.Render.IResource;
 import DxRender.Core;
 import DxRender.RGResourceID;
 
@@ -18,24 +17,21 @@ export struct ViewTargetResourceDesc
     Core::Size size{};
 };
 
-export class ViewTargetResource : public IResource
+export class ViewTargetResources
 {
 public:
-    using ReleaseFn = std::function<void(const ViewTargetResource&)>;
+    using ReleaseFn = std::function<void(const ViewTargetResources&)>;
 
-    virtual ~ViewTargetResource() override
+    ~ViewTargetResources()
     {
         if (m_onRelease)
             m_onRelease(*this); // pending 이후 지워진 다음에 호출되어야 함.
     }
 
-    ViewTargetResource(ViewTargetResourceDesc desc, ReleaseFn onRelease) noexcept :
+    ViewTargetResources(ViewTargetResourceDesc desc, ReleaseFn onRelease) noexcept :
         m_desc(std::move(desc)),
-        m_onRelease(std::move(onRelease)),
-        m_ready(true)
+        m_onRelease(std::move(onRelease))
     {}
-
-    virtual bool IsReady() const noexcept override { return m_ready; }
 
     const Core::Size& GetSize() const noexcept { return m_desc.size; }
     Resource& GetColorResource() noexcept { return m_desc.color; }
@@ -49,5 +45,4 @@ public:
 private:
     ViewTargetResourceDesc m_desc;
     ReleaseFn m_onRelease;
-    bool m_ready{ false };
 };

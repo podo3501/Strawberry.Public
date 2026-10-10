@@ -14,12 +14,12 @@ public:
     {
     }
 
-    void Add(std::shared_ptr<IResource> res)
+    void Add(std::shared_ptr<void> object)
     {
-        if (!res)
+        if (!object)
             return;
 
-        m_pendingReleases.emplace_back(std::move(res));
+        m_pendingReleases.emplace_back(std::move(object));
     }
 
     void Flush()
@@ -32,5 +32,5 @@ public:
 
 private:
     TaskScheduler& m_taskScheduler;
-    std::vector<std::shared_ptr<IResource>> m_pendingReleases;
+    std::vector<std::shared_ptr<void>> m_pendingReleases;
 };

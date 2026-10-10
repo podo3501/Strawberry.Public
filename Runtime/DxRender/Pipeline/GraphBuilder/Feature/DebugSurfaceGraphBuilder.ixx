@@ -1,12 +1,13 @@
 export module Pipeline.GraphBuilder:DebugSurface;
 
 import std;
+import :ViewTargetResources;
 import DxRender.Graph;
 import DxRender.Factory;
 import Pipeline.Renderer;
-import DxRender.Resource;
 import DxRender.Definition;
 import DxRender.Command;
+import DxRender.Resource;
 import DxRender.Task;
 
 export class DebugSurfaceGraphBuilder
@@ -26,7 +27,7 @@ public:
     void Build(
         RenderGraph& graph,
         std::shared_ptr<SceneViewPacket> packet,
-        const ViewTargetResource& target)
+        const ViewTargetResources& target)
     {
         auto& grid = graph.AddGraphicsPass("DebugSurface_View" + std::to_string(packet->target.id));
         grid.Write(target.GetColorID(), RGAccess::RTV);

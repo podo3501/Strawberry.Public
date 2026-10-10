@@ -99,6 +99,8 @@
     <ClCompile Include="Pipeline\GraphBuilder\View\SceneViewGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.ixx" />
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetResource.ixx" />
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTypes.ixx" />
     <ClCompile Include="Pipeline\Inspector\Inspector.ixx" />
     <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx" />
@@ -166,7 +168,6 @@
     <ClCompile Include="Resource\ShadowResource.ixx" />
     <ClCompile Include="Resource\TextureCubeResource.ixx" />
     <ClCompile Include="Resource\TextureResource.ixx" />
-    <ClCompile Include="Resource\ViewTargetResource.ixx" />
     <ClCompile Include="Shader\ShaderLibrary.ixx" />
     <ClCompile Include="Task\CompiledTask.ixx" />
     <ClCompile Include="Task\LocalTaskID.ixx" />

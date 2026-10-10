@@ -1,12 +1,13 @@
 export module Pipeline.GraphBuilder:Skybox;
 
+import :ViewTargetResources;
 import std;
 import Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
-import DxRender.Resource;
 import DxRender.Definition;
 import DxRender.Command;
+import DxRender.Resource;
 import DxRender.Task;
 
 export class SkyboxGraphBuilder
@@ -22,7 +23,7 @@ public:
     void Build(
         RenderGraph& graph,
         std::shared_ptr<SceneViewPacket> packet,
-        const ViewTargetResource& target)
+        const ViewTargetResources& target)
     {
         auto& skybox = graph.AddGraphicsPass("Skybox_View" + std::to_string(packet->target.id));
         skybox.Write(target.GetColorID(), RGAccess::RTV);

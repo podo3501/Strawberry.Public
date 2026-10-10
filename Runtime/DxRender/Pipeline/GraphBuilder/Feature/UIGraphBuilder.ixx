@@ -1,13 +1,14 @@
 export module Pipeline.GraphBuilder:UI;
 
 import std;
+import :ViewTargetResources;
 import Core.Assert;
 import Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
-import DxRender.Resource;
 import DxRender.Definition;
 import DxRender.Command;
+import DxRender.Resource;
 import DxRender.Task;
 
 export class UIGraphBuilder
@@ -24,7 +25,7 @@ public:
     void Build(
         RenderGraph& graph,
         std::shared_ptr<OverlayViewPacket> packet,
-        const ViewTargetResource& target)
+        const ViewTargetResources& target)
     {
         auto& ui = graph.AddGraphicsPass("UI_View" + std::to_string(packet->target.id));
         ui.Write(target.GetColorID(), RGAccess::RTV);

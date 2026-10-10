@@ -2,6 +2,7 @@ export module Pipeline.GraphBuilder:Opaque;
 
 import std;
 import :RenderRecordPool;
+import :ViewTargetResources;
 import Core.Assert;
 import Pipeline.Renderer;
 import DxRender.RGResourceID;
@@ -30,7 +31,7 @@ public:
         const ShadowResource& shadowRes,
         RGResourceID shadowResID,
         std::shared_ptr<SceneViewPacket> packet,
-        const ViewTargetResource& target)
+        const ViewTargetResources& target)
     {
         Core::Assert(!packet->surface.empty());
 

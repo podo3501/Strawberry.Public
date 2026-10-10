@@ -3,7 +3,6 @@ export module DxRender.Definition:RenderData;
 import std;
 import :RenderState;
 import Core.Math;
-import DxRender.RGResourceID;
 import Contract.Render.Definition;
 import Contract.Render.View;
 import Contract.Render.IResource;
@@ -80,12 +79,4 @@ export struct FramePacket
     std::vector<RenderShadowCasterItem> shadowCasters;
     std::vector<std::shared_ptr<SceneViewPacket>> sceneViews;
     std::vector<std::shared_ptr<OverlayViewPacket>> overlayViews;
-};
-
-export struct ViewRenderOutput
-{
-    ViewID id;
-    Core::Rect viewport;
-    std::uint32_t heapIndex;
-    RGResourceID colorID;
 };

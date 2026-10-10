@@ -1,12 +1,12 @@
 export module Pipeline.GraphBuilder:OverlayView;
 
+import :ViewTypes;
 import :ViewTargetClear;
 import :UI;
 import Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;
-import DxRender.Definition;
 
 export class OverlayViewGraphBuilder
 {
@@ -20,7 +20,7 @@ public:
 
     ViewRenderOutput Build(
         RenderGraph& graph,
-        const ViewTargetResource& target,
+        const ViewTargetResources& target,
         const std::shared_ptr<OverlayViewPacket>& view)
     {
         graph.ImportResource(target.GetColorID(), RGAccess::SRV);

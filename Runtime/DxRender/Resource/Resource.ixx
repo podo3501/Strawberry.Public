@@ -7,7 +7,6 @@ export import :Brush;
 export import :Texture;
 export import :TextureCube;
 export import :Environment;
-export import :ViewTarget;
 
 export import :Mesh;
 export import :StaticMesh;

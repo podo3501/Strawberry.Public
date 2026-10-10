@@ -1,8 +1,8 @@
 export module Pipeline.GraphBuilder:ViewTargetClear;
 
+import :ViewTargetResources;
 import DxRender.Graph;
 import DxRender.Factory;
-import DxRender.Resource;
 import DxRender.Command;
 import DxRender.Task;
 
@@ -16,7 +16,7 @@ public:
     {
     }
 
-    void Build(RenderGraph& graph, const ViewTargetResource& target)
+    void Build(RenderGraph& graph, const ViewTargetResources& target)
     {
         auto& clear = graph.AddGraphicsPass("ClearViewTarget");
         clear.Write(target.GetColorID(), RGAccess::RTV);

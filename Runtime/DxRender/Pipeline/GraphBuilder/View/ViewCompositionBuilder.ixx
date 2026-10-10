@@ -65,7 +65,7 @@ public:
     }
 
 private:
-    ViewTargetResource& AcquireActiveViewTarget(
+    ViewTargetResources& AcquireActiveViewTarget(
         const ViewTargetPacket& targetInfo,
         std::bitset<MaxViewCount>& activeViews)
     {
@@ -82,7 +82,7 @@ private:
     {
         for (const auto& view : framePacket.sceneViews)
         {
-            ViewTargetResource& target = AcquireActiveViewTarget(view->target, activeViews);
+            ViewTargetResources& target = AcquireActiveViewTarget(view->target, activeViews);
             outputs.push_back(m_sceneViewBuilder.Build(m_graph, frameCtx, target, view));
         }
     }
@@ -94,7 +94,7 @@ private:
     {
         for (const auto& view : framePacket.overlayViews)
         {
-            ViewTargetResource& target = AcquireActiveViewTarget(view->target, activeViews);
+            ViewTargetResources& target = AcquireActiveViewTarget(view->target, activeViews);
             outputs.push_back(m_overlayViewBuilder.Build(m_graph, target, view));
         }
     }

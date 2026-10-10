@@ -345,9 +345,6 @@
     <ClCompile Include="Definition\RenderData.ixx">
       <Filter>Definition</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\ViewTargetResource.ixx">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.ixx">
       <Filter>Pipeline\GraphBuilder\Feature</Filter>
     </ClCompile>
@@ -598,6 +595,12 @@
     </ClCompile>
     <ClCompile Include="Diagnostics\Diagnostics.ixx">
       <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetResource.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTypes.ixx">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

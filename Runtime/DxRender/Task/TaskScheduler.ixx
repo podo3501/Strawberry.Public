@@ -14,10 +14,10 @@ import DxRender.Command;
 import Contract.Render.IResource;
 
 // 지연 해제 대상 리소스 항목
-struct PendingResourceRelease
+struct PendingRelease
 {
     FenceID waitFenceID{ InvalidFenceID };
-    std::vector<std::shared_ptr<IResource>> resources;
+    std::vector<std::shared_ptr<void>> objects;
 };
 
 // 태스크 스케줄러 클래스
@@ -70,15 +70,15 @@ public:
         }
     }
 
-    void DeferRelease(std::vector<std::shared_ptr<IResource>> resources)
+    void DeferRelease(std::vector<std::shared_ptr<void>> objects)
     {
         Core::Assert(!m_draining.load(std::memory_order_relaxed));
 
         auto queue = m_cmdScheduler.GetQueue(CommandType::Direct);
 
-        PendingResourceRelease entry;
+        PendingRelease entry;
         entry.waitFenceID = queue->GetCurrentFence();
-        entry.resources = std::move(resources);
+        entry.objects = std::move(objects);
 
         m_pendingReleases.push_back(std::move(entry));
     }
@@ -206,8 +206,8 @@ private:
         auto queue = m_cmdScheduler.GetQueue(CommandType::Direct);
         FenceID completed = queue->GetCompletedFence();
 
-        std::erase_if(m_pendingReleases, [completed](const PendingResourceRelease& entry) {
-            return completed >= entry.waitFenceID;
+        std::erase_if(m_pendingReleases, [completed](const PendingRelease& object) {
+            return completed >= object.waitFenceID;
             });
     }
 
@@ -228,7 +228,7 @@ private:
 private:
     CommandScheduler& m_cmdScheduler;
     Core::HandlePool<TaskEntry, TaskTag> m_tasks;
-    std::vector<PendingResourceRelease> m_pendingReleases;
+    std::vector<PendingRelease> m_pendingReleases;
 
     std::atomic<bool> m_draining{ false };
 };

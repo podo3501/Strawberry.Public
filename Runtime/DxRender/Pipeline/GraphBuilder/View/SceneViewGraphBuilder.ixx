@@ -1,5 +1,6 @@
 export module Pipeline.GraphBuilder:SceneView;
 
+import :ViewTypes;
 import :ViewTargetClear;
 import :Skybox;
 import :Opaque;
@@ -10,7 +11,6 @@ import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Resource;
-import DxRender.Definition;
 import Contract.Render.Definition;
 
 // 프레임 전체에 걸쳐 고정되는 컨텍스트 (뷰 루프 시작 전 한 번만 구성)
@@ -38,7 +38,7 @@ public:
     ViewRenderOutput Build(
         RenderGraph& graph,
         const FramePassContext& frameCtx,
-        const ViewTargetResource& target,
+        const ViewTargetResources& target,
         const std::shared_ptr<SceneViewPacket>& view)
     {
         graph.ImportResource(target.GetColorID(), RGAccess::SRV);

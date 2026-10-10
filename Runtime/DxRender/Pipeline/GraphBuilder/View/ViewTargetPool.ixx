@@ -5,6 +5,7 @@ module;
 export module Pipeline.GraphBuilder:ViewTargetPool;
 
 import std;
+import :ViewTargetResources;
 import DxRender.Release;
 import DxRender.Factory;
 import DxRender.Resource;
@@ -67,7 +68,7 @@ public:
         m_deferredReleaser{ taskScheduler }
     {}
 
-    ViewTargetResource& Acquire(ViewID id, const Core::Size& requiredSize)
+    ViewTargetResources& Acquire(ViewID id, const Core::Size& requiredSize)
     {
         auto index = static_cast<std::size_t>(id);
         auto& view = m_views[index];
@@ -117,7 +118,7 @@ public:
     }
 
 private:
-    std::shared_ptr<ViewTargetResource> CreateViewTargetResource(const Core::Size& size)
+    std::shared_ptr<ViewTargetResources> CreateViewTargetResource(const Core::Size& size)
     {
         ViewTargetResourceDesc desc;
         desc.size = size;
@@ -138,14 +139,14 @@ private:
             desc.depthDSVIndex != std::numeric_limits<std::uint32_t>::max() &&
             desc.heapIndex != std::numeric_limits<std::uint32_t>::max());
 
-        auto view = std::make_shared<ViewTargetResource>(
+        auto view = std::make_shared<ViewTargetResources>(
             std::move(desc),
-            [this](const ViewTargetResource& r) { ReleaseViews(r); });
+            [this](const ViewTargetResources& res) { ReleaseViews(res); });
 
         return view;
     }
 
-    void ReleaseViews(const ViewTargetResource& res)
+    void ReleaseViews(const ViewTargetResources& res)
     {
         constexpr auto invalidIndex = std::numeric_limits<std::uint32_t>::max();
 
@@ -161,5 +162,5 @@ private:
     DescriptorFactory& m_descFactory;
     DeferredReleaser m_deferredReleaser;
 
-    std::array<std::shared_ptr<ViewTargetResource>, MaxViewCount> m_views{};
+    std::array<std::shared_ptr<ViewTargetResources>, MaxViewCount> m_views{};
 };
