@@ -14,7 +14,7 @@ import Pipeline.GraphBuilder;
 import Core.Math;
 import Core.Assert;
 import Core.Utils;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export struct FontBucketKey
 {

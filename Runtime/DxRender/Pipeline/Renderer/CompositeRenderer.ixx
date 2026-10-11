@@ -14,7 +14,7 @@ import Core.Utils;
 import DxRender.Core;
 import DxRender.Definition;
 import DxRender.Command;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class CompositeRenderer
 {

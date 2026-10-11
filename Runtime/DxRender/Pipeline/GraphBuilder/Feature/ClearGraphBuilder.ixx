@@ -1,7 +1,6 @@
 export module Pipeline.GraphBuilder:Clear;
 
 import DxRender.SwapChainPresenter;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Task;
 import DxRender.Command;

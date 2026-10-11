@@ -3,10 +3,10 @@ export module Service.Render:BuiltinMeshes;
 import std;
 import Core.ResourceID;
 import Core.Math;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Asset.Data;
 
 static std::shared_ptr<MeshAsset> CreateUIQuadAsset()

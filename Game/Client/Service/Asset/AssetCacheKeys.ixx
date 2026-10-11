@@ -1,8 +1,7 @@
 export module Service.Asset:AssetCacheKeys;
 
 import std;
-import Core.TypeHierarchy;
-import Core.ResourceID;
+import Core.Type;
 import Core.Utils;
 
 export inline std::size_t HashCombine(std::size_t h1, std::size_t h2) noexcept

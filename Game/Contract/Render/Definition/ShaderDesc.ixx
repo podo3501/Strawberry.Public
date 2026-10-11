@@ -1,4 +1,4 @@
-export module Contract.Render.Definition:ShaderDesc;
+export module Contract.Render.Types:ShaderDesc;
 
 import std;
 import :ShaderTypes;

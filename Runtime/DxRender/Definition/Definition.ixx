@@ -7,3 +7,4 @@ export import :RenderFormat;
 export import :GlyphFormat;
 export import :GlyphUploadData;
 export import :UIBatchBuffer;
+export import DxRender.Constants;

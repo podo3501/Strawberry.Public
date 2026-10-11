@@ -1,8 +1,6 @@
 import std;
 import Core.Assert;
-import Core.Types;
-import Core.TypeHierarchy;
-import Core.ResourceID;
+import Core.Type;
 import Contract.Asset;
 
 static std::unordered_map<std::string, std::string> ParseSimpleKeyValue(const std::string& text)

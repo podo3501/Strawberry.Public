@@ -5,7 +5,7 @@ import :SceneView;
 import :OverlayView;
 import :Builtin;
 import Contract.Render.View;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 import Service.Render.Repository;
 import Graphics.SceneObject;
 import Core.Assert;

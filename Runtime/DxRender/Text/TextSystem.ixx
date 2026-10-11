@@ -11,7 +11,7 @@ import DxRender.Core;
 import DxRender.Factory;
 import Pipeline.GraphBuilder;
 import Core.Assert;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class TextSystem
 {

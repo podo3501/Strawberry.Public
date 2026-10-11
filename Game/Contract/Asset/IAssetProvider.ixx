@@ -2,8 +2,7 @@ export module Contract.Asset.Interfaces:IAssetProvider;
 
 import std;
 import Contract.Asset.AssetData;
-import Core.TypeHierarchy;
-import Core.ResourceID;
+import Core.Type;
 
 export struct IAssetProvider
 {

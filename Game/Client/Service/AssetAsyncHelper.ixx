@@ -1,9 +1,8 @@
 export module Service.AssetAsyncHelper;
 
 import std;
-import Core.ResourceID;
-import Core.TypeHierarchy;
-import Service.IAssetAsyncLoader;
+import Core.Type;
+export import Service.IAssetAsyncLoader;
 
 export template<typename T>
     AssetRequest MakeRequest(Core::ResourceID resID)

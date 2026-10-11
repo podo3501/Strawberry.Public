@@ -18,7 +18,7 @@ import DxRender.Helper;
 import DxRender.Resource;
 import DxRender.Allocator;
 import DxRender.Definition;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 
 using Microsoft::WRL::ComPtr;

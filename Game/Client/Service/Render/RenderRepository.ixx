@@ -1,7 +1,7 @@
 export module Service.Render:Repository;
 
 import std;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
 import Contract.Asset.Data;

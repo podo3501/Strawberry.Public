@@ -17,7 +17,7 @@ import DxRender.Task;
 import DxRender.Shader;
 import DxRender.Release;
 import Core.Utils;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.Interfaces;
 
 export class ResourceProviderSet

@@ -3,8 +3,7 @@ export module Contract.Asset.Data:SoundTable;
 import std;
 import :AudioTypes;
 import Contract.Asset.AssetData;
-import Core.ResourceID;
-import Core.TypeHierarchy;
+import Core.Type;
 
 export class Serializer;
 export struct SoundDesc

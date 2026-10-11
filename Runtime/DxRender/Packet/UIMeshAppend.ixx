@@ -12,7 +12,7 @@ import Core.Assert;
 import Core.Math;
 import Contract.Render.View;
 import Contract.Asset.Data;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 namespace
 {

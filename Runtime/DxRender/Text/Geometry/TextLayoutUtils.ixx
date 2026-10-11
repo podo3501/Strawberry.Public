@@ -4,7 +4,7 @@ import std;
 import :TextTypes;
 import DxRender.Definition;
 import Core.Math;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export float ComputeHorizontalOffset(
     TextHorizontalAlign align,

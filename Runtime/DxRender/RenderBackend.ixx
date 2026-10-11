@@ -35,7 +35,6 @@ import Core.Math;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Command;
-import DxRender.Constants;
 import DxRender.Definition;
 import Contract.Render.Interfaces;
 import DxRender.Task;
@@ -46,7 +45,7 @@ import DxRender.Provider;
 import DxRender.Text;
 import DxRender.Pipeline;
 import DxRender.Packet;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class RenderBackend : public IRenderBackend
 {

@@ -4,9 +4,9 @@ import std;
 import :RenderView;
 import Core.Math;
 import Contract.Render.View;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Service.Render.Repository;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 
 constexpr float DegToRad(float deg) noexcept
 {

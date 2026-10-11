@@ -3,10 +3,8 @@
 
 import std;
 import Core.Assert;
-import Core.Types;
+import Core.Type;
 import Core.Math;
-import Core.ResourceID;
-import Core.TypeHierarchy;
 import Contract.Asset;
 
 static void ApplyPremultipliedAlpha(std::vector<std::uint8_t>& pixels)

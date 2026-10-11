@@ -20,7 +20,7 @@ import DxRender.Command;
 import DxRender.Definition;
 import DxRender.Resource;
 import DxRender.Helper;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 
 //struct FrameCB

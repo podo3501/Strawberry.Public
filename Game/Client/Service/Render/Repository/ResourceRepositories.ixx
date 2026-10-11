@@ -2,7 +2,7 @@ export module Service.Render.Repository:ResourceRepositories;
 
 import std;
 import :ResourceRepository;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 
 export using BrushRepository = ResourceRepository<BrushTag>;
 export using DebugMaterialRepository = ResourceRepository<DebugMaterialTag>;

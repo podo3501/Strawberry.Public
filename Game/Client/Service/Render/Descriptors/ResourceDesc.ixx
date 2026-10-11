@@ -1,8 +1,7 @@
 export module Service.Render.Descriptors:Resource;
 
 import std;
-import Core.ResourceID;
-import Core.TypeHierarchy;
+import Core.Type;
 import Core.Utils;
 
 export struct ResourceDesc

@@ -5,7 +5,6 @@ import :RenderRecordPool;
 import :ViewTargetResources;
 import Core.Assert;
 import Pipeline.Renderer;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;
@@ -61,7 +60,7 @@ public:
                 const std::size_t total = packet->surface.size();
                 const std::size_t actual = std::min(cmds.Size(), total);
                 const std::size_t chunkSize = (total + actual - 1) / actual;
-
+                
                 recordPool.ExecuteParallel(actual, [&](std::size_t t)
                     {
                         CommandList& cmd = cmds[t];

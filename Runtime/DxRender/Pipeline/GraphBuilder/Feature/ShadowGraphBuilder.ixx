@@ -3,12 +3,11 @@ export module Pipeline.GraphBuilder:Shadow;
 import std;
 import Pipeline.Renderer;
 import DxRender.Definition;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;
 import DxRender.Command;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 
 export class ShadowGraphBuilder

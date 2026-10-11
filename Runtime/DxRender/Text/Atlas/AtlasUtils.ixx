@@ -6,7 +6,7 @@ import :TextTypes;
 import :GlyphTypes;
 import DxRender.Definition;
 import Core.Math;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 static void SetGlyphUV(
     float width,

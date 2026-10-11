@@ -6,7 +6,7 @@ import DxRender.Definition;
 import Core.Math;
 import Core.Assert;
 import Core.Bit;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Asset.Data;
 
 export struct PackedTextParams

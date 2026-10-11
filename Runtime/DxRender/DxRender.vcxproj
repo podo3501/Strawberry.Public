@@ -50,6 +50,7 @@
     <ClCompile Include="Definition\Definition.ixx" />
     <ClCompile Include="Definition\GlyphFormat.ixx" />
     <ClCompile Include="Definition\GlyphUploadData.ixx" />
+    <ClCompile Include="Definition\RenderConstants.ixx" />
     <ClCompile Include="Definition\RenderData.ixx" />
     <ClCompile Include="Definition\RenderFormat.ixx" />
     <ClCompile Include="Definition\RenderState.ixx" />
@@ -150,7 +151,6 @@
     <ClCompile Include="Release.ixx" />
     <ClCompile Include="DxRender.ixx" />
     <ClCompile Include="RenderBackend.ixx" />
-    <ClCompile Include="RenderConstants.ixx" />
     <ClCompile Include="Resource\BrushResource.ixx" />
     <ClCompile Include="Resource\EnvironmentResource.ixx" />
     <ClCompile Include="Resource\FontResource.ixx" />

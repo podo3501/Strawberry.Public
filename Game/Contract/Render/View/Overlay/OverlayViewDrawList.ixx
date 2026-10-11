@@ -3,7 +3,7 @@ export module Contract.Render.View:OverlayDrawList;
 import std;
 import Core.Math;
 import Contract.Render.IResource;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export struct DrawUIItem
 {

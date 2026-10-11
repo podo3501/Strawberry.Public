@@ -1,8 +1,7 @@
 export module Contract.Asset.Interfaces:AssetInput;
 
 import std;
-import Core.ResourceID;
-import Core.Types;
+import Core.Type;
 import :IReadStream;
 
 export struct AssetInput

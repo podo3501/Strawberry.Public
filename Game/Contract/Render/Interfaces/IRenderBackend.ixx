@@ -7,7 +7,7 @@ export module Contract.Render.Interfaces:IRenderBackend;
 import std;
 import :IResourceProvider;
 import Core.Math;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 
 export struct IRenderBackend

@@ -5,9 +5,7 @@
 #pragma warning(pop)
 
 import std;
-import Core.Types;
-import Core.TypeHierarchy;
-import Core.ResourceID;
+import Core.Type;
 import Contract.Asset;
 
 namespace

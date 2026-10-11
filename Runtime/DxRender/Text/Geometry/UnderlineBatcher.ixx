@@ -7,7 +7,7 @@ import :TextGeometryUtils;
 import DxRender.Definition;
 import DxRender.Resource;
 import Core.Math;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class UnderlineBatcher
 {

@@ -145,7 +145,6 @@
       <Filter>Command</Filter>
     </ClCompile>
     <ClCompile Include="DxRender.ixx" />
-    <ClCompile Include="RenderConstants.ixx" />
     <ClCompile Include="Command\CommandQueue.ixx">
       <Filter>Command</Filter>
     </ClCompile>
@@ -601,6 +600,9 @@
     </ClCompile>
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewTypes.ixx">
       <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Definition\RenderConstants.ixx">
+      <Filter>Definition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

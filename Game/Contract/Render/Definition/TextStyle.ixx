@@ -1,4 +1,4 @@
-export module Contract.Render.Definition:TextStyle;
+export module Contract.Render.Types:TextStyle;
 
 import std;
 import Core.Math;

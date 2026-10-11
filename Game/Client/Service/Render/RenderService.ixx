@@ -10,14 +10,12 @@ import :ShaderStageBuilder;
 import :Repository;
 import Service.Render.Repository;
 import Contract.Render.Interfaces;
-import Service.IAssetAsyncLoader;
 import Service.AssetAsyncHelper;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Asset.Data;
 import Core.Assert;
-import Core.ResourceID;
+import Core.Type;
 import Core.Math;
-import Core.TypeHierarchy;
 
 namespace
 {

@@ -4,7 +4,7 @@ import std;
 import :RenderSortKey;
 import DxRender.Definition;
 import DxRender.Resource;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 
 namespace

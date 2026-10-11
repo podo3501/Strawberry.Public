@@ -4,7 +4,6 @@ import std;
 import :ImageRenderer;
 import DxRender.Factory;
 import DxRender.SwapChainPresenter;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Task;
 

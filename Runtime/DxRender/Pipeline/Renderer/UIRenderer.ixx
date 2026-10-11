@@ -20,7 +20,7 @@ import DxRender.Resource;
 import DxRender.Helper;
 import DxRender.Allocator;
 import DxRender.Definition;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 using Microsoft::WRL::ComPtr;
 

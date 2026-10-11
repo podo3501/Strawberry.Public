@@ -7,7 +7,7 @@ import DxRender.Allocator;
 import DxRender.Factory;
 import DxRender.Resource;
 import Core.Assert;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class TransientMeshProvider
 {

@@ -1,20 +1,18 @@
 export module DxRender.Provider:TextureCreateGraphBuilder;
 
 import std;
-import Contract.Asset.Data;
-import DxRender.Graph;
 import :MipGenerator;
 import :TextureUtils;
 import :TextureLoadRequest;
-import DxRender.RGResourceID;
+import DxRender.Graph;
 import DxRender.Resource;
 import DxRender.Task;
 import DxRender.Factory;
 import DxRender.Shader;
 import DxRender.Definition;
-import DxRender.Constants;
 import DxRender.Command;
 import Core.Bit;
+import Contract.Asset.Data;
 
 struct TextureUploadEntry
 {

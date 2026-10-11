@@ -3,7 +3,6 @@
 import std;
 import Core.Types;
 import Core.Utils;
-import Contract.Asset.AssetData;
 import Contract.Asset;
 import Runtime.Serialization;
 

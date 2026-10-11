@@ -1,4 +1,4 @@
-export module Contract.Render.Definition:Config;
+export module Contract.Render.Types:Config;
 
 import std;
 import Core.Math;

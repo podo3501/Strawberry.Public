@@ -7,14 +7,13 @@ import :Composite;
 import :ViewTargetPool;
 import Pipeline.Renderer;
 import Core.Math;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Task;
 import DxRender.Factory;
 import DxRender.SwapChainPresenter;
 import DxRender.Definition;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class ViewCompositionBuilder
 {

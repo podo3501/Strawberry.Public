@@ -8,7 +8,6 @@ import Core.ResourceID;
 import Core.Handle;
 import Contract.Asset.Data;
 import Contract.Audio.Interfaces;
-import Service.IAssetAsyncLoader;
 import Service.AssetAsyncHelper;
 
 struct PendingSoundRequest

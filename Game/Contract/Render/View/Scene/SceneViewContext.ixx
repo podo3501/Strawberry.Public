@@ -3,7 +3,7 @@ export module Contract.Render.View:SceneContext;
 import std;
 import :ID;
 import :TargetInfo;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export struct RenderOverride
 {

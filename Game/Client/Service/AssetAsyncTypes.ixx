@@ -1,8 +1,7 @@
 export module Service.AssetAsyncTypes;
 
 import std;
-import Core.ResourceID;
-import Core.TypeHierarchy;
+import Core.Type;
 import Contract.Asset.AssetData;
 
 export using AssetPtr = std::shared_ptr<AssetData>;

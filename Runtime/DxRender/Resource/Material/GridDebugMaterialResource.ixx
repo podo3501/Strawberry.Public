@@ -2,7 +2,7 @@ export module DxRender.Resource:GridDebugMaterial;
 
 import :DebugMaterial;
 import DxRender.Definition;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class GridDebugMaterialResource : public DebugMaterialResource
 {

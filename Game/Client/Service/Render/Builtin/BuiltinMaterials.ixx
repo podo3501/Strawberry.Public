@@ -2,7 +2,7 @@ export module Service.Render:BuiltinMaterials;
 
 import std;
 import Core.ResourceID;
-import Service.Render.ResourceHandles;
+import Service.Render.Handles;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
 

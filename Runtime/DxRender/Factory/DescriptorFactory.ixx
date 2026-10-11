@@ -8,7 +8,7 @@ import std;
 import Core.Assert;
 import DxRender.Core;
 import DxRender.Allocator;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class DescriptorFactory
 {

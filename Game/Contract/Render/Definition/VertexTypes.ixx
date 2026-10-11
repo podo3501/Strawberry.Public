@@ -1,4 +1,4 @@
-export module Contract.Render.Definition:VertexTypes;
+export module Contract.Render.Types:VertexTypes;
 
 import std;
 import Core.Math;

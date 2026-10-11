@@ -10,7 +10,6 @@ import DxRender.Factory;
 import DxRender.Command;
 import DxRender.Helper;
 import DxRender.Definition;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Resource;
 import DxRender.SwapChainPresenter;

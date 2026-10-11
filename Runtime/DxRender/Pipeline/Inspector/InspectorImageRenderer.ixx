@@ -15,7 +15,7 @@ import DxRender.Command;
 import DxRender.Allocator;
 import DxRender.Helper;
 import DxRender.Definition;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export struct InspectorTextureCB
 {

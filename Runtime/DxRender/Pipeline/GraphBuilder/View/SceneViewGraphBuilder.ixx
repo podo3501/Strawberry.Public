@@ -6,12 +6,11 @@ import :Skybox;
 import :Opaque;
 import :DebugSurface;
 import Pipeline.Renderer;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Resource;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 // 프레임 전체에 걸쳐 고정되는 컨텍스트 (뷰 루프 시작 전 한 번만 구성)
 export struct FramePassContext

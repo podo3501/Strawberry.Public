@@ -2,7 +2,6 @@ export module Pipeline.GraphBuilder:Composite;
 
 import std;
 import :ViewTypes;
-import DxRender.RGResourceID;
 import DxRender.Graph;
 import Pipeline.Renderer;
 import DxRender.SwapChainPresenter;

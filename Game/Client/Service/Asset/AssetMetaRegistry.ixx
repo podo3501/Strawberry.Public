@@ -1,12 +1,9 @@
 export module Service.AssetMetaRegistry;
 
 import std;
-import Core.ResourceID;
-import Core.TypeHierarchy;
+import Core.Type;
 import Core.Utils;
-import Service.IAssetAsyncLoader;
 import Service.AssetAsyncHelper;
-import Contract.Asset.AssetData;
 import Contract.Asset;
 import Service.Asset.ImageExtensions;
 

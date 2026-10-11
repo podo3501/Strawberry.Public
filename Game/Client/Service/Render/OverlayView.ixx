@@ -2,8 +2,8 @@ export module Service.Render:OverlayView;
 
 import std;
 import :RenderView;
-import Service.Render.ResourceHandles;
-import Contract.Render.Definition;
+import Service.Render.Handles;
+import Contract.Render.Types;
 import Contract.Render.View;
 import Service.Render.Repository;
 import Core.Math;

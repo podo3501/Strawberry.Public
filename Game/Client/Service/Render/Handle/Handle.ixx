@@ -1,4 +1,4 @@
-export module Service.Render.ResourceHandles;
+export module Service.Render.Handles;
 
 import Core.Handle;
 

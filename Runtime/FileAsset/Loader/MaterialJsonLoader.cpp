@@ -1,11 +1,8 @@
 #include <nlohmann/json.hpp>
 
 import std;
-import Core.Types;
-import Core.TypeHierarchy;
-import Core.ResourceID;
+import Core.Type;
 import Contract.Asset;
-import Contract.Asset.AssetData;
 import Runtime.Serialization;
 
 struct JsonPBRSurface

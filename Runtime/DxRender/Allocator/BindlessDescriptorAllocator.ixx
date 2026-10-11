@@ -10,7 +10,7 @@ import DxRender.Core;
 import DxRender.Constants;
 import Core.Assert;
 import Core.IndexAllocator;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 namespace BindlessDescriptors
 {

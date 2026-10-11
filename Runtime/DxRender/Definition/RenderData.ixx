@@ -3,7 +3,7 @@ export module DxRender.Definition:RenderData;
 import std;
 import :RenderState;
 import Core.Math;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 import Contract.Render.View;
 import Contract.Render.IResource;
 

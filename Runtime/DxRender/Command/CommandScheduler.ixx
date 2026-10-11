@@ -10,7 +10,7 @@ import :List;
 import :Queue;
 import Core.Assert;
 import DxRender.Core;
-import Contract.Render.Definition;
+import Contract.Render.Types;
 
 export class CommandScheduler
 {
