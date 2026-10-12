@@ -1,8 +1,8 @@
 export module Contract.Input:KeyboardState;
 
 import std;
-import :KeyCode;
 import :InputState;
+import Contract.Input.Types;
 
 export struct KeyboardState
 {

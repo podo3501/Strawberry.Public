@@ -31,6 +31,9 @@
     <Filter Include="Render\Interfaces">
       <UniqueIdentifier>{dd707412-3df6-473a-aaf1-f40f84dec3e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input\Types">
+      <UniqueIdentifier>{5f058510-ced3-4ab1-bff1-5d9f673e7ec2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -55,9 +58,6 @@
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Input\KeyboardState.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyCode.ixx">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Input\MouseButton.ixx">
@@ -242,6 +242,21 @@
     </ClCompile>
     <ClCompile Include="Render\Definition\RenderMetrics.ixx">
       <Filter>Render\Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputInterfaces.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\IInputBackend.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Types\InputTypes.ixx">
+      <Filter>Input\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Types\InputFrame.ixx">
+      <Filter>Input\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Types\KeyCode.ixx">
+      <Filter>Input\Types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

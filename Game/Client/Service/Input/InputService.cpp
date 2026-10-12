@@ -12,6 +12,11 @@ InputService::InputService(
 {
 }
 
+InputService::InputService(std::unique_ptr<IInputBackend> backend) noexcept
+    : m_backend{ std::move(backend) }
+{
+}
+
 std::unique_ptr<InputService> InputService::Create(
     std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
     std::unique_ptr<IMouseInputProvider> mouseProvider)
@@ -21,6 +26,13 @@ std::unique_ptr<InputService> InputService::Create(
     return std::unique_ptr<InputService>(
         new InputService(std::move(keyboardProvider), std::move(mouseProvider))
     );
+}
+
+std::unique_ptr<InputService> InputService::Create(std::unique_ptr<IInputBackend> backend)
+{
+    if (!backend) return nullptr;
+
+    return std::unique_ptr<InputService>(new InputService(std::move(backend)));
 }
 
 bool InputService::IsKeyPressed(KeyCode key) const noexcept

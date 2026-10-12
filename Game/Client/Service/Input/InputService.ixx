@@ -2,6 +2,8 @@ export module Service.Input:InputService;
 
 import std;
 import Contract.Input;
+import Contract.Input.Interfaces;
+import Contract.Input.Types;
 import Core.Math;
 
 export class InputService
@@ -13,6 +15,8 @@ public:
     static std::unique_ptr<InputService> Create(
         std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
         std::unique_ptr<IMouseInputProvider> mouseProvider);
+
+	static std::unique_ptr<InputService> Create(std::unique_ptr<IInputBackend> backend);
 
     bool IsKeyPressed(KeyCode key) const noexcept;
     bool IsKeyHeld(KeyCode key) const noexcept;
@@ -38,6 +42,10 @@ private:
     InputService(
         std::unique_ptr<IKeyboardInputProvider> keyboardProvider,
         std::unique_ptr<IMouseInputProvider> mouseProvider) noexcept;
+
+    InputService(std::unique_ptr<IInputBackend> backend) noexcept;
+
+    std::unique_ptr<IInputBackend> m_backend;
 
     std::unique_ptr<IKeyboardInputProvider> m_keyboardProvider;
     std::unique_ptr<IMouseInputProvider> m_mouseProvider;
