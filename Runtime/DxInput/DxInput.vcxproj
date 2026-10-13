@@ -19,14 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DxInput.ixx" />
-    <ClCompile Include="Keyboard\KeyboardInputProvider.ixx" />
-    <ClCompile Include="Mouse\MouseInputProvider.ixx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Keyboard\KeyMap.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
+    <ClCompile Include="InputBackend.cpp" />
+    <ClCompile Include="InputBackend.ixx" />
+    <ClCompile Include="KeyMap.ixx" />
+    <ClCompile Include="MouseButtonMap.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">

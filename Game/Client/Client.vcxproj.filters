@@ -7,9 +7,6 @@
     <ClCompile Include="Service\Input\InputService.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\Input.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Asset\Asset.ixx">
       <Filter>Service\Asset</Filter>
     </ClCompile>
@@ -207,6 +204,15 @@
     </ClCompile>
     <ClCompile Include="Service\Audio\Audio.ixx">
       <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Input\InputState.ixx">
+      <Filter>Service\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Input\KeyboardState.ixx">
+      <Filter>Service\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Input\MouseState.ixx">
+      <Filter>Service\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-export module Contract.Input:KeyboardState;
+export module Service.InputService:KeyboardState;
 
 import std;
 import :InputState;

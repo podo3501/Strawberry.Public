@@ -45,25 +45,7 @@
     <ClCompile Include="Asset\IAssetStorage.ixx">
       <Filter>Asset</Filter>
     </ClCompile>
-    <ClCompile Include="Input\IKeyboardInputProvider.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\IMouseInputProvider.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="Input\InputContract.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\InputState.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyboardState.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\MouseButton.ixx">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\MouseState.ixx">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Asset\Data\Data.ixx">
@@ -256,6 +238,9 @@
       <Filter>Input\Types</Filter>
     </ClCompile>
     <ClCompile Include="Input\Types\KeyCode.ixx">
+      <Filter>Input\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Types\MouseButton.ixx">
       <Filter>Input\Types</Filter>
     </ClCompile>
   </ItemGroup>
