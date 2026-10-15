@@ -1,6 +1,6 @@
-export module Service.InputService:InputState;
+export module Service.Input:ButtonState;
 
-export struct InputState
+export struct ButtonState
 {
     bool previous{ false };
     bool current{ false };

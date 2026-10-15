@@ -75,7 +75,7 @@ export template <typename T>
 
 export std::vector<AssetRequestID> PushRequests(
     IAssetAsyncLoader* asyncLoader,
-    std::span<const AssetRequest> requests)
+    const std::vector<AssetRequest>& requests)    
 {
     std::vector<AssetRequestID> ids;
     ids.reserve(requests.size());
@@ -88,7 +88,7 @@ export std::vector<AssetRequestID> PushRequests(
 
 export std::vector<AssetPtr> WaitAll(
     IAssetAsyncLoader* asyncLoader,
-    std::span<const AssetRequestID> ids)
+    const std::vector<AssetRequestID>& ids)
 {
     std::vector<AssetPtr> results;
     results.reserve(ids.size());

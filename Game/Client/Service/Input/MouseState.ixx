@@ -1,7 +1,7 @@
-export module Service.InputService:MouseState;
+export module Service.Input:MouseState;
 
 import std;
-import :InputState;
+import :ButtonState;
 import Core.Math;
 import Contract.Input.Types;
 
@@ -25,14 +25,14 @@ export struct MouseState
         return static_cast<float>(wheel - prevWheel) / WHEEL_STEP;
     }
 
-    std::array<InputState, static_cast<size_t>(MouseButton::Count)> buttons{};
+    std::array<ButtonState, static_cast<size_t>(MouseButton::Count)> buttons{};
 
-    constexpr const InputState& operator[](MouseButton btn) const noexcept
+    constexpr const ButtonState& operator[](MouseButton btn) const noexcept
     {
         return buttons[static_cast<size_t>(btn)];
     }
 
-    constexpr InputState& operator[](MouseButton btn) noexcept
+    constexpr ButtonState& operator[](MouseButton btn) noexcept
     {
         return buttons[static_cast<size_t>(btn)];
     }

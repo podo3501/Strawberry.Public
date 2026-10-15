@@ -1,24 +1,17 @@
 module;
 
-#ifdef _DEBUG
-#pragma comment(lib, "DirectXTK12_Debug.lib")
-#else
-#pragma comment(lib, "DirectXTK12_Release.lib")
-#endif
-#pragma comment(lib, "Comctl32.lib")
-
 #include <Windows.h>
 #include "DirectXTK12/Keyboard.h"
 #include "DirectXTK12/Mouse.h"
 
-export module DxInputBackend;
+export module DxInput;
 
 import std;
 import Contract.Input.Types;
 import Contract.Input.Interfaces;
 import Core.Utils;
 
-export class InputBackend final : public IInputBackend
+class InputBackend final : public IInputBackend
 {
 public:
     explicit InputBackend(HWND hwnd);

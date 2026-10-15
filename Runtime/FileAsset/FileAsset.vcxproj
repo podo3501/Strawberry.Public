@@ -30,6 +30,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetStorage.cpp" />
     <ClCompile Include="FileAsset.ixx" />
     <ClCompile Include="AssetStorage.ixx" />
     <ClCompile Include="EnvironmentLoader.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Loader\TextureMetaLoader.cpp" />
     <ClCompile Include="Loader\VorbisDecoder.ixx" />
     <ClCompile Include="Loader\WavStaticLoader.cpp" />
+    <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="ReadStream.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

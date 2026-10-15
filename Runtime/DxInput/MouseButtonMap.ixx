@@ -2,7 +2,7 @@ module;
 
 #include "DirectXTK12/Mouse.h"
 
-export module DxInputBackend:MouseButtonMap;
+export module DxInput:MouseButtonMap;
 
 import std;
 import Contract.Input.Types;

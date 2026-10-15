@@ -2,7 +2,7 @@ module;
 
 #include "DirectXTK12/Keyboard.h"
 
-export module DxInputBackend:KeyMap;
+export module DxInput:KeyMap;
 
 import std;
 import Contract.Input.Types;

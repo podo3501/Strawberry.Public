@@ -12,7 +12,6 @@
     <ClCompile Include="Static\StaticSoundBuffer.ixx">
       <Filter>Static</Filter>
     </ClCompile>
-    <ClCompile Include="SDLAudio.ixx" />
     <ClCompile Include="Static\StaticSoundInstance.ixx">
       <Filter>Static</Filter>
     </ClCompile>
@@ -30,5 +29,20 @@
     <ClCompile Include="AudioFormat.ixx" />
     <ClCompile Include="AudioMixer.ixx" />
     <ClCompile Include="AudioBackend.ixx" />
+    <ClCompile Include="AudioBackend.cpp" />
+    <ClCompile Include="AudioDevice.cpp" />
+    <ClCompile Include="AudioMixer.cpp" />
+    <ClCompile Include="Static\StaticSoundBuffer.cpp">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Static\StaticSoundInstance.cpp">
+      <Filter>Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundBuffer.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream\StreamSoundInstance.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

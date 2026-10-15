@@ -1,11 +1,18 @@
 module;
 
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTK12_Debug.lib")
+#else
+#pragma comment(lib, "DirectXTK12_Release.lib")
+#endif
+#pragma comment(lib, "Comctl32.lib")
+
 #include <Windows.h>
 #include <CommCtrl.h>
 #include "DirectXTK12/Keyboard.h"
 #include "DirectXTK12/Mouse.h"
 
-module DxInputBackend;
+module DxInput;
 
 import :KeyMap;
 import :MouseButtonMap;

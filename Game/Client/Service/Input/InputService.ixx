@@ -1,4 +1,4 @@
-export module Service.InputService;
+export module Service.Input;
 
 import std;
 import :KeyboardState;

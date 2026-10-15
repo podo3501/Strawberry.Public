@@ -12,6 +12,9 @@ namespace Vorbis
 {
 	export size_t ReadFunc(void* ptr, size_t size, size_t nmemb, void* datasource)
 	{
+		if (size == 0 || nmemb == 0)
+			return 0;
+
 		auto* stream = static_cast<IReadStream*>(datasource);
 		size_t bytesRequested = size * nmemb;
 

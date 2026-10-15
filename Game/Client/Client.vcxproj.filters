@@ -205,7 +205,7 @@
     <ClCompile Include="Service\Audio\Audio.ixx">
       <Filter>Service\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\InputState.ixx">
+    <ClCompile Include="Service\Input\ButtonState.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
     <ClCompile Include="Service\Input\KeyboardState.ixx">
@@ -213,6 +213,27 @@
     </ClCompile>
     <ClCompile Include="Service\Input\MouseState.ixx">
       <Filter>Service\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetService.cpp">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetRepository.cpp">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetAsyncLoader.cpp">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetLoaderRegistry.cpp">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Asset\AssetMetaRegistry.cpp">
+      <Filter>Service\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\AudioService.cpp">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Audio\VoicePool.cpp">
+      <Filter>Service\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,19 +1,19 @@
-export module Service.InputService:KeyboardState;
+export module Service.Input:KeyboardState;
 
 import std;
-import :InputState;
+import :ButtonState;
 import Contract.Input.Types;
 
 export struct KeyboardState
 {
-    std::array<InputState, static_cast<size_t>(KeyCode::Count)> keys{};
+    std::array<ButtonState, static_cast<size_t>(KeyCode::Count)> keys{};
 
-    [[nodiscard]] const InputState& operator[](KeyCode key) const noexcept
+    [[nodiscard]] const ButtonState& operator[](KeyCode key) const noexcept
     {
         return keys[static_cast<size_t>(key)];
     }
 
-    [[nodiscard]] InputState& operator[](KeyCode key) noexcept
+    [[nodiscard]] ButtonState& operator[](KeyCode key) noexcept
     {
         return keys[static_cast<size_t>(key)];
     }

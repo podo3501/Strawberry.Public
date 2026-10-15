@@ -10,43 +10,12 @@ import :Config;
 export class AudioDevice
 {
 public:
+	~AudioDevice();
 	AudioDevice() = default;
+	bool Initialize(const StreamAudioRequestDevice& config);
 
-	~AudioDevice()
-	{
-		if (m_device != 0)
-		{
-			SDL_CloseAudioDevice(m_device);
-		}
-	}
-
-	bool Initialize(const StreamAudioRequestDevice& config)
-	{
-		SDL_AudioSpec desired{};
-		desired.freq = config.freq;
-		desired.format = config.format;
-		desired.channels = config.channels;
-
-		m_device = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &desired);
-		if (m_device == 0)
-			return false;
-
-		return SDL_GetAudioDeviceFormat(m_device, &m_spec, nullptr);
-	}
-
-	SDL_AudioStream* CreateDeviceStream(const SDL_AudioSpec& srcSpec) const
-	{
-		auto stream = SDL_CreateAudioStream(&srcSpec, &m_spec);
-		if (!SDL_BindAudioStream(m_device, stream))
-			return nullptr;
-
-		return stream;
-	}
-
-	SDL_AudioDeviceID Get() const noexcept
-	{
-		return m_device;
-	}
+	SDL_AudioStream* CreateDeviceStream(const SDL_AudioSpec& srcSpec) const;
+	SDL_AudioDeviceID Get() const noexcept;
 
 private:
 	SDL_AudioDeviceID m_device{};

@@ -1,4 +1,4 @@
-module Service.InputService;
+module Service.Input;
 
 import std;
 

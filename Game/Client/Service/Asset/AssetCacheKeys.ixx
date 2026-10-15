@@ -4,11 +4,6 @@ import std;
 import Core.Type;
 import Core.Utils;
 
-export inline std::size_t HashCombine(std::size_t h1, std::size_t h2) noexcept
-{
-	return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
-}
-
 export struct LoaderKey
 {
 	Core::TypeID type;

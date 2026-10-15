@@ -19,15 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SDLAudio.ixx" />
+    <ClCompile Include="AudioBackend.cpp" />
+    <ClCompile Include="AudioDevice.cpp" />
     <ClCompile Include="AudioDevice.ixx" />
     <ClCompile Include="AudioFormat.ixx" />
+    <ClCompile Include="AudioMixer.cpp" />
     <ClCompile Include="AudioMixer.ixx" />
     <ClCompile Include="AudioBackend.ixx" />
     <ClCompile Include="AudioConfig.ixx" />
+    <ClCompile Include="Static\StaticSoundBuffer.cpp" />
     <ClCompile Include="Static\StaticSoundBuffer.ixx" />
+    <ClCompile Include="Static\StaticSoundInstance.cpp" />
     <ClCompile Include="Static\StaticSoundInstance.ixx" />
+    <ClCompile Include="Stream\StreamSoundBuffer.cpp" />
     <ClCompile Include="Stream\StreamSoundBuffer.ixx" />
+    <ClCompile Include="Stream\StreamSoundInstance.cpp" />
     <ClCompile Include="Stream\StreamSoundInstance.ixx" />
     <ClCompile Include="Stream\VorbisStreamCallbacks.ixx" />
   </ItemGroup>
