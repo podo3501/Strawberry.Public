@@ -7,26 +7,23 @@ import DxRender.Resource;
 import Contract.Render.Types;
 import Contract.Render.View;
 
-namespace
+static RenderSurfaceItem BuildSurfaceItem(
+    const DrawSurfaceItem& drawItem,
+    std::optional<RasterPreset> rasterOverride)
 {
-    RenderSurfaceItem BuildSurfaceItem(
-        const DrawSurfaceItem& drawItem,
-        std::optional<RasterPreset> rasterOverride)
-    {
-        RenderSurfaceItem item{
-            drawItem.mesh,
-            drawItem.material,
-            drawItem.shaderOverride,
-            drawItem.world };
+    RenderSurfaceItem item{
+        drawItem.mesh,
+        drawItem.material,
+        drawItem.shaderOverride,
+        drawItem.world };
 
-        auto material = static_cast<MaterialResource*>(drawItem.material.get());
-        PipelineState pso = material->GetPipelineState(rasterOverride, drawItem.shaderOverride);
-        item.sortKey = RenderSortKey::Build(pso.GetHash());
-        item.pipelineState = pso;
+    auto material = static_cast<MaterialResource*>(drawItem.material.get());
+    PipelineState pso = material->GetPipelineState(rasterOverride, drawItem.shaderOverride);
+    item.sortKey = RenderSortKey::Build(pso.GetHash());
+    item.pipelineState = pso;
 
-        return item;
-    }
-} //namespace
+    return item;
+}
 
 export std::vector<RenderSurfaceItem> BuildSurfaceItems(
     std::vector<DrawSurfaceItem>& surfaces,

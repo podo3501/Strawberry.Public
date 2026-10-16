@@ -235,6 +235,9 @@
     <ClCompile Include="Service\Audio\VoicePool.cpp">
       <Filter>Service\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Audio\SoundRepository.cpp">
+      <Filter>Service\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

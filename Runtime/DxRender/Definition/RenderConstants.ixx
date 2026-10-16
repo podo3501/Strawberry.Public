@@ -19,4 +19,4 @@ namespace TextureAlignment
     export inline constexpr std::size_t Placement = D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT; // 512
 }
 
-export inline constexpr std::uint32_t FrameBufferCount = 3;
+export constexpr std::uint32_t FrameBufferCount = 3;

@@ -11,22 +11,17 @@ public:
     DeferredReleaser() = delete;
     explicit DeferredReleaser(TaskScheduler& taskScheduler) noexcept
         : m_taskScheduler{ taskScheduler }
-    {
-    }
+    {}
 
     void Add(std::shared_ptr<void> object)
     {
-        if (!object)
-            return;
-
+        if (!object) return;
         m_pendingReleases.emplace_back(std::move(object));
     }
 
     void Flush()
     {
-        if (m_pendingReleases.empty())
-            return;
-
+        if (m_pendingReleases.empty()) return;
         m_taskScheduler.DeferRelease(std::move(m_pendingReleases));
     }
 

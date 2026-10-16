@@ -53,6 +53,7 @@
     <ClCompile Include="Service\Audio\AudioService.ixx" />
     <ClCompile Include="Service\Audio\LoadedSound.ixx" />
     <ClCompile Include="Service\Audio\SoundHandle.ixx" />
+    <ClCompile Include="Service\Audio\SoundRepository.cpp" />
     <ClCompile Include="Service\Audio\SoundRepository.ixx" />
     <ClCompile Include="Service\Audio\Voice.ixx" />
     <ClCompile Include="Service\Audio\VoiceHandle.ixx" />

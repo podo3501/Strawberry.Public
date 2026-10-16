@@ -1,42 +1,14 @@
 module;
 
-//DirectX관련
-#pragma comment(lib, "dxcompiler.lib") //셰이더 관련
-#pragma comment(lib, "d3d12.lib")
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "dxguid.lib")
-
-//text 관련
-#ifdef _DEBUG
-#pragma comment(lib, "freetype_Debug.lib")
-#pragma comment(lib, "harfbuzz_Debug.lib")
-#pragma comment(lib, "msdfgen-core_Debug.lib")
-#pragma comment(lib, "msdfgen-ext_Debug.lib")
-#else
-#pragma comment(lib, "freetype_Release.lib")
-#pragma comment(lib, "harfbuzz_Release.lib")
-#pragma comment(lib, "msdfgen-core_Release.lib")
-#pragma comment(lib, "msdfgen-ext_Release.lib")
-#endif
-
-//cube texture
-#ifdef _DEBUG
-#pragma comment(lib, "ktx_Debug.lib")
-#else
-#pragma comment(lib, "ktx_Release.lib")
-#endif
-
 #include <windows.h>
 
-export module DxRender:RenderBackend;
+export module DxRender;
 
 import std;
 import Core.Math;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Command;
-import DxRender.Definition;
-import Contract.Render.Interfaces;
 import DxRender.Task;
 import DxRender.SwapChainPresenter;
 import DxRender.Shader;
@@ -44,119 +16,24 @@ import DxRender.Diagnostics;
 import DxRender.Provider;
 import DxRender.Text;
 import DxRender.Pipeline;
-import DxRender.Packet;
+import Contract.Render.Interfaces;
 import Contract.Render.Types;
 
-export class RenderBackend : public IRenderBackend
+class RenderBackend : public IRenderBackend
 {
 public:
     ~RenderBackend() override = default;
+    explicit RenderBackend(const RenderConfig& config);
+    bool Initialize(HWND hwnd, const Core::Size& screenSize, std::span<const RegistryShaderDesc> registryShaders) override;
 
-    explicit RenderBackend(const RenderConfig& config)
-        : m_device{ config.enableDebugLayer }
-        , m_config{ config }
-        , m_descFactory{ m_device }
-        , m_resFactory{ m_device }
-        , m_taskScheduler{ m_cmdScheduler }
-        , m_swapChain{ m_cmdScheduler }
-        , m_resProviderSet{ m_device, m_taskScheduler, m_resFactory, m_descFactory }
-        , m_transientMeshProvider{ m_descFactory }
-        , m_textSystem{ m_device, m_descFactory, m_resFactory }
-        , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_descFactory, m_shaderLibrary, m_textSystem.GetBuilder() }
-    {
-    }
+    virtual ShaderID RegisterShader(const ShaderDesc& desc) override;
+    virtual void Resize(const Core::Size& size) override;
+    virtual void Update() override;
+    virtual void Render(SceneFrameData frame) override;
+    virtual void Shutdown() override;
 
-    bool Initialize(HWND hwnd, const Core::Size& screenSize, std::span<const RegistryShaderDesc> registryShaders) override
-    {
-        if (!m_descFactory.Initialize(m_config.descriptors)) return false;
-        if (!m_cmdScheduler.Initialize(m_device, m_descFactory.GetBindlessAllocator().GetHeap(), m_config.commandPools)) return false;
-        SwapChainDesc desc{ hwnd, screenSize, m_config.allowTearing };
-        if (!m_swapChain.Initialize(m_device, desc)) return false;
-        if (!m_shaderLibrary.Initialize(registryShaders)) return false;
-        if (!m_profiler.Initialize(m_device, m_cmdScheduler, m_resFactory)) return false;
-        if (!m_resProviderSet.Initialize(m_shaderLibrary)) return false;
-        if (!m_transientMeshProvider.Initialize(m_device)) return false;
-        if (!m_textSystem.Initialize(m_config.text)) return false;
-        if (!m_pipeline.Initialize(screenSize)) return false;
-
-        return true;
-    }
-
-    ShaderID RegisterShader(const ShaderDesc& desc) override
-    {
-        return m_shaderLibrary.RegisterShader(desc);
-    }
-
-    void Resize(const Core::Size& size) override
-    {
-        m_swapChain.Resize(m_device, size);
-        m_pipeline.Resize(size);
-    }
-
-    void Update() override
-    {
-        m_taskScheduler.Execute();
-
-        m_profiler.Update(m_frameIndex);
-        float gpuMs = m_profiler.GetGpuFrameTimeMs();
-
-        m_resProviderSet.Update(gpuMs);
-        m_pipeline.Update();
-    }
-
-    void Render(SceneFrameData frame) override
-    {
-        std::uint32_t slot = static_cast<std::uint32_t>(m_frameIndex % FrameBufferCount);
-        auto* cmd = m_cmdScheduler.Begin(slot);
-        if (cmd)
-        {
-            m_transientMeshProvider.ResetFrame(slot);
-            m_descFactory.BeginFrame(slot);
-
-            m_profiler.BeginFrame(*cmd, m_frameIndex);
-
-            cmd = m_pipeline.Render(cmd, m_cmdScheduler,
-                BuildPacket(
-                    frame,
-                    m_textSystem,
-                    m_transientMeshProvider,
-                    m_swapChain.GetSize()));
-
-            if (!cmd)
-            {
-                m_cmdScheduler.AbortFrame();
-                return;
-            }
-
-            m_profiler.EndFrame(*cmd);
-
-            m_cmdScheduler.End();
-            m_swapChain.Present(false);
-
-            m_frameIndex++;
-        }
-    }
-
-    void Shutdown() override
-    {
-        m_taskScheduler.Shutdown(); // 일감을 다 끝내놓는다.
-        m_cmdScheduler.WaitIdle();  // 초기화 같은 것들은 task에 안 들어가기 때문에 cmd가 끝나기를 기다린다.
-    }
-
-    IResourceProvider* GetProvider(ProviderType type) override
-    {
-        return m_resProviderSet.GetProvider(type);
-    }
-
-    RenderMetrics GetRenderMetrics() override
-    {
-        RenderMetrics metrics;
-
-        metrics.cpuFrameMs = m_profiler.GetCpuFrameTimeMs();
-        metrics.gpuFrameMs = m_profiler.GetGpuFrameTimeMs();
-
-        return metrics;
-    }
+    virtual IResourceProvider* GetProvider(ProviderType type) override;
+    virtual RenderMetrics GetRenderMetrics() override;
 
 private:
     Device m_device;
@@ -176,8 +53,3 @@ private:
 
     std::uint64_t m_frameIndex{ 0 };
 };
-
-export std::unique_ptr<IRenderBackend> CreateRenderBackend(const RenderConfig& config)
-{
-    return std::make_unique<RenderBackend>(config);
-}

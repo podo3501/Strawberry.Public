@@ -144,7 +144,6 @@
     <ClCompile Include="Command\Conversions.ixx">
       <Filter>Command</Filter>
     </ClCompile>
-    <ClCompile Include="DxRender.ixx" />
     <ClCompile Include="Command\CommandQueue.ixx">
       <Filter>Command</Filter>
     </ClCompile>
@@ -603,6 +602,83 @@
     </ClCompile>
     <ClCompile Include="Definition\RenderConstants.ixx">
       <Filter>Definition</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBackend.cpp" />
+    <ClCompile Include="SwapChainPresenter.cpp" />
+    <ClCompile Include="Allocator\BindlessDescriptorAllocator.cpp">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\DescriptorAllocator.cpp">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameConstantAllocator.cpp">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator\FrameUploadAllocator.cpp">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandList.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandQueue.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\CommandScheduler.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DxDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Diagnostics\FrameProfiler.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\DescriptorFactory.cpp">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory\ResourceFactory.cpp">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\ResourceID\ResourceIDAllocator.cpp">
+      <Filter>Graph\ResourceID</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\BarrierBuilder.cpp">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\PacketBuilder.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIItemBuilder.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\UIMeshAppend.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\DebugSurfaceGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\FontAtlasUploadGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\OpaqueGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\RenderRecordPool.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ShadowGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\SkyboxGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\UIGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\Feature\ViewTargetClearGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\Feature</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
