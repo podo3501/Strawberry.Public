@@ -6,7 +6,6 @@ import :OverlayView;
 import :Composite;
 import :ViewTargetPool;
 import Pipeline.Renderer;
-import Core.Math;
 import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Task;
@@ -25,78 +24,31 @@ public:
         Renderers& renderers,
         SwapChainPresenter& swapChain,
         RenderGraph& renderGraph,
-        RGResourceIDAllocator& idAllocator) :
-        m_viewPool{ device, taskScheduler, idAllocator, descFactory },
-        m_sceneViewBuilder{ device, descFactory, renderers },
-        m_overlayViewBuilder{ descFactory, renderers },
-        m_compositeBuilder{ renderers.GetCompositeRenderer(), swapChain },
-        m_graph{ renderGraph },
-        m_idAllocator{ idAllocator }
-    {}
+        RGResourceIDAllocator& idAllocator);
 
-    void Update()
-    {
-        m_viewPool.Update();
-    }
-
-    void ApplyResourceBindings(ResourceContext& resources)
-    {
-        m_viewPool.ApplyResourceBindings(resources);
-    }
+    void Update();
+    void ApplyResourceBindings(ResourceContext& resources);
 
     void Build(
         RGResourceID hBackBuffer,
         const FramePacket& framePacket,
-        const FramePassContext& frameCtx)
-    {
-        std::vector<ViewRenderOutput> viewOutputs;
-        viewOutputs.reserve(framePacket.sceneViews.size() + framePacket.overlayViews.size());
-        std::bitset<MaxViewCount> activeViews;
-
-        AppendSceneViewOutputs(framePacket, frameCtx, activeViews, viewOutputs);
-        AppendOverlayViewOutputs(framePacket, activeViews, viewOutputs);
-
-        m_viewPool.PruneUnused(activeViews);
-        std::stable_sort(viewOutputs.begin(), viewOutputs.end(),
-            [](const ViewRenderOutput& lhs, const ViewRenderOutput& rhs) { return lhs.id < rhs.id; });
-
-        m_compositeBuilder.Build(m_graph, hBackBuffer, viewOutputs);
-    }
+        const FramePassContext& frameCtx);
 
 private:
     ViewTargetResources& AcquireActiveViewTarget(
         const ViewTargetPacket& targetInfo,
-        std::bitset<MaxViewCount>& activeViews)
-    {
-        activeViews.set(targetInfo.id);
-        auto size = Core::ToSize(targetInfo.viewport.width, targetInfo.viewport.height);
-        return m_viewPool.Acquire(targetInfo.id, size);
-    }
+        std::bitset<MaxViewCount>& activeViews);
 
     void AppendSceneViewOutputs(
         const FramePacket& framePacket,
         const FramePassContext& frameCtx,
         std::bitset<MaxViewCount>& activeViews,
-        std::vector<ViewRenderOutput>& outputs)
-    {
-        for (const auto& view : framePacket.sceneViews)
-        {
-            ViewTargetResources& target = AcquireActiveViewTarget(view->target, activeViews);
-            outputs.push_back(m_sceneViewBuilder.Build(m_graph, frameCtx, target, view));
-        }
-    }
+        std::vector<ViewRenderOutput>& outputs);
 
     void AppendOverlayViewOutputs(
         const FramePacket& framePacket,
         std::bitset<MaxViewCount>& activeViews,
-        std::vector<ViewRenderOutput>& outputs)
-    {
-        for (const auto& view : framePacket.overlayViews)
-        {
-            ViewTargetResources& target = AcquireActiveViewTarget(view->target, activeViews);
-            outputs.push_back(m_overlayViewBuilder.Build(m_graph, target, view));
-        }
-    }
+        std::vector<ViewRenderOutput>& outputs);
 
 private:
     ViewTargetPool m_viewPool;

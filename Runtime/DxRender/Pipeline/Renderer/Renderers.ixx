@@ -1,5 +1,6 @@
 export module Pipeline.Renderer:Renderers;
 
+import std;
 import :PipelineCache;
 import :Config;
 import :Shadow;
@@ -9,6 +10,7 @@ import :UI;
 import :Skybox;
 import :Composite;
 import DxRender.Core;
+import DxRender.Shader;
 
 export class Renderers
 {

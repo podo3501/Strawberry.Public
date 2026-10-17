@@ -680,5 +680,107 @@
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ViewTargetClearGraphBuilder.cpp">
       <Filter>Pipeline\GraphBuilder\Feature</Filter>
     </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\CompositeGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\OverlayViewGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\SceneViewGraphBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewCompositionBuilder.cpp">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.cpp">
+      <Filter>Pipeline\GraphBuilder\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.cpp">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.cpp">
+      <Filter>Pipeline\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\CompositeRenderer.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\DebugSurfaceRenderer.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\PipelineCache.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\ShadowRenderer.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\SurfaceRenderer.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\Renderer\UIRenderer.cpp">
+      <Filter>Pipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline\ForwardRenderPipeline.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\DebugMaterialProvider.cpp">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Material\MaterialProvider.cpp">
+      <Filter>Provider\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshCreateGraphBuilder.cpp">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Mesh\MeshProvider.cpp">
+      <Filter>Provider\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\MipGenerator.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCreateGraphBuilder.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeCreateGraphBuilder.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureCubeProvider.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureProvider.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Texture\TextureUtils.cpp">
+      <Filter>Provider\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.cpp">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.cpp">
+      <Filter>Provider\TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\BrushProvider.cpp">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\EnvironmentProvider.cpp">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\FontProvider.cpp">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Provider\Providers.cpp">
+      <Filter>Provider</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FontResource.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderLibrary.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskScheduler.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

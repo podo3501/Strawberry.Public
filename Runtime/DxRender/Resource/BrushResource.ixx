@@ -1,3 +1,7 @@
+module;
+
+#include <d3d12.h>
+
 export module DxRender.Resource:Brush;
 
 import std;

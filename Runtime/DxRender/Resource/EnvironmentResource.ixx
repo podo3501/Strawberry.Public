@@ -1,10 +1,10 @@
 export module DxRender.Resource:Environment;
 
 import std;
-import Core.Math;
-import Contract.Render.IResource;
 import :IPendingResource;
 import :TextureCube;
+import Core.Math;
+import Contract.Render.IResource;
 
 export class EnvironmentResource : public IResource, public IPendingResource
 {

@@ -17,18 +17,14 @@ export namespace Core
 	template<CountEnum T>
 	inline constexpr std::size_t EnumSize = static_cast<std::size_t>(T::Count); //사용법 EnumSize<xxx> 뒤에 괄호가 없다.
 
-	template <CountEnum T>
+	template<typename T>
+		requires std::is_enum_v<T>
 	constexpr auto ToIndex(T enumerator) noexcept
 	{
-		return static_cast<std::underlying_type_t<T>>(enumerator);
-	}
-
-	// 일반 Enum일 때 호출됨
-	template<typename T>
-		requires std::is_enum_v<T> && (!CountEnum<T>)
-	constexpr auto ToIndex(T value) noexcept
-	{
-		return static_cast<std::underlying_type_t<T>>(value);
+		if constexpr (CountEnum<T>)
+			return static_cast<std::underlying_type_t<T>>(enumerator);
+		else
+			return static_cast<std::underlying_type_t<T>>(enumerator);
 	}
 
 	template<CountEnum T, typename... Names>
