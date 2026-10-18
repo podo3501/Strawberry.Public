@@ -225,6 +225,7 @@
     <ClCompile Include="Resource\ShadowResource.ixx" />
     <ClCompile Include="Resource\TextureCubeResource.ixx" />
     <ClCompile Include="Resource\TextureResource.ixx" />
+    <ClCompile Include="Shader\Shader.ixx" />
     <ClCompile Include="Shader\ShaderLibrary.cpp" />
     <ClCompile Include="Shader\ShaderLibrary.ixx" />
     <ClCompile Include="SwapChainPresenter.cpp" />
@@ -239,11 +240,15 @@
     <ClCompile Include="Task\TaskScheduler.cpp" />
     <ClCompile Include="Task\TaskScheduler.ixx" />
     <ClCompile Include="Task\TaskUtils.ixx" />
+    <ClCompile Include="Text\Atlas\AtlasPacker.cpp" />
     <ClCompile Include="Text\Atlas\AtlasPacker.ixx" />
+    <ClCompile Include="Text\Atlas\AtlasPage.cpp" />
     <ClCompile Include="Text\Atlas\AtlasPage.ixx" />
     <ClCompile Include="Text\Atlas\AtlasUtils.ixx" />
     <ClCompile Include="Text\Atlas\BitmapFontAtlasBucket.ixx" />
+    <ClCompile Include="Text\Atlas\FontAtlas.cpp" />
     <ClCompile Include="Text\Atlas\FontAtlas.ixx" />
+    <ClCompile Include="Text\Atlas\FontAtlasBucket.cpp" />
     <ClCompile Include="Text\Atlas\FontAtlasBucket.ixx" />
     <ClCompile Include="Text\Atlas\GlyphCache.ixx" />
     <ClCompile Include="Text\Atlas\Glyph\BitmapGlyphGenerator.ixx" />
@@ -251,13 +256,17 @@
     <ClCompile Include="Text\Atlas\Glyph\MTSDFGlyphGenerator.ixx" />
     <ClCompile Include="Text\Atlas\MTSDFFontAtlasBucket.ixx" />
     <ClCompile Include="Text\FontSetting.ixx" />
+    <ClCompile Include="Text\Geometry\GlyphCursor.cpp" />
     <ClCompile Include="Text\Geometry\GlyphCursor.ixx" />
     <ClCompile Include="Text\Geometry\TextGeometry.ixx" />
     <ClCompile Include="Text\Geometry\TextGeometryUtils.ixx" />
     <ClCompile Include="Text\Geometry\TextLayoutUtils.ixx" />
+    <ClCompile Include="Text\Geometry\UnderlineBatcher.cpp" />
     <ClCompile Include="Text\Geometry\UnderlineBatcher.ixx" />
     <ClCompile Include="Text\Text.ixx" />
+    <ClCompile Include="Text\TextLayout.cpp" />
     <ClCompile Include="Text\TextLayout.ixx" />
+    <ClCompile Include="Text\TextSystem.cpp" />
     <ClCompile Include="Text\TextSystem.ixx" />
     <ClCompile Include="Text\TextTypes.ixx" />
   </ItemGroup>

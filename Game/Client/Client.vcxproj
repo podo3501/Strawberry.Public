@@ -81,12 +81,16 @@
     <ClCompile Include="Service\Render\Descriptors\PhongMaterialDesc.ixx" />
     <ClCompile Include="Service\Render\Descriptors\ResourceDesc.ixx" />
     <ClCompile Include="Service\Render\Handle\Handle.ixx" />
+    <ClCompile Include="Service\Render\OverlayView.cpp" />
     <ClCompile Include="Service\Render\OverlayView.ixx" />
     <ClCompile Include="Service\Render\Render.ixx" />
+    <ClCompile Include="Service\Render\RenderRepository.cpp" />
     <ClCompile Include="Service\Render\RenderRepository.ixx" />
+    <ClCompile Include="Service\Render\RenderService.cpp" />
     <ClCompile Include="Service\Render\RenderService.ixx" />
     <ClCompile Include="Service\Render\RenderView.ixx" />
     <ClCompile Include="Service\Render\Repository\Base\ResourceRepository.ixx" />
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.cpp" />
     <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.ixx" />
     <ClCompile Include="Service\Render\Repository\Base\ResourceTypes.ixx" />
     <ClCompile Include="Service\Render\Repository\Container\RepositoryContainer.ixx" />
@@ -95,7 +99,9 @@
     <ClCompile Include="Service\Render\Repository\IResourceRepository.ixx" />
     <ClCompile Include="Service\Render\Repository\Repository.ixx" />
     <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx" />
+    <ClCompile Include="Service\Render\SceneRenderer.cpp" />
     <ClCompile Include="Service\Render\SceneRenderer.ixx" />
+    <ClCompile Include="Service\Render\SceneView.cpp" />
     <ClCompile Include="Service\Render\SceneView.ixx" />
     <ClCompile Include="Service\Render\ShaderStageBuilder.ixx" />
   </ItemGroup>

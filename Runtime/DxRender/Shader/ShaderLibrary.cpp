@@ -6,6 +6,7 @@ module;
 
 module DxRender.Shader;
 
+import :ShaderLibrary;
 import Core.Types;
 import Core.Assert;
 import Core.Utils;
@@ -106,7 +107,7 @@ ShaderLibrary::ShaderLibrary()
     m_shaders.resize(1); // 런타임이 먼저 들어올 수 있기 때문. shaderKey 생성값은 size를 리턴하기 때문이다.
 }
 
-bool ShaderLibrary::Initialize(std::span<const RegistryShaderDesc> registryShaders)
+bool ShaderLibrary::Initialize(const std::vector<RegistryShaderDesc>& registryShaders)
 {
     for (const auto& [id, desc] : registryShaders)
         if (!RegisterShader(id, desc)) return false;
@@ -143,7 +144,7 @@ const ShaderEntry* ShaderLibrary::Find(const ShaderVariant& variant) const
     if (!CompileVariant(variant, shaderData, entry))
         return nullptr;
 
-    auto [iter, inserted] = m_variants.emplace(variant, std::move(entry)); // lazy cache 이기 때문에 mutable 처리.
+    auto [iter, inserted] = m_variants.try_emplace(variant, std::move(entry)); // lazy cache 이기 때문에 mutable 처리.
 
     return &iter->second;
 }

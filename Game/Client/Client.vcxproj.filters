@@ -238,6 +238,24 @@
     <ClCompile Include="Service\Audio\SoundRepository.cpp">
       <Filter>Service\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.cpp">
+      <Filter>Service\Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\OverlayView.cpp">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\RenderRepository.cpp">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\RenderService.cpp">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\SceneRenderer.cpp">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Render\SceneView.cpp">
+      <Filter>Service\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">

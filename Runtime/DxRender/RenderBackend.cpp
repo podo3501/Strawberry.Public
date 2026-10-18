@@ -26,8 +26,9 @@
 
 module DxRender;
 
-import DxRender.Packet;
-import DxRender.Definition;
+import std;
+import Pipeline.GraphBuilder;
+import Contract.Render.Types;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
     : m_device{ config.enableDebugLayer }
@@ -39,10 +40,10 @@ RenderBackend::RenderBackend(const RenderConfig& config)
     , m_resProviderSet{ m_device, m_taskScheduler, m_resFactory, m_descFactory }
     , m_transientMeshProvider{ m_descFactory }
     , m_textSystem{ m_device, m_descFactory, m_resFactory }
-    , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_descFactory, m_shaderLibrary, m_textSystem.GetBuilder() }
+    , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_descFactory, m_shaderLibrary }
 {}
 
-bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, std::span<const RegistryShaderDesc> registryShaders)
+bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, const std::vector<RegistryShaderDesc>& registryShaders)
 {
     if (!m_descFactory.Initialize(m_config.descriptors)) return false;
     if (!m_cmdScheduler.Initialize(m_device, m_descFactory.GetBindlessAllocator().GetHeap(), m_config.commandPools)) return false;
@@ -53,7 +54,7 @@ bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, std::spa
     if (!m_resProviderSet.Initialize(m_shaderLibrary)) return false;
     if (!m_transientMeshProvider.Initialize(m_device)) return false;
     if (!m_textSystem.Initialize(m_config.text)) return false;
-    if (!m_pipeline.Initialize(screenSize)) return false;
+    if (!m_pipeline.Initialize(m_textSystem.GetBuilder(), screenSize)) return false;
 
     return true;
 }

@@ -603,7 +603,6 @@
     <ClCompile Include="Definition\RenderConstants.ixx">
       <Filter>Definition</Filter>
     </ClCompile>
-    <ClCompile Include="RenderBackend.cpp" />
     <ClCompile Include="SwapChainPresenter.cpp" />
     <ClCompile Include="Allocator\BindlessDescriptorAllocator.cpp">
       <Filter>Allocator</Filter>
@@ -781,6 +780,34 @@
     </ClCompile>
     <ClCompile Include="Task\TaskScheduler.cpp">
       <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPacker.cpp">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\AtlasPage.cpp">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlas.cpp">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Atlas\FontAtlasBucket.cpp">
+      <Filter>Text\Atlas</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\GlyphCursor.cpp">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\Geometry\UnderlineBatcher.cpp">
+      <Filter>Text\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextLayout.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\TextSystem.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBackend.cpp" />
+    <ClCompile Include="Shader\Shader.ixx">
+      <Filter>Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

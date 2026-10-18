@@ -4,7 +4,7 @@ module;
 #include <dxcapi.h>
 #include <wrl.h>
 
-export module DxRender.Shader;
+export module DxRender.Shader:ShaderLibrary;
 
 import std;
 import DxRender.Definition;
@@ -32,7 +32,7 @@ public:
     ~ShaderLibrary() = default;
     ShaderLibrary();
 
-    bool Initialize(std::span<const RegistryShaderDesc> registryShaders);
+    bool Initialize(const std::vector<RegistryShaderDesc>& registryShaders);
     ShaderID RegisterShader(const ShaderDesc& desc);
     const ShaderEntry* Find(const ShaderVariant& variant) const;
 

@@ -23,16 +23,16 @@ export class ForwardRenderPipeline
 {
 public:
     ~ForwardRenderPipeline() = default;
-
     ForwardRenderPipeline(
         Device& device,
         SwapChainPresenter& swapChain,
         TaskScheduler& taskScheduler,
         DescriptorFactory& descFactory,
-        ShaderLibrary& shaderLibrary,
-        FontAtlasUploadGraphBuilder& fontUploadBuilder);
+        ShaderLibrary& shaderLibrary);
 
-    bool Initialize(const Core::Size& screenSize);
+    bool Initialize(
+        FontAtlasUploadGraphBuilder* fontUploadBuilder,
+        const Core::Size& screenSize);
     void Update();
     void Resize(const Core::Size& size);
 
@@ -59,7 +59,7 @@ private:
     RGResourceID m_hBackBuffer{ InvalidRGID };
     RGResourceID m_hShadow{ InvalidRGID };
 
-    FontAtlasUploadGraphBuilder& m_fontUploadBuilder;
+    FontAtlasUploadGraphBuilder* m_fontUploadBuilder{ nullptr };
     ClearGraphBuilder m_clearBuilder;
     ShadowGraphBuilder m_shadowBuilder;
     ViewCompositionBuilder m_viewComposition;

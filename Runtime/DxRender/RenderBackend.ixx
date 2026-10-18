@@ -5,27 +5,29 @@ module;
 export module DxRender;
 
 import std;
-import Core.Math;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Command;
-import DxRender.Task;
+import DxRender.Definition;
 import DxRender.SwapChainPresenter;
 import DxRender.Shader;
 import DxRender.Diagnostics;
 import DxRender.Provider;
 import DxRender.Text;
 import DxRender.Pipeline;
-import Contract.Render.Interfaces;
+import DxRender.Packet;
+import DxRender.Task;
+import Core.Math;
 import Contract.Render.Types;
+import Contract.Render.Interfaces;
 
 class RenderBackend : public IRenderBackend
 {
 public:
     ~RenderBackend() override = default;
     explicit RenderBackend(const RenderConfig& config);
-    bool Initialize(HWND hwnd, const Core::Size& screenSize, std::span<const RegistryShaderDesc> registryShaders) override;
 
+    virtual bool Initialize(HWND hwnd, const Core::Size& screenSize, const std::vector<RegistryShaderDesc>& registryShaders) override;
     virtual ShaderID RegisterShader(const ShaderDesc& desc) override;
     virtual void Resize(const Core::Size& size) override;
     virtual void Update() override;

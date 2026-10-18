@@ -3,6 +3,7 @@ export module DxRender.Text:BitmapFontAtlasBucket;
 import std;
 import :FontAtlasBucket;
 import :AtlasUtils;
+import :GlyphTypes;
 import :TextTypes;
 import :BitmapGlyphGenerator;
 import DxRender.Resource;
