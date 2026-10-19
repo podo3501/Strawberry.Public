@@ -7,6 +7,7 @@ module DxRender.Command;
 
 import :List;
 import :Conversions;
+import DxRender.DxCheck;
 import DxRender.Core;
 import Core.Assert;
 

@@ -19,7 +19,7 @@ export struct StaticSoundAsset : public Core::TypeNode<StaticSoundAsset, AssetDa
 	int channels{ 0 };
 	SampleFormat format{ SampleFormat::Int16 };
 
-	std::vector<std::uint8_t> data; //?!? 추후에 Core::ByteBuffer 로 바꾸자.
+	std::vector<std::uint8_t> data;
 
 	size_t SampleCount() const
 	{

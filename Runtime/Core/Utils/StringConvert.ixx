@@ -208,6 +208,11 @@ namespace Core
         return result;
     }
 
+    export std::string UTF32ToUTF8(std::u32string_view text)
+    {
+        return UTF32ToUTF8(std::span<const char32_t>{ text.data(), text.size() });
+    }
+
     //------------------------------
     // C-String 출력 유틸리티
     //------------------------------

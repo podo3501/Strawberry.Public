@@ -9,7 +9,7 @@ TransientMeshProvider::TransientMeshProvider(DescriptorFactory& descriptorFactor
 
 bool TransientMeshProvider::Initialize(Device& device)
 {
-    FrameUploadPoolDesc poolDescs[] =
+    std::vector<FrameUploadPoolDesc> poolDescs =
     {
         { FrameUploadPoolType::UIVertex, 16 * 1024 * 1024, sizeof(UIVertex) },
         { FrameUploadPoolType::UIIndex,  16 * 1024 * 1024, sizeof(std::uint32_t) },
@@ -19,8 +19,8 @@ bool TransientMeshProvider::Initialize(Device& device)
 }
 
 std::shared_ptr<TransientMeshResource> TransientMeshProvider::Create(
-    std::span<const UIVertex> vertices,
-    std::span<const std::uint32_t> indices)
+    const std::vector<UIVertex>& vertices,
+    const std::vector<std::uint32_t>& indices)
 {
     if (vertices.empty() || indices.empty())
         return nullptr;

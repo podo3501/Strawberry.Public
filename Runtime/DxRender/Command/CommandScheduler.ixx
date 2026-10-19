@@ -31,7 +31,7 @@ public:
     FenceID End(); // End -> Close + Signal, PendingRelease 등록
     
     std::vector<CommandList*> BeginParallel(std::size_t count); // Render 전용: Begin()~End() 사이에서만 유효
-    CommandList* EndParallel(std::span<CommandList*> cmds); // Render 전용: Begin()~End() 사이에서만 유효
+    CommandList* EndParallel(const std::vector<CommandList*>& cmds); // Render 전용: Begin()~End() 사이에서만 유효
 
     void AbortFrame();
     FenceID SignalQueue(CommandType type);

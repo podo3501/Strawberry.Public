@@ -22,7 +22,7 @@ public:
     FrameUploadPools(const FrameUploadPools&) = delete;
     FrameUploadPools& operator=(const FrameUploadPools&) = delete;
 
-    bool Initialize(Device& device, std::span<const FrameUploadPoolDesc> poolDescs);
+    bool Initialize(Device& device, const std::vector<FrameUploadPoolDesc>& poolDescs);
     UploadAllocation Allocate(FrameUploadPoolType type, std::uint32_t elementCount) noexcept;
     void Reset(std::uint32_t slot) noexcept;
 

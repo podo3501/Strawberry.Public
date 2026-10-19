@@ -19,8 +19,7 @@ export void AppendShapedText(
 {
     Core::Rect clipRect = ComputeClipRect(item);
 
-    std::vector<float> lineWidths = ComputeLineWidths(shaped.glyphs);
-    GlyphCursor cursor{ shaped, item, lineWidths };
+    GlyphCursor cursor{ shaped, item, ComputeLineWidths(shaped.glyphs) };
     UnderlineBatcher underline{ atlas, shaped, buffer, clipRect };
     const std::vector<PackedTextParams> runParams = PackRunParams(item.runs); // 런당 1회
 

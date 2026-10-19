@@ -1,6 +1,7 @@
 module DxRender.Graph;
 
 import std;
+import :RenderGraph;
 import :Pass;
 import :Utils;
 import :Types;

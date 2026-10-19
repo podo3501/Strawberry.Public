@@ -20,7 +20,6 @@ export struct GlyphInfo
 
     Core::Vector2 uvMin{ 0.0f, 0.0f }; // Atlas Texture의 좌상단 UV. 즉 source
     Core::Vector2 uvMax{ 0.0f, 0.0f }; // Atlas Texture의 우하단 UV
-    // ?!? advanceX는 어디? 이 값이 있어야 하는지 어떤지 나중에 판단 해 보자.
 };
 
 export struct ShapedGlyph

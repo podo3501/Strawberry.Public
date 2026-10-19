@@ -8,7 +8,7 @@ import Service.Render.Descriptors;
 import Contract.Render.Interfaces;
 import Service.AssetAsyncHelper;
 
-struct ResourceImplTag {}; // 내부 전용 Tag - 외부 Tag와 무관
+export struct ResourceImplTag {}; // 내부 전용 Tag - 외부 Tag와 무관
 using RawHandle = Core::IDHandle<ResourceImplTag>;
 
 struct ResourceEntry

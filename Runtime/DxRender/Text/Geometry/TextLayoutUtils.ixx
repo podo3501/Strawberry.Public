@@ -40,7 +40,7 @@ export float ComputeVerticalOffset(
     }
 }
 
-export std::vector<float> ComputeLineWidths(std::span<const ShapedGlyph> glyphs)
+export std::vector<float> ComputeLineWidths(const std::vector<ShapedGlyph>& glyphs)
 {
     std::vector<float> lineWidths;
     for (const auto& g : glyphs)

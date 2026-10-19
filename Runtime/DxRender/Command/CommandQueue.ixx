@@ -36,7 +36,7 @@ public:
 
     // Render 전용: Begin()~End() 사이에서만 유효
     std::vector<CommandList*> BeginParallel(std::size_t count);
-    CommandList* EndParallel(std::span<CommandList*> cmdLists);
+    CommandList* EndParallel(const std::vector<CommandList*>& cmdLists);
 
     void AbortFrame();
     FenceID Signal();

@@ -42,6 +42,14 @@ RenderService::~RenderService()
     }
 }
 
+RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyncLoader* asyncLoader)
+	: m_backend{ std::move(backend) }
+	, m_asyncLoader{ asyncLoader }
+    , m_repositories{ *m_backend, asyncLoader }
+	, m_repository{ m_repositories }
+    , m_renderer{ m_repositories }
+{}
+
 std::unique_ptr<RenderService> RenderService::Create(
     std::unique_ptr<IRenderBackend> backend,
     IAssetAsyncLoader* asyncLoader) noexcept
@@ -54,9 +62,6 @@ bool RenderService::Initialize(HWND hwnd, const Core::Size& screenSize)
     auto shaderDescs = SetupRegistryShaders();
     if (!m_backend->Initialize(hwnd, screenSize, shaderDescs))
         return false;
-
-    m_repository = std::make_unique<RenderRepository>(m_repositories);
-    m_renderer = std::make_unique<SceneRenderer>(m_repositories);
 
     return true;
 }
@@ -85,31 +90,18 @@ ShaderID RenderService::RegisterShader(const Core::ResourceID& resourceID, Shade
 
 void RenderService::Update()
 {
-    m_repository->Update();
+    m_repository.Update();
     m_backend->Update();
 }
 
 void RenderService::Render()
 {
-    m_backend->Render(m_renderer->Flush());
+    m_backend->Render(m_renderer.Flush());
 }
 
 void RenderService::Resize(const Core::Size& size)
 {
     m_backend->Resize(size);
-}
-
-RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyncLoader* asyncLoader)
-    : m_backend{ std::move(backend) }
-    , m_asyncLoader{ asyncLoader }
-{
-    m_repositories.Emplace<FontRepository>(m_backend->GetProvider(ProviderType::Font), asyncLoader);
-    m_repositories.Emplace<MeshRepository>(m_backend->GetProvider(ProviderType::Mesh), asyncLoader);
-    m_repositories.Emplace<MaterialRepository>(m_backend->GetProvider(ProviderType::Material), asyncLoader);
-    m_repositories.Emplace<DebugMeshRepository>(m_backend->GetProvider(ProviderType::Mesh), asyncLoader);
-    m_repositories.Emplace<DebugMaterialRepository>(m_backend->GetProvider(ProviderType::DebugMaterial), asyncLoader);
-    m_repositories.Emplace<BrushRepository>(m_backend->GetProvider(ProviderType::Brush), asyncLoader);
-    m_repositories.Emplace<EnvironmentRepository>(m_backend->GetProvider(ProviderType::Environment), asyncLoader);
 }
 
 std::vector<RegistryShaderEntry> RenderService::LoadRegistryShaderEntries()

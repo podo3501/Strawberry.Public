@@ -22,7 +22,7 @@ private:
 
     void WorkerLoop(std::stop_token stopToken, std::size_t idx);
 
-    std::vector<std::unique_ptr<Worker>> m_workers;
     std::vector<std::function<void()>> m_jobs; // 메인이 쓰고 워커가 읽음 (semaphore로 happens-before 보장)
     std::latch* m_frameLatch{ nullptr };
+    std::vector<Worker> m_workers;
 };

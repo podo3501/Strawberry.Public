@@ -38,8 +38,8 @@ public:
     void Render();
     void Resize(const Core::Size& size);
 
-    RenderRepository& GetRepository() { return *m_repository; }
-    SceneRenderer& GetRenderer() { return *m_renderer; }
+    RenderRepository& GetRepository() { return m_repository; }
+    SceneRenderer& GetRenderer() { return m_renderer; }
     RenderMetrics GetRenderMetrics() { return m_backend->GetRenderMetrics(); }
 
 private:
@@ -52,6 +52,6 @@ private:
     std::unordered_map<Core::ResourceID, ShaderID> m_shaderCache;
 
     RepositoryContainer m_repositories;
-    std::unique_ptr<RenderRepository> m_repository;
-    std::unique_ptr<SceneRenderer> m_renderer;
+    RenderRepository m_repository;
+    SceneRenderer m_renderer;
 };

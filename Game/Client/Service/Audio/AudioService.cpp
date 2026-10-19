@@ -25,7 +25,7 @@ std::unique_ptr<AudioService> AudioService::Create(
 	if (backend == nullptr)
 		return nullptr;
 
-	std::unique_ptr<AudioService> service(new AudioService(sndAssetView, std::move(backend), asyncLoader));
+	std::unique_ptr<AudioService> service(new AudioService(std::move(backend), sndAssetView, asyncLoader));
 	if (!service->Initialize(maxVoices, maxStreams))
 		return nullptr;
 
@@ -34,7 +34,7 @@ std::unique_ptr<AudioService> AudioService::Create(
 
 SoundHandle AudioService::AcquireStaticSound(std::string_view soundID)
 {
-	auto staticSoundTable = m_sndAssetView->staticSoundTable;
+	auto staticSoundTable = m_sndAssetView.staticSoundTable;
 	if (staticSoundTable == nullptr)
 		return SoundHandle::Invalid();
 
@@ -42,12 +42,12 @@ SoundHandle AudioService::AcquireStaticSound(std::string_view soundID)
 	if (desc == nullptr)
 		return SoundHandle::Invalid();
 
-	return m_repository->AcquireStaticSound(desc);
+	return m_repository.AcquireStaticSound(desc);
 }
 
 SoundHandle AudioService::AcquireStreamSound(std::string_view soundID)
 {
-	auto streamSoundTable = m_sndAssetView->streamSoundTable;
+	auto streamSoundTable = m_sndAssetView.streamSoundTable;
 	if (streamSoundTable == nullptr)
 		return SoundHandle::Invalid();
 
@@ -55,12 +55,12 @@ SoundHandle AudioService::AcquireStreamSound(std::string_view soundID)
 	if (desc == nullptr)
 		return SoundHandle::Invalid();
 
-	return m_repository->AcquireStreamSound(desc);
+	return m_repository.AcquireStreamSound(desc);
 }
 
 VoiceHandle AudioService::Play(SoundHandle sh) noexcept
 {
-	auto loaded = m_repository->Find(sh);
+	auto loaded = m_repository.Find(sh);
 	if (!loaded)
 		return VoiceHandle::Invalid();
 
@@ -73,28 +73,28 @@ VoiceHandle AudioService::Play(SoundHandle sh) noexcept
 		return VoiceHandle::Invalid();
 	}
 
-	return m_voicePool->Play(sh, loaded, GetParams(loaded->desc));
+	return m_voicePool.Play(sh, loaded, GetParams(loaded->desc));
 }
 
 bool AudioService::Pause(VoiceHandle vh) noexcept
 {
-	return m_voicePool->Pause(vh);
+	return m_voicePool.Pause(vh);
 }
 
 bool AudioService::Resume(VoiceHandle vh) noexcept
 {
-	return m_voicePool->Resume(vh);
+	return m_voicePool.Resume(vh);
 }
 
 bool AudioService::Stop(VoiceHandle vh) noexcept
 {
-	return m_voicePool->StopVoice(vh);
+	return m_voicePool.StopVoice(vh);
 }
 
 bool AudioService::AllStop() noexcept
 {
-	bool staticOk = m_voicePool->StopVoices(SoundType::Static);
-	bool streamOk = m_voicePool->StopVoices(SoundType::Stream);
+	bool staticOk = m_voicePool.StopVoices(SoundType::Static);
+	bool streamOk = m_voicePool.StopVoices(SoundType::Stream);
 
 	return staticOk && streamOk;
 }
@@ -102,23 +102,23 @@ bool AudioService::AllStop() noexcept
 void AudioService::Update() noexcept
 {
 	FlushPending();
-	m_repository->Update();
-	m_voicePool->UpdateVoices();
+	m_repository.Update();
+	m_voicePool.UpdateVoices();
 }
 
 bool AudioService::Unload(SoundHandle sh) noexcept
 {
-	auto loaded = m_repository->Find(sh);
+	auto loaded = m_repository.Find(sh);
 	if (loaded == nullptr)
 		return false;
 
-	if (!m_voicePool->StopVoices(sh)) return false;
-	return m_repository->Remove(sh);
+	if (!m_voicePool.StopVoices(sh)) return false;
+	return m_repository.Remove(sh);
 }
 
 PlaybackState AudioService::GetState(VoiceHandle vh) const noexcept
 {
-	return m_voicePool->GetState(vh);
+	return m_voicePool.GetState(vh);
 }
 
 void AudioService::SetMasterVolume(float volume) noexcept
@@ -133,7 +133,7 @@ float AudioService::GetMasterVolume() const noexcept
 
 bool AudioService::SetVolume(VoiceHandle vh, float volume) noexcept
 {
-	auto desc = m_voicePool->GetDesc(vh);
+	auto desc = m_voicePool.GetDesc(vh);
 	if (!desc)
 		return false;
 
@@ -142,23 +142,23 @@ bool AudioService::SetVolume(VoiceHandle vh, float volume) noexcept
 		return false;
 
 	float curVolume = GetInstanceVolume(group, volume);
-	return m_voicePool->SetVolume(vh, curVolume);
+	return m_voicePool.SetVolume(vh, curVolume);
 }
 
 AudioService::AudioService(
-	const SoundAssetView& sndAssetView,
 	std::unique_ptr<IAudioBackend> audioBackend,
+	const SoundAssetView& sndAssetView,
 	IAssetAsyncLoader* asyncLoader) noexcept
-	: m_sndAssetView{ std::make_unique<SoundAssetView>(sndAssetView) }
-	, m_audioBackend{ std::move(audioBackend) }
-	, m_repository{ std::make_unique<SoundRepository>(m_audioBackend.get(), asyncLoader) }
-	, m_voicePool{ std::make_unique<VoicePool>(m_audioBackend.get()) }
+	: m_audioBackend{ std::move(audioBackend) }
+	, m_sndAssetView{ sndAssetView }
+	, m_repository{ m_audioBackend.get(), asyncLoader }
+	, m_voicePool{ m_audioBackend.get() }
 {}
 
 bool AudioService::Initialize(int maxVoices, int maxStreams) noexcept
 {
 	if (!m_audioBackend->Initialize(maxVoices, maxStreams)) return false;
-	if (!m_voicePool->Setup(maxVoices, maxStreams)) return false;
+	if (!m_voicePool.Setup(maxVoices, maxStreams)) return false;
 	CreateAudioGroup();
 
 	return true;
@@ -167,7 +167,7 @@ bool AudioService::Initialize(int maxVoices, int maxStreams) noexcept
 void AudioService::CreateAudioGroup() noexcept
 {
 	for (auto id : Core::EnumValues<AudioGroup>)
-		m_groupInfos[id] = std::make_unique<GroupInfo>();
+		m_groupInfos.try_emplace(id);
 }
 
 PlaybackParams AudioService::GetParams(const SoundDesc* desc) noexcept
@@ -190,7 +190,7 @@ PlaybackParams AudioService::GetParams(const SoundDesc* desc) noexcept
 
 VoiceHandle AudioService::EnqueueDeferred(SoundHandle sh, const SoundDesc* desc)
 {
-	auto vh = m_voicePool->AcquireVoiceHandle(desc);
+	auto vh = m_voicePool.AcquireVoiceHandle(desc);
 	if (!vh)
 		return vh;
 
@@ -201,7 +201,7 @@ VoiceHandle AudioService::EnqueueDeferred(SoundHandle sh, const SoundDesc* desc)
 void AudioService::FlushPending()
 {
 	std::erase_if(m_pendingPlay, [this](auto& p) {
-		auto loaded = m_repository->Find(p.sound);
+		auto loaded = m_repository.Find(p.sound);
 		if (!loaded)
 			return true;
 
@@ -210,18 +210,18 @@ void AudioService::FlushPending()
 
 		if (loaded->state == SoundLoadState::Failed)
 		{
-			m_voicePool->StopVoice(p.voice);
+			m_voicePool.StopVoice(p.voice);
 			return true;
 		}
 
-		m_voicePool->Play(p.voice, p.sound, loaded, GetParams(loaded->desc));
+		m_voicePool.Play(p.voice, p.sound, loaded, GetParams(loaded->desc));
 		return true;
 		});
 }
 
 float AudioService::GetGroupVolume(AudioGroup group) const noexcept
 {
-	float groupVolume = m_groupInfos.at(group)->volume;
+	float groupVolume = m_groupInfos.at(group).volume;
 	float volume = m_masterVolume * groupVolume;
 
 	return std::clamp(volume, 0.0f, 1.0f);

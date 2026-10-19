@@ -16,8 +16,8 @@ public:
     AtlasPacker(const AtlasPacker&) = delete;
     AtlasPacker& operator=(const AtlasPacker&) = delete;
 
-    AtlasPacker(AtlasPacker&&) noexcept = default;
-    AtlasPacker& operator=(AtlasPacker&&) noexcept = default;
+    AtlasPacker(AtlasPacker&&) = delete;
+    AtlasPacker& operator=(AtlasPacker&&) = delete;
 
     void Initialize(const Core::Size& textureSize);
     std::optional<Core::Point> AllocateRect(const Core::Size& size);
@@ -25,6 +25,8 @@ public:
 
 private:
     Core::Size m_textureSize{};
-    std::unique_ptr<stbrp_context> m_context;
+    stbrp_context m_context;
     std::vector<stbrp_node> m_nodes;
+
+    bool m_initialized{ false };
 };

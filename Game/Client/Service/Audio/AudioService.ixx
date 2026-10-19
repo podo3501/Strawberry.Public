@@ -51,8 +51,8 @@ public:
 
 private:
 	AudioService(
-		const SoundAssetView& sndAssetView,
 		std::unique_ptr<IAudioBackend> audioBackend,
+		const SoundAssetView& sndAssetView,
 		IAssetAsyncLoader* asyncLoader) noexcept;
 
 	bool Initialize(int maxVoices, int maxStreams) noexcept;
@@ -66,11 +66,12 @@ private:
 	float GetInstanceVolume(AudioGroup group, float volume) const noexcept;
 
 private:
-	std::unique_ptr<SoundAssetView> m_sndAssetView;
 	std::unique_ptr<IAudioBackend> m_audioBackend;
-	std::unique_ptr<SoundRepository> m_repository;
-	std::unique_ptr<VoicePool> m_voicePool;
+	SoundAssetView m_sndAssetView;
+	SoundRepository m_repository;
+	VoicePool m_voicePool;
+
 	float m_masterVolume{ 1.0f };
-	std::unordered_map<AudioGroup, std::unique_ptr<GroupInfo>> m_groupInfos;
+	std::unordered_map<AudioGroup, GroupInfo> m_groupInfos;
 	std::vector<PendingSoundPlay> m_pendingPlay;
 };

@@ -17,8 +17,8 @@ public:
     AtlasPage(const AtlasPage&) = delete;
     AtlasPage& operator=(const AtlasPage&) = delete;
 
-    AtlasPage(AtlasPage&&) noexcept = default;
-    AtlasPage& operator=(AtlasPage&&) noexcept = default;
+    AtlasPage(AtlasPage&&) noexcept = delete;
+    AtlasPage& operator=(AtlasPage&&) noexcept = delete;
 
     void Initialize(
         Device& device,

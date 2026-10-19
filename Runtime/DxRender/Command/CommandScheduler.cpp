@@ -47,7 +47,7 @@ std::vector<CommandList*> CommandScheduler::BeginParallel(std::size_t count) // 
     return m_currentQueue->BeginParallel(count);
 }
 
-CommandList* CommandScheduler::EndParallel(std::span<CommandList*> cmds) // Render 전용: Begin()~End() 사이에서만 유효
+CommandList* CommandScheduler::EndParallel(const std::vector<CommandList*>& cmds) // Render 전용: Begin()~End() 사이에서만 유효
 {
     Core::Assert(m_currentQueue);
     return m_currentQueue->EndParallel(cmds);

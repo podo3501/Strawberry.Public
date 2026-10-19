@@ -8,6 +8,7 @@ module DxRender.Command;
 import std;
 import :Queue;
 import :Conversions;
+import DxRender.DxCheck;
 import DxRender.Core;
 import DxRender.Constants;
 import Core.Assert;
@@ -133,7 +134,7 @@ std::vector<CommandList*> CommandQueue::BeginParallel(std::size_t count)
     return result;
 }
 
-CommandList* CommandQueue::EndParallel(std::span<CommandList*> cmdLists)
+CommandList* CommandQueue::EndParallel(const std::vector<CommandList*>& cmdLists)
 {
     Core::Assert(!cmdLists.empty());
 

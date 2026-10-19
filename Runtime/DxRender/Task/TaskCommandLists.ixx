@@ -7,7 +7,7 @@ import DxRender.Command;
 export struct TaskCommandLists
 {
 public:
-    explicit TaskCommandLists(std::span<CommandList*> cmds) : m_cmds(cmds) {}
+    explicit TaskCommandLists(const std::vector<CommandList*>& cmds) : m_cmds(cmds) {}
 
     CommandList& Single() const
     {
@@ -22,5 +22,5 @@ public:
     auto End() const { return m_cmds.end(); }
 
 private:
-    std::span<CommandList*> m_cmds;
+    std::vector<CommandList*> m_cmds;
 };

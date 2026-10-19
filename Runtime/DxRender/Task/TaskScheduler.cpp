@@ -159,7 +159,7 @@ void TaskScheduler::ExecuteTask(TaskEntry& entry)
     CommandList* cmd = queue->Begin();
     if (!cmd) return;
 
-    CommandList* cmds[] = { cmd };
+    std::vector<CommandList*> cmds{ cmd };
     ExecuteTaskImmediate(cmds, entry.task, entry.context);
     entry.fenceID = queue->End();
     entry.started = true;

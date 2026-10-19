@@ -20,3 +20,12 @@ namespace TextureAlignment
 }
 
 export constexpr std::uint32_t FrameBufferCount = 3;
+
+namespace RenderFormat
+{
+    export inline constexpr DXGI_FORMAT BackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+    export inline constexpr DXGI_FORMAT BackBufferSRGBView = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+    export inline constexpr DXGI_FORMAT DepthFormat = DXGI_FORMAT_D32_FLOAT;
+    export inline constexpr DXGI_FORMAT ShadowMapFormat = DXGI_FORMAT_D32_FLOAT;
+}

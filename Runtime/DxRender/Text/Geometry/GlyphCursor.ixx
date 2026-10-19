@@ -13,7 +13,7 @@ public:
     GlyphCursor(
         const ShapedText& shaped,
         const RenderTextItem& item,
-        std::span<const float> lineWidths);
+        std::vector<float> lineWidths);
 
     void BeginLine(std::uint32_t lineIndex); // 줄이 바뀔 때 호출 - cursorX/baselineY를 그 줄의 align에 맞게 리셋
     
@@ -29,7 +29,7 @@ public:
 
 private:
     const RenderTextItem& m_item;
-    std::span<const float> m_lineWidths;
+    std::vector<float> m_lineWidths;
 
     float m_lineHeight{ 0.f };
     float m_ascent{ 0.f };

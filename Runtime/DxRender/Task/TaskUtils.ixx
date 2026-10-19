@@ -9,7 +9,7 @@ import Core.Assert;
 import DxRender.Command;
 
 export void ExecuteTaskImmediate(
-    std::span<CommandList*> cmds,
+    const std::vector<CommandList*>& cmds,
     const TaskNode& task,
     TaskContext& ctx)
 {
@@ -33,7 +33,7 @@ export CommandList* ExecuteRenderPipeline(
 
         if (task.numParallel <= 1)
         {
-            CommandList* cmds[] = { current };
+            std::vector<CommandList*> cmds{ current };
             ExecuteTaskImmediate(cmds, task, ctx); // 렌더링 루프에서는 항상 유효한 CommandList가 있으므로 주소를 넘겨줌
         }
         else

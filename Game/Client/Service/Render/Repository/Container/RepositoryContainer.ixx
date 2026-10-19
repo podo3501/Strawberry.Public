@@ -5,15 +5,24 @@ import :Interface;
 import :RepositoryTypes;
 import :ResourceRepositories;
 import :TypeTraits;
+import Service.AssetAsyncHelper;
 import Core.Utils;
 import Core.Assert;
+import Contract.Render.Interfaces;
 
 export class RepositoryContainer
 {
 public:
-    RepositoryContainer()
+    RepositoryContainer(IRenderBackend& backend, IAssetAsyncLoader* asyncLoader)
         : m_repositories(Core::EnumSize<RepositoryType>)
     {
+		Emplace<FontRepository>(backend.GetProvider(ProviderType::Font), asyncLoader);
+		Emplace<MeshRepository>(backend.GetProvider(ProviderType::Mesh), asyncLoader);
+		Emplace<MaterialRepository>(backend.GetProvider(ProviderType::Material), asyncLoader);
+		Emplace<DebugMeshRepository>(backend.GetProvider(ProviderType::Mesh), asyncLoader);
+		Emplace<DebugMaterialRepository>(backend.GetProvider(ProviderType::DebugMaterial), asyncLoader);
+		Emplace<BrushRepository>(backend.GetProvider(ProviderType::Brush), asyncLoader);
+		Emplace<EnvironmentRepository>(backend.GetProvider(ProviderType::Environment), asyncLoader);
     }
 
     ~RepositoryContainer() = default;
@@ -23,19 +32,6 @@ public:
 
     RepositoryContainer(RepositoryContainer&&) noexcept = default;
     RepositoryContainer& operator=(RepositoryContainer&&) noexcept = default;
-
-    template <typename TRepository, typename... Args>
-    TRepository& Emplace(Args&&... args)
-    {
-        static_assert(std::is_base_of_v<IResourceRepository, TRepository>);
-        constexpr auto type = RepositoryTypeOf<TRepository>::value; // 인스턴스화 시점에 특수화만 보이면 OK
-
-        auto repository = std::make_unique<TRepository>(std::forward<Args>(args)...);
-        TRepository* ptr = repository.get();
-        m_repositories[Core::ToIndex(type)] = std::move(repository);
-
-        return *ptr;
-    }
 
     template <typename TRepository>
     [[nodiscard]] TRepository& Get() const
@@ -87,5 +83,18 @@ public:
     }
 
 private:
+	template <typename TRepository, typename... Args>
+	TRepository& Emplace(Args&&... args)
+	{
+		static_assert(std::is_base_of_v<IResourceRepository, TRepository>);
+		constexpr auto type = RepositoryTypeOf<TRepository>::value; // 인스턴스화 시점에 특수화만 보이면 OK
+
+		auto repository = std::make_unique<TRepository>(std::forward<Args>(args)...);
+		TRepository* ptr = repository.get();
+		m_repositories[Core::ToIndex(type)] = std::move(repository);
+
+		return *ptr;
+	}
+
     std::vector<std::unique_ptr<IResourceRepository>> m_repositories;
 };

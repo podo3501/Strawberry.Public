@@ -4,7 +4,7 @@ import :FrameUploadPools;
 import Core.Assert;
 import Core.Utils;
 
-bool FrameUploadPools::Initialize(Device& device, std::span<const FrameUploadPoolDesc> poolDescs)
+bool FrameUploadPools::Initialize(Device& device, const std::vector<FrameUploadPoolDesc>& poolDescs)
 {
     for (const auto& desc : poolDescs)
     {

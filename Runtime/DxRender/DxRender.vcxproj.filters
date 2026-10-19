@@ -132,9 +132,6 @@
     <ClCompile Include="Core\Core.ixx">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\DxCheck.ixx">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Helper\D3D12Conversions.ixx">
       <Filter>Helper</Filter>
     </ClCompile>
@@ -182,9 +179,6 @@
     </ClCompile>
     <ClCompile Include="Resource\EnvironmentResource.ixx">
       <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Definition\RenderFormat.ixx">
-      <Filter>Definition</Filter>
     </ClCompile>
     <ClCompile Include="Helper\TextureHelper.ixx">
       <Filter>Helper</Filter>
@@ -809,5 +803,6 @@
     <ClCompile Include="Shader\Shader.ixx">
       <Filter>Shader</Filter>
     </ClCompile>
+    <ClCompile Include="DxCheck.ixx" />
   </ItemGroup>
 </Project>

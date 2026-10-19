@@ -2,7 +2,7 @@ module;
 
 #include <winerror.h>
 
-export module DxRender.Core:DxCheck;
+export module DxRender.DxCheck;
 
 import std;
 

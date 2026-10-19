@@ -7,9 +7,9 @@ import DxRender.Resource;
 GlyphCursor::GlyphCursor(
     const ShapedText& shaped,
     const RenderTextItem& item,
-    std::span<const float> lineWidths)
+    std::vector<float> lineWidths)
     : m_item{ item }
-    , m_lineWidths{ lineWidths }
+    , m_lineWidths{ std::move(lineWidths) }
 {
     float baseLineHeight = shaped.font->GetLineHeight(shaped.size);
     m_lineHeight = baseLineHeight * item.layout.lineSpacing;
