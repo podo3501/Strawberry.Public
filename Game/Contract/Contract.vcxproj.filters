@@ -34,6 +34,15 @@
     <Filter Include="Input\Types">
       <UniqueIdentifier>{5f058510-ced3-4ab1-bff1-5d9f673e7ec2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input\Shared">
+      <UniqueIdentifier>{f5dc9bc2-c50a-4629-b39a-17d93e7f7f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\Service">
+      <UniqueIdentifier>{236e8f90-0f0e-481d-bdb5-69dde92f65c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\Backend">
+      <UniqueIdentifier>{a2a5a702-5db1-4700-9309-3aa5ede6c7c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\IReadStream.ixx">
@@ -44,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="Asset\IAssetStorage.ixx">
       <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\InputContract.ixx">
-      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Asset\Data\Data.ixx">
       <Filter>Asset\Data</Filter>
@@ -225,23 +231,35 @@
     <ClCompile Include="Render\Definition\RenderMetrics.ixx">
       <Filter>Render\Definition</Filter>
     </ClCompile>
-    <ClCompile Include="Input\InputInterfaces.ixx">
-      <Filter>Input</Filter>
+    <ClCompile Include="Input\Backend\InputBackend.ixx">
+      <Filter>Input\Backend</Filter>
     </ClCompile>
-    <ClCompile Include="Input\IInputBackend.ixx">
-      <Filter>Input</Filter>
+    <ClCompile Include="Input\Backend\InputFrame.ixx">
+      <Filter>Input\Backend</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Types\InputTypes.ixx">
-      <Filter>Input\Types</Filter>
+    <ClCompile Include="Input\Shared\KeyCode.ixx">
+      <Filter>Input\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Types\InputFrame.ixx">
-      <Filter>Input\Types</Filter>
+    <ClCompile Include="Input\Shared\MouseButton.ixx">
+      <Filter>Input\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Types\KeyCode.ixx">
-      <Filter>Input\Types</Filter>
+    <ClCompile Include="Input\Shared\Input.Shared.ixx">
+      <Filter>Input\Shared</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Types\MouseButton.ixx">
-      <Filter>Input\Types</Filter>
+    <ClCompile Include="Input\Backend\Input.Backend.ixx">
+      <Filter>Input\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Service\Input.Service.ixx">
+      <Filter>Input\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Service\InputService.ixx">
+      <Filter>Input\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Service\ButtonState.ixx">
+      <Filter>Input\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Service\MouseState.ixx">
+      <Filter>Input\Service</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

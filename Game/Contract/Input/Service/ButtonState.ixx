@@ -1,4 +1,4 @@
-export module Service.Input:ButtonState;
+export module Contract.Input.Service:ButtonState;
 
 export struct ButtonState
 {

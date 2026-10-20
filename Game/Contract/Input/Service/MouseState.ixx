@@ -1,9 +1,9 @@
-export module Service.Input:MouseState;
+export module Contract.Input.Service:MouseState;
 
 import std;
 import :ButtonState;
+import Contract.Input.Shared;
 import Core.Math;
-import Contract.Input.Types;
 
 export struct MouseState
 {

@@ -7,8 +7,8 @@ module;
 export module DxInput;
 
 import std;
-import Contract.Input.Types;
-import Contract.Input.Interfaces;
+import Contract.Input.Shared;
+import Contract.Input.Backend;
 import Core.Utils;
 
 class InputBackend final : public IInputBackend

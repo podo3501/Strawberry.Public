@@ -32,6 +32,7 @@
         $(StrawberryRoot)ThirdParty;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
+
     </ClCompile>
 
     <!-- Lib 디렉토리는 여기서 모두 등록하고 자식 프로젝트는 이 폴더를 참고 해서 각자 맞는 Lib를 등록하는 식으로 -->
@@ -47,4 +48,5 @@
     </Link>
 
   </ItemDefinitionGroup>
+
 </Project>

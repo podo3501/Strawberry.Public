@@ -1,7 +1,7 @@
-export module Contract.Input.Interfaces:IInputBackend;
+export module Contract.Input.Backend:IInputBackend;
 
 import std;
-import Contract.Input.Types;
+import :InputFrame;
 
 export struct IInputBackend
 {

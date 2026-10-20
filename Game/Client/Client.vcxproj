@@ -59,11 +59,10 @@
     <ClCompile Include="Service\Audio\VoiceHandle.ixx" />
     <ClCompile Include="Service\Audio\VoicePool.cpp" />
     <ClCompile Include="Service\Audio\VoicePool.ixx" />
+    <ClCompile Include="Service\Input\Input.Service.ixx" />
     <ClCompile Include="Service\Input\InputService.cpp" />
     <ClCompile Include="Service\Input\InputService.ixx" />
-    <ClCompile Include="Service\Input\ButtonState.ixx" />
     <ClCompile Include="Service\Input\KeyboardState.ixx" />
-    <ClCompile Include="Service\Input\MouseState.ixx" />
     <ClCompile Include="Service\Render\Builtin\Builtin.ixx" />
     <ClCompile Include="Service\Render\Builtin\BuiltinBrush.ixx" />
     <ClCompile Include="Service\Render\Builtin\BuiltinMaterials.ixx" />

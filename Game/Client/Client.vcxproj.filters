@@ -205,13 +205,7 @@
     <ClCompile Include="Service\Audio\Audio.ixx">
       <Filter>Service\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\ButtonState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Input\KeyboardState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\MouseState.ixx">
       <Filter>Service\Input</Filter>
     </ClCompile>
     <ClCompile Include="Service\Asset\AssetService.cpp">
@@ -255,6 +249,9 @@
     </ClCompile>
     <ClCompile Include="Service\Render\SceneView.cpp">
       <Filter>Service\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Input\Input.Service.ixx">
+      <Filter>Service\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

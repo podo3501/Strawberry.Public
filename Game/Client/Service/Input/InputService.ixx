@@ -1,32 +1,23 @@
-export module Service.Input;
+export module Service.Input:InputService;
 
 import std;
 import :KeyboardState;
-import :MouseState;
-import Contract.Input.Interfaces;
-import Contract.Input.Types;
+import Contract.Input.Shared;
+import Contract.Input.Service;
+import Contract.Input.Backend;
 import Core.Math;
 
-export class InputService
+export class InputService : public IInputService
 {
 public:
-    ~InputService();
-    InputService() = delete;
+    ~InputService() = default;
+    explicit InputService(std::unique_ptr<IInputBackend> backend) noexcept;
 
-	static std::unique_ptr<InputService> Create(std::unique_ptr<IInputBackend> backend);
+	const ButtonState& GetKey(KeyCode key) const noexcept { return m_keyboardState[key]; }
+	const ButtonState& GetMouseButton(MouseButton button) const noexcept { return m_mouseState[button]; }
 
-    bool IsKeyPressed(KeyCode key) const noexcept { return m_keyboardState[key].IsPressed(); }
-    bool IsKeyHeld(KeyCode key) const noexcept { return m_keyboardState[key].IsHeld(); }
-    bool IsKeyReleased(KeyCode key) const noexcept { return m_keyboardState[key].IsReleased(); }
-    bool IsKeyUp(KeyCode key) const noexcept { return m_keyboardState[key].IsUp(); }
-
-    bool IsMouseButtonPressed(MouseButton button) const noexcept { return m_mouseState[button].IsPressed(); }
-    bool IsMouseButtonHeld(MouseButton button) const noexcept { return m_mouseState[button].IsHeld(); }
-    bool IsMouseButtonReleased(MouseButton button) const noexcept { return m_mouseState[button].IsReleased(); }
-    bool IsMouseButtonUp(MouseButton button) const noexcept { return m_mouseState[button].IsUp(); }
-
-    bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode pressedKey) const noexcept;
-    bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton pressedButton) const noexcept;
+    bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept;
+    bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept;
 
     void Update() noexcept;
 
@@ -36,7 +27,6 @@ public:
     const MouseState& GetMouseState() const noexcept { return m_mouseState; }
 
 private:
-    InputService(std::unique_ptr<IInputBackend> backend) noexcept;
     bool AreKeysDown(std::initializer_list<KeyCode> keys) const noexcept;
 
     std::unique_ptr<IInputBackend> m_backend;

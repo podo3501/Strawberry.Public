@@ -2,27 +2,18 @@ module Service.Input;
 
 import std;
 
-InputService::~InputService() = default;
-
 InputService::InputService(std::unique_ptr<IInputBackend> backend) noexcept
     : m_backend{ std::move(backend) }
 {}
 
-std::unique_ptr<InputService> InputService::Create(std::unique_ptr<IInputBackend> backend)
+bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept
 {
-    if (!backend) return nullptr;
-
-    return std::unique_ptr<InputService>(new InputService(std::move(backend)));
+    return AreKeysDown(heldKeys) && m_keyboardState[key].IsPressed();
 }
 
-bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode pressedKey) const noexcept
+bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept
 {
-    return AreKeysDown(heldKeys) && IsKeyPressed(pressedKey);
-}
-
-bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton pressedButton) const noexcept
-{
-    return AreKeysDown(heldKeys) && IsMouseButtonPressed(pressedButton);
+    return AreKeysDown(heldKeys) && m_mouseState[button].IsPressed();
 }
 
 void InputService::Update() noexcept
@@ -66,4 +57,11 @@ bool InputService::AreKeysDown(std::initializer_list<KeyCode> keys) const noexce
     }
 
     return true;
+}
+
+std::unique_ptr<IInputService> CreateInputService(std::unique_ptr<IInputBackend> backend)
+{
+	if (!backend) return nullptr;
+
+    return std::make_unique<InputService>(std::move(backend));
 }

@@ -1,9 +1,8 @@
-export module Contract.Input.Types:InputFrame;
+export module Contract.Input.Backend:InputFrame;
 
 import std;
+import Contract.Input.Shared;
 import Core.Math;
-import :KeyCode;
-import :MouseButton;
 
 export struct KeyEvent
 {

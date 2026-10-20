@@ -1,8 +1,8 @@
 export module Service.Input:KeyboardState;
 
 import std;
-import :ButtonState;
-import Contract.Input.Types;
+import Contract.Input.Shared;
+import Contract.Input.Service;
 
 export struct KeyboardState
 {

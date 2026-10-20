@@ -8,21 +8,18 @@ export CameraInputState BuildCameraInput(const InputService& input)
 {
     CameraInputState state;
 
-    if (input.IsKeyHeld(KeyCode::W))
-        state.moveForward += 1.0f;
-    if (input.IsKeyHeld(KeyCode::S))
-        state.moveForward -= 1.0f;
-    if (input.IsKeyHeld(KeyCode::D))
-        state.moveRight += 1.0f;
-    if (input.IsKeyHeld(KeyCode::A))
-        state.moveRight -= 1.0f;
-    if (input.IsKeyHeld(KeyCode::E))
-        state.moveUp += 1.0f;
-    if (input.IsKeyHeld(KeyCode::Q))
-        state.moveUp -= 1.0f;
-    state.fastMove = input.IsKeyHeld(KeyCode::LeftShift);
+	auto axis = [&](KeyCode positive, KeyCode negative)
+		{
+			return (input.GetKey(positive).IsHeld() ? 1.0f : 0.0f)
+				- (input.GetKey(negative).IsHeld() ? 1.0f : 0.0f);
+		};
 
-    if (input.IsMouseButtonHeld(MouseButton::Left))
+	state.moveForward = axis(KeyCode::W, KeyCode::S);
+	state.moveRight = axis(KeyCode::D, KeyCode::A);
+	state.moveUp = axis(KeyCode::E, KeyCode::Q);
+	state.fastMove = input.GetKey(KeyCode::LeftShift).IsHeld();
+
+    if (input.GetMouseButton(MouseButton::Left).IsHeld())
     {
         auto mouse = input.GetMouseState();
         int deltaX = mouse.position.x - mouse.prevPosition.x;

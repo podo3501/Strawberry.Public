@@ -5,7 +5,7 @@ module;
 export module DxInput:MouseButtonMap;
 
 import std;
-import Contract.Input.Types;
+import Contract.Input.Shared;
 
 using DXMouseState = DirectX::Mouse::State;
 export constexpr std::pair<MouseButton, bool DXMouseState::*> MouseButtonMap[] =
