@@ -2,7 +2,9 @@
 
 import std;
 import Core.Types;
-import Contract.Asset;
+import Contract.Common.Asset;
+import Contract.Render.Assets;
+import Contract.Asset.Backend;
 import Runtime.Serialization;
 
 namespace
@@ -85,7 +87,7 @@ class MeshJsonLoader : public IAssetLoader
 public:
 	~MeshJsonLoader() override = default;
 
-	std::shared_ptr<AssetData> Load(AssetInput& source) override
+	std::shared_ptr<Asset> Load(AssetInput& source) override
 	{
 		if (source.IsStream()) return nullptr;
 

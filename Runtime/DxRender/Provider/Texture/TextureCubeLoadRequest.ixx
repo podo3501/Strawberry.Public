@@ -1,7 +1,7 @@
 export module DxRender.Provider:TextureCubeLoadRequest;
 
 import std;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import DxRender.Resource;
 
 export struct TextureCubeLoadRequest

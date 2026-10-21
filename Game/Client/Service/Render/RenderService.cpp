@@ -7,10 +7,10 @@ module Service.Render;
 import :RenderService;
 import :ShaderStageBuilder;
 import Service.Render.Repository;
-import Service.AssetAsyncHelper;
+import Delete.Service.AssetAsyncHelper;
 import Core.Assert;
 import Core.Type;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Types;
 
 struct RegistryShaderInfo

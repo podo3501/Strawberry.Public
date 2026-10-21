@@ -6,7 +6,7 @@ import :SoundHandle;
 import :Voice;
 import :LoadedSound;
 import Core.Handle;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 import Contract.Audio.Interfaces;
 
 export class VoicePool

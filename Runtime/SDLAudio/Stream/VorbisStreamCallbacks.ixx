@@ -6,7 +6,7 @@ module;
 export module SDLAudio:VorbisDecoder;
 
 import std;
-import Contract.Asset.Interfaces;
+import Contract.Asset.Shared;
 
 namespace Vorbis
 {

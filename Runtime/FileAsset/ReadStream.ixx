@@ -6,7 +6,7 @@ export module FileAsset:ReadStream;
 
 import std;
 import Core.Types;
-import Contract.Asset;
+import Contract.Asset.Shared;
 
 class ReadStream : public IReadStream
 {

@@ -10,7 +10,7 @@ export module DxRender.Resource:Font;
 
 import std;
 import :FreeTypeLibrary;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.IResource;
 
 // 하나의 폰트 파일(.ttf)에 대응하는 런타임 폰트 객체.

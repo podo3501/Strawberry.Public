@@ -10,7 +10,9 @@
 import std;
 import Core.Assert;
 import Core.Types;
-import Contract.Asset;
+import Contract.Common.Asset;
+import Contract.Render.Assets;
+import Contract.Asset.Backend;
 
 static PixelFormat VkFormatToPixelFormat(std::uint32_t vkFormat)
 {
@@ -40,7 +42,7 @@ class TextureCubeLoader : public IAssetLoader
 public:
     ~TextureCubeLoader() override = default;
 
-    std::shared_ptr<AssetData> Load(AssetInput& source) override
+    std::shared_ptr<Asset> Load(AssetInput& source) override
     {
         if (source.IsStream()) return nullptr;
 

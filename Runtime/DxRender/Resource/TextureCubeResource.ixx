@@ -8,7 +8,7 @@ import std;
 import DxRender.Core;
 import Core.Assert;
 import Core.Math;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export struct TextureCubeDesc
 {

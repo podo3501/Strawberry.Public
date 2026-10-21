@@ -6,7 +6,8 @@ export module FileAsset.JsonLoader;
 
 import std;
 import Core.Types;
-import Contract.Asset;
+import Contract.Asset.Backend;
+import Contract.Common.Asset;
 import Runtime.Serialization;
 
 template<typename T>
@@ -15,7 +16,7 @@ class JsonLoader : public IAssetLoader
 public:
 	~JsonLoader() override = default;
 
-	std::shared_ptr<AssetData> Load(AssetInput& source) override
+	std::shared_ptr<Asset> Load(AssetInput& source) override
 	{
 		if (source.IsStream()) return nullptr;
 
@@ -24,7 +25,7 @@ public:
 	}
 
 private:
-	std::shared_ptr<AssetData> LoadFromMemory(Core::ByteBuffer buffer)
+	std::shared_ptr<Asset> LoadFromMemory(Core::ByteBuffer buffer)
 	{
 		auto asset = std::make_shared<T>();
 

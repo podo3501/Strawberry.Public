@@ -18,6 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssetAsyncHelper.ixx" />
+    <ClCompile Include="Asset\Service.Asset.ixx" />
+    <ClCompile Include="Asset\AssetAsyncLoader.cpp" />
+    <ClCompile Include="Asset\AssetAsyncLoader.ixx" />
+    <ClCompile Include="Asset\AssetAsyncStore.ixx" />
+    <ClCompile Include="Asset\AssetCacheKeys.ixx" />
+    <ClCompile Include="Asset\AssetExtensions.ixx" />
+    <ClCompile Include="Asset\AssetLoaderDesc.ixx" />
+    <ClCompile Include="Asset\AssetLoaderRegistry.cpp" />
+    <ClCompile Include="Asset\AssetLoaderRegistry.ixx" />
+    <ClCompile Include="Asset\AssetMetaRegistry.cpp" />
+    <ClCompile Include="Asset\AssetMetaRegistry.ixx" />
+    <ClCompile Include="Asset\AssetRepository.cpp" />
+    <ClCompile Include="Asset\AssetRepository.ixx" />
+    <ClCompile Include="Asset\AssetService.cpp" />
+    <ClCompile Include="Asset\AssetService.ixx" />
+    <ClCompile Include="Input\InputService.cpp" />
+    <ClCompile Include="Input\InputService.ixx" />
+    <ClCompile Include="Input\KeyboardState.ixx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+      <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.vcxproj">
+      <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

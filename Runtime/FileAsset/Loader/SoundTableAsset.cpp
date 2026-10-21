@@ -2,12 +2,13 @@ module;
 
 #include <nlohmann/json.hpp>
 
-module Contract.Asset.Data:SoundTable;
+module Contract.Audio.Assets:SoundTable;
 
 import std;
 import Core.Utils;
 import Core.ResourceID;
-import Contract.Asset;
+import Contract.Audio.Assets;
+import Contract.Asset.Backend;
 import FileAsset.JsonLoader;
 import Runtime.Serialization;
 

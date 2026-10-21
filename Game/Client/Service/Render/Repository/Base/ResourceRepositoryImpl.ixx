@@ -3,10 +3,10 @@ export module Service.Render.Repository:Implementation;
 import std;
 import :ResourceTypes;
 import Core.Handle;
-import Contract.Asset.AssetData;
+import Contract.Common.Asset;
 import Service.Render.Descriptors;
 import Contract.Render.Interfaces;
-import Service.AssetAsyncHelper;
+import Delete.Service.AssetAsyncHelper;
 
 export struct ResourceImplTag {}; // 내부 전용 Tag - 외부 Tag와 무관
 using RawHandle = Core::IDHandle<ResourceImplTag>;
@@ -27,7 +27,7 @@ struct CpuPendingRequest
 struct GpuPendingRequest 
 { 
     RawHandle handle; 
-    std::shared_ptr<AssetData> asset; 
+    std::shared_ptr<Asset> asset; 
 };
 
 export class ResourceRepositoryImpl
@@ -37,7 +37,7 @@ public:
     ResourceRepositoryImpl(IResourceProvider* provider, IAssetAsyncLoader* asyncLoader);
 
     RawHandle Acquire(const ResourceDesc& desc);
-    RawHandle AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<AssetData> asset);
+    RawHandle AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<Asset> asset);
 
     bool Release(RawHandle handle);
     void ReleaseAll();

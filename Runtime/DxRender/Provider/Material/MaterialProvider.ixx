@@ -6,7 +6,7 @@ import :BuiltinTexture;
 import :Texture;
 import DxRender.Resource;
 import DxRender.Release;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Interfaces;
 
 export class MaterialProvider : public IResourceProvider
@@ -18,7 +18,7 @@ public:
         DeferredReleaser& deferredReleaser,
         TextureProvider& texProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<AssetData> asset) override;
+    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
     virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:

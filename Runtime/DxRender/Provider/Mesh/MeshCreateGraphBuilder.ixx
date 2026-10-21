@@ -7,7 +7,7 @@ import DxRender.Resource;
 import DxRender.Graph;
 import DxRender.Task;
 import DxRender.Factory;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 struct MeshUploadEntry
 {

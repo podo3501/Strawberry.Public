@@ -4,7 +4,7 @@ import :Repository;
 import Service.Render.Repository;
 import Core.ResourceID;
 import Core.Assert;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 RenderRepository::RenderRepository(RepositoryContainer& repositories)
     : m_repositories{ repositories }

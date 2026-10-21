@@ -3,7 +3,7 @@ export module FileAsset:AssetStorage;
 import std;
 import :ReadStream;
 import Core.Types;
-import Contract.Asset;
+import Contract.Asset.Shared;
 
 class AssetStorage : public IAssetStorage
 {

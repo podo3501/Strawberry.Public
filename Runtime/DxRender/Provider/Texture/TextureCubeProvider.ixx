@@ -8,7 +8,7 @@ import :TextureCubeCreateGraphBuilder;
 import DxRender.Resource;
 import DxRender.Task;
 import DxRender.Factory;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export class TextureCubeProvider : public IUpdatableProvider
 {

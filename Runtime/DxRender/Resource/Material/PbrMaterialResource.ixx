@@ -6,7 +6,7 @@ import :Texture;
 import :Material;
 import DxRender.Definition;
 import Contract.Render.Types;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export class PbrMaterialResource final : public MaterialResource, public IPendingResource
 {

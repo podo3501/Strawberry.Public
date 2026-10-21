@@ -4,7 +4,7 @@ import std;
 import Service.Render.Handles;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 //이 클래스는 지금 단순 포워딩 함수이지만 정책 코드가 안 들어가서 그렇다. 예를들면 엑셀에서 읽어와서 넣는다던가..
 export class RenderRepository

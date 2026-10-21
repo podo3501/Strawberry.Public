@@ -7,7 +7,7 @@ export module DxRender.Resource:StaticMesh;
 import std;
 import :Mesh;
 import DxRender.Core;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export class StaticMeshResource : public MeshResource
 {

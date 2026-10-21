@@ -1,8 +1,8 @@
 module Service.Audio;
 
 import :SoundRepository;
-import Contract.Asset.Data;
-import Service.AssetAsyncHelper;
+import Contract.Audio.Assets;
+import Delete.Service.AssetAsyncHelper;
 
 SoundRepository::SoundRepository(IAudioBackend * audioBackend, IAssetAsyncLoader * asyncLoader)
 	: m_audioBackend{ audioBackend }

@@ -9,7 +9,7 @@ import DxRender.Core;
 import DxRender.Command;
 import DxRender.Resource;
 import DxRender.Factory;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export D3D12_RESOURCE_DESC CreateTexture2DDesc(const TextureAsset& asset, bool mips);
 export D3D12_RESOURCE_DESC CreateTextureCubeDesc(const TextureCubeAsset& asset);

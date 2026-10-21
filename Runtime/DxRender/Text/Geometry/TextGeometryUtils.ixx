@@ -7,7 +7,7 @@ import Core.Math;
 import Core.Assert;
 import Core.Bit;
 import Contract.Render.Types;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export struct PackedTextParams
 {

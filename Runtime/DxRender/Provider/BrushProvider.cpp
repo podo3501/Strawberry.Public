@@ -14,7 +14,7 @@ BrushProvider::BrushProvider(
     m_texProvider{ texProvider }
 {}
 
-std::shared_ptr<IResource> BrushProvider::CreateResource(std::shared_ptr<AssetData> asset)
+std::shared_ptr<IResource> BrushProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
     auto brushRes = std::make_shared<BrushResource>();
 

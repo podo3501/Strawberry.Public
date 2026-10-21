@@ -7,9 +7,6 @@
     <Filter Include="Input">
       <UniqueIdentifier>{13ed9020-e1cb-484f-9811-4ecad6736c65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Asset\Data">
-      <UniqueIdentifier>{28867b48-be47-4bd8-9a26-3d192688fefe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{78923563-3bc1-40d0-a7e3-6196ef923b07}</UniqueIdentifier>
     </Filter>
@@ -31,9 +28,6 @@
     <Filter Include="Render\Interfaces">
       <UniqueIdentifier>{dd707412-3df6-473a-aaf1-f40f84dec3e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input\Types">
-      <UniqueIdentifier>{5f058510-ced3-4ab1-bff1-5d9f673e7ec2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Input\Shared">
       <UniqueIdentifier>{f5dc9bc2-c50a-4629-b39a-17d93e7f7f4e}</UniqueIdentifier>
     </Filter>
@@ -43,95 +37,26 @@
     <Filter Include="Input\Backend">
       <UniqueIdentifier>{a2a5a702-5db1-4700-9309-3aa5ede6c7c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Backend">
+      <UniqueIdentifier>{bc700c50-ccdc-4a30-ba68-535af43f237f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Service">
+      <UniqueIdentifier>{a8b2d6a9-2a4f-4213-8101-72c94b0b25fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{0e09af29-75f9-4aeb-81bf-3d091a69fea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\Assets">
+      <UniqueIdentifier>{3fadbd4a-1c26-445d-8616-f6b8ecedf906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Assets">
+      <UniqueIdentifier>{b2de6cce-2a0c-46b6-b35b-c941ba8f97f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shared">
+      <UniqueIdentifier>{425b124e-634d-4104-a7b2-187b418c47ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Asset\IReadStream.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\AssetContract.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\IAssetStorage.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\Data.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\IAssetProvider.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\IAssetMetaRegistry.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\AssetInput.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\IAssetLoader.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\ShaderAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\BinaryAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\MeshAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\StaticSoundAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\StreamSoundAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\AssetInterfaces.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\AssetData.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\SoundTableAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\AudioTypes.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\TextureMetaAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\TextureTypes.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\TextureCubeAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\SphericalHarmonicsAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\EnvironmentAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\TextureAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\MaterialTypes.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\MaterialAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\PbrSurface.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\PbrMaterialAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\PhongSurface.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\PhongMaterialAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
     <ClCompile Include="Audio\ISoundBuffer.ixx">
       <Filter>Audio</Filter>
     </ClCompile>
@@ -213,12 +138,6 @@
     <ClCompile Include="Render\Interfaces\IResourceProvider.ixx">
       <Filter>Render\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Data\DebugMaterialType.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Data\DebugMaterialAsset.ixx">
-      <Filter>Asset\Data</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Definition\VertexTypes.ixx">
       <Filter>Render\Definition</Filter>
     </ClCompile>
@@ -252,7 +171,7 @@
     <ClCompile Include="Input\Service\Input.Service.ixx">
       <Filter>Input\Service</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Service\InputService.ixx">
+    <ClCompile Include="Input\Service\IInputService.ixx">
       <Filter>Input\Service</Filter>
     </ClCompile>
     <ClCompile Include="Input\Service\ButtonState.ixx">
@@ -261,5 +180,109 @@
     <ClCompile Include="Input\Service\MouseState.ixx">
       <Filter>Input\Service</Filter>
     </ClCompile>
+    <ClCompile Include="Asset\Service\IAssetMetaRegistry.ixx">
+      <Filter>Asset\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Service\IAssetProvider.ixx">
+      <Filter>Asset\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Backend\IAssetLoader.ixx">
+      <Filter>Asset\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Backend\AssetInput.ixx">
+      <Filter>Asset\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Asset.ixx">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Assets\Audio.Assets.ixx">
+      <Filter>Audio\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Assets\AudioTypes.ixx">
+      <Filter>Audio\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Assets\SoundTableAsset.ixx">
+      <Filter>Audio\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Assets\StaticSoundAsset.ixx">
+      <Filter>Audio\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Assets\StreamSoundAsset.ixx">
+      <Filter>Audio\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\Render.Assets.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\BinaryAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\DebugMaterialAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\DebugMaterialType.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\EnvironmentAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\MaterialAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\MaterialTypes.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\MeshAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\PbrMaterialAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\PbrSurface.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\PhongMaterialAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\PhongSurface.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\ShaderAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\SphericalHarmonicsAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\TextureAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\TextureCubeAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\TextureMetaAsset.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Assets\TextureTypes.ixx">
+      <Filter>Render\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Backend\Asset.Backend.ixx">
+      <Filter>Asset\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Service\Asset.Service.ixx">
+      <Filter>Asset\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shared\IAssetStorage.ixx">
+      <Filter>Asset\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shared\IReadStream.ixx">
+      <Filter>Asset\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shared\Asset.Shared.ixx">
+      <Filter>Asset\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Service\IAssetService.ixx">
+      <Filter>Asset\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="IAssetAsyncLoader.ixx" />
+    <ClCompile Include="AssetAsyncTypes.ixx" />
   </ItemGroup>
 </Project>

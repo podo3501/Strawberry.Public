@@ -5,9 +5,9 @@ import :DebugMaterial;
 import DxRender.Resource;
 import Core.Assert;
 import Core.TypeHierarchy;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
-std::shared_ptr<IResource> DebugMaterialProvider::CreateResource(std::shared_ptr<AssetData> asset)
+std::shared_ptr<IResource> DebugMaterialProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
     if (!asset) return nullptr;
 

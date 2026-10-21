@@ -5,7 +5,7 @@ import :Interface;
 import :RepositoryTypes;
 import :ResourceRepositories;
 import :TypeTraits;
-import Service.AssetAsyncHelper;
+import Delete.Service.AssetAsyncHelper;
 import Core.Utils;
 import Core.Assert;
 import Contract.Render.Interfaces;

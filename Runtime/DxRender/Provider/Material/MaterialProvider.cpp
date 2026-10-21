@@ -4,7 +4,7 @@ import :Material;
 import DxRender.Resource;
 import Core.Assert;
 import Core.TypeHierarchy;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 MaterialProvider::MaterialProvider(
     PendingLoadQueue& pendingLoad,
@@ -15,7 +15,7 @@ MaterialProvider::MaterialProvider(
     m_texProvider{ texProvider }
 {}
 
-std::shared_ptr<IResource> MaterialProvider::CreateResource(std::shared_ptr<AssetData> asset)
+std::shared_ptr<IResource> MaterialProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
     if (!asset)
         return BuildPhongResource(nullptr, nullptr, PhongSurface{});

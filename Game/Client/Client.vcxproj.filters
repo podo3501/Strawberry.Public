@@ -1,51 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Service\Input\InputService.cpp">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Input\InputService.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\Asset.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetService.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetCacheKeys.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetRepository.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetLoaderDesc.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="IAssetAsyncLoader.ixx">
-      <Filter>Service</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetAsyncStore.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\AssetAsyncTypes.ixx">
-      <Filter>Service</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetAsyncLoader.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetExtensions.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\AssetAsyncHelper.ixx">
-      <Filter>Service</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetMetaRegistry.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetLoaderRegistry.ixx">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Audio\AudioService.ixx">
       <Filter>Service\Audio</Filter>
     </ClCompile>
@@ -205,24 +160,6 @@
     <ClCompile Include="Service\Audio\Audio.ixx">
       <Filter>Service\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\KeyboardState.ixx">
-      <Filter>Service\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetService.cpp">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetRepository.cpp">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetAsyncLoader.cpp">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetLoaderRegistry.cpp">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Asset\AssetMetaRegistry.cpp">
-      <Filter>Service\Asset</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Audio\AudioService.cpp">
       <Filter>Service\Audio</Filter>
     </ClCompile>
@@ -250,19 +187,13 @@
     <ClCompile Include="Service\Render\SceneView.cpp">
       <Filter>Service\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Input\Input.Service.ixx">
-      <Filter>Service\Input</Filter>
+    <ClCompile Include="Service\DeleteAssetAsyncHelper.ixx">
+      <Filter>Service</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Service">
       <UniqueIdentifier>{1f5a6581-143a-4be1-a565-2f7f48e52150}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Input">
-      <UniqueIdentifier>{1414625b-a3d4-4348-b428-e24223279cac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Asset">
-      <UniqueIdentifier>{ddaa336d-5ff7-479c-8451-77e39004ddd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Service\Audio">
       <UniqueIdentifier>{63a4f16d-909c-4003-ae87-e57ccb4d3616}</UniqueIdentifier>

@@ -13,7 +13,7 @@ import DxRender.Shader;
 import DxRender.Core;
 import Core.Math;
 import Core.Utils;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export class TextureProvider : public IUpdatableProvider
 {

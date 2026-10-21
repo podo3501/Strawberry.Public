@@ -6,7 +6,7 @@ import :PendingLoadQueue;
 import :TextureCube;
 import DxRender.Release;
 import DxRender.Resource;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Interfaces;
 
 export class EnvironmentProvider : public IResourceProvider
@@ -18,7 +18,7 @@ public:
         DeferredReleaser& deferredReleaser,
         TextureCubeProvider& cubeProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<AssetData> asset) override;
+    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
     virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:

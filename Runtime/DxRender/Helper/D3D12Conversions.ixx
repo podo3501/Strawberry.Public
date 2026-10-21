@@ -8,7 +8,7 @@ export module DxRender.Helper:D3D12Conversions;
 import std;
 import Core.Assert;
 import DxRender.Definition;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12_PSO(PrimitiveTopologyType topology)
 {

@@ -1,13 +1,15 @@
 import std;
 import Core.Types;
-import Contract.Asset;
+import Contract.Common.Asset;
+import Contract.Render.Assets;
+import Contract.Asset.Backend;
 
 class HLSLShaderLoader : public IAssetLoader
 {
 public:
 	~HLSLShaderLoader() override = default;
 
-	std::shared_ptr <AssetData > Load(AssetInput& source) override
+	std::shared_ptr <Asset > Load(AssetInput& source) override
 	{
 		if (source.IsStream()) return nullptr;
 

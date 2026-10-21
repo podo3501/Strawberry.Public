@@ -2,9 +2,9 @@ module SDLAudio;
 
 import :StreamSoundBuffer;
 import Core.TypeHierarchy;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 
-bool StreamSoundBuffer::LoadFromAsset(std::shared_ptr<AssetData> asset)
+bool StreamSoundBuffer::LoadFromAsset(std::shared_ptr<Asset> asset)
 {
 	auto streamAsset = Core::Cast<StreamSoundAsset>(asset);
 	if (!streamAsset)

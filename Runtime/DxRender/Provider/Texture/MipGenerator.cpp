@@ -11,7 +11,7 @@ import :MipGenerator;
 import Pipeline.Renderer;
 import DxRender.Definition;
 import Core.Utils;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Types;
 
 namespace

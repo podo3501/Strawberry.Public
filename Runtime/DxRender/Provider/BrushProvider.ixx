@@ -17,7 +17,7 @@ public:
         DeferredReleaser& deferredReleaser,
         TextureProvider& texProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<AssetData> asset) override;
+    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
     virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:

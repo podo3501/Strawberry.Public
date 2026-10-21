@@ -2,7 +2,7 @@ module Service.Render.Repository;
 
 import :Implementation;
 import Core.Assert;
-import Service.AssetAsyncHelper;
+import Delete.Service.AssetAsyncHelper;
 
 ResourceRepositoryImpl::ResourceRepositoryImpl(IResourceProvider* provider, IAssetAsyncLoader* asyncLoader)
     : m_provider{ provider }
@@ -22,7 +22,7 @@ RawHandle ResourceRepositoryImpl::Acquire(const ResourceDesc& desc)
     return handle;
 }
 
-RawHandle ResourceRepositoryImpl::AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<AssetData> asset)
+RawHandle ResourceRepositoryImpl::AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<Asset> asset)
 {
     Core::Assert(desc.GetResourceID().GetType() != Core::ResourceIDType::Path);
 

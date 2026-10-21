@@ -1,7 +1,7 @@
 export module Service.Audio:LoadedSound;
 
 import std;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 import Contract.Audio.Interfaces;
 
 export enum class SoundLoadState

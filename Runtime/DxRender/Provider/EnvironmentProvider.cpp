@@ -3,7 +3,7 @@ module DxRender.Provider;
 import :Environment;
 import Core.TypeHierarchy;
 import DxRender.Resource;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 EnvironmentProvider::EnvironmentProvider(
     PendingLoadQueue& pendingLoad,
@@ -14,7 +14,7 @@ EnvironmentProvider::EnvironmentProvider(
     m_cubeProvider{ cubeProvider }
 {}
 
-std::shared_ptr<IResource> EnvironmentProvider::CreateResource(std::shared_ptr<AssetData> asset)
+std::shared_ptr<IResource> EnvironmentProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
     if (!asset)
         return nullptr;

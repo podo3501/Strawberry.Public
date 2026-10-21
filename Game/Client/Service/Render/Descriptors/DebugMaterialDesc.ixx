@@ -2,8 +2,8 @@ export module Service.Render.Descriptors:DebugMaterial;
 
 import :Resource;
 import Core.Utils;
-import Contract.Asset.AssetData;
-import Contract.Asset.Data;
+import Contract.Common.Asset;
+import Contract.Render.Assets;
 
 export struct DebugMaterialDesc : public ResourceDesc
 {
@@ -13,7 +13,7 @@ private:
 public:
     virtual Core::TypeID GetAssetTypeID() const override
     {
-        return AssetData::StaticTypeID(); // 현재 Debug Material은 Asset을 사용하지 않음.
+        return Asset::StaticTypeID(); // 현재 Debug Material은 Asset을 사용하지 않음.
     }
 
     size_t GetHash() const { return Core::HashOf(ResourceDesc::GetHash(), type); }

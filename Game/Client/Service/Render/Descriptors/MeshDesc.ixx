@@ -1,7 +1,7 @@
 export module Service.Render.Descriptors:Mesh;
 
 import :Resource;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export struct MeshDesc : public ResourceDesc
 {

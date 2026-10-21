@@ -2,8 +2,8 @@ export module SDLAudio:StreamSoundBuffer;
 
 import std;
 import Contract.Audio.Interfaces;
-import Contract.Asset.Interfaces;
-import Contract.Asset.AssetData;
+import Contract.Asset.Shared;
+import Contract.Common.Asset;
 
 export class StreamSoundBuffer : public ISoundBuffer
 {
@@ -11,7 +11,7 @@ public:
 	StreamSoundBuffer() = default;
 	~StreamSoundBuffer() override = default;
 
-	virtual bool LoadFromAsset(std::shared_ptr<AssetData> asset) override;
+	virtual bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
 	IReadStream* GetStream() noexcept;
 
 private:

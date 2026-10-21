@@ -6,7 +6,7 @@ export module SDLAudio:StaticSoundBuffer;
 
 import std;
 import Contract.Audio.Interfaces;
-import Contract.Asset.AssetData;
+import Contract.Common.Asset;
 
 export class StaticSoundBuffer : public ISoundBuffer
 {
@@ -15,7 +15,7 @@ public:
 	StaticSoundBuffer() = delete;
 	explicit StaticSoundBuffer(MIX_Mixer* mixer) noexcept;
 
-	virtual bool LoadFromAsset(std::shared_ptr<AssetData> asset) override;
+	virtual bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
 	MIX_Audio* GetAudio() const noexcept;
 
 private:

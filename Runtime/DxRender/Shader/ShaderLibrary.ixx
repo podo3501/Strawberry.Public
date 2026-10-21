@@ -8,7 +8,7 @@ export module DxRender.Shader:ShaderLibrary;
 
 import std;
 import DxRender.Definition;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Types;
 
 using Microsoft::WRL::ComPtr;

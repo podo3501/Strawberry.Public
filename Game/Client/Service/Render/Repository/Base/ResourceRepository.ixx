@@ -6,7 +6,7 @@ import :Implementation;
 import :ResourceTypes;
 import Core.Handle;
 import Service.Render.Descriptors;
-import Service.IAssetAsyncLoader;
+import Contract.IAssetAsyncLoader;
 import Contract.Render.Interfaces;
 
 export template <typename Tag>
@@ -27,7 +27,7 @@ public:
         return Core::HandleCast<Tag>(m_impl.Acquire(desc));
     }
 
-    HandleT AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<AssetData> asset)
+    HandleT AcquireFromAsset(const ResourceDesc& desc, std::shared_ptr<Asset> asset)
     {
         return Core::HandleCast<Tag>(m_impl.AcquireFromAsset(desc, asset));
     }

@@ -1,5 +1,8 @@
 import std;
-import Contract.Asset;
+import Contract.Common.Asset;
+import Contract.Audio.Assets;
+import Contract.Asset.Backend;
+import Contract.Asset.Shared;
 
 class OggStreamLoader : public IAssetLoader
 {
@@ -8,7 +11,7 @@ public:
 
 	bool PreferStream() const override { return true; }
 
-	std::shared_ptr<AssetData> Load(AssetInput& source) override
+	std::shared_ptr<Asset> Load(AssetInput& source) override
 	{
 		if (!source.IsStream()) return nullptr;
 

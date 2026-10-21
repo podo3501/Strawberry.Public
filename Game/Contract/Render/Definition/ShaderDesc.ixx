@@ -2,7 +2,7 @@ export module Contract.Render.Types:ShaderDesc;
 
 import std;
 import :ShaderTypes;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export enum class ShaderStage
 {

@@ -12,7 +12,7 @@ import DxRender.Resource;
 import Core.Assert;
 import Core.Math;
 import Contract.Render.View;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 import Contract.Render.Types;
 
 namespace

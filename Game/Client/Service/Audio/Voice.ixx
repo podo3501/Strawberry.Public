@@ -3,7 +3,7 @@ export module Service.Audio:Voice;
 import std;
 import :VoiceHandle;
 import :SoundHandle;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 import Contract.Audio.Interfaces;
 
 export struct Voice

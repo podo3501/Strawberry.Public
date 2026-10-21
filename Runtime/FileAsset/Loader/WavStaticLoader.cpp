@@ -6,7 +6,9 @@
 
 import std;
 import Core.Types;
-import Contract.Asset;
+import Contract.Common.Asset;
+import Contract.Audio.Assets;
+import Contract.Asset.Backend;
 import FileAsset.AudioProcessing;
 
 class WavStaticLoader : public IAssetLoader
@@ -14,7 +16,7 @@ class WavStaticLoader : public IAssetLoader
 public:
 	~WavStaticLoader() override = default;
 
-	std::shared_ptr<AssetData> Load(AssetInput& source) override
+	std::shared_ptr<Asset> Load(AssetInput& source) override
 	{
 		if (source.IsStream()) return nullptr;
 

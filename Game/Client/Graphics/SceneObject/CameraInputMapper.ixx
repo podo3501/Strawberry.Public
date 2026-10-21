@@ -2,9 +2,9 @@ export module Graphics.SceneObject:CameraInputMapper;
 
 import std;
 import :CameraInputState;
-import Service.Input;
+import Contract.Input.Service;
 
-export CameraInputState BuildCameraInput(const InputService& input)
+export CameraInputState BuildCameraInput(const IInputService& input)
 {
     CameraInputState state;
 

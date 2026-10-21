@@ -8,7 +8,7 @@ import :PendingUploadQueue;
 import DxRender.Release;
 import DxRender.Task;
 import DxRender.Factory;
-import Contract.Asset.AssetData;
+import Contract.Common.Asset;
 import Contract.Render.Interfaces;
 
 export class MeshProvider : public IResourceProvider, public IUpdatableProvider
@@ -22,7 +22,7 @@ public:
         ResourceFactory& resFactory,
         DescriptorFactory& descFactory) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<AssetData> asset) override;
+    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
     virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
     virtual void Update(float avgGpuMs) override;
 

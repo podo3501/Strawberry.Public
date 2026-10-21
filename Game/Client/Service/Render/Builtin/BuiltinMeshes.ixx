@@ -7,7 +7,7 @@ import Service.Render.Handles;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
 import Contract.Render.Types;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 static std::shared_ptr<MeshAsset> CreateUIQuadAsset()
 {

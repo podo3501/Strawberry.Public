@@ -1,7 +1,7 @@
 export module Service.Render.Descriptors:Font;
 
 import :Resource;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export struct FontDesc : public ResourceDesc
 {

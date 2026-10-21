@@ -5,9 +5,9 @@ import :VoiceHandle;
 import :SoundHandle;
 import :SoundRepository;
 import :VoicePool;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 import Contract.Audio.Interfaces;
-import Service.IAssetAsyncLoader;
+import Contract.IAssetAsyncLoader;
 
 struct GroupInfo
 {

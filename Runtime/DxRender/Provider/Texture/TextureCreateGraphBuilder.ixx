@@ -10,7 +10,7 @@ import DxRender.Factory;
 import DxRender.Shader;
 import DxRender.Definition;
 import DxRender.Command;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 struct TextureUploadEntry
 {

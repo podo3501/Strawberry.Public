@@ -9,7 +9,7 @@ import :SceneRenderer;
 import :ShaderStageBuilder;
 import :Repository;
 import Service.Render.Repository;
-import Service.AssetAsyncHelper;
+import Delete.Service.AssetAsyncHelper;
 import Core.Type;
 import Core.Math;
 import Contract.Render.Interfaces;

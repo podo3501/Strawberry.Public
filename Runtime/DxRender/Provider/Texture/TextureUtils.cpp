@@ -11,7 +11,7 @@ import DxRender.Command;
 import DxRender.Allocator;
 import DxRender.Resource;
 import DxRender.Factory;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 namespace
 {

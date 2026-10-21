@@ -6,7 +6,7 @@ module SDLAudio;
 
 import :StaticSoundBuffer;
 import Core.TypeHierarchy;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 
 StaticSoundBuffer::StaticSoundBuffer(MIX_Mixer * mixer) noexcept 
 	: m_mixer{ mixer }
@@ -21,7 +21,7 @@ StaticSoundBuffer::~StaticSoundBuffer()
 	}
 }
 
-bool StaticSoundBuffer::LoadFromAsset(std::shared_ptr<AssetData> asset)
+bool StaticSoundBuffer::LoadFromAsset(std::shared_ptr<Asset> asset)
 {
 	auto staticAsset = Core::Cast<StaticSoundAsset>(asset);
 	if (!staticAsset)

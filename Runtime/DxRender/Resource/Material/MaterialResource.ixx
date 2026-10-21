@@ -4,7 +4,7 @@ import std;
 import DxRender.Definition;
 import Contract.Render.IResource;
 import Contract.Render.Types;
-import Contract.Asset.Data;
+import Contract.Render.Assets;
 
 export class MaterialResource : public IResource
 {

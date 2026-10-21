@@ -3,7 +3,7 @@ module Service.Audio;
 import :AudioService;
 import :LoadedSound;
 import Core.Utils;
-import Contract.Asset.Data;
+import Contract.Audio.Assets;
 
 static void ApplyStaticParams(const StaticSoundDesc* desc, PlaybackParams& params) noexcept
 {
