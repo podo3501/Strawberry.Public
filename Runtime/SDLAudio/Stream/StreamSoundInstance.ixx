@@ -8,7 +8,7 @@ export module SDLAudio:StreamSoundInstance;
 import std;
 import :Device;
 import :StreamSoundBuffer;
-import Contract.Audio.Interfaces;
+import Contract.Audio.Backend;
 import Contract.Asset.Backend;
 
 export class StreamSoundInstance : public ISoundInstance

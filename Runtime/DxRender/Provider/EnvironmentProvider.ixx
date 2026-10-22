@@ -7,7 +7,7 @@ import :TextureCube;
 import DxRender.Release;
 import DxRender.Resource;
 import Contract.Render.Assets;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class EnvironmentProvider : public IResourceProvider
 {

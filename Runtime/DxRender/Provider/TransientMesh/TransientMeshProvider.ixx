@@ -5,7 +5,7 @@ import :FrameUploadPools;
 import DxRender.Core;
 import DxRender.Factory;
 import DxRender.Resource;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export class TransientMeshProvider
 {

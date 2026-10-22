@@ -31,17 +31,6 @@
     <ClCompile Include="Graphics\SceneObject\UICamera.ixx" />
     <ClCompile Include="Graphics\SceneObject\WorldCamera.ixx" />
     <ClCompile Include="Service\DeleteAssetAsyncHelper.ixx" />
-    <ClCompile Include="Service\Audio\Audio.ixx" />
-    <ClCompile Include="Service\Audio\AudioService.cpp" />
-    <ClCompile Include="Service\Audio\AudioService.ixx" />
-    <ClCompile Include="Service\Audio\LoadedSound.ixx" />
-    <ClCompile Include="Service\Audio\SoundHandle.ixx" />
-    <ClCompile Include="Service\Audio\SoundRepository.cpp" />
-    <ClCompile Include="Service\Audio\SoundRepository.ixx" />
-    <ClCompile Include="Service\Audio\Voice.ixx" />
-    <ClCompile Include="Service\Audio\VoiceHandle.ixx" />
-    <ClCompile Include="Service\Audio\VoicePool.cpp" />
-    <ClCompile Include="Service\Audio\VoicePool.ixx" />
     <ClCompile Include="Service\Render\Builtin\Builtin.ixx" />
     <ClCompile Include="Service\Render\Builtin\BuiltinBrush.ixx" />
     <ClCompile Include="Service\Render\Builtin\BuiltinMaterials.ixx" />
@@ -58,7 +47,6 @@
     <ClCompile Include="Service\Render\Descriptors\PbrMaterialDesc.ixx" />
     <ClCompile Include="Service\Render\Descriptors\PhongMaterialDesc.ixx" />
     <ClCompile Include="Service\Render\Descriptors\ResourceDesc.ixx" />
-    <ClCompile Include="Service\Render\Handle\Handle.ixx" />
     <ClCompile Include="Service\Render\OverlayView.cpp" />
     <ClCompile Include="Service\Render\OverlayView.ixx" />
     <ClCompile Include="Service\Render\Render.ixx" />

@@ -5,7 +5,7 @@ import :ResourceTypes;
 import Core.Handle;
 import Contract.Common.Asset;
 import Service.Render.Descriptors;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 import Delete.Service.AssetAsyncHelper;
 
 export struct ResourceImplTag {}; // 내부 전용 Tag - 외부 Tag와 무관

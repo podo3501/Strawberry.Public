@@ -13,7 +13,7 @@ import DxRender.Command;
 import DxRender.Resource;
 import DxRender.Allocator;
 import DxRender.Definition;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 using Microsoft::WRL::ComPtr;
 

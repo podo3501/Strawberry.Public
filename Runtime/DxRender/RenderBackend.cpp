@@ -28,7 +28,7 @@ module DxRender;
 
 import std;
 import Pipeline.GraphBuilder;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
     : m_device{ config.enableDebugLayer }

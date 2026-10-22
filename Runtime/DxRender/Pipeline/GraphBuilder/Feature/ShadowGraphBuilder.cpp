@@ -2,7 +2,7 @@ module Pipeline.GraphBuilder;
 
 import :Shadow;
 import DxRender.Command;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 ShadowGraphBuilder::ShadowGraphBuilder(
     ShadowRenderer& shadowRenderer,

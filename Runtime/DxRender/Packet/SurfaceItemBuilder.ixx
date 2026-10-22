@@ -4,8 +4,8 @@ import std;
 import :RenderSortKey;
 import DxRender.Definition;
 import DxRender.Resource;
-import Contract.Render.Types;
-import Contract.Render.View;
+import Contract.Render.Backend.Types;
+import Contract.Render.Backend.View;
 
 static RenderSurfaceItem BuildSurfaceItem(
     const DrawSurfaceItem& drawItem,

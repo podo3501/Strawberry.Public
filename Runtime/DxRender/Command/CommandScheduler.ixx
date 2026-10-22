@@ -9,7 +9,7 @@ import :Type;
 import :List;
 import :Queue;
 import DxRender.Core;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export class CommandScheduler
 {

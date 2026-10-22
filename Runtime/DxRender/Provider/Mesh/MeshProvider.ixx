@@ -9,7 +9,7 @@ import DxRender.Release;
 import DxRender.Task;
 import DxRender.Factory;
 import Contract.Common.Asset;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class MeshProvider : public IResourceProvider, public IUpdatableProvider
 {

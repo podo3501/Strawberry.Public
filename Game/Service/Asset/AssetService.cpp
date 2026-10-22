@@ -1,6 +1,5 @@
 module Service.Asset;
 
-import :AssetService;
 import :AssetLoaderRegistry;
 import Core.Utils;
 

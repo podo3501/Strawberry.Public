@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetAsyncHelper.ixx" />
-    <ClCompile Include="Asset\Service.Asset.ixx" />
     <ClCompile Include="Asset\AssetAsyncLoader.cpp" />
     <ClCompile Include="Asset\AssetAsyncLoader.ixx" />
     <ClCompile Include="Asset\AssetAsyncStore.ixx" />
@@ -35,6 +34,14 @@
     <ClCompile Include="Asset\AssetRepository.ixx" />
     <ClCompile Include="Asset\AssetService.cpp" />
     <ClCompile Include="Asset\AssetService.ixx" />
+    <ClCompile Include="Audio\AudioService.cpp" />
+    <ClCompile Include="Audio\AudioService.ixx" />
+    <ClCompile Include="Audio\LoadedSound.ixx" />
+    <ClCompile Include="Audio\SoundRepository.cpp" />
+    <ClCompile Include="Audio\SoundRepository.ixx" />
+    <ClCompile Include="Audio\Voice.ixx" />
+    <ClCompile Include="Audio\VoicePool.cpp" />
+    <ClCompile Include="Audio\VoicePool.ixx" />
     <ClCompile Include="Input\InputService.cpp" />
     <ClCompile Include="Input\InputService.ixx" />
     <ClCompile Include="Input\KeyboardState.ixx" />

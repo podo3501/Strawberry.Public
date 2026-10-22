@@ -2,9 +2,9 @@ export module Service.Render:OverlayView;
 
 import std;
 import :RenderView;
-import Service.Render.Handles;
-import Contract.Render.Types;
-import Contract.Render.View;
+import Contract.Render.Service;
+import Contract.Render.Backend.Types;
+import Contract.Render.Backend.View;
 import Core.Math;
 
 export class OverlayView : public RenderView

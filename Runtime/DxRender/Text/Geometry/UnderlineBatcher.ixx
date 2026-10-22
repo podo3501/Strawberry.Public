@@ -5,7 +5,7 @@ import :TextTypes;
 import :FontAtlas;
 import DxRender.Definition;
 import Core.Math;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export class UnderlineBatcher
 {

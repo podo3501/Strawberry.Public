@@ -3,8 +3,8 @@ export module DxRender.Definition:RenderData;
 import std;
 import :RenderState;
 import Core.Math;
-import Contract.Render.Types;
-import Contract.Render.View;
+import Contract.Render.Backend.Types;
+import Contract.Render.Backend.View;
 import Contract.Render.IResource;
 
 export struct RenderSurfaceItem

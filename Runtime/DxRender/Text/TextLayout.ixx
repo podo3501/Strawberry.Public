@@ -3,7 +3,7 @@ export module DxRender.Text:TextLayout;
 import std;
 import :TextTypes;
 import DxRender.Resource;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export void ApplyWordWrap(
     std::vector<ShapedGlyph>& glyphs,

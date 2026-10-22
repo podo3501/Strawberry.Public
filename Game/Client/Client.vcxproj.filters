@@ -1,27 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Service\Audio\AudioService.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\VoiceHandle.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\SoundHandle.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\Voice.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\LoadedSound.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\SoundRepository.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\VoicePool.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Render\Repository\Repository.ixx">
       <Filter>Service\Render\Repository</Filter>
     </ClCompile>
@@ -45,9 +24,6 @@
     </ClCompile>
     <ClCompile Include="Service\Render\Repository\Container\RepositoryTypes.ixx">
       <Filter>Service\Render\Repository\Container</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Handle\Handle.ixx">
-      <Filter>Service\Render\Handle</Filter>
     </ClCompile>
     <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx">
       <Filter>Service\Render\Repository</Filter>
@@ -157,18 +133,6 @@
     <ClCompile Include="Graphics\Primitives\Primitives.ixx">
       <Filter>Graphics\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Audio\Audio.ixx">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\AudioService.cpp">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\VoicePool.cpp">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Audio\SoundRepository.cpp">
-      <Filter>Service\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.cpp">
       <Filter>Service\Render\Repository\Base</Filter>
     </ClCompile>
@@ -195,9 +159,6 @@
     <Filter Include="Service">
       <UniqueIdentifier>{1f5a6581-143a-4be1-a565-2f7f48e52150}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Service\Audio">
-      <UniqueIdentifier>{63a4f16d-909c-4003-ae87-e57ccb4d3616}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Service\Render">
       <UniqueIdentifier>{3a566ed0-9cf6-4199-84b7-310a374b3cbb}</UniqueIdentifier>
     </Filter>
@@ -212,9 +173,6 @@
     </Filter>
     <Filter Include="Service\Render\Repository\Container">
       <UniqueIdentifier>{dfd746e8-3cdd-46b3-8c51-bc8de63e1f27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Handle">
-      <UniqueIdentifier>{a6842a12-3e94-4b01-8388-05ded7601140}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{f9751a6e-50a7-4c9d-ae4c-93d82be4178f}</UniqueIdentifier>

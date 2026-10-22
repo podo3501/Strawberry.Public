@@ -5,7 +5,7 @@ import :IPendingResource;
 import :Texture;
 import :Material;
 import DxRender.Definition;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
 
 export class PhongMaterialResource final : public MaterialResource, public IPendingResource

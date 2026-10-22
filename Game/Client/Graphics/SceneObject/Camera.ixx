@@ -2,7 +2,7 @@ export module Graphics.SceneObject:Camera;
 
 import std;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 export class Camera
 {

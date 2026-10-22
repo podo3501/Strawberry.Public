@@ -11,7 +11,7 @@ import Delete.Service.AssetAsyncHelper;
 import Core.Assert;
 import Core.Type;
 import Contract.Render.Assets;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 struct RegistryShaderInfo
 {

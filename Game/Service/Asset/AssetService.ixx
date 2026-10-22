@@ -1,4 +1,4 @@
-export module Service.Asset:AssetService;
+export module Service.Asset;
 
 import std;
 import :AssetRepository;

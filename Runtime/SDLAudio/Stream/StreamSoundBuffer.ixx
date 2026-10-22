@@ -1,7 +1,7 @@
 export module SDLAudio:StreamSoundBuffer;
 
 import std;
-import Contract.Audio.Interfaces;
+import Contract.Audio.Backend;
 import Contract.Asset.Shared;
 import Contract.Common.Asset;
 

@@ -6,7 +6,7 @@ module;
 export module SDLAudio:StaticSoundInstance;
 
 import :StaticSoundBuffer;
-import Contract.Audio.Interfaces;
+import Contract.Audio.Backend;
 
 export class StaticSoundInstance : public ISoundInstance
 {

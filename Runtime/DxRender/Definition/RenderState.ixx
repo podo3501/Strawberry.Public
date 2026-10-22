@@ -3,7 +3,8 @@ export module DxRender.Definition:RenderState;
 import std;
 import :RenderStateTypes;
 import Core.Utils;
-import Contract.Render.Types;
+import Contract.Render.Shared;
+import Contract.Render.Backend.Types;
 
 export struct RasterState
 {

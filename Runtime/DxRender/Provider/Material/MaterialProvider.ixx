@@ -7,7 +7,7 @@ import :Texture;
 import DxRender.Resource;
 import DxRender.Release;
 import Contract.Render.Assets;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class MaterialProvider : public IResourceProvider
 {

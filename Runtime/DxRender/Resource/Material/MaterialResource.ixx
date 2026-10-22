@@ -3,7 +3,8 @@ export module DxRender.Resource:Material;
 import std;
 import DxRender.Definition;
 import Contract.Render.IResource;
-import Contract.Render.Types;
+import Contract.Render.Shared;
+import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
 
 export class MaterialResource : public IResource

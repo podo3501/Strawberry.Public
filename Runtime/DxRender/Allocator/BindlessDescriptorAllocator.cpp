@@ -8,7 +8,7 @@ import std;
 import :BindlessDescriptor;
 import DxRender.Definition;
 import Core.Assert;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace BindlessDescriptors
 {

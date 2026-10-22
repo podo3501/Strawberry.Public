@@ -12,7 +12,7 @@ import Core.Bit;
 import Core.Utils;
 import DxRender.Definition;
 import DxRender.Helper;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace
 {

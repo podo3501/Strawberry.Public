@@ -4,7 +4,7 @@ import std;
 import :FontSetting;
 import DxRender.Resource;
 import Core.Math;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export struct GlyphInfo
 {

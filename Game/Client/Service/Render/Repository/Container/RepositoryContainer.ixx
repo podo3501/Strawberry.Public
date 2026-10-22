@@ -8,7 +8,7 @@ import :TypeTraits;
 import Delete.Service.AssetAsyncHelper;
 import Core.Utils;
 import Core.Assert;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class RepositoryContainer
 {

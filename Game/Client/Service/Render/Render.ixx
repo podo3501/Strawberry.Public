@@ -7,6 +7,6 @@ export import :RenderService;
 export import :SceneRenderer;
 export import :Repository;
 
-export import Contract.Render.Types;
+export import Contract.Render.Backend.Types;
 export import Service.Render.Descriptors;
-export import Service.Render.Handles;
+export import Contract.Render.Service;

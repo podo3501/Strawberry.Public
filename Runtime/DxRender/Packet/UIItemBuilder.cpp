@@ -10,7 +10,7 @@ import DxRender.Resource;
 import DxRender.Provider;
 import Core.Assert;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 namespace
 {

@@ -6,7 +6,7 @@ import DxRender.Definition;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 export class ShadowGraphBuilder
 {

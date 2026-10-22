@@ -5,7 +5,7 @@ module;
 export module SDLAudio:StaticSoundBuffer;
 
 import std;
-import Contract.Audio.Interfaces;
+import Contract.Audio.Backend;
 import Contract.Common.Asset;
 
 export class StaticSoundBuffer : public ISoundBuffer

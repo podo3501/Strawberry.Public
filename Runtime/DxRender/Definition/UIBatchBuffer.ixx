@@ -1,7 +1,7 @@
 export module  DxRender.Definition:UIBatchBuffer;
 
 import std;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export struct UIBatchBuffer
 {

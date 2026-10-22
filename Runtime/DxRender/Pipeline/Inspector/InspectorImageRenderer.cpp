@@ -11,7 +11,7 @@ import Core.Utils;
 import Pipeline.Renderer;
 import DxRender.Helper;
 import DxRender.Definition;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace
 {

@@ -9,7 +9,7 @@ import Core.Math;
 import DxRender.Definition;
 import DxRender.Text;
 import DxRender.Provider;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 namespace
 {

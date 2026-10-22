@@ -12,7 +12,7 @@ import :Utils;
 import Core.Assert;
 import Core.Utils;
 import DxRender.Helper;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 using Microsoft::WRL::ComPtr;
 

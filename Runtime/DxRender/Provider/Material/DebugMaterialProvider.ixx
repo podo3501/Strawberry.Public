@@ -2,7 +2,7 @@ export module DxRender.Provider:DebugMaterial;
 
 import std;
 import Contract.Common.Asset;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class DebugMaterialProvider : public IResourceProvider
 {

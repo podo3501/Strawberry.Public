@@ -12,7 +12,7 @@ import DxRender.Task;
 import DxRender.Factory;
 import DxRender.SwapChainPresenter;
 import DxRender.Definition;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export class ViewCompositionBuilder
 {

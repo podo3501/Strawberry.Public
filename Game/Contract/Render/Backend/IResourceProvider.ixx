@@ -1,0 +1,13 @@
+export module Contract.Render.Backend:IResourceProvider;
+
+import std;
+import Contract.Render.IResource;
+import Contract.Common.Asset;
+
+export struct IResourceProvider
+{
+    virtual ~IResourceProvider() = default;
+
+    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) = 0;
+    virtual void ReleaseResource(std::shared_ptr<IResource> res) = 0;
+};

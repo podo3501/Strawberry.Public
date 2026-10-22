@@ -10,7 +10,7 @@ import :TextTypes;
 import :TextLayout;
 import Core.Assert;
 import DxRender.Resource;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace
 {

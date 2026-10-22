@@ -1,0 +1,12 @@
+export module Contract.Render.Backend.View:OverlayData;
+
+import std;
+import :ID;
+import :OverlayContext;
+import :OverlayDrawList;
+
+export struct OverlayViewData
+{
+    OverlayViewContext context{ InvalidViewID };
+    OverlayViewDrawList draws;
+};

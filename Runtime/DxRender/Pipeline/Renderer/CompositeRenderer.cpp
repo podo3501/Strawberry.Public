@@ -10,7 +10,7 @@ import :RootSignatureBuilder;
 import DxRender.Definition;
 import Core.Math;
 import Core.Utils;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace
 {

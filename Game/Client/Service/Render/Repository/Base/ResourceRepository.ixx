@@ -7,7 +7,7 @@ import :ResourceTypes;
 import Core.Handle;
 import Service.Render.Descriptors;
 import Contract.IAssetAsyncLoader;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export template <typename Tag>
     class ResourceRepository : public IResourceRepository

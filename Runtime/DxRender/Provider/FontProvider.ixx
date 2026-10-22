@@ -3,7 +3,7 @@ export module DxRender.Provider:Font;
 import std;
 import DxRender.Resource;
 import Contract.Common.Asset;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class FontProvider : public IResourceProvider
 {

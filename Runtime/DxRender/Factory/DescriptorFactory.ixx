@@ -6,7 +6,7 @@ export module DxRender.Factory:Descriptor;
 
 import DxRender.Core;
 import DxRender.Allocator;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 export class DescriptorFactory
 {

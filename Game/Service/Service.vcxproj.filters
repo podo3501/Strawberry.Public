@@ -7,6 +7,9 @@
     <Filter Include="Asset">
       <UniqueIdentifier>{c8097d37-4045-4c36-ad0f-25a0d7e8e448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{89c272b3-a9dc-48d3-b658-f5e1809f71de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\InputService.cpp">
@@ -19,9 +22,6 @@
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="AssetAsyncHelper.ixx" />
-    <ClCompile Include="Asset\Service.Asset.ixx">
-      <Filter>Asset</Filter>
-    </ClCompile>
     <ClCompile Include="Asset\AssetAsyncLoader.cpp">
       <Filter>Asset</Filter>
     </ClCompile>
@@ -63,6 +63,30 @@
     </ClCompile>
     <ClCompile Include="Asset\AssetService.ixx">
       <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioService.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioService.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\LoadedSound.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\SoundRepository.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\SoundRepository.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Voice.ixx">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\VoicePool.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\VoicePool.ixx">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

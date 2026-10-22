@@ -2,11 +2,11 @@ export module Service.Render:SceneView;
 
 import std;
 import :RenderView;
-import Core.Math;
-import Contract.Render.View;
-import Contract.Render.Types;
 import Service.Render.Repository;
-import Service.Render.Handles;
+import Contract.Render.Backend.View;
+import Contract.Render.Shared;
+import Contract.Render.Service;
+import Core.Math;
 
 export class SceneView : public RenderView
 {

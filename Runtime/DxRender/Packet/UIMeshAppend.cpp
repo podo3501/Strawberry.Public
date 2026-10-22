@@ -11,9 +11,9 @@ import DxRender.Definition;
 import DxRender.Resource;
 import Core.Assert;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 import Contract.Render.Assets;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 namespace
 {

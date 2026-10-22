@@ -5,7 +5,7 @@ import :Device;
 import :Mixer;
 import :StaticSoundInstance;
 import :StreamSoundInstance;
-import Contract.Audio.Interfaces;
+import Contract.Audio.Backend;
 
 class AudioBackend : public IAudioBackend
 {

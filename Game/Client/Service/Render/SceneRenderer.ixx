@@ -4,10 +4,10 @@ import std;
 import :SceneView;
 import :OverlayView;
 import :RenderView;
-import Service.Render.Handles;
+import Contract.Render.Service;
 import Service.Render.Repository;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 export class SceneRenderer
 {

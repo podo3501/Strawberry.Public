@@ -18,8 +18,8 @@ import DxRender.Pipeline;
 import DxRender.Packet;
 import DxRender.Task;
 import Core.Math;
-import Contract.Render.Types;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend.Types;
+import Contract.Render.Backend;
 
 class RenderBackend : public IRenderBackend
 {

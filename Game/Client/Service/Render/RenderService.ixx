@@ -12,8 +12,9 @@ import Service.Render.Repository;
 import Delete.Service.AssetAsyncHelper;
 import Core.Type;
 import Core.Math;
-import Contract.Render.Interfaces;
-import Contract.Render.Types;
+import Contract.Render.Backend;
+import Contract.Render.Backend.Types;
+import Contract.Render.Shared;
 
 struct RegistryShaderEntry
 {

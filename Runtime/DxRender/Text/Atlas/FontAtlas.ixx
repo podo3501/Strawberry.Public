@@ -11,7 +11,7 @@ import DxRender.Core;
 import DxRender.Factory;
 import Pipeline.GraphBuilder;
 import Core.Utils;
-import Contract.Render.Types;
+import Contract.Render.Backend.Types;
 
 struct FontBucketKey
 {

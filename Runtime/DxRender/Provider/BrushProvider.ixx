@@ -5,7 +5,7 @@ import :IUpdatable;
 import :PendingLoadQueue;
 import :Texture;
 import DxRender.Release;
-import Contract.Render.Interfaces;
+import Contract.Render.Backend;
 
 export class BrushProvider : public IResourceProvider
 {

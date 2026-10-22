@@ -2,7 +2,7 @@ export module Service.Render:BuiltinBrush;
 
 import std;
 import Core.ResourceID;
-import Service.Render.Handles;
+import Contract.Render.Service;
 import Service.Render.Descriptors;
 import Service.Render.Repository;
 

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <StrawberryRoot>$(MSBuildThisFileDirectory)</StrawberryRoot>
     <StrawberryRootFwd>$(StrawberryRoot.Replace('\', '/'))</StrawberryRootFwd>
+    <!-- 실행에 필요한 DLL 보관 폴더 (빌드 출력 폴더 밖에 둘 것) -->
+    <ExtraDllDir>$(StrawberryRoot)ThirdParty\Bin\</ExtraDllDir> 
   </PropertyGroup>
 
   <ItemDefinitionGroup>
@@ -48,5 +50,16 @@
     </Link>
 
   </ItemDefinitionGroup>
+
+  <!-- 실행 파일 빌드 후 필요한 DLL을 출력 폴더로 복사 (Debug/Release 공통) -->
+  <Target Name="CopyExtraDlls" AfterTargets="Build"
+          Condition="'$(ConfigurationType)'=='Application' And Exists('$(ExtraDllDir)')">
+    <ItemGroup>
+      <ExtraDll Include="$(ExtraDllDir)*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ExtraDll)"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
 
 </Project>

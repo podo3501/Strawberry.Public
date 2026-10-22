@@ -2,7 +2,7 @@ export module Pipeline.GraphBuilder:ViewTypes;
 
 import std;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 import DxRender.RGResourceID;
 
 export struct ViewRenderOutput

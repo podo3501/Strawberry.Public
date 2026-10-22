@@ -13,8 +13,8 @@ import Core.Bit;
 import DxRender.Resource;
 import DxRender.Helper;
 import DxRender.Definition;
-import Contract.Render.Types;
-import Contract.Render.View;
+import Contract.Render.Backend.Types;
+import Contract.Render.Backend.View;
 
 using Microsoft::WRL::ComPtr;
 

@@ -4,7 +4,7 @@ import DxRender.Definition;
 import DxRender.Text;
 import DxRender.Provider;
 import Core.Math;
-import Contract.Render.View;
+import Contract.Render.Backend.View;
 
 export FramePacket BuildPacket(
     SceneFrameData& frame,
