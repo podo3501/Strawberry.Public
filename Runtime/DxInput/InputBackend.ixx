@@ -14,8 +14,8 @@ import Core.Utils;
 class InputBackend final : public IInputBackend
 {
 public:
-    explicit InputBackend(HWND hwnd);
     ~InputBackend() override;
+    explicit InputBackend(HWND hwnd);
 
     InputBackend(const InputBackend&) = delete;
     InputBackend& operator=(const InputBackend&) = delete;

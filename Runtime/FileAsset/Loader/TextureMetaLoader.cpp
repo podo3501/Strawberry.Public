@@ -97,9 +97,9 @@ struct JsonTextureMeta
 class TextureMetaLoader : public IAssetLoader
 {
 public:
-    virtual ~TextureMetaLoader() override = default;
+    ~TextureMetaLoader() override = default;
 
-    virtual std::shared_ptr<Asset> Load(AssetInput& source) override
+    std::shared_ptr<Asset> Load(AssetInput& source) override
     {
         if (source.IsStream()) return nullptr;
 

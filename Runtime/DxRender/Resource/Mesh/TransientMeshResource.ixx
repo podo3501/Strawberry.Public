@@ -6,12 +6,12 @@ export class TransientMeshResource : public MeshResource
 {
 public:
     TransientMeshResource() = default;
-    virtual ~TransientMeshResource() override = default;
+    ~TransientMeshResource() override = default;
 
-    virtual UINT GetVertexHeapIndex() const noexcept override { return m_vertexHeapIndex; }
-    virtual UINT GetIndexHeapIndex() const noexcept override { return m_indexHeapIndex; }
-    virtual UINT GetVertexCount() const noexcept override { return m_vertexCount; }
-    virtual UINT GetIndexCount() const noexcept override { return m_indexCount; }
+	UINT GetVertexHeapIndex() const noexcept override { return m_vertexHeapIndex; }
+	UINT GetIndexHeapIndex() const noexcept override { return m_indexHeapIndex; }
+	UINT GetVertexCount() const noexcept override { return m_vertexCount; }
+	UINT GetIndexCount() const noexcept override { return m_indexCount; }
 
     void Initialize(
         UINT vertexCount,

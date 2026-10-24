@@ -7,18 +7,19 @@ import :AsyncStore;
 export class AssetAsyncLoader : public IAssetAsyncLoader
 {
 public:
-    AssetAsyncLoader() = default;
     ~AssetAsyncLoader() override = default;
+    AssetAsyncLoader() = default;
+
     void Shutdown();
 
-    AssetRequestID PushRequest(AssetRequest req);
+    AssetRequestID PushRequest(AssetRequest req) override;
     std::optional<AssetRequest> TakeRequest(AssetRequestID id);
 
     void PushResult(AssetRequestID id, AssetPtr result);
-    AssetPtr TakeResult(AssetRequestID id);
+    AssetPtr TakeResult(AssetRequestID id) override;
 
     bool WaitPopPending(AssetRequestID& outId);
-    AssetPtr Wait(AssetRequestID id);
+    AssetPtr Wait(AssetRequestID id) override;
 
     bool HasPendingWork() const;
 

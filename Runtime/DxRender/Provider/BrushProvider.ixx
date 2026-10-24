@@ -10,15 +10,15 @@ import Contract.Render.Backend;
 export class BrushProvider : public IResourceProvider
 {
 public:
-    virtual ~BrushProvider() override = default;
+    ~BrushProvider() override = default;
     BrushProvider() = delete;
     BrushProvider(
         PendingLoadQueue& pendingLoad,
         DeferredReleaser& deferredReleaser,
         TextureProvider& texProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
-    virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
+    std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
+    void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:
     PendingLoadQueue& m_pendingLoad;

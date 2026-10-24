@@ -70,6 +70,15 @@
     <Filter Include="Render\Service">
       <UniqueIdentifier>{f99e2fcd-a6a0-4341-86aa-e604eff6f346}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\Shared\Types">
+      <UniqueIdentifier>{8551c5a9-08b1-4f97-951f-8a55ae96c2b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Shared\View">
+      <UniqueIdentifier>{265545ae-541d-4956-a13f-5d7588c1e09c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Service\Descriptors">
+      <UniqueIdentifier>{76f8f169-3dc0-4a50-ab5d-066d46b370d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\Backend\InputBackend.ixx">
@@ -272,17 +281,8 @@
     <ClCompile Include="Render\Backend\Types\ShaderDesc.ixx">
       <Filter>Render\Backend\Types</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Backend\Types\ShaderTypes.ixx">
-      <Filter>Render\Backend\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\Types\TextStyle.ixx">
-      <Filter>Render\Backend\Types</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Backend\Types\VertexTypes.ixx">
       <Filter>Render\Backend\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\View\Scene\SceneViewContext.ixx">
-      <Filter>Render\Backend\View\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Render\Backend\View\Scene\SceneViewData.ixx">
       <Filter>Render\Backend\View\Scene</Filter>
@@ -290,20 +290,11 @@
     <ClCompile Include="Render\Backend\View\Scene\SceneViewDrawList.ixx">
       <Filter>Render\Backend\View\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Backend\View\Overlay\OverlayViewContext.ixx">
-      <Filter>Render\Backend\View\Overlay</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Backend\View\Overlay\OverlayViewData.ixx">
       <Filter>Render\Backend\View\Overlay</Filter>
     </ClCompile>
     <ClCompile Include="Render\Backend\View\Overlay\OverlayViewDrawList.ixx">
       <Filter>Render\Backend\View\Overlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\View\CameraData.ixx">
-      <Filter>Render\Backend\View</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\View\DirectionalLightData.ixx">
-      <Filter>Render\Backend\View</Filter>
     </ClCompile>
     <ClCompile Include="Render\Backend\View\DrawShadowCasterItem.ixx">
       <Filter>Render\Backend\View</Filter>
@@ -312,12 +303,6 @@
       <Filter>Render\Backend\View</Filter>
     </ClCompile>
     <ClCompile Include="Render\Backend\View\Backend.View.ixx">
-      <Filter>Render\Backend\View</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\View\ViewID.ixx">
-      <Filter>Render\Backend\View</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Backend\View\ViewTargetInfo.ixx">
       <Filter>Render\Backend\View</Filter>
     </ClCompile>
     <ClCompile Include="Render\Service\Render.Service.ixx">
@@ -329,8 +314,86 @@
     <ClCompile Include="Render\Service\Handles.ixx">
       <Filter>Render\Service</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Shared\ShaderID.ixx">
-      <Filter>Render\Shared</Filter>
+    <ClCompile Include="Render\Service\IOverlayView.ixx">
+      <Filter>Render\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\ISceneRenderer.ixx">
+      <Filter>Render\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\Types\ShaderID.ixx">
+      <Filter>Render\Shared\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\Types\ShaderTypes.ixx">
+      <Filter>Render\Shared\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\Types\TextStyle.ixx">
+      <Filter>Render\Shared\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\ViewID.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\ViewTargetInfo.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\CameraData.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\OverlayViewContext.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\SceneViewContext.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\DirectionalLightData.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\IRenderRepository.ixx">
+      <Filter>Render\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\Types\Shared.Types.ixx">
+      <Filter>Render\Shared\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\View\Shared.View.ixx">
+      <Filter>Render\Shared\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\BrushDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\DebugMaterialDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\DebugMeshDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\EnvironmentDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\FontDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\GridDebugMaterialDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\MaterialDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\MeshDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\PbrMaterialDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\PhongMaterialDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\ResourceDesc.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\Descriptors\Service.Descriptors.ixx">
+      <Filter>Render\Service\Descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Service\IRenderService.ixx">
+      <Filter>Render\Service</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

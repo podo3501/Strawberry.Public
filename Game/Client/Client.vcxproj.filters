@@ -1,75 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Service\Render\Repository\Repository.ixx">
-      <Filter>Service\Render\Repository</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\Descriptors.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\ResourceDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\IResourceRepository.ixx">
-      <Filter>Service\Render\Repository</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Base\ResourceRepository.ixx">
-      <Filter>Service\Render\Repository\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.ixx">
-      <Filter>Service\Render\Repository\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Base\ResourceTypes.ixx">
-      <Filter>Service\Render\Repository\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypes.ixx">
-      <Filter>Service\Render\Repository\Container</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\ResourceRepositories.ixx">
-      <Filter>Service\Render\Repository</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Container\RepositoryTypeTraits.ixx">
-      <Filter>Service\Render\Repository\Container</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Container\RepositoryContainer.ixx">
-      <Filter>Service\Render\Repository\Container</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\MeshDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\MaterialDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\PbrMaterialDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\PhongMaterialDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\DebugMeshDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\DebugMaterialDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\GridDebugMaterialDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\BrushDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\EnvironmentDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Descriptors\FontDesc.ixx">
-      <Filter>Service\Render\Descriptors</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\RenderRepository.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Render.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\SceneObject\SceneObject.ixx">
       <Filter>Graphics\SceneObject</Filter>
     </ClCompile>
@@ -97,91 +28,19 @@
     <ClCompile Include="Graphics\SceneObject\CameraController.ixx">
       <Filter>Graphics\SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Render\RenderView.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\SceneView.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\OverlayView.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Builtin\Builtin.ixx">
-      <Filter>Service\Render\Builtin</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Builtin\BuiltinBrush.ixx">
-      <Filter>Service\Render\Builtin</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Builtin\BuiltinMaterials.ixx">
-      <Filter>Service\Render\Builtin</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\Builtin\BuiltinMeshes.ixx">
-      <Filter>Service\Render\Builtin</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\SceneRenderer.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\ShaderStageBuilder.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\RenderService.ixx">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Primitives\PrimitiveMesh.ixx">
       <Filter>Graphics\Primitives</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Primitives\Primitives.ixx">
       <Filter>Graphics\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="Service\Render\Repository\Base\ResourceRepositoryImpl.cpp">
-      <Filter>Service\Render\Repository\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\OverlayView.cpp">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\RenderRepository.cpp">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\RenderService.cpp">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\SceneRenderer.cpp">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\Render\SceneView.cpp">
-      <Filter>Service\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Service\DeleteAssetAsyncHelper.ixx">
-      <Filter>Service</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Service">
-      <UniqueIdentifier>{1f5a6581-143a-4be1-a565-2f7f48e52150}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render">
-      <UniqueIdentifier>{3a566ed0-9cf6-4199-84b7-310a374b3cbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Repository">
-      <UniqueIdentifier>{115a2bfe-e772-42cf-9f4b-d36845b13c7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Descriptors">
-      <UniqueIdentifier>{97006acc-7d56-4890-b07b-e25b878136a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Repository\Base">
-      <UniqueIdentifier>{49e83822-8289-4e4e-a579-8dc46fb728b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Repository\Container">
-      <UniqueIdentifier>{dfd746e8-3cdd-46b3-8c51-bc8de63e1f27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{f9751a6e-50a7-4c9d-ae4c-93d82be4178f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics\SceneObject">
       <UniqueIdentifier>{aeb9ac06-b252-4654-b81a-418353a4ddb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Service\Render\Builtin">
-      <UniqueIdentifier>{13aac4a0-d99d-4b29-a75a-b672a1de69d7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics\Primitives">
       <UniqueIdentifier>{fc3b5357-8ed3-481c-b5f8-d1731d8543a3}</UniqueIdentifier>

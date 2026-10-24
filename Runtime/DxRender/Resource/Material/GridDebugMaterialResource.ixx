@@ -16,5 +16,5 @@ public:
         }
     {}
 
-    virtual bool IsReady() const noexcept override { return true; }
+    bool IsReady() const noexcept override { return true; }
 };

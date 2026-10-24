@@ -9,7 +9,7 @@ import DxRender.Task;
 import DxRender.Core;
 import DxRender.RGResourceID;
 import Core.Math;
-import Contract.Render.Backend.View;
+import Contract.Render.Shared.View;
 
 export class ViewTargetPool
 {

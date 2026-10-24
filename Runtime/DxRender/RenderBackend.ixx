@@ -18,7 +18,6 @@ import DxRender.Pipeline;
 import DxRender.Packet;
 import DxRender.Task;
 import Core.Math;
-import Contract.Render.Backend.Types;
 import Contract.Render.Backend;
 
 class RenderBackend : public IRenderBackend
@@ -27,15 +26,19 @@ public:
     ~RenderBackend() override = default;
     explicit RenderBackend(const RenderConfig& config);
 
-    virtual bool Initialize(HWND hwnd, const Core::Size& screenSize, const std::vector<RegistryShaderDesc>& registryShaders) override;
-    virtual ShaderID RegisterShader(const ShaderDesc& desc) override;
-    virtual void Resize(const Core::Size& size) override;
-    virtual void Update() override;
-    virtual void Render(SceneFrameData frame) override;
-    virtual void Shutdown() override;
+	bool Initialize(
+        HWND hwnd, 
+        const Core::Size& screenSize, 
+        const std::vector<RegistryShaderDesc>& registryShaders) override;
 
-    virtual IResourceProvider* GetProvider(ProviderType type) override;
-    virtual RenderMetrics GetRenderMetrics() override;
+	ShaderID RegisterShader(const ShaderDesc& desc) override;
+	void Resize(const Core::Size& size) override;
+	void Update() override;
+	void Render(SceneFrameData frame) override;
+	void Shutdown() override;
+
+	IResourceProvider* GetProvider(ProviderType type) override;
+	RenderMetrics GetRenderMetrics() override;
 
 private:
     Device m_device;

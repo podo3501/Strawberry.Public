@@ -1,9 +1,8 @@
 export module Contract.Render.Backend.View:OverlayData;
 
 import std;
-import :ID;
-import :OverlayContext;
 import :OverlayDrawList;
+import Contract.Render.Shared.View;
 
 export struct OverlayViewData
 {

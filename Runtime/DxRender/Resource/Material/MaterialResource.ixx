@@ -3,14 +3,14 @@ export module DxRender.Resource:Material;
 import std;
 import DxRender.Definition;
 import Contract.Render.IResource;
-import Contract.Render.Shared;
+import Contract.Render.Shared.Types;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
 
 export class MaterialResource : public IResource
 {
 public:
-    virtual ~MaterialResource() override = default;
+    ~MaterialResource() override = default;
     MaterialResource() = delete;
 
     MaterialType GetType() const noexcept { return m_type; }

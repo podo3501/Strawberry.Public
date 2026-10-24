@@ -12,14 +12,14 @@ import Contract.Render.Backend;
 export class MaterialProvider : public IResourceProvider
 {
 public:
-    virtual ~MaterialProvider() override = default;
+    ~MaterialProvider() override = default;
     MaterialProvider(
         PendingLoadQueue& pendingLoad,
         DeferredReleaser& deferredReleaser,
         TextureProvider& texProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
-    virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
+    std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
+    void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:
     std::shared_ptr<IResource> BuildPbrResource(

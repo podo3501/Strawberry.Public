@@ -2,7 +2,7 @@ export module DxRender.Text:FontSetting;
 
 import std;
 import Core.Assert;
-import Contract.Render.Backend.Types;
+import Contract.Render.Shared.Types;
 
 // 폰트 크기는 atlas 페이지를 나누는 기준이 된다.
 // bitmap은 크기별로 다 찍고 구간에 한해서 한곳에 모아진다 (9 - 14 까지는 medium page에).

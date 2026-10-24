@@ -11,19 +11,20 @@ import Contract.Audio.Backend;
 export class StaticSoundInstance : public ISoundInstance
 {
 public:
+	~StaticSoundInstance() override;
 	StaticSoundInstance() = default;
-	virtual ~StaticSoundInstance() override;
+	
 	bool Setup(MIX_Mixer* mixer);
 	bool SetBuffer(StaticSoundBuffer* buffer);
 	
-	virtual bool Reset(const PlaybackParams& params) override;
-	virtual bool Play() override;
-	virtual bool Pause() override;
-	virtual bool Resume() override;
-	virtual bool Stop() override;
-	virtual void Update() override;
-	virtual bool SetVolume(float volume) override;
-	virtual PlaybackState GetState() const noexcept override;
+	bool Reset(const PlaybackParams& params) override;
+	bool Play() override;
+	bool Pause() override;
+	bool Resume() override;
+	bool Stop() override;
+	void Update() override;
+	bool SetVolume(float volume) override;
+	PlaybackState GetState() const noexcept override;
 
 	void OnStopped();
 

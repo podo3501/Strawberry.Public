@@ -8,7 +8,7 @@ import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;
 import DxRender.Definition;
-import Contract.Render.Backend.View;
+import Contract.Render.Shared.View;
 
 export class OpaqueGraphBuilder
 {

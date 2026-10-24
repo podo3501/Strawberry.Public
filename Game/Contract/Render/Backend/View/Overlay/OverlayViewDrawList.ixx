@@ -2,8 +2,8 @@ export module Contract.Render.Backend.View:OverlayDrawList;
 
 import std;
 import Core.Math;
+import Contract.Render.Shared.Types;
 import Contract.Render.IResource;
-import Contract.Render.Backend.Types;
 
 export struct DrawUIItem
 {

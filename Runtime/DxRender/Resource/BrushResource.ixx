@@ -14,7 +14,7 @@ import Contract.Render.IResource;
 export class BrushResource : public IResource, public IPendingResource
 {
 public:
-    virtual ~BrushResource() override = default;
+    ~BrushResource() override = default;
     BrushResource() = default;
 
     BrushResource(const BrushResource&) = delete;
@@ -22,13 +22,13 @@ public:
     BrushResource(BrushResource&&) noexcept = default;
     BrushResource& operator=(BrushResource&&) noexcept = default;
 
-    virtual bool IsReady() const noexcept override { return m_ready; }
-    virtual bool IsDependencyReady() const noexcept override
+    bool IsReady() const noexcept override { return m_ready; }
+    bool IsDependencyReady() const noexcept override
     {
         // 텍스처 업로드(비동기) 완료 여부. SH는 CPU 데이터 복사라 즉시 완료됨.
         return m_texture && m_texture->IsReady();
     }
-    virtual void MarkReady() override { m_ready = true; }
+    void MarkReady() override { m_ready = true; }
 
     Core::Vector4 CalcUVTransform(const std::optional<Core::Rect>& source) const
     {

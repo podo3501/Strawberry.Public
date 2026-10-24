@@ -18,14 +18,14 @@ import Contract.Render.Assets;
 export class TextureProvider : public IUpdatableProvider
 {
 public:
-    virtual ~TextureProvider() override = default;
+    ~TextureProvider() override = default;
     TextureProvider() = delete;
     TextureProvider(
         Device& device,
         TaskScheduler& taskScheduler,
         ResourceFactory& resFactory,
         DescriptorFactory& descFactory) noexcept;
-    virtual void Update(float avgGpuMs) override;
+    void Update(float avgGpuMs) override;
 
     std::shared_ptr<TextureResource> CreateResource();
     bool LoadResource(std::shared_ptr<TextureResource> resource, std::shared_ptr<TextureAsset> asset);

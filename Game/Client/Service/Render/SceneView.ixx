@@ -4,40 +4,40 @@ import std;
 import :RenderView;
 import Service.Render.Repository;
 import Contract.Render.Backend.View;
-import Contract.Render.Shared;
+import Contract.Render.Shared.View;
 import Contract.Render.Service;
 import Core.Math;
 
-export class SceneView : public RenderView
+class SceneView : public RenderView, public ISceneView
 {
 public:
-    virtual ~SceneView() override = default;
+    ~SceneView() override = default;
     SceneView() = delete;
     SceneView(
         RepositoryContainer& repositories,
         MaterialHandle defaultMaterial);
-    virtual bool IsEmpty() const override;
+    bool IsEmpty() const override;
 
     void Reset(const SceneViewContext& context);
     SceneViewData TakeData();
 
-    void DrawEnvironment(EnvironmentHandle hEnv);
+    void DrawEnvironment(EnvironmentHandle hEnv) override;
 
     void DrawSurface(
         MeshHandle hM,
         MaterialHandle hMtl,
-        const Core::Matrix& world);
+        const Core::Matrix& world) override;
 
     void DrawWithShaderOverride(
         MeshHandle hM,
         MaterialHandle hMtl,
         ShaderID shaderID,
-        const Core::Matrix& world);
+        const Core::Matrix& world) override;
 
     void DrawDebugSurface(
         DebugMeshHandle hDM,
         DebugMaterialHandle hDMtl,
-        const Core::Matrix& world);
+        const Core::Matrix& world) override;
 
 private:
     void DrawSurfaceInternal(

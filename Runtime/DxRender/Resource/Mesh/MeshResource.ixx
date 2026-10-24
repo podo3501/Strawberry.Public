@@ -9,9 +9,9 @@ import Contract.Render.IResource;
 export class MeshResource : public IResource
 {
 public:
-    virtual ~MeshResource() override = default;
+    ~MeshResource() override = default;
+    bool IsReady() const noexcept override { return m_ready; }
 
-    virtual bool IsReady() const noexcept override { return m_ready; }
     virtual UINT GetVertexHeapIndex() const noexcept = 0;
     virtual UINT GetIndexHeapIndex() const noexcept = 0;
     virtual UINT GetVertexCount() const noexcept = 0;

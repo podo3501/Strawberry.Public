@@ -145,14 +145,14 @@ static std::shared_ptr<MaterialAsset> LoadPhong(
 class MaterialJsonLoader : public IAssetLoader
 {
 public:
-    virtual ~MaterialJsonLoader() override = default;
+    ~MaterialJsonLoader() override = default;
 
     explicit MaterialJsonLoader(IAssetProvider* assetProvider) noexcept
         : m_assetProvider{ assetProvider }
     {
     }
 
-    virtual std::shared_ptr<Asset> Load(AssetInput& source) override
+    std::shared_ptr<Asset> Load(AssetInput& source) override
     {
         if (source.IsStream()) return nullptr;
 

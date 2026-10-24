@@ -11,14 +11,14 @@ import Contract.IAssetAsyncLoader;
 export class AssetService : public IAssetService
 {
 public:
-    ~AssetService();
+    ~AssetService() override;
     AssetService() = delete;
     explicit AssetService(IAssetStorage* assetStorage) noexcept;
     
-    bool Initialize(IAssetMetaRegistry* metaRegistry, size_t threadCount = 0);
-    bool IsIdle() const;
+    bool Initialize(IAssetMetaRegistry* metaRegistry, size_t threadCount = 0) override;
+    bool IsIdle() const override;
 
-    IAssetAsyncLoader* GetAsyncLoader() noexcept;
+    IAssetAsyncLoader* GetAsyncLoader() noexcept override;
 
 private:
     

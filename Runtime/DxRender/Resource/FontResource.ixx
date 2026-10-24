@@ -18,10 +18,10 @@ import Contract.Render.IResource;
 export class FontResource : public IResource
 {
 public:
-    virtual ~FontResource() override;
+    ~FontResource() override;
     FontResource() = default;
 
-    virtual bool IsReady() const noexcept override { return m_ready; }
+    bool IsReady() const noexcept override { return m_ready; }
 
     bool Initialize(FreeTypeLibrary& ftLibrary, std::shared_ptr<BinaryAsset> asset);
 

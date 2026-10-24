@@ -19,7 +19,7 @@ SceneRenderer::SceneRenderer(RepositoryContainer& repositories)
     m_defaultBrush = CreateBuiltinBrush(brushRepository);
 }
 
-SceneView& SceneRenderer::AcquireView(const SceneViewContext& context)
+ISceneView& SceneRenderer::AcquireView(const SceneViewContext& context)
 {
     Core::Assert(context.target.id < MaxViewCount);
 
@@ -29,13 +29,13 @@ SceneView& SceneRenderer::AcquireView(const SceneViewContext& context)
         slot = std::make_unique<SceneView>(m_repositories, m_defaultMaterial);
     }
 
-    auto* view = static_cast<SceneView*>(slot.get());
-    view->Reset(context);
+    auto& view = static_cast<SceneView&>(*slot);
+    view.Reset(context);
 
-    return *view;
+    return view;
 }
 
-OverlayView& SceneRenderer::AcquireView(const OverlayViewContext& context)
+IOverlayView& SceneRenderer::AcquireView(const OverlayViewContext& context)
 {
     Core::Assert(context.target.id < MaxViewCount);
 
@@ -45,10 +45,10 @@ OverlayView& SceneRenderer::AcquireView(const OverlayViewContext& context)
         slot = std::make_unique<OverlayView>(m_repositories, m_uiQuad, m_defaultBrush);
     }
 
-    auto* view = static_cast<OverlayView*>(slot.get());
-    view->Reset(context);
+    auto& view = static_cast<OverlayView&>(*slot);
+    view.Reset(context);
 
-    return *view;
+    return view;
 }
 
 void SceneRenderer::SetLight(const DirectionalLightData& light)

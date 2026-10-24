@@ -3,7 +3,7 @@ export module Service.Render:BuiltinBrush;
 import std;
 import Core.ResourceID;
 import Contract.Render.Service;
-import Service.Render.Descriptors;
+import Contract.Render.Service.Descriptors;
 import Service.Render.Repository;
 
 export BrushHandle CreateBuiltinBrush(ResourceRepository<BrushTag>& repository)

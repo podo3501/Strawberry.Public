@@ -50,8 +50,7 @@ public:
 
     explicit EnvironmentLoader(IAssetProvider* assetProvider) noexcept
         : m_assetProvider{ assetProvider }
-    {
-    }
+    {}
 
     std::shared_ptr<Asset> Load(AssetInput& source) override
     {

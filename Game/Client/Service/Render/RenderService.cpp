@@ -45,17 +45,10 @@ RenderService::~RenderService()
 RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyncLoader* asyncLoader)
 	: m_backend{ std::move(backend) }
 	, m_asyncLoader{ asyncLoader }
-    , m_repositories{ *m_backend, asyncLoader }
+	, m_repositories{ *m_backend, asyncLoader }
 	, m_repository{ m_repositories }
-    , m_renderer{ m_repositories }
+	, m_renderer{ m_repositories }
 {}
-
-std::unique_ptr<RenderService> RenderService::Create(
-    std::unique_ptr<IRenderBackend> backend,
-    IAssetAsyncLoader* asyncLoader) noexcept
-{
-    return std::unique_ptr<RenderService>(new RenderService(std::move(backend), asyncLoader));
-}
 
 bool RenderService::Initialize(HWND hwnd, const Core::Size& screenSize)
 {
@@ -148,4 +141,14 @@ std::vector<RegistryShaderDesc> RenderService::SetupRegistryShaders()
     }
 
     return shaderDescs;
+}
+
+std::unique_ptr<IRenderService> CreateRenderService(
+    std::unique_ptr<IRenderBackend> backend,
+    IAssetAsyncLoader* asyncLoader) noexcept
+{
+    if (backend == nullptr) return nullptr;
+    if (asyncLoader == nullptr) return nullptr;
+
+    return std::make_unique<RenderService>(std::move(backend), asyncLoader);
 }

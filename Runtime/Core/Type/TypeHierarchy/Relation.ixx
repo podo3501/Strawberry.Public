@@ -21,8 +21,8 @@ namespace Core
     public:
         static TypeID StaticTypeID() { return Core::GetTypeID<Derived>(); }
 
-        virtual TypeID GetTypeID() const override { return StaticTypeID(); }
-        virtual bool IsKindOf(TypeID id) const override
+        TypeID GetTypeID() const override { return StaticTypeID(); }
+        bool IsKindOf(TypeID id) const override
         {
             if (id == StaticTypeID()) return true;
             return Base::IsKindOf(id);

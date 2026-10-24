@@ -9,12 +9,12 @@ import Contract.Asset.Service;
 export class AssetMetaRegistry : public IAssetMetaRegistry
 {
 public:
-    virtual ~AssetMetaRegistry() override = default;
+    ~AssetMetaRegistry() override = default;
     explicit AssetMetaRegistry(IAssetAsyncLoader* loader);
 
-    virtual bool Initialize() override;
-    virtual bool Scan(const std::filesystem::path& resPath) override;
-    virtual std::shared_ptr<Asset> GetMeta(const Core::ResourceID& resID) const override;
+	bool Initialize() override;
+	bool Scan(const std::filesystem::path& resPath) override;
+	std::shared_ptr<Asset> GetMeta(const Core::ResourceID& resID) const override;
 
 private:
     bool RegisterMetaType(std::string_view originalExt, Core::TypeID metaTypeID);

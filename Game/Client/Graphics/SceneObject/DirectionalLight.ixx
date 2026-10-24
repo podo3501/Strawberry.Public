@@ -2,7 +2,7 @@ export module Graphics.SceneObject:DirectionalLight;
 
 import std;
 import Core.Math;
-import Contract.Render.Backend.View;
+import Contract.Render.Shared.View;
 
 export class DirectionalLight
 {

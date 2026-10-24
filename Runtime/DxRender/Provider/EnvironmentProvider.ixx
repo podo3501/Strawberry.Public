@@ -12,14 +12,14 @@ import Contract.Render.Backend;
 export class EnvironmentProvider : public IResourceProvider
 {
 public:
-    virtual ~EnvironmentProvider() override = default;
+    ~EnvironmentProvider() override = default;
     EnvironmentProvider(
         PendingLoadQueue& pendingLoad,
         DeferredReleaser& deferredReleaser,
         TextureCubeProvider& cubeProvider) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
-    virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
+    std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
+    void ReleaseResource(std::shared_ptr<IResource> res) override;
 
 private:
     std::shared_ptr<TextureCubeResource> CreateCubeResource(std::shared_ptr<TextureCubeAsset> cubeAsset);

@@ -1,7 +1,7 @@
 export module Contract.Render.Service:ISceneView;
 
 import :Handles;
-import Contract.Render.Shared;
+import Contract.Render.Shared.Types;
 import Core.Math;
 
 export struct ISceneView
@@ -15,11 +15,11 @@ export struct ISceneView
 		MaterialHandle hMtl,
 		const Core::Matrix& world) = 0;
 
-	void DrawWithShaderOverride(
+	virtual void DrawWithShaderOverride(
 		MeshHandle hM,
 		MaterialHandle hMtl,
 		ShaderID shaderID,
-		const Core::Matrix& world);
+		const Core::Matrix& world) = 0;
 
 	virtual void DrawDebugSurface(
 		DebugMeshHandle hDM,

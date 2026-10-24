@@ -15,7 +15,7 @@ import DxRender.Definition;
 import DxRender.Allocator;
 import DxRender.Command;
 import DxRender.Resource;
-import Contract.Render.Backend.View;
+import Contract.Render.Shared.View;
 
 export class ShadowRenderer
 {

@@ -4,7 +4,7 @@ import std;
 import Core.ResourceID;
 import Core.Math;
 import Contract.Render.Service;
-import Service.Render.Descriptors;
+import Contract.Render.Service.Descriptors;
 import Service.Render.Repository;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;

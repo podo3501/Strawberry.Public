@@ -4,7 +4,7 @@ import std;
 import :ResourceTypes;
 import Core.Handle;
 import Contract.Common.Asset;
-import Service.Render.Descriptors;
+import Contract.Render.Service.Descriptors;
 import Contract.Render.Backend;
 import Delete.Service.AssetAsyncHelper;
 

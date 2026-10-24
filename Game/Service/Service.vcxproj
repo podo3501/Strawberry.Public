@@ -45,6 +45,33 @@
     <ClCompile Include="Input\InputService.cpp" />
     <ClCompile Include="Input\InputService.ixx" />
     <ClCompile Include="Input\KeyboardState.ixx" />
+    <ClCompile Include="Render\Builtin\Builtin.ixx" />
+    <ClCompile Include="Render\Builtin\BuiltinBrush.ixx" />
+    <ClCompile Include="Render\Builtin\BuiltinMaterials.ixx" />
+    <ClCompile Include="Render\Builtin\BuiltinMeshes.ixx" />
+    <ClCompile Include="Render\OverlayView.cpp" />
+    <ClCompile Include="Render\OverlayView.ixx" />
+    <ClCompile Include="Render\Render.ixx" />
+    <ClCompile Include="Render\RenderRepository.cpp" />
+    <ClCompile Include="Render\RenderRepository.ixx" />
+    <ClCompile Include="Render\RenderService.cpp" />
+    <ClCompile Include="Render\RenderService.ixx" />
+    <ClCompile Include="Render\RenderView.ixx" />
+    <ClCompile Include="Render\Repository\Base\ResourceRepository.ixx" />
+    <ClCompile Include="Render\Repository\Base\ResourceRepositoryImpl.cpp" />
+    <ClCompile Include="Render\Repository\Base\ResourceRepositoryImpl.ixx" />
+    <ClCompile Include="Render\Repository\Base\ResourceTypes.ixx" />
+    <ClCompile Include="Render\Repository\Container\RepositoryContainer.ixx" />
+    <ClCompile Include="Render\Repository\Container\RepositoryTypes.ixx" />
+    <ClCompile Include="Render\Repository\Container\RepositoryTypeTraits.ixx" />
+    <ClCompile Include="Render\Repository\IResourceRepository.ixx" />
+    <ClCompile Include="Render\Repository\Repository.ixx" />
+    <ClCompile Include="Render\Repository\ResourceRepositories.ixx" />
+    <ClCompile Include="Render\SceneRenderer.cpp" />
+    <ClCompile Include="Render\SceneRenderer.ixx" />
+    <ClCompile Include="Render\SceneView.cpp" />
+    <ClCompile Include="Render\SceneView.ixx" />
+    <ClCompile Include="Render\ShaderStageBuilder.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

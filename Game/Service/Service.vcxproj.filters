@@ -10,6 +10,21 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{89c272b3-a9dc-48d3-b658-f5e1809f71de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{a60e81b0-a821-49ba-b122-5eb229cf1e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Builtin">
+      <UniqueIdentifier>{22bacf34-e933-49b9-9664-32e7f408205a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Repository">
+      <UniqueIdentifier>{c87e379c-2f2d-4d05-adde-af771a3af510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Repository\Base">
+      <UniqueIdentifier>{6f72dcdc-8863-4090-b017-fae127b589f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Repository\Container">
+      <UniqueIdentifier>{45237e4e-444c-46b2-a695-eb8ec9a850fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\InputService.cpp">
@@ -87,6 +102,87 @@
     </ClCompile>
     <ClCompile Include="Audio\VoicePool.ixx">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\OverlayView.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\OverlayView.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Render.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderRepository.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderRepository.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderService.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderService.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderView.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\SceneRenderer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\SceneRenderer.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\SceneView.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\SceneView.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ShaderStageBuilder.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\IResourceRepository.ixx">
+      <Filter>Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Repository.ixx">
+      <Filter>Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\ResourceRepositories.ixx">
+      <Filter>Render\Repository</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Container\RepositoryContainer.ixx">
+      <Filter>Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Container\RepositoryTypes.ixx">
+      <Filter>Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Container\RepositoryTypeTraits.ixx">
+      <Filter>Render\Repository\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Base\ResourceRepository.ixx">
+      <Filter>Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Base\ResourceRepositoryImpl.cpp">
+      <Filter>Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Base\ResourceRepositoryImpl.ixx">
+      <Filter>Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Repository\Base\ResourceTypes.ixx">
+      <Filter>Render\Repository\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Builtin\Builtin.ixx">
+      <Filter>Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Builtin\BuiltinBrush.ixx">
+      <Filter>Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Builtin\BuiltinMaterials.ixx">
+      <Filter>Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Builtin\BuiltinMeshes.ixx">
+      <Filter>Render\Builtin</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

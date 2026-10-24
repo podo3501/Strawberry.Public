@@ -8,10 +8,10 @@ import Contract.Common.Asset;
 export class StreamSoundBuffer : public ISoundBuffer
 {
 public:
-	StreamSoundBuffer() = default;
 	~StreamSoundBuffer() override = default;
+	StreamSoundBuffer() = default;
 
-	virtual bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
+	bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
 	IReadStream* GetStream() noexcept;
 
 private:

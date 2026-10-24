@@ -12,9 +12,9 @@ import Service.Render.Repository;
 import Delete.Service.AssetAsyncHelper;
 import Core.Type;
 import Core.Math;
-import Contract.Render.Backend;
-import Contract.Render.Backend.Types;
 import Contract.Render.Shared;
+import Contract.Render.Service;
+import Contract.Render.Backend;
 
 struct RegistryShaderEntry
 {
@@ -22,15 +22,11 @@ struct RegistryShaderEntry
     RegistryShaderDesc desc;
 };
 
-export class RenderService
+class RenderService : public IRenderService
 {
 public:
     ~RenderService();
-    RenderService() = delete;
-    
-    static std::unique_ptr<RenderService> Create(
-        std::unique_ptr<IRenderBackend> backend,
-        IAssetAsyncLoader* asyncLoader) noexcept;
+    RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyncLoader* asyncLoader);
 
     bool Initialize(HWND hwnd, const Core::Size& screenSize);
     ShaderID RegisterShader(const Core::ResourceID& resourceID, ShaderType type);
@@ -39,12 +35,11 @@ public:
     void Render();
     void Resize(const Core::Size& size);
 
-    RenderRepository& GetRepository() { return m_repository; }
-    SceneRenderer& GetRenderer() { return m_renderer; }
+    IRenderRepository& GetRepository() { return m_repository; }
+    ISceneRenderer& GetRenderer() { return m_renderer; }
     RenderMetrics GetRenderMetrics() { return m_backend->GetRenderMetrics(); }
 
 private:
-    RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyncLoader* asyncLoader);
     std::vector<RegistryShaderEntry> LoadRegistryShaderEntries();
     std::vector<RegistryShaderDesc> SetupRegistryShaders();
 

@@ -15,7 +15,11 @@ export struct IRenderBackend
 {
     virtual ~IRenderBackend() = default;
 
-    virtual bool Initialize(HWND hwnd, const Core::Size& wndSize, const std::vector<RegistryShaderDesc>& registryShaders) = 0;
+    virtual bool Initialize(
+        HWND hwnd, 
+        const Core::Size& wndSize, 
+        const std::vector<RegistryShaderDesc>& registryShaders) = 0;
+
     virtual ShaderID RegisterShader(const ShaderDesc& desc) = 0;
     virtual void Resize(const Core::Size& size) = 0;
     virtual void Update() = 0;

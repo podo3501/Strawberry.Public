@@ -1,8 +1,9 @@
 export module Service.Render:ShaderStageBuilder;
 
 import std;
-import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
+import Contract.Render.Shared.Types;
+import Contract.Render.Backend.Types;
 import Core.Assert;
 
 namespace

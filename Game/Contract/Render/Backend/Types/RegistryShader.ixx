@@ -1,7 +1,7 @@
 export module Contract.Render.Backend.Types:RegistryShader;
 
 import std;
-import Contract.Render.Shared;
+import Contract.Render.Shared.Types;
 
 export namespace RegistryShader
 {

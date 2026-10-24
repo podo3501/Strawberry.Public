@@ -9,6 +9,8 @@ import Contract.IAssetAsyncLoader;
 
 export struct IAudioService
 {
+	virtual ~IAudioService() = default;
+
 	virtual SoundHandle AcquireStaticSound(std::string_view soundID) = 0;
 	virtual SoundHandle AcquireStreamSound(std::string_view soundID) = 0;
 

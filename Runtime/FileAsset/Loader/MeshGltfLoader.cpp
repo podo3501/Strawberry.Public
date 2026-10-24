@@ -42,12 +42,10 @@ namespace
 class MeshGltfLoader : public IAssetLoader
 {
 public:
+	~MeshGltfLoader() override = default;
 	explicit MeshGltfLoader(IAssetProvider* assetProvider) noexcept
 		: m_assetProvider{ assetProvider }
-	{
-	}
-
-	~MeshGltfLoader() override = default;
+	{}
 
 	std::shared_ptr<Asset> Load(AssetInput& source) override
 	{

@@ -1,7 +1,7 @@
 export module Contract.Render.Backend.Types:ShaderDesc;
 
 import std;
-import Contract.Render.Shared;
+import Contract.Render.Shared.Types;
 import Contract.Render.Assets;
 
 export enum class ShaderStage

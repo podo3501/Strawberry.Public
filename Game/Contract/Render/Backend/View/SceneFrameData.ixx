@@ -1,10 +1,10 @@
 export module Contract.Render.Backend.View:SceneFrameData;
 
 import std;
-import :DirectionalLightData;
 import :DrawShadowCasterItem;
 import :SceneData;
 import :OverlayData;
+import Contract.Render.Shared.View;
 
 export struct SceneFrameData
 {

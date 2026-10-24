@@ -14,7 +14,7 @@ import Contract.Render.Backend;
 export class MeshProvider : public IResourceProvider, public IUpdatableProvider
 {
 public:
-    virtual ~MeshProvider() override = default;
+    ~MeshProvider() override = default;
     MeshProvider() = delete;
     MeshProvider(
         DeferredReleaser& deferredReleaser,
@@ -22,9 +22,9 @@ public:
         ResourceFactory& resFactory,
         DescriptorFactory& descFactory) noexcept;
 
-    virtual std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
-    virtual void ReleaseResource(std::shared_ptr<IResource> res) override;
-    virtual void Update(float avgGpuMs) override;
+    std::shared_ptr<IResource> CreateResource(std::shared_ptr<Asset> asset) override;
+    void ReleaseResource(std::shared_ptr<IResource> res) override;
+    void Update(float avgGpuMs) override;
 
 private:
     DeferredReleaser& m_deferredReleaser;

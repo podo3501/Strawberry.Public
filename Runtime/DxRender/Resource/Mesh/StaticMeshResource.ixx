@@ -12,13 +12,13 @@ import Contract.Render.Assets;
 export class StaticMeshResource : public MeshResource
 {
 public:
-    virtual ~StaticMeshResource() override = default;
+    ~StaticMeshResource() override = default;
     StaticMeshResource() = default;
 
-    virtual UINT GetVertexHeapIndex() const noexcept override { return m_vertexHeapIndex; }
-    virtual UINT GetIndexHeapIndex() const noexcept override { return m_indexHeapIndex; }
-    virtual UINT GetVertexCount() const noexcept override { return m_vertexCount; }
-    virtual UINT GetIndexCount() const noexcept override { return m_indexCount; }
+	UINT GetVertexHeapIndex() const noexcept override { return m_vertexHeapIndex; }
+	UINT GetIndexHeapIndex() const noexcept override { return m_indexHeapIndex; }
+	UINT GetVertexCount() const noexcept override { return m_vertexCount; }
+	UINT GetIndexCount() const noexcept override { return m_indexCount; }
 
     void SetResource(Resource vb, Resource ib, UINT vertexCount, UINT indexCount) noexcept
     {

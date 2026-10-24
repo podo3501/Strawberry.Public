@@ -18,8 +18,8 @@ import DxRender.Helper;
 import DxRender.Resource;
 import DxRender.Allocator;
 import DxRender.Definition;
-import Contract.Render.Backend.Types;
-import Contract.Render.Backend.View;
+import Contract.Render.Shared.View;
+import Contract.Render.Backend;
 
 using Microsoft::WRL::ComPtr;
 

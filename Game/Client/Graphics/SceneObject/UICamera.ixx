@@ -7,14 +7,14 @@ import Core.Math;
 export class UICamera : public Camera
 {
 public:
-    virtual ~UICamera() override = default;
+    ~UICamera() override = default;
 
     UICamera()
     {
         SetNearFar(0.f, 1.f);
     }
 
-    virtual Core::Matrix BuildProjection(
+    Core::Matrix BuildProjection(
         const Core::Size& screenSize,
         const std::optional<Core::Rect>& viewport) const override
     {
@@ -54,7 +54,7 @@ public:
     }
 
 protected:
-    virtual void UpdateMatrices() const override
+    void UpdateMatrices() const override
     {
         // UI는 회전 없음. 패닝이 필요해지면 여기서 m_position 반영.
         m_view = Core::Matrix::Identity();

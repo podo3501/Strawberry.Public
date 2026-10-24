@@ -13,12 +13,12 @@ import Contract.Render.Assets;
 export class TextureCubeProvider : public IUpdatableProvider
 {
 public:
-    virtual ~TextureCubeProvider() override = default;
+    ~TextureCubeProvider() override = default;
     TextureCubeProvider(
         TaskScheduler& taskScheduler,
         ResourceFactory& resFactory,
         DescriptorFactory& descFactory) noexcept;
-    virtual void Update(float avgGpuMs) override;
+    void Update(float avgGpuMs) override;
 
     std::shared_ptr<TextureCubeResource> CreateResource();
     bool LoadResource(

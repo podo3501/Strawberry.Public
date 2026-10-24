@@ -6,7 +6,7 @@ import Contract.Render.IResource;
 export class DebugMaterialResource : public IResource
 {
 public:
-    virtual ~DebugMaterialResource() override = default;
+    ~DebugMaterialResource() override = default;
     const PipelineState& GetPipelineState() const noexcept { return m_pipelineState; }
 
 protected:

@@ -14,20 +14,20 @@ import Contract.Asset.Backend;
 export class StreamSoundInstance : public ISoundInstance
 {
 public:
-	virtual ~StreamSoundInstance() override;
+	~StreamSoundInstance() override;
 	StreamSoundInstance() = default;
 
 	bool Setup(AudioDevice* device);
 	bool SetBuffer(StreamSoundBuffer* buffer);
 
-	virtual bool Reset(const PlaybackParams& params) override;
-	virtual bool Play() override;
-	virtual bool Pause() override;
-	virtual bool Resume() override;
-	virtual bool Stop() override;
-	virtual void Update() override;
-	virtual bool SetVolume(float volume) override;
-	virtual PlaybackState GetState() const noexcept override;
+	bool Reset(const PlaybackParams& params) override;
+	bool Play() override;
+	bool Pause() override;
+	bool Resume() override;
+	bool Stop() override;
+	void Update() override;
+	bool SetVolume(float volume) override;
+	PlaybackState GetState() const noexcept override;
 
 private:
 	bool PrepareStream();

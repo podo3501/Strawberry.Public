@@ -4,23 +4,24 @@ import std;
 import :SceneView;
 import :OverlayView;
 import :RenderView;
-import Contract.Render.Service;
 import Service.Render.Repository;
-import Core.Math;
+import Contract.Render.Service;
 import Contract.Render.Backend.View;
+import Core.Math;
 
-export class SceneRenderer
+export class SceneRenderer : public ISceneRenderer
 {
 public:
     ~SceneRenderer() = default;
     SceneRenderer() = delete;
     explicit SceneRenderer(RepositoryContainer& repositories);
 
-    SceneView& AcquireView(const SceneViewContext& context);
-    OverlayView& AcquireView(const OverlayViewContext& context);
+	ISceneView& AcquireView(const SceneViewContext& context) override;
+	IOverlayView& AcquireView(const OverlayViewContext& context) override;
 
-    void SetLight(const DirectionalLightData& light);
-    void DrawShadowCaster(MeshHandle hM, const Core::Matrix& world);
+	void SetLight(const DirectionalLightData& light) override;
+	void DrawShadowCaster(MeshHandle hM, const Core::Matrix& world) override;
+
     SceneFrameData Flush();
 
 private:

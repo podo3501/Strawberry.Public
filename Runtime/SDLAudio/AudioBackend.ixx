@@ -10,8 +10,8 @@ import Contract.Audio.Backend;
 class AudioBackend : public IAudioBackend
 {
 public:
-	AudioBackend() = default;
 	~AudioBackend() override = default;
+	AudioBackend() = default;
 	bool Initialize(int maxVoices, int maxStreams) noexcept override;
 
 	std::unique_ptr<ISoundBuffer> CreateStaticSoundBuffer() override;

@@ -5,7 +5,7 @@ import :Interface;
 import :Implementation;
 import :ResourceTypes;
 import Core.Handle;
-import Service.Render.Descriptors;
+import Contract.Render.Service.Descriptors;
 import Contract.IAssetAsyncLoader;
 import Contract.Render.Backend;
 

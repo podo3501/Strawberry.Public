@@ -11,7 +11,7 @@ import Contract.Render.Assets;
 export class PhongMaterialResource final : public MaterialResource, public IPendingResource
 {
 public:
-    virtual ~PhongMaterialResource() override = default;
+    ~PhongMaterialResource() override = default;
 
     PhongMaterialResource() :
         MaterialResource{
@@ -23,9 +23,9 @@ public:
         }
     {}
 
-    virtual bool IsReady() const noexcept override { return m_ready; }
+    bool IsReady() const noexcept override { return m_ready; }
 
-    virtual bool IsDependencyReady() const noexcept override
+    bool IsDependencyReady() const noexcept override
     {
         // albedo는 필수
         if (!m_albedo || !m_albedo->IsReady())
@@ -38,7 +38,7 @@ public:
         return true;
     }
 
-    virtual void MarkReady() override { m_ready = true; }
+    void MarkReady() override { m_ready = true; }
 
     void SetAlbedo(std::shared_ptr<TextureResource> res) { m_albedo = std::move(res); }
     void SetNormal(std::shared_ptr<TextureResource> res) { m_normal = std::move(res); }

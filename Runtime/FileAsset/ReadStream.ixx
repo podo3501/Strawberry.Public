@@ -13,15 +13,16 @@ class ReadStream : public IReadStream
 public:
 	~ReadStream() override;
 	explicit ReadStream(const std::filesystem::path& path);
-	std::unique_ptr<IReadStream> Clone() const;
 
-	std::size_t Read(std::span<Core::Byte> buffer);
-	bool Seek(std::size_t pos) noexcept;
-	std::size_t Tell() const noexcept;
-	std::size_t Size() const noexcept;
+	std::unique_ptr<IReadStream> Clone() const override;
 
-	bool IsOpen() const noexcept;
-	bool Eof() const noexcept;
+	std::size_t Read(std::span<Core::Byte> buffer) override;
+	bool Seek(std::size_t pos) noexcept override;
+	std::size_t Tell() const noexcept override;
+	std::size_t Size() const noexcept override;
+
+	bool IsOpen() const noexcept override;
+	bool Eof() const noexcept override;
 
 private:
 	std::filesystem::path m_filePath;

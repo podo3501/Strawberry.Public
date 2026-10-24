@@ -2,7 +2,7 @@ export module Contract.Render.Backend.View:SceneDrawList;
 
 import std;
 import Core.Math;
-import Contract.Render.Shared;
+import Contract.Render.Shared.Types;
 import Contract.Render.IResource;
 
 export struct DrawSurfaceItem

@@ -13,8 +13,7 @@ import Core.Bit;
 import Core.Utils;
 import DxRender.Helper;
 import DxRender.Definition;
-import Contract.Render.Backend.View;
-import Contract.Render.Backend.Types;
+import Contract.Render.Backend;
 
 namespace
 {

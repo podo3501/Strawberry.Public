@@ -12,14 +12,14 @@ constexpr float DegToRad(float deg) noexcept
 export class WorldCamera : public Camera
 {
 public:
-    virtual ~WorldCamera() override = default;
+    ~WorldCamera() override = default;
 
     WorldCamera()
     {
         SetNearFar(0.1f, 1000.f);
     }
 
-    virtual Core::Matrix BuildProjection(
+    Core::Matrix BuildProjection(
         const Core::Size& screenSize,
         const std::optional<Core::Rect>& viewport) const override
     {
@@ -86,7 +86,7 @@ public:
     float GetFov() const { return m_fov; }
 
 protected:
-    virtual void UpdateMatrices() const override
+    void UpdateMatrices() const override
     {
         float cosPitch = std::cos(m_pitch);
         float sinPitch = std::sin(m_pitch);

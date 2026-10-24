@@ -22,28 +22,28 @@ struct PendingSoundPlay
 class AudioService : public IAudioService
 {
 public:
-	~AudioService() = default;
+	~AudioService() override = default;
 	AudioService(
 		std::unique_ptr<IAudioBackend> audioBackend,
 		const SoundAssetView& sndAssetView,
 		IAssetAsyncLoader* asyncLoader) noexcept;
 	bool Initialize(int maxVoices, int maxStreams) noexcept;
 
-	virtual SoundHandle AcquireStaticSound(std::string_view soundID) override;
-	virtual SoundHandle AcquireStreamSound(std::string_view soundID) override;
+	SoundHandle AcquireStaticSound(std::string_view soundID) override;
+	SoundHandle AcquireStreamSound(std::string_view soundID) override;
 
-	virtual VoiceHandle Play(SoundHandle sh) noexcept override;
-	virtual bool Pause(VoiceHandle vh) noexcept override;
-	virtual bool Resume(VoiceHandle vh) noexcept override;
-	virtual bool Stop(VoiceHandle vh) noexcept override;
-	virtual bool AllStop() noexcept override;
-	virtual void Update() noexcept override;
-	virtual bool Unload(SoundHandle sh) noexcept override;
+	VoiceHandle Play(SoundHandle sh) noexcept override;
+	bool Pause(VoiceHandle vh) noexcept override;
+	bool Resume(VoiceHandle vh) noexcept override;
+	bool Stop(VoiceHandle vh) noexcept override;
+	bool AllStop() noexcept override;
+	void Update() noexcept override;
+	bool Unload(SoundHandle sh) noexcept override;
 
-	virtual PlaybackState GetState(VoiceHandle vh) const noexcept override;
-	virtual void SetMasterVolume(float volume) noexcept override;
-	virtual float GetMasterVolume() const noexcept override;
-	virtual bool SetVolume(VoiceHandle vh, float volume) noexcept override;
+	PlaybackState GetState(VoiceHandle vh) const noexcept override;
+	void SetMasterVolume(float volume) noexcept override;
+	float GetMasterVolume() const noexcept override;
+	bool SetVolume(VoiceHandle vh, float volume) noexcept override;
 
 private:
 	void CreateAudioGroup() noexcept;

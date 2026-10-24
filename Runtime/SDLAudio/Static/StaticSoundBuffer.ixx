@@ -11,11 +11,11 @@ import Contract.Common.Asset;
 export class StaticSoundBuffer : public ISoundBuffer
 {
 public:
-	virtual ~StaticSoundBuffer() override;
+	~StaticSoundBuffer() override;
 	StaticSoundBuffer() = delete;
 	explicit StaticSoundBuffer(MIX_Mixer* mixer) noexcept;
 
-	virtual bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
+	bool LoadFromAsset(std::shared_ptr<Asset> asset) override;
 	MIX_Audio* GetAudio() const noexcept;
 
 private:
