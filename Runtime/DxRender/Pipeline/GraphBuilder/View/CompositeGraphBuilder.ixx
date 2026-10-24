@@ -1,9 +1,9 @@
-export module Pipeline.GraphBuilder:Composite;
+export module DxRender.Pipeline.GraphBuilder:Composite;
 
 import std;
 import :ViewTypes;
 import DxRender.Graph;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.SwapChainPresenter;
 
 export class CompositeGraphBuilder

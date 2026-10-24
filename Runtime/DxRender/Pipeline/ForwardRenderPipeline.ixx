@@ -14,9 +14,9 @@ import DxRender.Resource;
 import DxRender.SwapChainPresenter;
 import DxRender.Task;
 import DxRender.Shader;
-import Pipeline.GraphBuilder;
-import Pipeline.Renderer;
-import Pipeline.Inspector;
+import DxRender.Pipeline.GraphBuilder;
+import DxRender.Pipeline.Renderer;
+import DxRender.Pipeline.Inspector;
 import Core.Math;
 
 export class ForwardRenderPipeline
@@ -27,12 +27,11 @@ public:
         Device& device,
         SwapChainPresenter& swapChain,
         TaskScheduler& taskScheduler,
+        ResourceFactory& resFactory,
         DescriptorFactory& descFactory,
         ShaderLibrary& shaderLibrary);
 
-    bool Initialize(
-        FontAtlasUploadGraphBuilder* fontUploadBuilder,
-        const Core::Size& screenSize);
+    bool Initialize(const Core::Size& screenSize);
     void Update();
     void Resize(const Core::Size& size);
 
@@ -59,7 +58,7 @@ private:
     RGResourceID m_hBackBuffer{ InvalidRGID };
     RGResourceID m_hShadow{ InvalidRGID };
 
-    FontAtlasUploadGraphBuilder* m_fontUploadBuilder{ nullptr };
+    FontAtlasUploadGraphBuilder m_fontUploadBuilder;
     ClearGraphBuilder m_clearBuilder;
     ShadowGraphBuilder m_shadowBuilder;
     ViewCompositionBuilder m_viewComposition;

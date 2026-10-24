@@ -1,11 +1,11 @@
-export module Pipeline.GraphBuilder:ViewComposition;
+export module DxRender.Pipeline.GraphBuilder:ViewComposition;
 
 import std;
 import :SceneView;
 import :OverlayView;
 import :Composite;
 import :ViewTargetPool;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Task;

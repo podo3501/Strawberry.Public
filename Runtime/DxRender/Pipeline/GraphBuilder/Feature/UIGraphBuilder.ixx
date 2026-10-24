@@ -1,8 +1,8 @@
-export module Pipeline.GraphBuilder:UI;
+export module DxRender.Pipeline.GraphBuilder:UI;
 
 import std;
 import :ViewTargetResources;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Definition;

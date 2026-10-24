@@ -1,7 +1,6 @@
 export module Contract.Asset.Service:IAssetService;
 
 import std;
-import :IAssetMetaRegistry;
 import Contract.Asset.Shared;
 import Contract.IAssetAsyncLoader;
 

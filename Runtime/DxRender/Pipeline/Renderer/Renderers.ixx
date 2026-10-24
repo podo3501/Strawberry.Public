@@ -1,4 +1,4 @@
-export module Pipeline.Renderer:Renderers;
+export module DxRender.Pipeline.Renderer:Renderers;
 
 import std;
 import :PipelineCache;

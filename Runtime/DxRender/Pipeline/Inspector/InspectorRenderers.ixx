@@ -1,9 +1,9 @@
-export module Pipeline.Inspector:Renderers;
+export module DxRender.Pipeline.Inspector:Renderers;
 
 import std;
 import :ImageRenderer;
 import Core.Math;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Core;
 import DxRender.Shader;
 

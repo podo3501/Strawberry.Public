@@ -111,12 +111,6 @@
     <ClCompile Include="Input\Service\MouseState.ixx">
       <Filter>Input\Service</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Service\IAssetMetaRegistry.ixx">
-      <Filter>Asset\Service</Filter>
-    </ClCompile>
-    <ClCompile Include="Asset\Service\IAssetProvider.ixx">
-      <Filter>Asset\Service</Filter>
-    </ClCompile>
     <ClCompile Include="Asset\Backend\IAssetLoader.ixx">
       <Filter>Asset\Backend</Filter>
     </ClCompile>
@@ -394,6 +388,15 @@
     </ClCompile>
     <ClCompile Include="Render\Service\IRenderService.ixx">
       <Filter>Render\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shared\IAssetMetaRegistry.ixx">
+      <Filter>Asset\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shared\IAssetProvider.ixx">
+      <Filter>Asset\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shared\Types\GridVertex.ixx">
+      <Filter>Render\Shared\Types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

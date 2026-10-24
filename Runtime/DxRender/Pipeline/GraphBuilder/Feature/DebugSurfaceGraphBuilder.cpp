@@ -1,4 +1,4 @@
-module Pipeline.GraphBuilder;
+module DxRender.Pipeline.GraphBuilder;
 
 import :DebugSurface;
 import DxRender.Command;

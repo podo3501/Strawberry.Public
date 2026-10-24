@@ -116,6 +116,7 @@ FramePacket BuildPacket(
     packet.shadowCasters = BuildShadowCasters(frame.shadowCasters);
     packet.sceneViews = BuildSceneViews(frame.sceneViews, screenSize);
     packet.overlayViews = BuildOverlayViews(frame.overlayViews, textSystem, meshProvider, screenSize);
+    packet.atlasUploads = textSystem.TakePendingUploads();
 
     return packet;
 }

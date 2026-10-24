@@ -2,7 +2,7 @@ module;
 
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Pipeline.Renderer;
 
 import :PipelineCache;
 import Core.Assert;

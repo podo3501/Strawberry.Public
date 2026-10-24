@@ -1,10 +1,10 @@
-export module Pipeline.GraphBuilder:DebugSurface;
+export module DxRender.Pipeline.GraphBuilder:DebugSurface;
 
 import std;
 import :ViewTargetResources;
 import DxRender.Graph;
 import DxRender.Factory;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Definition;
 
 export class DebugSurfaceGraphBuilder

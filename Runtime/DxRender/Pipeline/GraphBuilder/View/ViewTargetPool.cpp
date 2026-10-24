@@ -2,7 +2,7 @@ module;
 
 #include <d3d12.h>
 
-module Pipeline.GraphBuilder;
+module DxRender.Pipeline.GraphBuilder;
 
 import :ViewTargetPool;
 import DxRender.Core;

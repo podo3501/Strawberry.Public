@@ -7,12 +7,8 @@ import DxRender.Definition;
 import DxRender.Resource;
 import Core.Assert;
 
-TextSystem::TextSystem(
-    Device& device,
-    DescriptorFactory& factory,
-    ResourceFactory& resFactory)
-    : m_atlasBuilder{ resFactory }
-    , m_fontAtlas{ device, factory, m_atlasBuilder }
+TextSystem::TextSystem(Device& device, DescriptorFactory& factory)
+    : m_fontAtlas{ device, factory }
 {}
 
 bool TextSystem::Initialize(const TextConfig& texConfig)

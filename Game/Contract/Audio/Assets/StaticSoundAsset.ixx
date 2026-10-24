@@ -2,7 +2,7 @@ export module Contract.Audio.Assets:StaticSound;
 
 import std;
 import Contract.Common.Asset;
-import Core.Types;
+import Core.BasicTypes;
 import Core.TypeHierarchy;
 
 export enum class SampleFormat

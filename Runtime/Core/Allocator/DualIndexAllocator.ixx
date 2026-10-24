@@ -2,7 +2,7 @@ export module Core.IndexAllocator:Dual;
 
 import std;
 import Core.Assert;
-import Core.Types;
+import Core.BasicTypes;
 
 namespace Core
 {

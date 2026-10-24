@@ -2,8 +2,8 @@ export module Contract.Asset.Backend:IAssetLoader;
 
 import std;
 import :AssetInput;
+import Contract.Asset.Shared;
 import Contract.Common.Asset;
-import Contract.Asset.Service;
 
 export struct IAssetLoader
 {

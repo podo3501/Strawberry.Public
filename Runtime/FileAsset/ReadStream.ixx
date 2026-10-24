@@ -5,7 +5,7 @@ module;
 export module FileAsset:ReadStream;
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 import Contract.Asset.Shared;
 
 class ReadStream : public IReadStream

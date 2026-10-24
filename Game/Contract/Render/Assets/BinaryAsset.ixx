@@ -3,7 +3,7 @@ export module Contract.Render.Assets:BinaryAsset;
 import std;
 import Contract.Common.Asset;
 import Core.TypeHierarchy;
-import Core.Types;
+import Core.BasicTypes;
 
 export struct BinaryAsset : public Core::TypeNode<BinaryAsset, Asset>
 {

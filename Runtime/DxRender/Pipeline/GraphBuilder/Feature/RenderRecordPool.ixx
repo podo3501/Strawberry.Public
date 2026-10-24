@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:RenderRecordPool;
+export module DxRender.Pipeline.GraphBuilder:RenderRecordPool;
 
 import std;
 

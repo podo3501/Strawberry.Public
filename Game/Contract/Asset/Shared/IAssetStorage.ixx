@@ -2,7 +2,7 @@ export module Contract.Asset.Shared:IAssetStorage;
 
 import std;
 import :IReadStream;
-import Core.Types;
+import Core.BasicTypes;
 
 export struct IAssetStorage
 {

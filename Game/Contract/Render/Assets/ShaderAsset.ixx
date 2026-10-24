@@ -3,7 +3,7 @@ export module Contract.Render.Assets:ShaderAsset;
 import std;
 import Contract.Common.Asset;
 import Core.TypeHierarchy;
-import Core.Types;
+import Core.BasicTypes;
 
 export struct ShaderAsset : public Core::TypeNode<ShaderAsset, Asset>
 {

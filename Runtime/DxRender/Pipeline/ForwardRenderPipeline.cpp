@@ -16,9 +16,9 @@ import DxRender.SwapChainPresenter;
 import DxRender.Task;
 import DxRender.Shader;
 import DxRender.Helper;
-import Pipeline.GraphBuilder;
-import Pipeline.Renderer;
-import Pipeline.Inspector;
+import DxRender.Pipeline.GraphBuilder;
+import DxRender.Pipeline.Renderer;
+import DxRender.Pipeline.Inspector;
 import Core.Math;
 
 namespace
@@ -43,6 +43,7 @@ ForwardRenderPipeline::ForwardRenderPipeline(
     Device& device,
     SwapChainPresenter& swapChain,
     TaskScheduler& taskScheduler,
+    ResourceFactory& resFactory,
     DescriptorFactory& descFactory,
     ShaderLibrary& shaderLibrary)
     : m_device{ device }
@@ -51,19 +52,14 @@ ForwardRenderPipeline::ForwardRenderPipeline(
     , m_renderers{ device, shaderLibrary }
     , m_viewComposition{ device, taskScheduler, descFactory, m_renderers, swapChain, m_graph, m_idAllocator }
     , m_inspectorRenderers{ device, shaderLibrary }
+    , m_fontUploadBuilder{ resFactory }
     , m_clearBuilder{ m_swapChain }
     , m_shadowBuilder{ m_renderers.GetShadowRenderer(), descFactory, m_shadowRes }
     , m_inspectorBuilder{ m_inspectorRenderers.GetInspectorImageRenderer(), descFactory, m_swapChain }
 {}
 
-bool ForwardRenderPipeline::Initialize(
-    FontAtlasUploadGraphBuilder* fontUploadBuilder,
-    const Core::Size& screenSize)
+bool ForwardRenderPipeline::Initialize(const Core::Size& screenSize)
 {
-    if (fontUploadBuilder == nullptr)
-        return false;
-    m_fontUploadBuilder = fontUploadBuilder;
-
     Resource shadow = CreateShadowMap(m_device);
     if (!shadow) return false;
 
@@ -95,12 +91,14 @@ CommandList* ForwardRenderPipeline::Render(
     CommandScheduler& cmdScheduler,
     FramePacket framePacket)
 {
+    m_fontUploadBuilder.QueueGlyphUploads(std::move(framePacket.atlasUploads));
+
     auto compiledTasks = BuildFrame(framePacket); // 매 프레임 그래프 재구성
 
     TaskContext ctx;
     ctx.resources = std::make_shared<ResourceContext>(TotalResourceIDCapacity);
 
-    m_fontUploadBuilder->ApplyResourceBindings(*ctx.resources);
+    m_fontUploadBuilder.ApplyResourceBindings(*ctx.resources);
     m_viewComposition.ApplyResourceBindings(*ctx.resources);
     ctx.SetResource(m_hBackBuffer, m_swapChain.GetCurrentBackbuffer());
     ctx.SetResource(m_hShadow, m_shadowRes.GetResource());
@@ -117,8 +115,8 @@ std::vector<CompiledTask> ForwardRenderPipeline::BuildFrame(const FramePacket & 
     m_graph.ImportResource(m_hBackBuffer, RGAccess::Present);
     m_graph.ImportResource(m_hShadow, RGAccess::DepthWrite);
 
-    if (m_fontUploadBuilder->HasPendingUploads())
-        m_fontUploadBuilder->Build(m_graph, m_idAllocator);
+    if (m_fontUploadBuilder.HasPendingUploads())
+        m_fontUploadBuilder.Build(m_graph, m_idAllocator);
 
     m_clearBuilder.Build(m_graph, m_hBackBuffer);
     m_shadowBuilder.Build(m_graph, m_hShadow, framePacket.light, framePacket.shadowCasters);

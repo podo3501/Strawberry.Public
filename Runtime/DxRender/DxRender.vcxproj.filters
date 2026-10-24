@@ -291,7 +291,7 @@
     <ClCompile Include="Shader\ShaderLibrary.ixx">
       <Filter>Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline\Renderer\Renderer.ixx">
+    <ClCompile Include="Pipeline\Renderer\Pipeline.Renderer.ixx">
       <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline\Renderer\PipelineCache.ixx">
@@ -301,9 +301,6 @@
       <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline\Renderer\RendererConfig.ixx">
-      <Filter>Pipeline\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.ixx">
       <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline\Renderer\RendererUtils.ixx">
@@ -364,7 +361,7 @@
     <ClCompile Include="Pipeline\GraphBuilder\View\ViewTargetPool.ixx">
       <Filter>Pipeline\GraphBuilder\View</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline\GraphBuilder\GraphBuilder.ixx">
+    <ClCompile Include="Pipeline\GraphBuilder\Pipeline.GraphBuilder.ixx">
       <Filter>Pipeline\GraphBuilder</Filter>
     </ClCompile>
     <ClCompile Include="Release.ixx" />
@@ -383,7 +380,7 @@
     <ClCompile Include="Pipeline\Inspector\InspectorImageRenderer.ixx">
       <Filter>Pipeline\Inspector</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline\Inspector\Inspector.ixx">
+    <ClCompile Include="Pipeline\Inspector\Pipeline.Inspector.ixx">
       <Filter>Pipeline\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline\Inspector\InspectorGraphBuilder.ixx">
@@ -551,7 +548,7 @@
     <ClCompile Include="Text\TextSystem.ixx">
       <Filter>Text</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline\Pipeline.ixx">
+    <ClCompile Include="Pipeline\DxRender.Pipeline.ixx">
       <Filter>Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx">
@@ -703,9 +700,6 @@
     <ClCompile Include="Pipeline\Renderer\PipelineCache.cpp">
       <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Pipeline\Renderer\RootSignatureBuilder.cpp">
-      <Filter>Pipeline\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Pipeline\Renderer\ShadowRenderer.cpp">
       <Filter>Pipeline\Renderer</Filter>
     </ClCompile>
@@ -804,5 +798,11 @@
       <Filter>Shader</Filter>
     </ClCompile>
     <ClCompile Include="DxCheck.ixx" />
+    <ClCompile Include="Core\RootSignatureBuilder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RootSignatureBuilder.ixx">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

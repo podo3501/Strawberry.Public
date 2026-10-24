@@ -1,7 +1,7 @@
 #include <nlohmann/json.hpp>
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 import Core.Utils;
 import Contract.Common.Asset;
 import Contract.Render.Assets;

@@ -1,4 +1,4 @@
-export module Contract.Asset.Service:IAssetMetaRegistry;
+export module Contract.Asset.Shared:IAssetMetaRegistry;
 
 import std;
 import Core.ResourceID;

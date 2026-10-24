@@ -1,9 +1,9 @@
-export module Pipeline.GraphBuilder:Opaque;
+export module DxRender.Pipeline.GraphBuilder:Opaque;
 
 import std;
 import :RenderRecordPool;
 import :ViewTargetResources;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;

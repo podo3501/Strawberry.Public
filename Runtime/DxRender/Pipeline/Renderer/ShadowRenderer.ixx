@@ -4,7 +4,7 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:Shadow;
+export module DxRender.Pipeline.Renderer:Shadow;
 
 import std;
 import :Config;

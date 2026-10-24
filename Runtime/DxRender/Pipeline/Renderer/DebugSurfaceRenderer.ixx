@@ -2,7 +2,7 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:DebugSurface;
+export module DxRender.Pipeline.Renderer:DebugSurface;
 
 import std;
 import :Config;

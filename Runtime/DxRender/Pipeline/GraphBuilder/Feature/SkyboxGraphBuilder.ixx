@@ -1,8 +1,8 @@
-export module Pipeline.GraphBuilder:Skybox;
+export module DxRender.Pipeline.GraphBuilder:Skybox;
 
 import std;
 import :ViewTargetResources;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Definition;

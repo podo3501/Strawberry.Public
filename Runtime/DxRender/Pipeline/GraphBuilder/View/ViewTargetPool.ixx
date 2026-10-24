@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:ViewTargetPool;
+export module DxRender.Pipeline.GraphBuilder:ViewTargetPool;
 
 import std;
 import :ViewTargetResources;

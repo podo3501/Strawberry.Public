@@ -5,7 +5,7 @@ module;
 export module FileAsset.JsonLoader;
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 import Contract.Asset.Backend;
 import Contract.Common.Asset;
 import Runtime.Serialization;

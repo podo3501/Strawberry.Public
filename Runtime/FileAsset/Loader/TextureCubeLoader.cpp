@@ -9,7 +9,7 @@
 
 import std;
 import Core.Assert;
-import Core.Types;
+import Core.BasicTypes;
 import Contract.Common.Asset;
 import Contract.Render.Assets;
 import Contract.Asset.Backend;

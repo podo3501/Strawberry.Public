@@ -1,4 +1,4 @@
-module Pipeline.GraphBuilder;
+module DxRender.Pipeline.GraphBuilder;
 
 import :ViewTargetClear;
 import DxRender.Command;

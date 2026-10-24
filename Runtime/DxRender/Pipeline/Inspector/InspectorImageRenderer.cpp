@@ -4,11 +4,11 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-module Pipeline.Inspector;
+module DxRender.Pipeline.Inspector;
 
 import :ImageRenderer;
 import Core.Utils;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Helper;
 import DxRender.Definition;
 import Contract.Render.Backend.Types;

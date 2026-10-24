@@ -2,7 +2,7 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:Surface;
+export module DxRender.Pipeline.Renderer:Surface;
 
 import std;
 import :Config;

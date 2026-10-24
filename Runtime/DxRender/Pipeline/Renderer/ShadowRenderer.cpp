@@ -4,14 +4,14 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Pipeline.Renderer;
 
 import :Shadow;
-import :RootSignatureBuilder;
-import Core.Bit;
-import Core.Utils;
+import DxRender.Core;
 import DxRender.Definition;
 import DxRender.Helper;
+import Core.Bit;
+import Core.Utils;
 import Contract.Render.Backend.Types;
 
 namespace

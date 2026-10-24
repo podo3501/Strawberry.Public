@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder;
+export module DxRender.Pipeline.GraphBuilder;
 
 export import :Clear;
 export import :FontAtlasUpload;

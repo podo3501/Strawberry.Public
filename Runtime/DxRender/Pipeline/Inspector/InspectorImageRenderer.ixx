@@ -2,11 +2,11 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Inspector:ImageRenderer;
+export module DxRender.Pipeline.Inspector:ImageRenderer;
 
 import std;
 import Core.Math;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Core;
 import DxRender.Command;
 import DxRender.Allocator;

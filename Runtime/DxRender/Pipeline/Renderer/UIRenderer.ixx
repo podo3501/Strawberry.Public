@@ -2,7 +2,7 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:UI;
+export module DxRender.Pipeline.Renderer:UI;
 
 import std;
 import :Config;

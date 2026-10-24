@@ -2,10 +2,10 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:RootSignatureBuilder;
+export module DxRender.Core:RootSignatureBuilder;
 
 import std;
-import DxRender.Core;
+import :DxDevice;
 
 using Microsoft::WRL::ComPtr;
 

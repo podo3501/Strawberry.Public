@@ -1,7 +1,7 @@
-export module Pipeline.GraphBuilder:Shadow;
+export module DxRender.Pipeline.GraphBuilder:Shadow;
 
 import std;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Definition;
 import DxRender.Graph;
 import DxRender.Factory;

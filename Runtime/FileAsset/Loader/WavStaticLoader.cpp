@@ -5,7 +5,7 @@
 #pragma warning(pop)
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 import Contract.Common.Asset;
 import Contract.Audio.Assets;
 import Contract.Asset.Backend;

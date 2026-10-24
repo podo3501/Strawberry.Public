@@ -33,9 +33,3 @@ export struct UIVertex
 	UIRenderMode mode{ UIRenderMode::UI };
 	UITextProps textProps;
 };
-
-export struct GridVertex
-{
-	Core::Vector3 position;
-	Core::Color color;
-};

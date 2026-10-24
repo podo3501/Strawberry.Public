@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:ViewTargetResources;
+export module DxRender.Pipeline.GraphBuilder:ViewTargetResources;
 
 import std;
 import Core.Math;

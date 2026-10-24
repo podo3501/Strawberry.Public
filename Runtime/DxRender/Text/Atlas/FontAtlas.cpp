@@ -12,13 +12,9 @@ struct FontAtlasUpload
     std::vector<std::vector<GlyphUploadEntry>> pages;
 };
 
-FontAtlas::FontAtlas(
-    Device& device,
-    DescriptorFactory& factory,
-    FontAtlasUploadGraphBuilder& atlasBuilder)
+FontAtlas::FontAtlas(Device& device, DescriptorFactory& factory)
     : m_device{ device }
     , m_factory{ factory }
-    , m_atlasBuilder{ atlasBuilder }
 {}
 
 bool FontAtlas::Initialize(const TextConfig& config)
@@ -58,12 +54,11 @@ void FontAtlas::EnsureGlyphs(const std::vector<ShapedText>& shapedTexts)
             m_pendingBatches.push_back({ &atlasRes, std::move(glyphs) });
         }
     }
+}
 
-    if (!m_pendingBatches.empty())
-    {
-        m_atlasBuilder.QueueGlyphUploads(std::move(m_pendingBatches));
-        m_pendingBatches.clear();
-    }
+std::vector<AtlasGlyphBatch> FontAtlas::TakePendingUploads()
+{
+	return std::exchange(m_pendingBatches, {});
 }
 
 const GlyphInfo* FontAtlas::FindGlyph(

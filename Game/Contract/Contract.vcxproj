@@ -24,10 +24,10 @@
     <ClCompile Include="Asset\Backend\AssetInput.ixx" />
     <ClCompile Include="Asset\Backend\IAssetLoader.ixx" />
     <ClCompile Include="Asset\Service\Asset.Service.ixx" />
-    <ClCompile Include="Asset\Service\IAssetMetaRegistry.ixx" />
-    <ClCompile Include="Asset\Service\IAssetProvider.ixx" />
     <ClCompile Include="Asset\Service\IAssetService.ixx" />
     <ClCompile Include="Asset\Shared\Asset.Shared.ixx" />
+    <ClCompile Include="Asset\Shared\IAssetMetaRegistry.ixx" />
+    <ClCompile Include="Asset\Shared\IAssetProvider.ixx" />
     <ClCompile Include="Asset\Shared\IAssetStorage.ixx" />
     <ClCompile Include="Asset\Shared\IReadStream.ixx" />
     <ClCompile Include="Audio\Assets\Audio.Assets.ixx" />
@@ -114,6 +114,7 @@
     <ClCompile Include="Render\Service\Render.Service.ixx" />
     <ClCompile Include="Render\Shared\Render.Shared.ixx" />
     <ClCompile Include="Render\Shared\RenderMetrics.ixx" />
+    <ClCompile Include="Render\Shared\Types\GridVertex.ixx" />
     <ClCompile Include="Render\Shared\Types\ShaderID.ixx" />
     <ClCompile Include="Render\Shared\Types\ShaderTypes.ixx" />
     <ClCompile Include="Render\Shared\Types\Shared.Types.ixx" />

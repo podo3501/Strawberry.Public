@@ -1,11 +1,11 @@
-export module Pipeline.GraphBuilder:SceneView;
+export module DxRender.Pipeline.GraphBuilder:SceneView;
 
 import :ViewTypes;
 import :ViewTargetClear;
 import :Skybox;
 import :Opaque;
 import :DebugSurface;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Core;
 import DxRender.Factory;

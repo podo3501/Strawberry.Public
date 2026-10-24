@@ -4,12 +4,11 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:Skybox;
+export module DxRender.Pipeline.Renderer:Skybox;
 
 import std;
 import :Config;
 import :PipelineCache;
-import :RootSignatureBuilder;
 import Core.Utils;
 import Core.Bit;
 import DxRender.Core;
@@ -19,7 +18,7 @@ import DxRender.Resource;
 import DxRender.Allocator;
 import DxRender.Definition;
 import Contract.Render.Shared.View;
-import Contract.Render.Backend;
+import Contract.Render.Backend.Types;
 
 using Microsoft::WRL::ComPtr;
 

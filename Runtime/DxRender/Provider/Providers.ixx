@@ -17,7 +17,7 @@ import DxRender.Task;
 import DxRender.Shader;
 import DxRender.Release;
 import Core.Utils;
-import Contract.Render.Backend;
+import Contract.Render.Backend.Types;
 
 export class ResourceProviderSet
 {

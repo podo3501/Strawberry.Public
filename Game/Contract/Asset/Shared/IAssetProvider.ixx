@@ -1,4 +1,4 @@
-export module Contract.Asset.Service:IAssetProvider;
+export module Contract.Asset.Shared:IAssetProvider;
 
 import std;
 import Contract.Common.Asset;

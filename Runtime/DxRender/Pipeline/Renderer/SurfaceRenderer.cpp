@@ -3,16 +3,16 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Pipeline.Renderer;
 
 import :Surface;
 import :Constants;
-import :RootSignatureBuilder;
-import Core.Utils;
-import Core.Bit;
+import DxRender.Core;
 import DxRender.Resource;
 import DxRender.Helper;
 import DxRender.Definition;
+import Core.Utils;
+import Core.Bit;
 import Contract.Render.Backend;
 
 using Microsoft::WRL::ComPtr;

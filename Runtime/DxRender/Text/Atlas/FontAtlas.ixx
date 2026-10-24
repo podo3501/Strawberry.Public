@@ -9,7 +9,6 @@ import DxRender.Definition;
 import DxRender.Resource;
 import DxRender.Core;
 import DxRender.Factory;
-import Pipeline.GraphBuilder;
 import Core.Utils;
 import Contract.Render.Backend.Types;
 
@@ -35,13 +34,12 @@ export class FontAtlas
 {
 public:
     ~FontAtlas() = default;
-    FontAtlas(
-        Device& device,
-        DescriptorFactory& factory,
-        FontAtlasUploadGraphBuilder& atlasBuilder);
+    FontAtlas(Device& device, DescriptorFactory& factory);
 
     bool Initialize(const TextConfig& config);
     void EnsureGlyphs(const std::vector<ShapedText>& shapedTexts);
+
+    [[nodiscard]] std::vector<AtlasGlyphBatch> TakePendingUploads();
 
     const GlyphInfo* FindGlyph(
         FontResource* font,
@@ -61,7 +59,6 @@ private:
     Device& m_device;
     DescriptorFactory& m_factory;
     AtlasPage m_solidPage;
-    FontAtlasUploadGraphBuilder& m_atlasBuilder;
 
     TextConfig m_textConfig;
     std::unordered_map<FontBucketKey, std::unique_ptr<FontAtlasBucket>, FontBucketKeyHash> m_buckets;

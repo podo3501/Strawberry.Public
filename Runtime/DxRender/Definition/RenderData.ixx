@@ -2,6 +2,7 @@ export module DxRender.Definition:RenderData;
 
 import std;
 import :RenderState;
+import :GlyphUploadData;
 import Core.Math;
 import Contract.Render.Shared;
 import Contract.Render.Backend.View;
@@ -79,4 +80,5 @@ export struct FramePacket
     std::vector<RenderShadowCasterItem> shadowCasters;
     std::vector<std::shared_ptr<SceneViewPacket>> sceneViews;
     std::vector<std::shared_ptr<OverlayViewPacket>> overlayViews;
+    std::vector<AtlasGlyphBatch> atlasUploads;   // 이번 프레임에 쌓인 폰트 아틀라스 업로드
 };

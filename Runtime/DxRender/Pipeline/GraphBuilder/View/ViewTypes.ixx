@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:ViewTypes;
+export module DxRender.Pipeline.GraphBuilder:ViewTypes;
 
 import std;
 import Core.Math;

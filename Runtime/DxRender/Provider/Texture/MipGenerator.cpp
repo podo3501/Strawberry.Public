@@ -8,7 +8,7 @@ module DxRender.Provider;
 
 import std;
 import :MipGenerator;
-import Pipeline.Renderer;
+import DxRender.Core;
 import DxRender.Definition;
 import Core.Utils;
 import Contract.Render.Assets;

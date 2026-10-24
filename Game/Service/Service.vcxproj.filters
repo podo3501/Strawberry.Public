@@ -109,9 +109,6 @@
     <ClCompile Include="Render\OverlayView.ixx">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Render.ixx">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="Render\RenderRepository.cpp">
       <Filter>Render</Filter>
     </ClCompile>

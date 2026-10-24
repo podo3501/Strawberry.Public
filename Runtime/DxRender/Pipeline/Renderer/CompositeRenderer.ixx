@@ -2,7 +2,7 @@ module;
 
 #include "d3dx12.h"
 
-export module Pipeline.Renderer:Composite;
+export module DxRender.Pipeline.Renderer:Composite;
 
 import std;
 import :PipelineCache;

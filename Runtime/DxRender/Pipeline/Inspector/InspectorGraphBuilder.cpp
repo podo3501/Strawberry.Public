@@ -1,4 +1,4 @@
-module Pipeline.Inspector;
+module DxRender.Pipeline.Inspector;
 
 import :GraphBuilder;
 

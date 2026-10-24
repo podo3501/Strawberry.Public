@@ -4,3 +4,4 @@ export import :DebugHelper;
 export import :DebugOptions;
 export import :DxDevice;
 export import :DxResource;
+export import :RootSignatureBuilder;

@@ -51,7 +51,6 @@
     <ClCompile Include="Render\Builtin\BuiltinMeshes.ixx" />
     <ClCompile Include="Render\OverlayView.cpp" />
     <ClCompile Include="Render\OverlayView.ixx" />
-    <ClCompile Include="Render\Render.ixx" />
     <ClCompile Include="Render\RenderRepository.cpp" />
     <ClCompile Include="Render\RenderRepository.ixx" />
     <ClCompile Include="Render\RenderService.cpp" />

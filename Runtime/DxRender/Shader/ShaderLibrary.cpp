@@ -7,7 +7,7 @@ module;
 module DxRender.Shader;
 
 import :ShaderLibrary;
-import Core.Types;
+import Core.BasicTypes;
 import Core.Assert;
 import Core.Utils;
 

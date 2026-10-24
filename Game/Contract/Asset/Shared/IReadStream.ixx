@@ -1,7 +1,7 @@
 export module Contract.Asset.Shared:IReadStream;
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 
 export struct IReadStream
 {

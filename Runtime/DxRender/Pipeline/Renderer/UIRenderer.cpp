@@ -4,14 +4,14 @@ module;
 #include <DirectXMath.h>
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Pipeline.Renderer;
 
 import :UI;
-import :RootSignatureBuilder;
 import :Utils;
+import DxRender.Core;
+import DxRender.Helper;
 import Core.Assert;
 import Core.Utils;
-import DxRender.Helper;
 import Contract.Render.Backend.Types;
 
 using Microsoft::WRL::ComPtr;

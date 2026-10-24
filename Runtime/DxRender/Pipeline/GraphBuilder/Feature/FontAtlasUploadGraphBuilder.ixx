@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:FontAtlasUpload;
+export module DxRender.Pipeline.GraphBuilder:FontAtlasUpload;
 
 import std;
 import DxRender.Core;

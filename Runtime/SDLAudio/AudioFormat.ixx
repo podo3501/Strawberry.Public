@@ -1,7 +1,7 @@
 export module SDLAudio:Format;
 
 import std;
-import Core.Types;
+import Core.BasicTypes;
 
 export enum class AudioFormat
 {

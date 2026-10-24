@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:ViewTargetClear;
+export module DxRender.Pipeline.GraphBuilder:ViewTargetClear;
 
 import :ViewTargetResources;
 import DxRender.Graph;

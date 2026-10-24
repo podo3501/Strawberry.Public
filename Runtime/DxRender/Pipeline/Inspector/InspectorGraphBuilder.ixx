@@ -1,4 +1,4 @@
-export module Pipeline.Inspector:GraphBuilder;
+export module DxRender.Pipeline.Inspector:GraphBuilder;
 
 import std;
 import :ImageRenderer;

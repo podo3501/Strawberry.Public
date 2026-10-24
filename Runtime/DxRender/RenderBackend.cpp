@@ -27,7 +27,7 @@
 module DxRender;
 
 import std;
-import Pipeline.GraphBuilder;
+import DxRender.Pipeline.GraphBuilder;
 import Contract.Render.Backend.Types;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
@@ -39,8 +39,8 @@ RenderBackend::RenderBackend(const RenderConfig& config)
     , m_swapChain{ m_cmdScheduler }
     , m_resProviderSet{ m_device, m_taskScheduler, m_resFactory, m_descFactory }
     , m_transientMeshProvider{ m_descFactory }
-    , m_textSystem{ m_device, m_descFactory, m_resFactory }
-    , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_descFactory, m_shaderLibrary }
+    , m_textSystem{ m_device, m_descFactory }
+    , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_resFactory, m_descFactory, m_shaderLibrary }
 {}
 
 bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, const std::vector<RegistryShaderDesc>& registryShaders)
@@ -54,7 +54,7 @@ bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, const st
     if (!m_resProviderSet.Initialize(m_shaderLibrary)) return false;
     if (!m_transientMeshProvider.Initialize(m_device)) return false;
     if (!m_textSystem.Initialize(m_config.text)) return false;
-    if (!m_pipeline.Initialize(m_textSystem.GetBuilder(), screenSize)) return false;
+    if (!m_pipeline.Initialize(screenSize)) return false;
 
     return true;
 }

@@ -1,4 +1,4 @@
-export module Pipeline.GraphBuilder:Clear;
+export module DxRender.Pipeline.GraphBuilder:Clear;
 
 import DxRender.SwapChainPresenter;
 import DxRender.Graph;

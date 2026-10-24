@@ -2,11 +2,11 @@ module;
 
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Pipeline.Renderer;
 
 import :Composite;
 import :Utils;
-import :RootSignatureBuilder;
+import DxRender.Core;
 import DxRender.Definition;
 import Core.Math;
 import Core.Utils;

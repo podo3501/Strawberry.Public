@@ -120,7 +120,7 @@
     <ClCompile Include="Type\ResourceID.ixx">
       <Filter>Type</Filter>
     </ClCompile>
-    <ClCompile Include="Type\Types.ixx">
+    <ClCompile Include="Type\BasicTypes.ixx">
       <Filter>Type</Filter>
     </ClCompile>
     <ClCompile Include="Type\TypeHierarchy\Relation.ixx">
@@ -135,7 +135,7 @@
     <ClCompile Include="Type\TypeHierarchy\TypeID.ixx">
       <Filter>Type\TypeHierarchy</Filter>
     </ClCompile>
-    <ClCompile Include="Type\Type.ixx">
+    <ClCompile Include="Type\Core.Type.ixx">
       <Filter>Type</Filter>
     </ClCompile>
   </ItemGroup>

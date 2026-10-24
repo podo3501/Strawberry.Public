@@ -1,9 +1,9 @@
-export module Pipeline.GraphBuilder:OverlayView;
+export module DxRender.Pipeline.GraphBuilder:OverlayView;
 
 import :ViewTypes;
 import :ViewTargetClear;
 import :UI;
-import Pipeline.Renderer;
+import DxRender.Pipeline.Renderer;
 import DxRender.Graph;
 import DxRender.Factory;
 import DxRender.Resource;

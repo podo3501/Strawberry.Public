@@ -2,7 +2,7 @@ module;
 
 #include <DirectXMath.h>
 
-export module Pipeline.Renderer:Constants;
+export module DxRender.Pipeline.Renderer:Constants;
 
 import std;
 import Core.Bit;

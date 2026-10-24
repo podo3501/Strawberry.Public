@@ -4,7 +4,7 @@ module;
 #include <dxcapi.h>
 #include "d3dx12.h"
 
-module Pipeline.Renderer;
+module DxRender.Core;
 
 import :RootSignatureBuilder;
 import Core.Assert;
