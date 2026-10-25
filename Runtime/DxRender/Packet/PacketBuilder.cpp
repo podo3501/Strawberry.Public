@@ -8,7 +8,7 @@ import :UIItemBuilder;
 import Core.Math;
 import DxRender.Definition;
 import DxRender.Text;
-import DxRender.Provider;
+import DxRender.TransientMesh;
 import Contract.Render.Shared.View;
 import Contract.Render.Backend.View;
 
@@ -48,13 +48,13 @@ namespace
     std::shared_ptr<OverlayViewPacket> BuildOverlayViewPacket(
         OverlayViewData&& view,
         TextSystem& textSystem,
-        TransientMeshProvider& meshProvider,
+        TransientMesh& transientMesh,
         const Core::Size& screenSize)
     {
         auto packet = std::make_shared<OverlayViewPacket>();
         FillTarget(packet->target, view.context.target, screenSize);
 
-        packet->ui = BuildUIItems(view.draws, textSystem, meshProvider);
+        packet->ui = BuildUIItems(view.draws, textSystem, transientMesh);
         return packet;
     }
 
@@ -74,14 +74,14 @@ namespace
     std::vector<std::shared_ptr<OverlayViewPacket>> BuildOverlayViews(
         std::vector<OverlayViewData>& views,
         TextSystem& textSystem,
-        TransientMeshProvider& meshProvider,
+        TransientMesh& transientMesh,
         const Core::Size& screenSize)
     {
         std::vector<std::shared_ptr<OverlayViewPacket>> result;
         result.reserve(views.size());
 
         for (auto& view : views)
-            result.push_back(BuildOverlayViewPacket(std::move(view), textSystem, meshProvider, screenSize));
+            result.push_back(BuildOverlayViewPacket(std::move(view), textSystem, transientMesh, screenSize));
 
         return result;
     }
@@ -108,14 +108,14 @@ namespace
 FramePacket BuildPacket(
     SceneFrameData& frame,
     TextSystem& textSystem,
-    TransientMeshProvider& meshProvider,
+    TransientMesh& transientMesh,
     const Core::Size& screenSize)
 {
     FramePacket packet;
     packet.light = std::move(frame.light);
     packet.shadowCasters = BuildShadowCasters(frame.shadowCasters);
     packet.sceneViews = BuildSceneViews(frame.sceneViews, screenSize);
-    packet.overlayViews = BuildOverlayViews(frame.overlayViews, textSystem, meshProvider, screenSize);
+    packet.overlayViews = BuildOverlayViews(frame.overlayViews, textSystem, transientMesh, screenSize);
     packet.atlasUploads = textSystem.TakePendingUploads();
 
     return packet;

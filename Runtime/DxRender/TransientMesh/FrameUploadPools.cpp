@@ -1,4 +1,4 @@
-module DxRender.Provider;
+module DxRender.TransientMesh;
 
 import :FrameUploadPools;
 import Core.Assert;

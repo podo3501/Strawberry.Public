@@ -8,7 +8,7 @@ import :IRenderRepository;
 import :ISceneRenderer;
 import Contract.Render.Shared;
 import Contract.Render.Backend;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 import Core.Type;
 import Core.Math;
 

@@ -2,7 +2,7 @@ export module Service.AssetAsyncHelper;
 
 import std;
 import Core.Type;
-export import Contract.IAssetAsyncLoader;
+export import Contract.Common.IAssetAsyncLoader;
 
 export template<typename T>
     AssetRequest MakeRequest(Core::ResourceID resID)

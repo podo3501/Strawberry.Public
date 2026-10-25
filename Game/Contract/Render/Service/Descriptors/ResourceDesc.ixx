@@ -2,7 +2,6 @@ export module Contract.Render.Service.Descriptors:Resource;
 
 import std;
 import Core.Type;
-import Core.Utils;
 
 export struct ResourceDesc
 {
@@ -19,6 +18,6 @@ public:
 
     virtual Core::TypeID GetAssetTypeID() const = 0;
 
-    std::size_t GetHash() const { return Core::HashOf(resID); }
+    std::size_t GetHash() const { return resID.GetHash(); }
     Core::ResourceID GetResourceID() const { return resID; }
 };

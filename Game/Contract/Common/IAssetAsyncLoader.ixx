@@ -1,6 +1,6 @@
-export module Contract.IAssetAsyncLoader;
+export module Contract.Common.IAssetAsyncLoader;
 
-export import Contract.AssetAsyncTypes;
+export import Contract.Common.AssetAsyncTypes;
 
 export struct IAssetAsyncLoader
 {

@@ -1,7 +1,7 @@
 export module Service.Asset:AsyncStore;
 
 import std;
-import Contract.AssetAsyncTypes;
+import Contract.Common.AssetAsyncTypes;
 import Core.Assert;
 
 export template<typename T>

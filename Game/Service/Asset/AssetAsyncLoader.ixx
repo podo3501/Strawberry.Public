@@ -1,7 +1,7 @@
 export module Service.Asset:AsyncLoader;
 
 import std;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 import :AsyncStore;
 
 export class AssetAsyncLoader : public IAssetAsyncLoader

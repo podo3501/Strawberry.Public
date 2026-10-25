@@ -1,13 +1,13 @@
-module DxRender.Provider;
+module DxRender.TransientMesh;
 
 import :TransientMesh;
 import Core.Assert;
 
-TransientMeshProvider::TransientMeshProvider(DescriptorFactory& descriptorFactory) noexcept :
+TransientMesh::TransientMesh(DescriptorFactory& descriptorFactory) noexcept :
     m_descriptorFactory{ descriptorFactory }
 {}
 
-bool TransientMeshProvider::Initialize(Device& device)
+bool TransientMesh::Initialize(Device& device)
 {
     std::vector<FrameUploadPoolDesc> poolDescs =
     {
@@ -18,7 +18,7 @@ bool TransientMeshProvider::Initialize(Device& device)
     return m_frameUploadPools.Initialize(device, poolDescs);
 }
 
-std::shared_ptr<TransientMeshResource> TransientMeshProvider::Create(
+std::shared_ptr<TransientMeshResource> TransientMesh::Create(
     const std::vector<UIVertex>& vertices,
     const std::vector<std::uint32_t>& indices)
 {
@@ -73,7 +73,7 @@ std::shared_ptr<TransientMeshResource> TransientMeshProvider::Create(
     return resource;
 }
 
-void TransientMeshProvider::ResetFrame(std::uint32_t slot) noexcept
+void TransientMesh::ResetFrame(std::uint32_t slot) noexcept
 {
     m_frameUploadPools.Reset(slot);
 }

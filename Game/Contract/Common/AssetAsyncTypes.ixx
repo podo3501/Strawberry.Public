@@ -1,4 +1,4 @@
-export module Contract.AssetAsyncTypes;
+export module Contract.Common.AssetAsyncTypes;
 
 import Core.Type;
 import Contract.Common.Asset;

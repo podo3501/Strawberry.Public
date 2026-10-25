@@ -2,7 +2,7 @@ export module Contract.Asset.Service:IAssetService;
 
 import std;
 import Contract.Asset.Shared;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 
 export struct IAssetService
 {

@@ -5,7 +5,7 @@ import :SoundHandle;
 import Contract.Audio.Assets;
 import Contract.Audio.Shared;
 import Contract.Audio.Backend;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 
 export struct IAudioService
 {

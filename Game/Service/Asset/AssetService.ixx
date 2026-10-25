@@ -6,7 +6,7 @@ import :AsyncLoader;
 import Contract.Asset.Service;
 import Contract.Asset.Backend;
 import Service.AssetMetaRegistry;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 
 export class AssetService : public IAssetService
 {

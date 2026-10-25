@@ -13,6 +13,7 @@ import DxRender.SwapChainPresenter;
 import DxRender.Shader;
 import DxRender.Diagnostics;
 import DxRender.Provider;
+import DxRender.TransientMesh;
 import DxRender.Text;
 import DxRender.Pipeline;
 import DxRender.Packet;
@@ -52,7 +53,7 @@ private:
     ShaderLibrary m_shaderLibrary;
     FrameProfiler m_profiler;
     ResourceProviderSet m_resProviderSet;
-    TransientMeshProvider m_transientMeshProvider;
+    TransientMesh m_transientMesh;
     TextSystem m_textSystem;
     ForwardRenderPipeline m_pipeline;
 

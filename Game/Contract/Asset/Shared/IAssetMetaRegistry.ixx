@@ -3,7 +3,7 @@ export module Contract.Asset.Shared:IAssetMetaRegistry;
 import std;
 import Core.ResourceID;
 import Contract.Common.Asset;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 
 export struct IAssetMetaRegistry
 {

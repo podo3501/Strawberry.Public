@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssetAsyncTypes.ixx" />
     <ClCompile Include="Asset\Backend\Asset.Backend.ixx" />
     <ClCompile Include="Asset\Backend\AssetInput.ixx" />
     <ClCompile Include="Asset\Backend\IAssetLoader.ixx" />
@@ -47,7 +46,8 @@
     <ClCompile Include="Audio\Shared\Audio.Shared.ixx" />
     <ClCompile Include="Audio\Shared\PlaybackState.ixx" />
     <ClCompile Include="Common\Asset.ixx" />
-    <ClCompile Include="IAssetAsyncLoader.ixx" />
+    <ClCompile Include="Common\AssetAsyncTypes.ixx" />
+    <ClCompile Include="Common\IAssetAsyncLoader.ixx" />
     <ClCompile Include="Input\Backend\Input.Backend.ixx" />
     <ClCompile Include="Input\Backend\InputBackend.ixx" />
     <ClCompile Include="Input\Backend\InputFrame.ixx" />

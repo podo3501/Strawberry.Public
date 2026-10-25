@@ -59,6 +59,8 @@ namespace Core
             return ResourceID::MakePath(siblingPath.string());
         }
 
+        std::size_t GetHash() const noexcept { return std::hash<std::string>{}(m_value); }
+
         ResourceIDType GetType() const
         {
             if (m_value.empty()) return ResourceIDType::Invalid;
@@ -87,10 +89,8 @@ namespace Core
         }
 
         const std::string& String() const { return m_value; }
-        std::string& String() { return m_value; }
         const char* c_str() const { return m_value.c_str(); }
         bool empty() const { return m_value.empty(); }
-        void clear() { m_value.clear(); }
 
     private:
         explicit ResourceID(std::string str) : m_value(std::move(str)) {}
@@ -107,7 +107,7 @@ namespace std
     {
         std::size_t operator()(const Core::ResourceID& id) const noexcept
         {
-            return std::hash<std::string>{}(id.String());
+            return id.GetHash();
         }
     };
 }

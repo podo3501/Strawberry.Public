@@ -1,4 +1,4 @@
-export module DxRender.Provider:FrameUploadPools;
+export module DxRender.TransientMesh:FrameUploadPools;
 
 import std;
 import :FrameUploadPoolType;

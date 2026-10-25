@@ -68,6 +68,7 @@
     <ClCompile Include="Diagnostics\FrameProfiler.cpp" />
     <ClCompile Include="Diagnostics\FrameProfiler.ixx" />
     <ClCompile Include="DxCheck.ixx" />
+    <ClCompile Include="DxRender.TransientMesh.ixx" />
     <ClCompile Include="Factory\DescriptorFactory.cpp" />
     <ClCompile Include="Factory\DescriptorFactory.ixx" />
     <ClCompile Include="Factory\Factory.ixx" />
@@ -92,7 +93,7 @@
     <ClCompile Include="Helper\MathHelpers.ixx" />
     <ClCompile Include="Helper\TextureHelper.ixx" />
     <ClCompile Include="Packet\DebugSurfaceItemBuilder.ixx" />
-    <ClCompile Include="Packet\Packet.ixx" />
+    <ClCompile Include="Packet\DxRender.Packet.ixx" />
     <ClCompile Include="Packet\PacketBuilder.cpp" />
     <ClCompile Include="Packet\PacketBuilder.ixx" />
     <ClCompile Include="Packet\RenderSortKey.ixx" />
@@ -102,7 +103,10 @@
     <ClCompile Include="Packet\UIMeshAppend.cpp" />
     <ClCompile Include="Packet\UIMeshAppend.ixx" />
     <ClCompile Include="Pipeline\ForwardRenderPipeline.cpp" />
-    <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx" />
+    <ClCompile Include="Pipeline\ForwardRenderPipeline.ixx">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCppModule</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCppModule</CompileAs>
+    </ClCompile>
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.cpp" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\ClearGraphBuilder.ixx" />
     <ClCompile Include="Pipeline\GraphBuilder\Feature\DebugSurfaceGraphBuilder.cpp" />
@@ -198,11 +202,6 @@
     <ClCompile Include="Provider\Texture\TextureProvider.ixx" />
     <ClCompile Include="Provider\Texture\TextureUtils.cpp" />
     <ClCompile Include="Provider\Texture\TextureUtils.ixx" />
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.cpp" />
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx" />
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx" />
-    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.cpp" />
-    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx" />
     <ClCompile Include="Release.ixx" />
     <ClCompile Include="RenderBackend.cpp" />
     <ClCompile Include="RenderBackend.ixx" />
@@ -268,6 +267,11 @@
     <ClCompile Include="Text\TextSystem.cpp" />
     <ClCompile Include="Text\TextSystem.ixx" />
     <ClCompile Include="Text\TextTypes.ixx" />
+    <ClCompile Include="TransientMesh\FrameUploadPools.cpp" />
+    <ClCompile Include="TransientMesh\FrameUploadPools.ixx" />
+    <ClCompile Include="TransientMesh\FrameUploadPoolType.ixx" />
+    <ClCompile Include="TransientMesh\TransientMesh.cpp" />
+    <ClCompile Include="TransientMesh\TransientMesh.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -27,7 +27,6 @@
 module DxRender;
 
 import std;
-import DxRender.Pipeline.GraphBuilder;
 import Contract.Render.Backend.Types;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
@@ -38,7 +37,7 @@ RenderBackend::RenderBackend(const RenderConfig& config)
     , m_taskScheduler{ m_cmdScheduler }
     , m_swapChain{ m_cmdScheduler }
     , m_resProviderSet{ m_device, m_taskScheduler, m_resFactory, m_descFactory }
-    , m_transientMeshProvider{ m_descFactory }
+    , m_transientMesh{ m_descFactory }
     , m_textSystem{ m_device, m_descFactory }
     , m_pipeline{ m_device, m_swapChain, m_taskScheduler, m_resFactory, m_descFactory, m_shaderLibrary }
 {}
@@ -52,7 +51,7 @@ bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, const st
     if (!m_shaderLibrary.Initialize(registryShaders)) return false;
     if (!m_profiler.Initialize(m_device, m_cmdScheduler, m_resFactory)) return false;
     if (!m_resProviderSet.Initialize(m_shaderLibrary)) return false;
-    if (!m_transientMeshProvider.Initialize(m_device)) return false;
+    if (!m_transientMesh.Initialize(m_device)) return false;
     if (!m_textSystem.Initialize(m_config.text)) return false;
     if (!m_pipeline.Initialize(screenSize)) return false;
 
@@ -87,7 +86,7 @@ void RenderBackend::Render(SceneFrameData frame)
     auto* cmd = m_cmdScheduler.Begin(slot);
     if (cmd)
     {
-        m_transientMeshProvider.ResetFrame(slot);
+        m_transientMesh.ResetFrame(slot);
         m_descFactory.BeginFrame(slot);
 
         m_profiler.BeginFrame(*cmd, m_frameIndex);
@@ -96,7 +95,7 @@ void RenderBackend::Render(SceneFrameData frame)
             BuildPacket(
                 frame,
                 m_textSystem,
-                m_transientMeshProvider,
+                m_transientMesh,
                 m_swapChain.GetSize()));
 
         if (!cmd)

@@ -1,4 +1,4 @@
-export module DxRender.Provider:TransientMesh;
+export module DxRender.TransientMesh:TransientMesh;
 
 import std;
 import :FrameUploadPools;
@@ -7,11 +7,11 @@ import DxRender.Factory;
 import DxRender.Resource;
 import Contract.Render.Backend.Types;
 
-export class TransientMeshProvider
+export class TransientMesh
 {
 public:
-    ~TransientMeshProvider() = default;
-    explicit TransientMeshProvider(DescriptorFactory& descriptorFactory) noexcept;
+    ~TransientMesh() = default;
+    explicit TransientMesh(DescriptorFactory& descriptorFactory) noexcept;
 
     bool Initialize(Device& device);
 

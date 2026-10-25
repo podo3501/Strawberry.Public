@@ -207,8 +207,6 @@
     <ClCompile Include="Asset\Service\IAssetService.ixx">
       <Filter>Asset\Service</Filter>
     </ClCompile>
-    <ClCompile Include="IAssetAsyncLoader.ixx" />
-    <ClCompile Include="AssetAsyncTypes.ixx" />
     <ClCompile Include="Audio\Shared\PlaybackState.ixx">
       <Filter>Audio\Shared</Filter>
     </ClCompile>
@@ -397,6 +395,12 @@
     </ClCompile>
     <ClCompile Include="Render\Shared\Types\GridVertex.ixx">
       <Filter>Render\Shared\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\AssetAsyncTypes.ixx">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\IAssetAsyncLoader.ixx">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

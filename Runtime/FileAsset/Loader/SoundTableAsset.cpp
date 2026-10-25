@@ -1,8 +1,4 @@
-module;
-
 #include <nlohmann/json.hpp>
-
-module Contract.Audio.Assets:SoundTable;
 
 import std;
 import Core.Utils;

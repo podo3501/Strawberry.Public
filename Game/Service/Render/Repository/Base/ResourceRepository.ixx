@@ -6,7 +6,7 @@ import :Implementation;
 import :ResourceTypes;
 import Core.Handle;
 import Contract.Render.Service.Descriptors;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 import Contract.Render.Backend;
 
 export template <typename Tag>

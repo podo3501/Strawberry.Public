@@ -6,7 +6,7 @@ import :VoicePool;
 import Contract.Audio.Assets;
 import Contract.Audio.Service;
 import Contract.Audio.Backend;
-import Contract.IAssetAsyncLoader;
+import Contract.Common.IAssetAsyncLoader;
 
 struct GroupInfo
 {

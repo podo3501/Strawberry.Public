@@ -73,9 +73,6 @@
     <Filter Include="Provider\Mesh">
       <UniqueIdentifier>{1860b609-a783-440b-abdd-15172b064335}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Provider\TransientMesh">
-      <UniqueIdentifier>{a2fcee3e-89e4-4e2d-b2c5-3e761ca26ba8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Text\Atlas">
       <UniqueIdentifier>{89c652ff-bf70-41fd-b683-457d9f192393}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="Diagnostics">
       <UniqueIdentifier>{71329b91-4b7d-45e5-b44a-2bf69cfe7c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TransientMesh">
+      <UniqueIdentifier>{8b994a07-b2e6-4090-bddb-10060eed32d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -464,15 +464,6 @@
     <ClCompile Include="Provider\Mesh\MeshProvider.ixx">
       <Filter>Provider\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPoolType.ixx">
-      <Filter>Provider\TransientMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.ixx">
-      <Filter>Provider\TransientMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.ixx">
-      <Filter>Provider\TransientMesh</Filter>
-    </ClCompile>
     <ClCompile Include="Definition\GlyphFormat.ixx">
       <Filter>Definition</Filter>
     </ClCompile>
@@ -527,7 +518,7 @@
     <ClCompile Include="Text\Geometry\GlyphCursor.ixx">
       <Filter>Text\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Packet\Packet.ixx">
+    <ClCompile Include="Packet\DxRender.Packet.ixx">
       <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="Text\Geometry\TextGeometryUtils.ixx">
@@ -742,12 +733,6 @@
     <ClCompile Include="Provider\Texture\TextureUtils.cpp">
       <Filter>Provider\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Provider\TransientMesh\FrameUploadPools.cpp">
-      <Filter>Provider\TransientMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Provider\TransientMesh\TransientMeshProvider.cpp">
-      <Filter>Provider\TransientMesh</Filter>
-    </ClCompile>
     <ClCompile Include="Provider\BrushProvider.cpp">
       <Filter>Provider</Filter>
     </ClCompile>
@@ -803,6 +788,24 @@
     </ClCompile>
     <ClCompile Include="Core\RootSignatureBuilder.ixx">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TransientMesh\FrameUploadPools.cpp">
+      <Filter>TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TransientMesh\FrameUploadPools.ixx">
+      <Filter>TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TransientMesh\FrameUploadPoolType.ixx">
+      <Filter>TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TransientMesh\TransientMesh.cpp">
+      <Filter>TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TransientMesh\TransientMesh.ixx">
+      <Filter>TransientMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DxRender.TransientMesh.ixx">
+      <Filter>TransientMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

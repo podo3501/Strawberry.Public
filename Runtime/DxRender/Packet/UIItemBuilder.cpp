@@ -7,7 +7,7 @@ import :UIMeshAppend;
 import DxRender.Definition;
 import DxRender.Text;
 import DxRender.Resource;
-import DxRender.Provider;
+import DxRender.TransientMesh;
 import Core.Assert;
 import Core.Math;
 import Contract.Render.Backend.View;
@@ -46,13 +46,13 @@ namespace
     }
 
     std::optional<RenderUIItem> BakeBuffer(
-        TransientMeshProvider& meshProvider,
+        TransientMesh& transientMesh,
         UIBatchBuffer& buffer)
     {
         if (buffer.vertices.empty())
             return std::nullopt;
 
-        auto mesh = meshProvider.Create(buffer.vertices, buffer.indices);
+        auto mesh = transientMesh.Create(buffer.vertices, buffer.indices);
         if (!mesh)
             return std::nullopt;
 
@@ -63,7 +63,7 @@ namespace
 std::optional<RenderUIItem> BuildUIItems(
     OverlayViewDrawList& draws,
     TextSystem& textSystem,
-    TransientMeshProvider& meshProvider)
+    TransientMesh& transientMesh)
 {
     UIBatchBuffer buffer;
 
@@ -76,5 +76,5 @@ std::optional<RenderUIItem> BuildUIItems(
         textSystem.AppendDrawItems(textItems, buffer);
     }
 
-    return BakeBuffer(meshProvider, buffer);
+    return BakeBuffer(transientMesh, buffer);
 }
