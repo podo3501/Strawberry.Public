@@ -40,6 +40,8 @@ namespace Core
 
     export struct Rect
     {
+        bool operator==(const Rect&) const = default;
+
         float x{ 0.f }, y{ 0.f }, width{ 0.f }, height{ 0.f };
 
         bool IsValid() const { return width > 0.f && height > 0.f; }

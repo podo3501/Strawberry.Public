@@ -4,4 +4,8 @@ import graph가 제대로 됐는지 확인.
 
 ui 만들기 위한 셋팅
 
-Sound Table Loader 쪽 다시 만들기.
+Sound Table Loader 쪽 다시 만들기. 다른 Loader 들과는 달리 헤더를 구현하는 식으로 돼 있어서 연관돼 있다. 
+다른 로더들은 구현하고 나서 데이터만 넘겨주기 때문에 문제가 없는데, Sound Table은 그렇지 않은듯.
+처음부터 다시 만들면서 JsonLoader 쓰지말고 내부에서 만들어서 넘겨주는식으로 하는게 좋을듯.
+
+MetaRegistry 초기화할때 좀 어색하다. 이걸 어떻게 할지 생각해 보자.

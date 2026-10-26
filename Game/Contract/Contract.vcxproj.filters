@@ -402,5 +402,8 @@
     <ClCompile Include="Common\IAssetAsyncLoader.ixx">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Render\Service\Render.UI.ixx">
+      <Filter>Render\Service</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

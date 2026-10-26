@@ -1,6 +1,6 @@
-export module Contract.Render.Service:IOverlayView;
+export module Contract.Render.IOverlayView;
 
-import :Handles;
+import Contract.Render.Handles;
 import Contract.Render.Shared.Types;
 import Core.Math;
 

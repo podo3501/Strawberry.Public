@@ -1,6 +1,6 @@
-export module Contract.Render.Service:IRenderRepository;
+export module Contract.Render.IRenderRepository;
 
-import :Handles;
+import Contract.Render.Handles;
 import Contract.Render.Service.Descriptors;
 import Contract.Render.Assets;
 

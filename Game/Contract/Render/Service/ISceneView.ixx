@@ -1,6 +1,6 @@
 export module Contract.Render.Service:ISceneView;
 
-import :Handles;
+import Contract.Render.Handles;
 import Contract.Render.Shared.Types;
 import Core.Math;
 

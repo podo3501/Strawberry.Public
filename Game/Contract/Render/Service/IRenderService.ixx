@@ -4,8 +4,8 @@ module;
 
 export module Contract.Render.Service:IRenderService;
 
-import :IRenderRepository;
 import :ISceneRenderer;
+import Contract.Render.IRenderRepository;
 import Contract.Render.Shared;
 import Contract.Render.Backend;
 import Contract.Common.IAssetAsyncLoader;

@@ -1,8 +1,8 @@
 export module Contract.Render.Service:ISceneRenderer;
 
-import :Handles;
 import :ISceneView;
-import :IOverlayView;
+import Contract.Render.Handles;
+import Contract.Render.IOverlayView;
 import Contract.Render.Shared.View;
 import Core.Math;
 

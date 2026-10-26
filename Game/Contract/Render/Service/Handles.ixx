@@ -1,4 +1,4 @@
-export module Contract.Render.Service:Handles;
+export module Contract.Render.Handles;
 
 import Core.Handle;
 
