@@ -6,21 +6,21 @@ import Core.ResourceID;
 import Core.Assert;
 import Contract.Render.Assets;
 
-RenderRepository::RenderRepository(RepositoryContainer& repositories)
+RenderResources::RenderResources(RepositoryContainer& repositories)
     : m_repositories{ repositories }
 {}
 
-FontHandle RenderRepository::LoadFont(const FontDesc& desc)
+FontHandle RenderResources::LoadFont(const FontDesc& desc)
 {
     return m_repositories.Acquire<FontRepository>(desc);
 }
 
-bool RenderRepository::ReleaseFont(FontHandle fh)
+bool RenderResources::ReleaseFont(FontHandle fh)
 {
     return m_repositories.Release<FontRepository>(fh);
 }
 
-MeshHandle RenderRepository::LoadMesh(const MeshDesc& desc, std::shared_ptr<MeshAsset> asset)
+MeshHandle RenderResources::LoadMesh(const MeshDesc& desc, std::shared_ptr<MeshAsset> asset)
 {
     if (desc.GetResourceID().GetType() != Core::ResourceIDType::Path)
     {
@@ -31,12 +31,12 @@ MeshHandle RenderRepository::LoadMesh(const MeshDesc& desc, std::shared_ptr<Mesh
     return m_repositories.Acquire<MeshRepository>(desc);
 }
 
-bool RenderRepository::ReleaseMesh(MeshHandle mh)
+bool RenderResources::ReleaseMesh(MeshHandle mh)
 {
     return m_repositories.Release<MeshRepository>(mh);
 }
 
-DebugMeshHandle RenderRepository::LoadDebugMesh(const DebugMeshDesc& desc, std::shared_ptr<MeshAsset> asset)
+DebugMeshHandle RenderResources::LoadDebugMesh(const DebugMeshDesc& desc, std::shared_ptr<MeshAsset> asset)
 {
     if (desc.GetResourceID().GetType() != Core::ResourceIDType::Path)
     {
@@ -47,17 +47,17 @@ DebugMeshHandle RenderRepository::LoadDebugMesh(const DebugMeshDesc& desc, std::
     return m_repositories.Acquire<DebugMeshRepository>(desc);
 }
 
-MaterialHandle RenderRepository::LoadMaterial(const MaterialDesc& desc)
+MaterialHandle RenderResources::LoadMaterial(const MaterialDesc& desc)
 {
     return m_repositories.Acquire<MaterialRepository>(desc);
 }
 
-bool RenderRepository::ReleaseMaterial(MaterialHandle mh)
+bool RenderResources::ReleaseMaterial(MaterialHandle mh)
 {
     return m_repositories.Release<MaterialRepository>(mh);
 }
 
-DebugMaterialHandle RenderRepository::LoadDebugMaterial(const DebugMaterialDesc& desc)
+DebugMaterialHandle RenderResources::LoadDebugMaterial(const DebugMaterialDesc& desc)
 {
     auto asset = std::make_shared<DebugMaterialAsset>();
     asset->type = desc.GetType();
@@ -65,37 +65,37 @@ DebugMaterialHandle RenderRepository::LoadDebugMaterial(const DebugMaterialDesc&
     return m_repositories.AcquireFromAsset<DebugMaterialRepository>(desc, std::move(asset));
 }
 
-bool RenderRepository::ReleaseDebugMaterial(DebugMaterialHandle dmh)
+bool RenderResources::ReleaseDebugMaterial(DebugMaterialHandle dmh)
 {
     return m_repositories.Release<DebugMaterialRepository>(dmh);
 }
 
-BrushHandle RenderRepository::LoadBrush(const BrushDesc& desc)
+BrushHandle RenderResources::LoadBrush(const BrushDesc& desc)
 {
     return m_repositories.Acquire<BrushRepository>(desc);
 }
 
-bool RenderRepository::ReleaseBrush(BrushHandle bh)
+bool RenderResources::ReleaseBrush(BrushHandle bh)
 {
     return m_repositories.Release<BrushRepository>(bh);
 }
 
-EnvironmentHandle RenderRepository::LoadEnvironment(const EnvironmentDesc& desc)
+EnvironmentHandle RenderResources::LoadEnvironment(const EnvironmentDesc& desc)
 {
     return m_repositories.Acquire<EnvironmentRepository>(desc);
 }
 
-bool RenderRepository::ReleaseEnvironment(EnvironmentHandle eh)
+bool RenderResources::ReleaseEnvironment(EnvironmentHandle eh)
 {
     return m_repositories.Release<EnvironmentRepository>(eh);
 }
 
-void RenderRepository::Update()
+void RenderResources::Update()
 {
     m_repositories.UpdateAll();
 }
 
-void RenderRepository::ReleaseAll()
+void RenderResources::ReleaseAll()
 {
     m_repositories.ReleaseAll();
 }

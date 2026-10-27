@@ -20,7 +20,7 @@ public:
     void Reset(const OverlayViewContext& context);
     OverlayViewData TakeData();
 
-    void DrawUI(
+    void DrawImage(
         BrushHandle bh,
         const Core::Rect& dest,
         const Core::Rect* source) override;

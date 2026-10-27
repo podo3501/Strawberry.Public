@@ -1,4 +1,4 @@
-export module Contract.Render.Service:ISceneRenderer;
+export module Contract.Render.Service:IFrameRecorder;
 
 import :ISceneView;
 import Contract.Render.Handles;
@@ -6,9 +6,9 @@ import Contract.Render.IOverlayView;
 import Contract.Render.Shared.View;
 import Core.Math;
 
-export struct ISceneRenderer
+export struct IFrameRecorder
 {
-	virtual ~ISceneRenderer() = default;
+	virtual ~IFrameRecorder() = default;
 
 	virtual ISceneView& AcquireView(const SceneViewContext& context) = 0;
 	virtual IOverlayView& AcquireView(const OverlayViewContext& context) = 0;

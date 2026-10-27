@@ -20,9 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.UserInterface.ixx" />
-    <ClCompile Include="Image.ixx" />
-    <ClCompile Include="IWidget.ixx" />
     <ClCompile Include="UserInterface.ixx" />
+    <ClCompile Include="Widget\Group.ixx" />
+    <ClCompile Include="Widget\Image.ixx" />
+    <ClCompile Include="Widget\Text.ixx" />
+    <ClCompile Include="Widget\UserInterface.Widget.ixx" />
+    <ClCompile Include="Widget\Widget.cpp" />
+    <ClCompile Include="Widget\Widget.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

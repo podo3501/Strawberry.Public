@@ -6,11 +6,11 @@ import Service.Render.Repository;
 import Contract.Render.Assets;
 
 //이 클래스는 지금 단순 포워딩 함수이지만 정책 코드가 안 들어가서 그렇다. 예를들면 엑셀에서 읽어와서 넣는다던가..
-export class RenderRepository : public IRenderRepository
+export class RenderResources : public IRenderResources
 {
 public:
-    ~RenderRepository() override = default;
-    RenderRepository(RepositoryContainer& repositories);
+    ~RenderResources() override = default;
+    RenderResources(RepositoryContainer& repositories);
 
     FontHandle LoadFont(const FontDesc& desc) override;
     bool ReleaseFont(FontHandle fh) override;

@@ -25,6 +25,9 @@
     <Filter Include="Render\Repository\Container">
       <UniqueIdentifier>{45237e4e-444c-46b2-a695-eb8ec9a850fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\View">
+      <UniqueIdentifier>{c1d3d0f7-8b14-42fd-8193-5cd6ad56fd29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\InputService.cpp">
@@ -103,16 +106,10 @@
     <ClCompile Include="Audio\VoicePool.ixx">
       <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Render\OverlayView.cpp">
+    <ClCompile Include="Render\RenderResources.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\OverlayView.ixx">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\RenderRepository.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\RenderRepository.ixx">
+    <ClCompile Include="Render\RenderResources.ixx">
       <Filter>Render</Filter>
     </ClCompile>
     <ClCompile Include="Render\RenderService.cpp">
@@ -121,19 +118,10 @@
     <ClCompile Include="Render\RenderService.ixx">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\RenderView.ixx">
+    <ClCompile Include="Render\FrameRecorder.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\SceneRenderer.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\SceneRenderer.ixx">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\SceneView.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\SceneView.ixx">
+    <ClCompile Include="Render\FrameRecorder.ixx">
       <Filter>Render</Filter>
     </ClCompile>
     <ClCompile Include="Render\ShaderStageBuilder.ixx">
@@ -180,6 +168,21 @@
     </ClCompile>
     <ClCompile Include="Render\Builtin\BuiltinMeshes.ixx">
       <Filter>Render\Builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\OverlayView.cpp">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\OverlayView.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\RenderView.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\SceneView.cpp">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\SceneView.ixx">
+      <Filter>Render\View</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

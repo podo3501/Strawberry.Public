@@ -5,7 +5,7 @@ module;
 export module Service.Render;
 
 import std;
-import :SceneRenderer;
+import :FrameRecorder;
 import :ShaderStageBuilder;
 import :Repository;
 import Service.Render.Repository;
@@ -35,8 +35,8 @@ public:
     void Render() override;
     void Resize(const Core::Size& size) override;
 
-    IRenderRepository& GetRepository() override { return m_repository; }
-    ISceneRenderer& GetRenderer() override { return m_renderer; }
+    IRenderResources& GetResources() override { return m_resources; }
+    IFrameRecorder& GetFrameRecorder() override { return m_frameRecorder; }
     RenderMetrics GetRenderMetrics() override { return m_backend->GetRenderMetrics(); }
 
 private:
@@ -48,6 +48,6 @@ private:
     std::unordered_map<Core::ResourceID, ShaderID> m_shaderCache;
 
     RepositoryContainer m_repositories;
-    RenderRepository m_repository;
-    SceneRenderer m_renderer;
+    RenderResources m_resources;
+    FrameRecorder m_frameRecorder;
 };

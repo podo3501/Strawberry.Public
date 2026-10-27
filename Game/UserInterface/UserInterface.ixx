@@ -1,26 +1,23 @@
 export module Game.UserInterface:UserInterface;
 
 import std;
-import :IWidget;
+import Game.UserInterface.Widget;
 import Contract.Render.UI;
 
 export class UserInterface
 {
 public:
-	template<std::derived_from<IWidget> T, typename... Args>
-	T& Add(Args&&... args)
-	{
-		auto& ref = *m_widgets.emplace_back(
-			std::make_unique<T>(std::forward<Args>(args)...));
-		return static_cast<T&>(ref);
-	}
+    template<std::derived_from<Widget> T>
+    T& Attach(std::unique_ptr<T> widget, std::size_t index = Widget::End)
+    {
+        return m_root.Attach(std::move(widget), index);
+    }
 
-	void Draw(IOverlayView& overlay) const
-	{
-		for (const auto& w : m_widgets)
-			w->Draw(overlay);
-	}
+    void Draw(IOverlayView& overlay) const
+    {
+        m_root.Draw(overlay);
+    }
 
 private:
-	std::vector<std::unique_ptr<IWidget>> m_widgets;
+    Group m_root;
 };

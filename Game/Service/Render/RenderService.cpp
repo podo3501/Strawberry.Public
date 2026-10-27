@@ -45,8 +45,8 @@ RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyn
 	: m_backend{ std::move(backend) }
 	, m_asyncLoader{ asyncLoader }
 	, m_repositories{ *m_backend, asyncLoader }
-	, m_repository{ m_repositories }
-	, m_renderer{ m_repositories }
+	, m_resources{ m_repositories }
+	, m_frameRecorder{ m_repositories }
 {}
 
 bool RenderService::Initialize(HWND hwnd, const Core::Size& screenSize)
@@ -82,13 +82,13 @@ ShaderID RenderService::RegisterShader(const Core::ResourceID& resourceID, Shade
 
 void RenderService::Update()
 {
-    m_repository.Update();
+    m_resources.Update();
     m_backend->Update();
 }
 
 void RenderService::Render()
 {
-    m_backend->Render(m_renderer.Flush());
+    m_backend->Render(m_frameRecorder.Flush());
 }
 
 void RenderService::Resize(const Core::Size& size)

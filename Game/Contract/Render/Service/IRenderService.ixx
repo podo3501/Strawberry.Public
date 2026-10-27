@@ -4,8 +4,8 @@ module;
 
 export module Contract.Render.Service:IRenderService;
 
-import :ISceneRenderer;
-import Contract.Render.IRenderRepository;
+import :IFrameRecorder;
+import Contract.Render.IRenderResources;
 import Contract.Render.Shared;
 import Contract.Render.Backend;
 import Contract.Common.IAssetAsyncLoader;
@@ -23,8 +23,8 @@ export struct IRenderService
 	virtual void Render() = 0;
 	virtual void Resize(const Core::Size& size) = 0;
 
-	virtual IRenderRepository& GetRepository() = 0;
-	virtual ISceneRenderer& GetRenderer() = 0;
+	virtual IRenderResources& GetResources() = 0;
+	virtual IFrameRecorder& GetFrameRecorder() = 0;
 	virtual RenderMetrics GetRenderMetrics() = 0;
 };
 

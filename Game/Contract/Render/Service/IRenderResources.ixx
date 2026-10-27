@@ -1,12 +1,12 @@
-export module Contract.Render.IRenderRepository;
+export module Contract.Render.IRenderResources;
 
 import Contract.Render.Handles;
 import Contract.Render.Service.Descriptors;
 import Contract.Render.Assets;
 
-export struct IRenderRepository
+export struct IRenderResources
 {
-	virtual ~IRenderRepository() = default;
+	virtual ~IRenderResources() = default;
 
 	virtual FontHandle LoadFont(const FontDesc& desc) = 0;
 	virtual bool ReleaseFont(FontHandle fh) = 0;

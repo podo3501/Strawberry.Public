@@ -107,7 +107,7 @@
     <ClCompile Include="Render\Service\Descriptors\Service.Descriptors.ixx" />
     <ClCompile Include="Render\Service\Handles.ixx" />
     <ClCompile Include="Render\Service\IOverlayView.ixx" />
-    <ClCompile Include="Render\Service\IRenderRepository.ixx" />
+    <ClCompile Include="Render\Service\IRenderResources.ixx" />
     <ClCompile Include="Render\Service\IRenderService.ixx" />
     <ClCompile Include="Render\Service\ISceneRenderer.ixx" />
     <ClCompile Include="Render\Service\ISceneView.ixx" />

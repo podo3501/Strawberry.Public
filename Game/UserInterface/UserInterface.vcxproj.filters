@@ -3,7 +3,28 @@
   <ItemGroup>
     <ClCompile Include="Game.UserInterface.ixx" />
     <ClCompile Include="UserInterface.ixx" />
-    <ClCompile Include="IWidget.ixx" />
-    <ClCompile Include="Image.ixx" />
+    <ClCompile Include="Widget\Image.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Text.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Group.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\UserInterface.Widget.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Widget">
+      <UniqueIdentifier>{8e44ec20-db08-4175-8fa6-ad9b561feff8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

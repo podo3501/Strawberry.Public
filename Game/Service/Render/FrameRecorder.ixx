@@ -1,4 +1,4 @@
-export module Service.Render:SceneRenderer;
+export module Service.Render:FrameRecorder;
 
 import std;
 import :SceneView;
@@ -9,12 +9,12 @@ import Contract.Render.Service;
 import Contract.Render.Backend.View;
 import Core.Math;
 
-export class SceneRenderer : public ISceneRenderer
+export class FrameRecorder : public IFrameRecorder
 {
 public:
-    ~SceneRenderer() override = default;
-    SceneRenderer() = delete;
-    explicit SceneRenderer(RepositoryContainer& repositories);
+    ~FrameRecorder() override = default;
+    FrameRecorder() = delete;
+    explicit FrameRecorder(RepositoryContainer& repositories);
 
 	ISceneView& AcquireView(const SceneViewContext& context) override;
 	IOverlayView& AcquireView(const OverlayViewContext& context) override;

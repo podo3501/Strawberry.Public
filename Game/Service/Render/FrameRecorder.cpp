@@ -1,11 +1,11 @@
 module Service.Render;
 
-import :SceneRenderer;
+import :FrameRecorder;
 import :Builtin;
 import Service.Render.Repository;
 import Core.Assert;
 
-SceneRenderer::SceneRenderer(RepositoryContainer& repositories)
+FrameRecorder::FrameRecorder(RepositoryContainer& repositories)
     : m_repositories{ repositories }
 {
     auto& meshRepository = m_repositories.Get<MeshRepository>();
@@ -18,7 +18,7 @@ SceneRenderer::SceneRenderer(RepositoryContainer& repositories)
     m_defaultBrush = CreateBuiltinBrush(brushRepository);
 }
 
-ISceneView& SceneRenderer::AcquireView(const SceneViewContext& context)
+ISceneView& FrameRecorder::AcquireView(const SceneViewContext& context)
 {
     Core::Assert(context.target.id < MaxViewCount);
 
@@ -34,7 +34,7 @@ ISceneView& SceneRenderer::AcquireView(const SceneViewContext& context)
     return view;
 }
 
-IOverlayView& SceneRenderer::AcquireView(const OverlayViewContext& context)
+IOverlayView& FrameRecorder::AcquireView(const OverlayViewContext& context)
 {
     Core::Assert(context.target.id < MaxViewCount);
 
@@ -50,12 +50,12 @@ IOverlayView& SceneRenderer::AcquireView(const OverlayViewContext& context)
     return view;
 }
 
-void SceneRenderer::SetLight(const DirectionalLightData& light)
+void FrameRecorder::SetLight(const DirectionalLightData& light)
 {
     m_pendingLight = light; // Flush에서 SceneFrameData::light로 옮김
 }
 
-void SceneRenderer::DrawShadowCaster(MeshHandle hM, const Core::Matrix& world)
+void FrameRecorder::DrawShadowCaster(MeshHandle hM, const Core::Matrix& world)
 {
     auto& meshRepository = m_repositories.Get<MeshRepository>();
     auto meshRes = meshRepository.GetIfReady(hM);
@@ -65,7 +65,7 @@ void SceneRenderer::DrawShadowCaster(MeshHandle hM, const Core::Matrix& world)
     m_shadowCasters.push_back(DrawShadowCasterItem{ meshRes, world });
 }
 
-SceneFrameData SceneRenderer::Flush()
+SceneFrameData FrameRecorder::Flush()
 {
     SceneFrameData frameData;
     frameData.light = std::move(m_pendingLight);

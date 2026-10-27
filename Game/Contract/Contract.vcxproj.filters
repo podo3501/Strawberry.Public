@@ -339,7 +339,7 @@
     <ClCompile Include="Render\Shared\View\DirectionalLightData.ixx">
       <Filter>Render\Shared\View</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Service\IRenderRepository.ixx">
+    <ClCompile Include="Render\Service\IRenderResources.ixx">
       <Filter>Render\Service</Filter>
     </ClCompile>
     <ClCompile Include="Render\Shared\Types\Shared.Types.ixx">

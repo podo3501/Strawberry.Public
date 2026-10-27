@@ -8,7 +8,7 @@ export struct IOverlayView
 {
 	virtual ~IOverlayView() = default;
 
-	virtual void DrawUI(
+	virtual void DrawImage(
 		BrushHandle bh,
 		const Core::Rect& dest,
 		const Core::Rect* source = nullptr) = 0;

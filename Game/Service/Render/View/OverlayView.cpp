@@ -62,7 +62,7 @@ OverlayViewData OverlayView::TakeData()
     return std::move(m_data);
 }
 
-void OverlayView::DrawUI(
+void OverlayView::DrawImage(
     BrushHandle bh,
     const Core::Rect& dest,
     const Core::Rect* source)
