@@ -3,6 +3,7 @@ export module Game.UserInterface:UserInterface;
 import std;
 import Game.UserInterface.Widget;
 import Contract.Render.UI;
+import Contract.Input.Service;
 
 export class UserInterface
 {
@@ -13,11 +14,13 @@ public:
         return m_root.Attach(std::move(widget), index);
     }
 
-    void Draw(IOverlayView& overlay) const
-    {
-        m_root.Draw(overlay);
-    }
+    void Draw(IOverlayView& overlay) const;
+    bool Update(const MouseState& mouse);
 
 private:
+    Widget* Resolve(const std::weak_ptr<Widget*>& handle) const;
+
     Group m_root;
+    std::weak_ptr<Widget*> m_hovered;
+    std::weak_ptr<Widget*> m_pressed;
 };

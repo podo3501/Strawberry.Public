@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Game.UserInterface.ixx" />
     <ClCompile Include="UserInterface.ixx" />
-    <ClCompile Include="Widget\Image.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
     <ClCompile Include="Widget\Text.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
@@ -19,6 +16,16 @@
       <Filter>Widget</Filter>
     </ClCompile>
     <ClCompile Include="Widget\UserInterface.Widget.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\SliceLayout.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Image.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp" />
+    <ClCompile Include="Widget\Button.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,6 +24,11 @@ void Widget::Draw(IOverlayView& overlay) const
     DrawTree(overlay, ParentScreenOrigin());
 }
 
+Widget* Widget::HitTest(const Core::Vector2& screenPos)
+{
+    return HitTestTree(screenPos, ParentScreenOrigin());
+}
+
 Core::Vector2 Widget::ParentScreenOrigin() const
 {
     Core::Vector2 o;
@@ -61,4 +66,20 @@ void Widget::DrawTree(IOverlayView& overlay, const Core::Vector2& origin) const
     const Core::Vector2 childOrigin{ screen.x, screen.y };
     for (const auto& child : m_children)
         child->DrawTree(overlay, childOrigin);   // 같은 클래스라 private 접근 가능
+}
+
+Widget* Widget::HitTestTree(const Core::Vector2& p, const Core::Vector2& parentOrigin)
+{
+    const Core::Vector2 origin{ parentOrigin.x + m_rect.x, parentOrigin.y + m_rect.y };
+
+    for (auto it = m_children.rbegin(); it != m_children.rend(); ++it)
+        if (Widget* hit = (*it)->HitTestTree(p, origin))
+            return hit;
+
+    if (!IsHitTestable())
+        return nullptr;
+
+    const bool inside = p.x >= origin.x && p.x < origin.x + m_rect.width
+        && p.y >= origin.y && p.y < origin.y + m_rect.height; // [시작, 끝) 반개구간
+    return inside ? this : nullptr;
 }

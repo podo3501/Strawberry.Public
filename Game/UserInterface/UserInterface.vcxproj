@@ -20,8 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.UserInterface.ixx" />
+    <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserInterface.ixx" />
+    <ClCompile Include="Widget\Button.ixx" />
     <ClCompile Include="Widget\Group.ixx" />
+    <ClCompile Include="Widget\SliceLayout.ixx" />
     <ClCompile Include="Widget\Image.ixx" />
     <ClCompile Include="Widget\Text.ixx" />
     <ClCompile Include="Widget\UserInterface.Widget.ixx" />
