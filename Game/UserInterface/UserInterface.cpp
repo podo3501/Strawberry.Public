@@ -2,16 +2,6 @@ module Game.UserInterface;
 
 import :UserInterface;
 
-namespace 
-{
-    bool IsSelfOrDescendant(const Widget* node, const Widget* ancestor)
-    {
-        for (const Widget* w = node; w; w = w->Parent())
-            if (w == ancestor) return true;
-        return false;
-    }
-}
-
 void UserInterface::Draw(IOverlayView& overlay) const
 {
     m_root.Draw(overlay);
@@ -22,7 +12,7 @@ Widget* UserInterface::Resolve(const std::weak_ptr<Widget*>& handle) const
 {
     const auto token = handle.lock();
     Widget* w = token ? *token : nullptr;
-    return IsSelfOrDescendant(w, &m_root) ? w : nullptr;
+    return (w && w->IsDescendantOf(m_root)) ? w : nullptr;
 }
 
 bool UserInterface::Update(const MouseState& mouse)
@@ -63,7 +53,7 @@ bool UserInterface::Update(const MouseState& mouse)
     {
         if (Widget* pressed = Resolve(m_pressed))
         {
-            const bool inside = IsSelfOrDescendant(hit, pressed); // 콜백이 위젯을 파괴할 수 있으니 먼저 계산
+            const bool inside = hit && hit->IsDescendantOf(*pressed); // 콜백이 위젯을 파괴할 수 있으니 먼저 계산
             pressed->OnPointerUp(e);
             if (inside)
                 pressed->OnClick(e);
@@ -72,4 +62,9 @@ bool UserInterface::Update(const MouseState& mouse)
     }
 
     return hit != nullptr || Resolve(m_pressed) != nullptr;
+}
+
+void UserInterface::Resize(float width, float height)
+{
+    m_root.SetSize(width, height);
 }

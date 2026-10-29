@@ -1,7 +1,7 @@
 export module Game.UserInterface.Widget:Image;
 
 import :Widget;
-import :SliceLayout;
+import :Slice;
 import Contract.Render.UI;
 
 export class Image final : public Widget

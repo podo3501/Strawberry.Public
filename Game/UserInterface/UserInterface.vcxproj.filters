@@ -12,13 +12,10 @@
     <ClCompile Include="Widget\Group.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Widget.cpp">
-      <Filter>Widget</Filter>
-    </ClCompile>
     <ClCompile Include="Widget\UserInterface.Widget.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\SliceLayout.ixx">
+    <ClCompile Include="Widget\Slice.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Image.ixx">
@@ -26,6 +23,30 @@
     </ClCompile>
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Widget\Button.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\LayoutTypes.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.Tree.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.Layout.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.Input.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Stack.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Stack.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\InputEvents.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
   </ItemGroup>
