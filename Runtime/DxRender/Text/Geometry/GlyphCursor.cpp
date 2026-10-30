@@ -11,11 +11,10 @@ GlyphCursor::GlyphCursor(
     : m_item{ item }
     , m_lineWidths{ std::move(lineWidths) }
 {
-    float baseLineHeight = shaped.font->GetLineHeight(shaped.size);
-    m_lineHeight = baseLineHeight * item.layout.lineSpacing;
+    m_lineHeight = ComputeLineHeight(*shaped.font, shaped.size, item.layout);
     m_ascent = shaped.font->GetAscent(shaped.size);
 
-    float totalBlockHeight = static_cast<float>(lineWidths.size()) * m_lineHeight;
+    const float totalBlockHeight = ComputeBlockSize(m_lineWidths, m_lineHeight).y;   // 기존: 이동된 lineWidths.size() == 0
     m_verticalOffset = ComputeVerticalOffset(item.layout.verticalAlign, item.size.y, totalBlockHeight);
     m_baseY = item.position.y + m_verticalOffset;
 

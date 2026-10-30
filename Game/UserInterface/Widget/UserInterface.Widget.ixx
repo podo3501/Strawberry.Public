@@ -6,4 +6,5 @@ export import :Image;
 export import :Text;
 export import :Button;
 export import :Stack;
+export import :ScrollView;
 export import :Widget;

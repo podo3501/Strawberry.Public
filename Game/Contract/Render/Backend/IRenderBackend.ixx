@@ -25,8 +25,14 @@ export struct IRenderBackend
     virtual void Update() = 0;
     virtual void Render(SceneFrameData frame) = 0;
     virtual void Shutdown() = 0;
-
     virtual IResourceProvider* GetProvider(ProviderType type) = 0; // 리소스 로딩/관리용 프로바이더 조회
+
+    virtual Core::Vector2 MeasureText(
+        const std::shared_ptr<IResource>& font,
+        const std::vector<TextRun>& runs,
+        std::uint32_t size,
+        float maxWidth,
+        const TextLayout& layout) = 0;
     virtual RenderMetrics GetRenderMetrics() = 0;
 };
 

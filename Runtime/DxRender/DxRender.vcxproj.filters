@@ -807,5 +807,8 @@
     <ClCompile Include="DxRender.TransientMesh.ixx">
       <Filter>TransientMesh</Filter>
     </ClCompile>
+    <ClCompile Include="Text\TextMeasure.ixx">
+      <Filter>Text</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

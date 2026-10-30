@@ -35,8 +35,23 @@ public:
     float GetUnderlineOffset(uint32_t size) const;
 
 private:
+    struct SizeMetrics
+    {
+        float lineHeight;
+        float ascent;
+        float underlineThickness;
+        float underlineOffset;
+    };
+
+    void SelectSize(uint32_t size) const; // face의 현재 픽셀 크기가 size가 아닐 때만 FT_Set_Pixel_Sizes 호출
+    const SizeMetrics& MetricsFor(uint32_t size) const; // 크기별 메트릭을 최초 1회만 계산해 캐시
+    static constexpr uint32_t kInvalidSize = std::numeric_limits<uint32_t>::max();
+
     FT_Face m_ftFace{ nullptr };
     std::unordered_map<uint32_t, hb_font_t*> m_hbFonts; // 크기별 HarfBuzz 폰트 캐시
+
+    mutable uint32_t m_currentSize{ kInvalidSize }; // face에 마지막으로 설정된 픽셀 크기
+    mutable std::unordered_map<uint32_t, SizeMetrics> m_metrics; // 노드 기반이라 rehash에도 참조 유지
 
     bool m_ready{ false };
     std::shared_ptr<BinaryAsset> m_asset;

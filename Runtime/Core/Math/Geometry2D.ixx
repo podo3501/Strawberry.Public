@@ -101,22 +101,12 @@ namespace Core
 
         Rect Intersect(const Rect& other) const
         {
-            float l1 = x;
-            float t1 = y;
-            float r1 = x + width;
-            float b1 = y + height;
+			const float l = (std::max)(x, other.x);
+			const float t = (std::max)(y, other.y);
+			const float r = (std::min)(Right(), other.Right());
+			const float b = (std::min)(Bottom(), other.Bottom());
 
-            float l2 = other.x;
-            float t2 = other.y;
-            float r2 = other.x + other.width;
-            float b2 = other.y + other.height;
-
-            float l = std::max(l1, l2);
-            float t = std::max(t1, t2);
-            float r = std::min(r1, r2);
-            float b = std::min(b1, b2);
-
-            return { l, t, r - l, b - t };
+			return { l, t, (std::max)(0.f, r - l), (std::max)(0.f, b - t) }; // 겹치지 않으면 크기 0
         }
     };
 }

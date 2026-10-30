@@ -13,7 +13,7 @@ import Core.Math;
 //   -> ArrangeTree : 위->아래. ArrangeChildren()이 자식의 위치를 정함
 // 크기는 정책(Fixed/Fit)이, 위치는 부모의 ArrangeChildren이 정한다.
 
-export struct Widget
+export class Widget
 {
 public:
     virtual ~Widget() = default;
@@ -21,6 +21,7 @@ public:
     Widget(const Widget&) = delete;
     Widget& operator=(const Widget&) = delete;
 
+    std::weak_ptr<Widget*> Handle();
     void Draw(IOverlayView& overlay) const;
 
     // -- Tree ---
@@ -56,17 +57,18 @@ public:
     virtual bool OnPointerDown(const PointerEvent&) { return false; } // true = 소비(캡처), false = 부모에게 버블
     virtual void OnPointerUp(const PointerEvent&) {}
     virtual void OnClick(const PointerEvent&) {}
+    virtual bool OnScroll(const ScrollEvent&) { return false; } // true = 소비, false = 부모에게 버블
     virtual void OnPointerEnter() {}
     virtual void OnPointerLeave() {}
 
     Widget* HitTest(const Core::Vector2& screenPos); // 맨 위(뒤에 Attach된) 히트 가능 위젯
-    std::weak_ptr<Widget*> Handle() const { return m_handle; }
     
 protected:
     explicit Widget(Core::Rect localRect);
     virtual void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const = 0; // 화면 좌표로 변환된 rect를 받아 자기 모습만 그림
     virtual void ArrangeChildren(); // 자식 배치 방식. 기본은 각 자식의 앵커로 배치. 스택 같은 컨테이너가 override
-    virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래→위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
+    virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래->위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
+    virtual bool ClipsChildren() const { return false; } // true면 자식(과 그 자손)을 내 rect로 자른다. 잘린 영역은 히트 테스트에서도 제외된다
     
     // ArrangeChildren override용 도구
     const std::vector<std::unique_ptr<Widget>>& Children() const { return m_children; }
@@ -87,15 +89,15 @@ private:
 
     // 레이아웃
     bool IsFit() const { return m_widthPolicy == SizePolicy::Fit || m_heightPolicy == SizePolicy::Fit; }
-    void MeasureTree();        // 아래→위: 자식을 먼저 측정하고 Fit 축의 크기를 확정
-    void ArrangeTree();        // 위→아래: ArrangeChildren 후 자식 서브트리로 재귀
+    void MeasureTree();        // 아래->위: 자식을 먼저 측정하고 Fit 축의 크기를 확정
+    void ArrangeTree();        // 위->아래: ArrangeChildren 후 자식 서브트리로 재귀
     void Relayout();           // 내 크기/앵커가 바뀜: 부모가 형제까지 다시 배치
 
     Core::Rect m_rect; // 부모 기준 로컬 좌표(레이아웃이 계산한 결과)
     Anchor m_anchor;
     Widget* m_parent{ nullptr };
     std::vector<std::unique_ptr<Widget>> m_children;
-    std::shared_ptr<Widget*> m_handle{ std::make_shared<Widget*>(this) }; // 위젯이 죽으면 weak_ptr가 만료됨
+    std::shared_ptr<Widget*> m_handle;   // 위젯이 죽으면 weak_ptr가 만료됨
 
     SizePolicy m_widthPolicy{ SizePolicy::Fixed };
     SizePolicy m_heightPolicy{ SizePolicy::Fixed };

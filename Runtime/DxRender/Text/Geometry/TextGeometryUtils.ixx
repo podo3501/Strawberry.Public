@@ -54,6 +54,28 @@ static void AppendQuadIndices(std::vector<std::uint32_t>& indices, std::uint32_t
         });
 }
 
+static void PushQuad(
+    UIBatchBuffer& buffer,
+    unsigned int textureIndex,
+    UIRenderMode mode,
+    const Core::Rect& r,
+    Core::Vector2 uvMin,
+    Core::Vector2 uvMax,
+    const Core::Color& color,
+    const UITextProps& props)
+{
+    const auto base = static_cast<std::uint32_t>(buffer.vertices.size());
+    const float x1 = r.x + r.width;
+    const float y1 = r.y + r.height;
+
+    buffer.vertices.push_back({ { r.x, r.y, 0.f }, color,{ uvMin.x, uvMin.y }, textureIndex, mode, props });
+    buffer.vertices.push_back({ { x1,  r.y, 0.f }, color,{ uvMax.x, uvMin.y }, textureIndex, mode, props });
+    buffer.vertices.push_back({ { x1,  y1,  0.f }, color,{ uvMax.x, uvMax.y }, textureIndex, mode, props });
+    buffer.vertices.push_back({ { r.x, y1,  0.f }, color,{ uvMin.x, uvMax.y }, textureIndex, mode, props });
+
+    AppendQuadIndices(buffer.indices, base);
+}
+
 export void AppendGlyphQuad(
     UIBatchBuffer& buffer,
     unsigned int textureIndex,
@@ -64,64 +86,21 @@ export void AppendGlyphQuad(
     PackedTextParams packParams,
     const Core::Rect& clipRect)
 {
-    float x1 = x + glyph.width;
-    float y1 = y + glyph.height;
-
-    auto mode = ToUIRenderMode(glyph.mode);
-    auto& vertices = buffer.vertices;
-    auto& indices = buffer.indices;
-
-    std::uint32_t vertexOffset = static_cast<std::uint32_t>(vertices.size());
-
-    UITextProps textProps
-    {
-        .sdfPxRange = glyph.pxRange,
+    const UITextProps props{
+        .sdfPxRange = glyph.pxRange, 
         .clipRect = clipRect,
-        .params1 = packParams.params1,
-        .params2 = packParams.params2
-    };
+        .params1 = packParams.params1, 
+        .params2 = packParams.params2 };
 
-    vertices.push_back(
-        {
-            { x, y, 0.f },
-            color,
-            { glyph.uvMin.x, glyph.uvMin.y },
-            textureIndex,
-            mode,
-            textProps
-        });
-
-    vertices.push_back(
-        {
-            { x1, y, 0.f },
-            color,
-            { glyph.uvMax.x, glyph.uvMin.y },
-            textureIndex,
-            mode,
-            textProps
-        });
-
-    vertices.push_back(
-        {
-            { x1, y1, 0.f },
-            color,
-            { glyph.uvMax.x, glyph.uvMax.y },
-            textureIndex,
-            mode,
-            textProps
-        });
-
-    vertices.push_back(
-        {
-            { x, y1, 0.f },
-            color,
-            { glyph.uvMin.x, glyph.uvMax.y },
-            textureIndex,
-            mode,
-            textProps
-        });
-
-    AppendQuadIndices(indices, vertexOffset);
+    PushQuad(
+        buffer, 
+        textureIndex, 
+        ToUIRenderMode(glyph.mode),
+        { x, y, glyph.width, glyph.height }, 
+        glyph.uvMin, 
+        glyph.uvMax, 
+        color, 
+        props);
 }
 
 export void AppendSolidQuad(
@@ -131,22 +110,19 @@ export void AppendSolidQuad(
     const Core::Color& color,
     const Core::Rect& clipRect)
 {
-    float x = rect.x;
-    float y = rect.y;
-    float x1 = x + rect.width;
-    float y1 = y + rect.height;
+    const UITextProps props{ 
+        .sdfPxRange = 0.f, 
+        .clipRect = clipRect, 
+        .params1 = 0, 
+        .params2 = 0 };
 
-    auto& vertices = buffer.vertices;
-    auto& indices = buffer.indices;
-
-    std::uint32_t vertexOffset = static_cast<std::uint32_t>(vertices.size());
-
-    UITextProps textProps{ .sdfPxRange = 0.f, .clipRect = clipRect, .params1 = 0, .params2 = 0 };
-
-    vertices.push_back({ { x,  y,  0.f }, color, { 0.f, 0.f }, textureIndex, UIRenderMode::UI, textProps });
-    vertices.push_back({ { x1, y,  0.f }, color, { 1.f, 0.f }, textureIndex, UIRenderMode::UI, textProps });
-    vertices.push_back({ { x1, y1, 0.f }, color, { 1.f, 1.f }, textureIndex, UIRenderMode::UI, textProps });
-    vertices.push_back({ { x,  y1, 0.f }, color, { 0.f, 1.f }, textureIndex, UIRenderMode::UI, textProps });
-
-    AppendQuadIndices(indices, vertexOffset);
+    PushQuad(
+        buffer, 
+        textureIndex, 
+        UIRenderMode::UI, 
+        rect, 
+        { 0.f, 0.f }, 
+        { 1.f, 1.f }, 
+        color, 
+        props);
 }

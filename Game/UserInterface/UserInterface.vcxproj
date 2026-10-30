@@ -26,6 +26,8 @@
     <ClCompile Include="Widget\LayoutTypes.ixx" />
     <ClCompile Include="Widget\Button.ixx" />
     <ClCompile Include="Widget\Group.ixx" />
+    <ClCompile Include="Widget\ScrollView.cpp" />
+    <ClCompile Include="Widget\ScrollView.ixx" />
     <ClCompile Include="Widget\Slice.ixx" />
     <ClCompile Include="Widget\Image.ixx" />
     <ClCompile Include="Widget\Stack.cpp" />

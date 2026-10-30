@@ -405,5 +405,8 @@
     <ClCompile Include="Render\Service\Render.UI.ixx">
       <Filter>Render\Service</Filter>
     </ClCompile>
+    <ClCompile Include="Render\Service\ITextMeasurer.ixx">
+      <Filter>Render\Service</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,10 +31,13 @@ namespace
         const std::vector<std::uint32_t>& srcIndices,
         const Core::Matrix& world,
         const Core::Vector4& uvTransform,
-        std::uint32_t textureIndex)
+        std::uint32_t textureIndex,
+        const std::optional<Core::Rect>& clip)
     {
         std::uint32_t baseVertex = static_cast<std::uint32_t>(buffer.vertices.size());
         DirectX::XMMATRIX xmWorld = ToDXMatrix(world);
+
+		const Core::Rect clipRect = clip.value_or(Core::Rect{}); // 템플릿 정점의 textProps는 0이라 클립이 꺼져 있다. 면적 0 = 클립 없음 (셰이더 규칙).
 
         for (const auto& v : srcVertices)
         {
@@ -46,6 +49,7 @@ namespace
             out.uv.x = std::lerp(uvTransform.x, uvTransform.z, v.uv.x);
             out.uv.y = std::lerp(uvTransform.y, uvTransform.w, v.uv.y);
             out.textureIndex = textureIndex;
+            out.textProps.clipRect = clipRect;
             buffer.vertices.push_back(out);
         }
 
@@ -56,7 +60,7 @@ namespace
     void PadToQuadAlignment(UIBatchBuffer& buffer)
     {
         std::uint32_t remainder = static_cast<std::uint32_t>(buffer.vertices.size()) % 4;
-        if (remainder == 0)
+        if (remainder == 0) // 글자 찍을때 셰이더에 4의 배수에서 계산하는 코드가 있기 때문에 padding으로 맞춘다.
             return;
 
         std::uint32_t padCount = 4 - remainder;
@@ -87,9 +91,9 @@ void AppendUIItems(
             tmpl->indices,
             ui.world,
             uvTransform,
-            brush->GetTextureIndex());
+            brush->GetTextureIndex(),
+            ui.clip);
 
-        if (tmpl->vertexCount % 4 != 0)
-            PadToQuadAlignment(buffer); // 글자 찍을때 셰이더에 4의 배수에서 계산하는 코드가 있기 때문에 padding으로 맞춘다.
+        PadToQuadAlignment(buffer);
     }
 }

@@ -264,6 +264,7 @@
     <ClCompile Include="Text\Text.ixx" />
     <ClCompile Include="Text\TextLayout.cpp" />
     <ClCompile Include="Text\TextLayout.ixx" />
+    <ClCompile Include="Text\TextMeasure.ixx" />
     <ClCompile Include="Text\TextSystem.cpp" />
     <ClCompile Include="Text\TextSystem.ixx" />
     <ClCompile Include="Text\TextTypes.ixx" />

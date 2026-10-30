@@ -184,5 +184,11 @@
     <ClCompile Include="Render\View\SceneView.ixx">
       <Filter>Render\View</Filter>
     </ClCompile>
+    <ClCompile Include="Render\View\TextRun.ixx">
+      <Filter>Render\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextMeasurer.ixx">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

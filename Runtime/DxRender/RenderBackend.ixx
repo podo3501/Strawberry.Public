@@ -37,8 +37,14 @@ public:
 	void Update() override;
 	void Render(SceneFrameData frame) override;
 	void Shutdown() override;
-
 	IResourceProvider* GetProvider(ProviderType type) override;
+
+    Core::Vector2 MeasureText(
+        const std::shared_ptr<IResource>& font,
+        const std::vector<TextRun>& runs,
+        std::uint32_t size,
+        float maxWidth,
+        const TextLayout& layout) override;
 	RenderMetrics GetRenderMetrics() override;
 
 private:

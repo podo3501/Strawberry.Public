@@ -28,6 +28,7 @@ module DxRender;
 
 import std;
 import Contract.Render.Backend.Types;
+import Core.Assert;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
     : m_device{ config.enableDebugLayer }
@@ -122,6 +123,17 @@ void RenderBackend::Shutdown()
 IResourceProvider* RenderBackend::GetProvider(ProviderType type)
 {
     return m_resProviderSet.GetProvider(type);
+}
+
+Core::Vector2 RenderBackend::MeasureText(
+    const std::shared_ptr<IResource>& font,
+    const std::vector<TextRun>& runs,
+    std::uint32_t size,
+    float maxWidth,
+    const TextLayout& layout)
+{
+    Core::Assert(font);
+    return MeasureRuns(*static_cast<FontResource*>(font.get()), runs, size, maxWidth, layout);
 }
 
 RenderMetrics RenderBackend::GetRenderMetrics()

@@ -216,3 +216,12 @@ std::vector<ShapedGlyph> ShapeRuns(
 
     return result;
 }
+
+std::vector<ShapedGlyph> ShapeAndWrap(
+    FontResource* font, const std::vector<TextRun>& runs,
+    std::uint32_t size, float maxWidth, bool wordWrap)
+{
+    auto glyphs = ShapeRuns(font, runs, size);
+    ApplyWordWrap(glyphs, maxWidth, wordWrap);
+    return glyphs;
+}

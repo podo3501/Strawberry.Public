@@ -111,6 +111,7 @@
     <ClCompile Include="Render\Service\IRenderService.ixx" />
     <ClCompile Include="Render\Service\ISceneRenderer.ixx" />
     <ClCompile Include="Render\Service\ISceneView.ixx" />
+    <ClCompile Include="Render\Service\ITextMeasurer.ixx" />
     <ClCompile Include="Render\Service\Render.Service.ixx" />
     <ClCompile Include="Render\Service\Render.UI.ixx" />
     <ClCompile Include="Render\Shared\Render.Shared.ixx" />

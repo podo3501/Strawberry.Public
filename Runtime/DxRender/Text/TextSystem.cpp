@@ -24,9 +24,6 @@ void TextSystem::AppendDrawItems(
         return;
 
     auto shapedTexts = ShapeTexts(items);
-    for (std::size_t i = 0; i < shapedTexts.size(); ++i)
-        ApplyWordWrap(shapedTexts[i].glyphs, items[i].size.x, items[i].layout.wordWrap);
-
     m_fontAtlas.EnsureGlyphs(shapedTexts);
 
     for (const auto& shaped : shapedTexts)
@@ -56,10 +53,12 @@ std::vector<ShapedText> TextSystem::ShapeTexts(const std::vector<RenderTextItem>
         shaped.mode = item.mode;
         shaped.size = item.fontSize;
         shaped.index = index;
-        shaped.glyphs = ShapeRuns(
+        shaped.glyphs = ShapeAndWrap(
             font,
             item.runs,
-            item.fontSize);
+            item.fontSize,
+            item.size.x,
+            item.layout.wordWrap);
 
         result.push_back(std::move(shaped));
     }

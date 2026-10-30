@@ -29,4 +29,7 @@ export struct IOverlayView
 		std::uint32_t size,
 		const Core::Rect& bounds,
 		const TextLayout& layout) = 0;
+
+	virtual void PushClip(const Core::Rect& screenRect) = 0;
+	virtual void PopClip() = 0;
 };

@@ -1,40 +1,22 @@
 module Service.Render;
 
 import std;
+import :TextRuns;
 import :OverlayView;
 import Service.Render.Repository;
 import Core.Assert;
 import Core.Utils;
 
-static std::vector<TextRun> BuildTextRuns(std::span<const TextSpan> spans)
+namespace
 {
-    std::vector<TextRun> runs;
-    std::uint32_t lineIndex = 0;
-    for (auto& span : spans)
-    {
-        if (span.text.empty()) continue;
-        std::vector<char32_t> codepoints = Core::UTF8ToUTF32(span.text);
-        std::size_t segStart = 0;
-        for (std::size_t i = 0; i <= codepoints.size(); ++i)
-        {
-            bool isNewline = (i < codepoints.size()) && (codepoints[i] == U'\n');
-            bool isEnd = (i == codepoints.size());
-            if (!isNewline && !isEnd)
-                continue;
-            if (i > segStart) // 빈 세그먼트(연속 \n)는 run을 만들지 않음
-            {
-                runs.push_back({
-                    std::vector<char32_t>(codepoints.begin() + segStart, codepoints.begin() + i),
-                    span.style,
-                    lineIndex
-                    });
-            }
-            if (isNewline)
-                ++lineIndex; // 내용이 있든 없든 줄 번호는 증가
-            segStart = i + 1;
-        }
-    }
-    return runs;
+	// bounds의 width/height가 0이면 그 축은 무제한이다 (ComputeClipRect와 같은 규칙).
+	bool BoundsOverlapClip(Core::Rect bounds, const Core::Rect& clip)
+	{
+		bounds.Normalize();
+		const bool xOk = bounds.width <= 0.f || (bounds.Left() < clip.Right() && bounds.Right() > clip.Left());
+		const bool yOk = bounds.height <= 0.f || (bounds.Top() < clip.Bottom() && bounds.Bottom() > clip.Top());
+		return xOk && yOk;
+	}
 }
 
 OverlayView::OverlayView(
@@ -55,10 +37,12 @@ void OverlayView::Reset(const OverlayViewContext& context)
 {
     m_data.context = context;
     m_data.draws.Clear();
+    m_clipStack.clear();
 }
 
 OverlayViewData OverlayView::TakeData()
 {
+    Core::Assert(m_clipStack.empty()); // PushClip/PopClip 짝이 안 맞음
     return std::move(m_data);
 }
 
@@ -80,6 +64,10 @@ void OverlayView::DrawImage(
     if (!brushRes)
         return;
 
+	const auto clip = CurrentClip();
+	if (clip && (!clip->IsValid() || !dest.Intersects(*clip)))
+		return;   // 빈 클립이거나 완전히 밖. 빈 클립을 버려야 하는 이유: 셰이더는 면적 0 클립을 "클립 없음"으로 읽는다
+
     float width = dest.width;
     float height = dest.height;
 
@@ -87,9 +75,10 @@ void OverlayView::DrawImage(
     Core::Matrix translation = Core::Matrix::Translation(dest.x, dest.y, 0.0f);
     Core::Matrix world = scale * translation;
 
-    m_data.draws.ui.push_back(DrawUIItem{
-        meshRes, brushRes, world, source ? std::optional<Core::Rect>(*source) : std::nullopt
-        });
+	m_data.draws.ui.push_back(DrawUIItem{
+		meshRes, brushRes, world,
+		source ? std::optional<Core::Rect>(*source) : std::nullopt,
+		clip });
 }
 
 void OverlayView::DrawText(
@@ -120,6 +109,18 @@ void OverlayView::DrawText(
     if (!fontRes)
         return;
 
+	const auto clip = CurrentClip();
+	if (clip)
+	{
+		if (!clip->IsValid())
+			return;   // 빈 클립 아래는 아무것도 그리지 않는다
+
+		// Clip 모드는 자기 bounds와 바깥 클립의 교집합이 빌 수 있고, 그 결과가 "클립 없음"으로 오인되므로 여기서 거른다.
+		// 다른 모드는 글자가 bounds 밖으로 번질 수 있어서 bounds만으로 버리면 안 된다.
+		if (layout.overflow == TextOverflow::Clip && !BoundsOverlapClip(bounds, *clip))
+			return;
+	}
+
     if (mode == TextRenderMode::Bitmap)
     {
         for (auto& span : spans)
@@ -134,7 +135,26 @@ void OverlayView::DrawText(
         }
     }
 
-    m_data.draws.texts.push_back(DrawTextItem{
-        fontRes, mode, size, bounds, layout, BuildTextRuns(spans)
-        });
+	m_data.draws.texts.push_back(DrawTextItem{
+		fontRes, mode, size, bounds, layout, BuildTextRuns(spans), clip
+		});
+}
+
+void OverlayView::PushClip(const Core::Rect& screenRect)
+{
+	// 중첩하면 바깥 클립과 교집합. 교집합이 비어도 스택에는 그대로 쌓는다 (Pop 짝을 맞추기 위해)
+	m_clipStack.push_back(m_clipStack.empty() ? screenRect : m_clipStack.back().Intersect(screenRect));
+}
+
+void OverlayView::PopClip()
+{
+	Core::Assert(!m_clipStack.empty()); // PushClip 없이 PopClip
+	m_clipStack.pop_back();
+}
+
+std::optional<Core::Rect> OverlayView::CurrentClip() const
+{
+	if (m_clipStack.empty())
+		return std::nullopt;
+	return m_clipStack.back();
 }

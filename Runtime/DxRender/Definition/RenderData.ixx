@@ -41,6 +41,7 @@ export struct RenderTextItem
     Core::Vector2 position{};
     Core::Vector2 size{};
     TextLayout layout{};
+    std::optional<Core::Rect> clip;
     std::vector<TextRun> runs;
 };
 

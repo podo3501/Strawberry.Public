@@ -47,6 +47,7 @@ RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyn
 	, m_repositories{ *m_backend, asyncLoader }
 	, m_resources{ m_repositories }
 	, m_frameRecorder{ m_repositories }
+    , m_textMeasurer{ *m_backend, m_repositories }
 {}
 
 bool RenderService::Initialize(HWND hwnd, const Core::Size& screenSize)

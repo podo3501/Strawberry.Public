@@ -6,6 +6,7 @@ export module Contract.Render.Service:IRenderService;
 
 import :IFrameRecorder;
 import Contract.Render.IRenderResources;
+import Contract.Render.ITextMeasurer;
 import Contract.Render.Shared;
 import Contract.Render.Backend;
 import Contract.Common.IAssetAsyncLoader;
@@ -25,6 +26,7 @@ export struct IRenderService
 
 	virtual IRenderResources& GetResources() = 0;
 	virtual IFrameRecorder& GetFrameRecorder() = 0;
+	virtual ITextMeasurer& GetTextMeasurer() = 0;
 	virtual RenderMetrics GetRenderMetrics() = 0;
 };
 

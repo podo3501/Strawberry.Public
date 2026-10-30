@@ -8,6 +8,7 @@ import std;
 import :FrameRecorder;
 import :ShaderStageBuilder;
 import :Repository;
+import :TextMeasurer;
 import Service.Render.Repository;
 import Service.AssetAsyncHelper;
 import Core.Type;
@@ -37,6 +38,7 @@ public:
 
     IRenderResources& GetResources() override { return m_resources; }
     IFrameRecorder& GetFrameRecorder() override { return m_frameRecorder; }
+    ITextMeasurer& GetTextMeasurer() override { return m_textMeasurer; }
     RenderMetrics GetRenderMetrics() override { return m_backend->GetRenderMetrics(); }
 
 private:
@@ -50,4 +52,5 @@ private:
     RepositoryContainer m_repositories;
     RenderResources m_resources;
     FrameRecorder m_frameRecorder;
+    TextMeasurer m_textMeasurer;
 };

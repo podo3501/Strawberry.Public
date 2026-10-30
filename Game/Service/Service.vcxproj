@@ -66,11 +66,13 @@
     <ClCompile Include="Render\FrameRecorder.cpp" />
     <ClCompile Include="Render\FrameRecorder.ixx" />
     <ClCompile Include="Render\ShaderStageBuilder.ixx" />
+    <ClCompile Include="Render\TextMeasurer.ixx" />
     <ClCompile Include="Render\View\OverlayView.cpp" />
     <ClCompile Include="Render\View\OverlayView.ixx" />
     <ClCompile Include="Render\View\RenderView.ixx" />
     <ClCompile Include="Render\View\SceneView.cpp" />
     <ClCompile Include="Render\View\SceneView.ixx" />
+    <ClCompile Include="Render\View\TextRun.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">

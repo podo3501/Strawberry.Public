@@ -35,6 +35,14 @@ bool UserInterface::Update(const MouseState& mouse)
         m_hovered = hit ? hit->Handle() : std::weak_ptr<Widget*>{};
     }
 
+    if (const float wheelDelta = mouse.GetWheelDelta(); wheelDelta != 0.f)
+    {
+        const ScrollEvent scroll{ pos, wheelDelta };
+        for (Widget* w = hit; w; w = w->Parent())
+            if (w->OnScroll(scroll))
+                break;
+    }
+
     const ButtonState& left = mouse[MouseButton::Left];
 
     // 누름: hit에서 부모 쪽으로 올라가며 처음 true를 반환하는 위젯이 캡처

@@ -20,6 +20,7 @@ FontResource::~FontResource()
         }
     }
     m_hbFonts.clear();
+    m_metrics.clear();
 
     if (m_ftFace)
     {
@@ -40,10 +41,42 @@ bool FontResource::Initialize(FreeTypeLibrary& ftLibrary, std::shared_ptr<Binary
     if (error)
         return false;
 
+    m_currentSize = kInvalidSize; // 새 face는 크기가 설정되지 않은 상태
+    m_metrics.clear();
+
     m_asset = std::move(asset);
     m_ready = true;
 
     return true;
+}
+
+void FontResource::SelectSize(uint32_t size) const
+{
+    if (m_currentSize == size)
+        return;
+
+    // 성공했을 때만 캐시를 갱신 (실패 시 face의 실제 크기와 어긋나지 않도록)
+    if (FT_Set_Pixel_Sizes(m_ftFace, 0, size) == 0)
+        m_currentSize = size;
+}
+
+const FontResource::SizeMetrics& FontResource::MetricsFor(uint32_t size) const
+{
+    auto [it, inserted] = m_metrics.try_emplace(size);
+    if (inserted)
+    {
+        SelectSize(size);
+        const FT_Size_Metrics& m = m_ftFace->size->metrics;
+
+        it->second.lineHeight = m.height / 64.0f;   // 26.6 fixed-point -> float
+        it->second.ascent = m.ascender / 64.0f;
+        it->second.underlineThickness = FT_MulFix(m_ftFace->underline_thickness, m.y_scale) / 64.0f;
+
+        // underline_position은 폰트 디자인 좌표(+y 위쪽) 기준 baseline 대비 오프셋이라 보통 음수.
+        // 화면 좌표(+y 아래쪽, baselineY에 더해 쓰는 값) 기준으로 바꾸려 부호를 뒤집는다.
+        it->second.underlineOffset = -(FT_MulFix(m_ftFace->underline_position, m.y_scale) / 64.0f);
+    }
+    return it->second;
 }
 
 FT_GlyphSlot FontResource::GetGlyphSlot(uint32_t glyphIndex, uint32_t size) const
@@ -61,7 +94,8 @@ FT_GlyphSlot FontResource::GetGlyphSlot(uint32_t glyphIndex, uint32_t size) cons
 
 hb_font_t* FontResource::GetHbFont(uint32_t size)
 {
-    FT_Set_Pixel_Sizes(m_ftFace, 0, size);
+    // 캐시 적중 여부와 관계없이 반드시 호출. hb_shape가 face의 현재 크기를 읽을 수 있음.
+    SelectSize(size);
 
     auto it = m_hbFonts.find(size);
     if (it != m_hbFonts.end())
@@ -79,30 +113,7 @@ hb_font_t* FontResource::GetHbFont(uint32_t size)
     return hbFont;
 }
 
-float FontResource::GetLineHeight(uint32_t size) const
-{
-    FT_Set_Pixel_Sizes(m_ftFace, 0, size);
-    return m_ftFace->size->metrics.height / 64.0f; // 26.6 fixed-point -> float
-}
-
-float FontResource::GetAscent(uint32_t size) const
-{
-    FT_Set_Pixel_Sizes(m_ftFace, 0, size);
-    return m_ftFace->size->metrics.ascender / 64.0f; // 26.6 fixed-point -> float
-}
-
-float FontResource::GetUnderlineThickness(uint32_t size) const
-{
-    FT_Set_Pixel_Sizes(m_ftFace, 0, size);
-    FT_Fixed scaled = FT_MulFix(m_ftFace->underline_thickness, m_ftFace->size->metrics.y_scale);
-    return scaled / 64.0f;
-}
-
-float FontResource::GetUnderlineOffset(uint32_t size) const
-{
-    FT_Set_Pixel_Sizes(m_ftFace, 0, size);
-    // underline_position은 폰트 디자인 좌표(+y 위쪽) 기준 baseline 대비 오프셋이라 보통 음수.
-    // 화면 좌표(+y 아래쪽, baselineY에 더해 쓰는 값) 기준으로 바꾸려 부호를 뒤집는다.
-    FT_Fixed scaled = FT_MulFix(m_ftFace->underline_position, m_ftFace->size->metrics.y_scale);
-    return -(scaled / 64.0f);
-}
+float FontResource::GetLineHeight(uint32_t size) const { return MetricsFor(size).lineHeight; }
+float FontResource::GetAscent(uint32_t size) const { return MetricsFor(size).ascent; }
+float FontResource::GetUnderlineThickness(uint32_t size) const { return MetricsFor(size).underlineThickness; }
+float FontResource::GetUnderlineOffset(uint32_t size) const { return MetricsFor(size).underlineOffset; }

@@ -11,6 +11,7 @@ export struct DrawUIItem
     std::shared_ptr<IResource> brush;
     Core::Matrix world;
     std::optional<Core::Rect> source;
+    std::optional<Core::Rect> clip;
 };
 
 export struct DrawTextItem
@@ -21,6 +22,7 @@ export struct DrawTextItem
     Core::Rect bounds;
     TextLayout layout;
     std::vector<TextRun> runs;
+    std::optional<Core::Rect> clip;
 };
 
 export struct OverlayViewDrawList

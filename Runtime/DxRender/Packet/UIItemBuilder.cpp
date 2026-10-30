@@ -27,6 +27,7 @@ namespace
         item.position = Core::Vector2{ normalized.Left(), normalized.Top() };
         item.size = Core::Vector2{ normalized.width, normalized.height };
         item.layout = text.layout;
+        item.clip = text.clip;
         item.runs = std::move(text.runs);
 
         return item;
@@ -66,6 +67,8 @@ std::optional<RenderUIItem> BuildUIItems(
     TransientMesh& transientMesh)
 {
     UIBatchBuffer buffer;
+    buffer.vertices.reserve(draws.ui.size() * 4);
+    buffer.indices.reserve(draws.ui.size() * 6);
 
     if (!draws.ui.empty())
         AppendUIItems(draws.ui, buffer);

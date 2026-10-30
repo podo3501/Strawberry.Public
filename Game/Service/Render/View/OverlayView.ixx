@@ -42,8 +42,14 @@ public:
         const Core::Rect& bounds,
         const TextLayout& layout) override;
 
+	void PushClip(const Core::Rect& screenRect) override;
+	void PopClip() override;
+
 private:
+	std::optional<Core::Rect> CurrentClip() const;
+
     MeshHandle m_uiQuad;
     BrushHandle m_defaultBrush;
     OverlayViewData m_data;
+    std::vector<Core::Rect> m_clipStack;
 };

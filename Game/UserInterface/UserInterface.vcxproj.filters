@@ -49,6 +49,12 @@
     <ClCompile Include="Widget\InputEvents.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\ScrollView.ixx">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\ScrollView.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Widget">
