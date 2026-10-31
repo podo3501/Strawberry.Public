@@ -1,4 +1,26 @@
-import os, re, sys, pathlib, collections
+import os, re, sys, pathlib, collections, atexit
+
+class _Tee:
+    """출력을 여러 스트림(화면 + 파일)에 동시에 쓴다."""
+    def __init__(self, *streams):
+        self.streams = streams
+    def write(self, s):
+        for st in self.streams:
+            st.write(s)
+    def flush(self):
+        for st in self.streams:
+            st.flush()
+
+_out_path = pathlib.Path(__file__).resolve().parent / "ModuleGraph.txt"
+_out_file = open(_out_path, "w", encoding="utf-8", newline="\n")
+
+def _close_tee():
+    sys.stdout.flush()
+    sys.stdout = sys.__stdout__   # 파이썬이 마지막에 flush할 대상을 원래 stdout으로 복구
+    _out_file.close()
+
+atexit.register(_close_tee)
+sys.stdout = _Tee(sys.stdout, _out_file)
 
 roots = [pathlib.Path(p) for p in sys.argv[1].split(os.pathsep)]   # Windows는 ';' 구분
 files = [f for r in roots for f in r.rglob("*")]

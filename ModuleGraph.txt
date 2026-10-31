@@ -1,0 +1,144 @@
+== interface graph (reduced: 재export로 이미 보이는 간선 제거) ==
+Contract.Asset.Backend -> Contract.Asset.Shared, Contract.Common.Asset, Core.Type
+Contract.Asset.Service -> Contract.Asset.Shared(re), Contract.Common.IAssetAsyncLoader
+Contract.Asset.Shared -> Contract.Common.Asset, Contract.Common.IAssetAsyncLoader, Core.Type
+Contract.Audio.Assets -> Contract.Asset.Shared, Contract.Common.Asset, Core.Type
+Contract.Audio.Backend -> Contract.Audio.Shared, Contract.Common.Asset
+Contract.Audio.Service -> Contract.Audio.Assets, Contract.Audio.Backend, Contract.Audio.Shared(re), Contract.Common.IAssetAsyncLoader, Core.Handle
+Contract.Audio.Shared -> -
+Contract.Common.Asset -> Core.TypeHierarchy
+Contract.Common.AssetAsyncTypes -> Contract.Common.Asset, Core.Type
+Contract.Common.IAssetAsyncLoader -> Contract.Common.AssetAsyncTypes(re)
+Contract.Input.Backend -> Contract.Input.Shared, Core.Math
+Contract.Input.Service -> Contract.Input.Backend, Contract.Input.Shared(re), Core.Math
+Contract.Input.Shared -> -
+Contract.Render.Assets -> Contract.Common.Asset, Core.BasicTypes, Core.Math, Core.TypeHierarchy
+Contract.Render.Backend -> Contract.Common.Asset, Contract.Render.Backend.Types(re), Contract.Render.Backend.View(re), Contract.Render.IResource(re), Contract.Render.Shared, Core.Math
+Contract.Render.Backend.Types -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
+Contract.Render.Backend.View -> Contract.Render.IResource, Contract.Render.Shared.Types, Contract.Render.Shared.View, Core.Math
+Contract.Render.Handles -> Core.Handle
+Contract.Render.IOverlayView -> Contract.Render.Handles, Contract.Render.Shared.Types, Core.Math
+Contract.Render.IRenderResources -> Contract.Render.Assets, Contract.Render.Handles, Contract.Render.Service.Descriptors
+Contract.Render.IResource -> -
+Contract.Render.ITextMeasurer -> Contract.Render.Handles, Contract.Render.Shared.Types, Core.Math
+Contract.Render.Service -> Contract.Common.IAssetAsyncLoader, Contract.Render.Backend, Contract.Render.Handles(re), Contract.Render.IOverlayView(re), Contract.Render.IRenderResources(re), Contract.Render.ITextMeasurer(re), Contract.Render.Service.Descriptors(re), Contract.Render.Shared, Core.Math, Core.Type
+Contract.Render.Service.Descriptors -> Contract.Common.Asset, Contract.Render.Assets, Core.Type, Core.Utils
+Contract.Render.Shared -> Contract.Render.Shared.Types(re), Contract.Render.Shared.View(re)
+Contract.Render.Shared.Types -> Core.Math
+Contract.Render.Shared.View -> Contract.Render.Shared.Types, Core.Math
+Contract.Render.UI -> Contract.Render.Handles(re), Contract.Render.IOverlayView(re), Contract.Render.IRenderResources(re), Contract.Render.Shared.Types(re)
+Core.Assert -> -
+Core.BasicTypes -> -
+Core.Bit -> Core.Assert
+Core.Handle -> -
+Core.IndexAllocator -> Core.Assert, Core.BasicTypes
+Core.Logger -> -
+Core.Math -> Core.Assert
+Core.ResourceID -> Core.Assert, Core.Utils
+Core.Type -> Core.BasicTypes(re), Core.ResourceID(re), Core.TypeHierarchy(re)
+Core.TypeHierarchy -> -
+Core.Utils -> Core.Assert
+DxInput -> Contract.Input.Backend, Contract.Input.Shared, Core.Utils
+DxRender -> Contract.Render.Backend, Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Diagnostics, DxRender.Factory, DxRender.Packet, DxRender.Pipeline, DxRender.Provider, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task, DxRender.Text, DxRender.TransientMesh
+DxRender.Allocator -> Core.Assert, Core.Bit, Core.IndexAllocator, DxRender.Constants, DxRender.Core, DxRender.Resource
+DxRender.Command -> Contract.Render.Backend.Types, Core.Assert, Core.Math, DxRender.Core, DxRender.Definition
+DxRender.Constants -> -
+DxRender.Core -> -
+DxRender.Definition -> Contract.Render.Backend.Types, Contract.Render.Backend.View, Contract.Render.IResource, Contract.Render.Shared, Core.Assert, Core.Math, Core.Utils, DxRender.Constants(re), DxRender.Core
+DxRender.Diagnostics -> DxRender.Command, DxRender.Core, DxRender.Factory
+DxRender.DxCheck -> -
+DxRender.Factory -> Contract.Render.Backend.Types, DxRender.Allocator, DxRender.Core
+DxRender.Graph -> Core.Assert, DxRender.Command, DxRender.RGResourceID(re), DxRender.Task
+DxRender.Helper -> Contract.Render.Assets, Core.Assert, Core.Math, DxRender.Definition
+DxRender.Packet -> Contract.Render.Backend.View, Contract.Render.Shared.Types, Core.Math, DxRender.Definition, DxRender.Resource, DxRender.Text, DxRender.TransientMesh
+DxRender.Pipeline -> Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Graph, DxRender.Pipeline.GraphBuilder, DxRender.Pipeline.Inspector, DxRender.Pipeline.Renderer, DxRender.Resource, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task
+DxRender.Pipeline.GraphBuilder -> Contract.Render.Backend.Types, Contract.Render.Shared.View, Core.Math, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Graph, DxRender.Pipeline.Renderer, DxRender.Release, DxRender.Resource, DxRender.SwapChainPresenter, DxRender.Task
+DxRender.Pipeline.Inspector -> Core.Math, DxRender.Allocator, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Graph, DxRender.Pipeline.Renderer, DxRender.Shader, DxRender.SwapChainPresenter
+DxRender.Pipeline.Renderer -> Contract.Render.Backend.Types, Contract.Render.Backend.View, Contract.Render.Shared.View, Core.Bit, Core.Math, Core.Utils, DxRender.Allocator, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Helper, DxRender.Resource, DxRender.Shader
+DxRender.Provider -> Contract.Common.Asset, Contract.Render.Assets, Contract.Render.Backend, Core.Math, Core.Utils, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Graph, DxRender.Release, DxRender.Resource, DxRender.Shader, DxRender.Task
+DxRender.RGResourceID -> Core.Assert, Core.IndexAllocator
+DxRender.Release -> Contract.Render.IResource, DxRender.Task
+DxRender.Resource -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract.Render.IResource, Contract.Render.Shared.Types, Core.Assert, Core.Math, DxRender.Core, DxRender.Definition, DxRender.Helper
+DxRender.Shader -> Contract.Render.Assets, Contract.Render.Backend.Types, DxRender.Definition
+DxRender.SwapChainPresenter -> Core.Math, DxRender.Command, DxRender.Core
+DxRender.Task -> Core.Assert, Core.Handle, DxRender.Command, DxRender.Core, DxRender.RGResourceID
+DxRender.Text -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract.Render.Shared.Types, Core.Assert, Core.Bit, Core.Math, Core.Utils, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Resource
+DxRender.TransientMesh -> Contract.Render.Backend.Types, Core.Utils, DxRender.Allocator, DxRender.Core, DxRender.Factory, DxRender.Resource
+FileAsset -> Contract.Asset.Shared, Core.BasicTypes
+FileAsset.AudioProcessing -> -
+FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.BasicTypes, Runtime.Serialization
+FileAsset.VorbisDecoder -> -
+Game.UserInterface -> Contract.Input.Service, Contract.Render.UI, Game.UserInterface.Widget(re)
+Game.UserInterface.Widget -> Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math
+Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
+Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
+Runtime.Serialization -> Core.Assert, Core.Utils
+SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset, Core.BasicTypes
+Service.Asset -> Contract.Asset.Backend, Contract.Asset.Service, Contract.Common.Asset, Contract.Common.IAssetAsyncLoader, Core.Assert, Core.Type, Core.Utils, Service.AssetMetaRegistry
+Service.Asset.ImageExtensions -> -
+Service.AssetAsyncHelper -> Contract.Common.IAssetAsyncLoader(re), Core.Type
+Service.AssetMetaRegistry -> Contract.Asset.Service, Contract.Common.Asset, Core.Type, Service.AssetAsyncHelper
+Service.Audio -> Contract.Audio.Assets, Contract.Audio.Backend, Contract.Audio.Service, Core.Handle, Core.ResourceID, Service.AssetAsyncHelper
+Service.Input -> Contract.Input.Backend, Contract.Input.Service, Core.Math
+Service.Render -> Contract.Render.Assets, Contract.Render.Backend, Contract.Render.Service, Contract.Render.Shared, Core.Assert, Core.Math, Core.Type, Core.Utils, Service.AssetAsyncHelper, Service.Render.Repository
+Service.Render.Repository -> Contract.Common.Asset, Contract.Render.Backend, Contract.Render.Service, Core.Assert, Core.Handle, Core.Utils, Service.AssetAsyncHelper
+
+== impl-only imports (reduced; 구현부 전용, 소비자에게 전파되지 않음) ==
+DxInput => Core.Math
+DxRender => Core.Assert
+DxRender.Allocator => Contract.Render.Backend.Types, DxRender.Definition
+DxRender.Command => DxRender.DxCheck
+DxRender.Core => Core.Assert
+DxRender.Factory => Core.Assert
+DxRender.Graph => DxRender.Helper
+DxRender.Packet => Contract.Render.Assets, Contract.Render.Backend, Contract.Render.Shared.View, Core.Assert, DxRender.Helper
+DxRender.Pipeline => DxRender.Helper
+DxRender.Pipeline.GraphBuilder => Core.Assert, Core.Bit, DxRender.Command, DxRender.Helper
+DxRender.Pipeline.Inspector => Contract.Render.Backend.Types, Core.Utils, DxRender.Helper
+DxRender.Pipeline.Renderer => Contract.Render.Backend, Core.Assert
+DxRender.Provider => Core.Assert, Core.Bit, Core.TypeHierarchy, DxRender.Allocator, DxRender.Helper
+DxRender.Shader => Core.Assert, Core.BasicTypes, Core.Utils
+DxRender.SwapChainPresenter => Core.Assert, DxRender.Definition
+DxRender.Text => DxRender.Helper
+DxRender.TransientMesh => Core.Assert
+FileAsset => Core.Utils
+Game.UserInterface.Widget => Core.Assert
+SDLAudio => Contract.Audio.Assets, Core.Assert, Core.TypeHierarchy, Core.Utils
+Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Service.Asset.ImageExtensions
+Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
+Service.Audio => Core.Utils
+
+== removed as redundant: interface 25/339, impl-only 3/51 ==
+[interface]
+  Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)
+  Contract.Asset.Shared -> Core.ResourceID   (covered by Core.Type)
+  Contract.Audio.Assets -> Core.BasicTypes   (covered by Core.Type)
+  Contract.Audio.Assets -> Core.TypeHierarchy   (covered by Core.Type)
+  Contract.Render.Service -> Contract.Render.Shared.Types   (covered by Contract.Render.Shared)
+  Contract.Render.Service -> Contract.Render.Shared.View   (covered by Contract.Render.Shared)
+  DxRender.Command -> DxRender.Constants   (covered by DxRender.Definition)
+  DxRender.Definition -> Contract.Render.Shared.Types   (covered by Contract.Render.Shared)
+  DxRender.Pipeline.GraphBuilder -> DxRender.RGResourceID   (covered by DxRender.Graph)
+  DxRender.Provider -> Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
+  Game.UserInterface.Widget -> Contract.Render.Handles   (covered by Contract.Render.UI)
+  Game.UserInterface.Widget -> Contract.Render.IOverlayView   (covered by Contract.Render.UI)
+  Service.Asset -> Contract.Asset.Shared   (covered by Contract.Asset.Service)
+  Service.Asset -> Contract.Common.AssetAsyncTypes   (covered by Contract.Common.IAssetAsyncLoader)
+  Service.Asset -> Core.ResourceID   (covered by Core.Type)
+  Service.Asset -> Core.TypeHierarchy   (covered by Core.Type)
+  Service.Audio -> Contract.Common.IAssetAsyncLoader   (covered by Service.AssetAsyncHelper)
+  Service.Input -> Contract.Input.Shared   (covered by Contract.Input.Service)
+  Service.Render -> Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
+  Service.Render -> Contract.Render.Backend.View   (covered by Contract.Render.Backend)
+  Service.Render -> Contract.Render.Shared.Types   (covered by Contract.Render.Shared)
+  Service.Render -> Contract.Render.Shared.View   (covered by Contract.Render.Shared)
+  Service.Render -> Core.ResourceID   (covered by Core.Type)
+  Service.Render.Repository -> Contract.Common.IAssetAsyncLoader   (covered by Service.AssetAsyncHelper)
+  Service.Render.Repository -> Contract.Render.Service.Descriptors   (covered by Contract.Render.Service)
+[impl-only]
+  DxRender => Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
+  DxRender.Pipeline.GraphBuilder => DxRender.Constants   (covered by DxRender.Definition)
+  DxRender.Provider => DxRender.Constants   (covered by DxRender.Definition)
+
+== cycles (interface graph) ==
+No cycles found.
