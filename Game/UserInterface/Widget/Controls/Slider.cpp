@@ -3,6 +3,13 @@ module Game.UserInterface.Widget;
 import std;
 import :Slider;
 
+Slider::Slider(Core::Rect localRect, SliderSkin skin, SliderAxis axis, float value)
+    : Widget(localRect)
+    , m_skin(std::move(skin))
+    , m_axis(axis)
+    , m_value(Clamp01(value)) 
+{}
+
 bool Slider::OnPointerDown(const PointerEvent& e)
 {
     SetFromPointer(e.screenPos);

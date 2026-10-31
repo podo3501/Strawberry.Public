@@ -6,6 +6,8 @@ import :Gauge;
 void DrawGauge(IOverlayView& overlay, const GaugeSkin& skin, const Core::Rect& rect,
     float ratio, GaugeDirection direction)
 {
+    ratio = Clamp01(ratio);
+
     DrawSliced(overlay, skin.background, rect);
 
     const Padding& inset = skin.fillInset;

@@ -22,10 +22,12 @@ export enum class SliderAxis { Horizontal, Vertical };
 export class Slider final : public Widget
 {
 public:
-    Slider(Core::Rect localRect, SliderSkin skin, SliderAxis axis = SliderAxis::Horizontal, float value = 0.f)
-        : Widget(localRect), m_skin(std::move(skin)), m_axis(axis), m_value(std::clamp(value, 0.f, 1.f)) {}
+    Slider(Core::Rect localRect, 
+        SliderSkin skin, 
+        SliderAxis axis = SliderAxis::Horizontal, 
+        float value = 0.f);
 
-    void SetValue(float value) { m_value = std::clamp(value, 0.f, 1.f); }
+    void SetValue(float value) { m_value = Clamp01(value); }
     float Value() const { return m_value; }
     void SetOnChanged(std::function<void(float)> onChanged) { m_onChanged = std::move(onChanged); }
 

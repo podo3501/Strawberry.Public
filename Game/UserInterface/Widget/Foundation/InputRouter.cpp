@@ -13,12 +13,12 @@ bool InputRouter::Update(Widget& root, const PointerFrame& frame)
     if (frame.wheelDelta != 0.f)
         DispatchScroll(hit, ScrollEvent{ frame.position, frame.wheelDelta });
 
-    if (frame.pressed)
+    if (frame.leftPressed)
         DispatchPress(hit, e);
     else
         DispatchMove(root, e);   // 누른 프레임은 OnPointerDown이 이미 위치를 받았다
 
-    if (frame.released)
+    if (frame.leftReleased)
         DispatchRelease(root, hit, e);
 
     return hit != nullptr || Resolve(root, m_pressed) != nullptr;
@@ -33,6 +33,12 @@ Widget* InputRouter::Resolve(const Widget& root, const std::weak_ptr<Widget*>& h
 
 void InputRouter::UpdateHover(const Widget& root, Widget* hit)
 {
+    // 캡처 중에는 캡처한 위젯(과 자손) 위에서만 hover를 갱신한다.
+    // 드래그하며 지나가는 다른 위젯이 반응하지 않게 하고, 캡처한 위젯은 밖으로 나가면 Leave를 받는다.
+    if (Widget* captured = Resolve(root, m_pressed))
+        if (!hit || !hit->IsDescendantOf(*captured))
+            hit = nullptr;
+
     Widget* hovered = Resolve(root, m_hovered);
     if (hit == hovered)
         return;

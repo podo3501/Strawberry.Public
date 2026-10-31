@@ -12,11 +12,10 @@ import Core.Math;
 export class ProgressBar final : public Widget
 {
 public:
-    ProgressBar(Core::Rect localRect, GaugeSkin skin, float ratio = 0.f)
-        : Widget(localRect)
-        , m_skin(std::move(skin))
-        , m_ratio(Clamp01(ratio)) 
-    {}
+    ProgressBar(Core::Rect localRect,
+        GaugeSkin skin,
+        float ratio = 0.f,
+        GaugeDirection direction = GaugeDirection::LeftToRight);
 
     void SetRatio(float ratio) { m_ratio = Clamp01(ratio); }   // 0~1로 잘라서 저장
 
@@ -24,8 +23,6 @@ protected:
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override;
 
 private:
-    static float Clamp01(float v) { return std::clamp(v, 0.f, 1.f); }
-
     GaugeSkin m_skin;
     float m_ratio;
     GaugeDirection m_direction;

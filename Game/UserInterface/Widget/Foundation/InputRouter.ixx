@@ -10,8 +10,8 @@ export struct PointerFrame
 {
     Core::Vector2 position;
     float wheelDelta{ 0.f };   // 양수 = 휠 위로 (ScrollEvent::delta와 같은 의미)
-    bool pressed{ false };
-    bool released{ false };
+    bool leftPressed{ false };
+    bool leftReleased{ false };
 };
 
 // 위젯 트리에 입력을 분배: hover 전환, 휠/누름의 부모 방향 버블링, 캡처 추적, 클릭 판정.
