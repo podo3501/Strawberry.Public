@@ -12,8 +12,8 @@ Widget* Widget::HitTestTree(const Core::Vector2& p, const Core::Vector2& parentO
 {
     const Core::Rect screen = ScreenRectUnder(parentOrigin);
 
-    // 자식을 자르는 위젯은 잘려서 안 보이는 영역의 클릭도 막는다.
-    // 자르지 않는 위젯은 기존대로 부모 rect 밖의 자식도 히트 대상이다.
+    // 자식을 자르는 위젯은 잘려서 보이지 않는 영역의 클릭도 막는다 (그리기의 PushClip과 같은 영역).
+    // 자르지 않는 위젯은 자식이 부모 rect 밖에 그려지면 그 부분도 히트 대상이다. 툴팁, 드롭다운처럼 부모 밖으로 튀어나오는 위젯을 위한 의도된 동작이다.
     if (ClipsChildren() && !screen.Contains(p.x, p.y))
         return nullptr;
 

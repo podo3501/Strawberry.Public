@@ -17,10 +17,10 @@ public:
     float Scroll() const { return m_scrollY; }
     void SetLineStep(float step) { m_lineStep = step; }       // 휠 한 칸당 이동량(px)
 
+protected:
     bool IsHitTestable() const override { return true; }      // 자식이 없는 빈 곳에서도 휠을 받는다
     bool OnScroll(const ScrollEvent& e) override;
 
-protected:
     bool ClipsChildren() const override { return true; }
     void DrawSelf(IOverlayView&, const Core::Rect&) const override {}
     void ArrangeChildren() override;

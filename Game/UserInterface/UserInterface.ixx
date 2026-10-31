@@ -25,9 +25,6 @@ public:
     void Resize(float width, float height);   // 화면 크기 변경. root를 (0,0,w,h)로 두고 전체 재배치
 
 private:
-    Widget* Resolve(const std::weak_ptr<Widget*>& handle) const;
-
     Group m_root;
-    std::weak_ptr<Widget*> m_hovered;
-    std::weak_ptr<Widget*> m_pressed;
+    InputRouter m_input;
 };

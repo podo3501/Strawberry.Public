@@ -13,8 +13,12 @@ import Core.Math;
 //   -> ArrangeTree : 위->아래. ArrangeChildren()이 자식의 위치를 정함
 // 크기는 정책(Fixed/Fit)이, 위치는 부모의 ArrangeChildren이 정한다.
 
+export class InputRouter; //InputRouter가 Widget을 import 하니까 순환하지 않기 위해 전방선언. (export는 InputRouter가 클래스 선언시에 export로 했기 때문)
+
 export class Widget
 {
+    friend class InputRouter;
+
 public:
     virtual ~Widget() = default;
 
@@ -51,16 +55,6 @@ public:
 
     const Core::Rect& LocalRect() const { return m_rect; }
     Widget* Parent() const { return m_parent; }
-
-    // --- 입력 ---
-    virtual bool IsHitTestable() const { return false; } // 입력을 받는 위젯만 true
-    virtual bool OnPointerDown(const PointerEvent&) { return false; } // true = 소비(캡처), false = 부모에게 버블
-    virtual void OnPointerUp(const PointerEvent&) {}
-    virtual void OnClick(const PointerEvent&) {}
-    virtual bool OnScroll(const ScrollEvent&) { return false; } // true = 소비, false = 부모에게 버블
-    virtual void OnPointerEnter() {}
-    virtual void OnPointerLeave() {}
-
     Widget* HitTest(const Core::Vector2& screenPos); // 맨 위(뒤에 Attach된) 히트 가능 위젯
     
 protected:
@@ -69,11 +63,24 @@ protected:
     virtual void ArrangeChildren(); // 자식 배치 방식. 기본은 각 자식의 앵커로 배치. 스택 같은 컨테이너가 override
     virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래->위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
     virtual bool ClipsChildren() const { return false; } // true면 자식(과 그 자손)을 내 rect로 자른다. 잘린 영역은 히트 테스트에서도 제외된다
+
+    // --- 입력 (InputRouter가 호출) ---
+    virtual bool IsHitTestable() const { return false; } // 입력을 받는 위젯만 true
+    virtual bool OnPointerDown(const PointerEvent&) { return false; } // true = 소비(캡처), false = 부모에게 버블
+    virtual void OnPointerMove(const PointerEvent&) {}   // 캡처한 위젯만 받는다 (누른 채 움직일 때)
+    virtual void OnPointerUp(const PointerEvent&) {}
+    virtual void OnClick(const PointerEvent&) {}
+    virtual bool OnScroll(const ScrollEvent&) { return false; } // true = 소비, false = 부모에게 버블
+    virtual void OnPointerEnter() {}
+    virtual void OnPointerLeave() {}
     
     // ArrangeChildren override용 도구
     const std::vector<std::unique_ptr<Widget>>& Children() const { return m_children; }
     Core::Vector2 Size() const { return { m_rect.width, m_rect.height }; }
     static void SetLocalPosition(Widget& w, const Core::Vector2& pos); // 배치 결과를 자식의 m_rect.x/y에 기록
+
+    // 입력 처리용 도구
+    Core::Rect ScreenRect() const;
 
     void InvalidateLayout();
 

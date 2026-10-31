@@ -29,6 +29,11 @@ Core::Vector2 Widget::ParentScreenOrigin() const
     return o;
 }
 
+Core::Rect Widget::ScreenRect() const
+{
+    return ScreenRectUnder(ParentScreenOrigin());
+}
+
 void Widget::Draw(IOverlayView& overlay) const
 {
     DrawTree(overlay, ParentScreenOrigin());

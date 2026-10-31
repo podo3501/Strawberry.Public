@@ -3,62 +3,101 @@
   <ItemGroup>
     <ClCompile Include="Game.UserInterface.ixx" />
     <ClCompile Include="UserInterface.ixx" />
-    <ClCompile Include="Widget\Text.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\Widget.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\Group.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
     <ClCompile Include="Widget\UserInterface.Widget.ixx">
       <Filter>Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Slice.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\Image.ixx">
-      <Filter>Widget</Filter>
-    </ClCompile>
     <ClCompile Include="UserInterface.cpp" />
-    <ClCompile Include="Widget\Button.ixx">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\InputEvents.ixx">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\LayoutTypes.ixx">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\InputRouter.cpp">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Widget.Tree.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\InputRouter.ixx">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Widget.Layout.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\LayoutTypes.ixx">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Widget.Input.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\Widget.cpp">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Widget.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\Widget.Input.cpp">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Stack.ixx">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\Widget.ixx">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Stack.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\Widget.Layout.cpp">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\InputEvents.ixx">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Foundation\Widget.Tree.cpp">
+      <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\ScrollView.ixx">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Drawing\Gauge.cpp">
+      <Filter>Widget\Drawing</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\ScrollView.cpp">
-      <Filter>Widget</Filter>
+    <ClCompile Include="Widget\Drawing\Gauge.ixx">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Drawing\Slice.ixx">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Drawing\SliceBrush.ixx">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Group.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\ScrollView.cpp">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\ScrollView.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Stack.cpp">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Stack.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Button.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Image.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\ProgressBar.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\ProgressBar.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Slider.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Slider.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Text.ixx">
+      <Filter>Widget\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Widget">
       <UniqueIdentifier>{8e44ec20-db08-4175-8fa6-ad9b561feff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widget\Foundation">
+      <UniqueIdentifier>{96ef1ee0-fa6f-4493-affe-8d5e8b616fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widget\Drawing">
+      <UniqueIdentifier>{141e01ed-eeeb-47f7-a161-1a470d2e137d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widget\Containers">
+      <UniqueIdentifier>{a9b7f5f7-ffb9-4be6-972d-0b290880ee95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widget\Controls">
+      <UniqueIdentifier>{54aa39b8-1db9-4d83-a4fd-48a543cb336c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

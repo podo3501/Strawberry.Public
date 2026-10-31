@@ -21,6 +21,7 @@ public:
 
     void SetOnClick(std::function<void()> onClick) { m_onClick = std::move(onClick); }
 
+protected:
     bool IsHitTestable() const override { return true; }
     bool OnPointerDown(const PointerEvent&) override { m_down = true; return true; }
     void OnPointerUp(const PointerEvent&) override { m_down = false; }
@@ -28,7 +29,6 @@ public:
     void OnPointerEnter() override { m_hover = true; }
     void OnPointerLeave() override { m_hover = false; }
 
-protected:
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
     {
         overlay.DrawImage(CurrentBrush(), screenRect);
