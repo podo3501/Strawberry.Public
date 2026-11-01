@@ -25,10 +25,8 @@ export class Backdrop final : public Widget
 {
 public:
     explicit Backdrop(std::optional<BrushHandle> dim = std::nullopt)
-        : Widget(Core::Rect{ 0.f, 0.f, 0.f, 0.f }), m_dim(dim)
-    {
-        SetSizePolicy(SizePolicy::Fill, SizePolicy::Fill);
-    }
+        : Widget(Core::Rect{ 0.f, 0.f, 0.f, 0.f }, SizePolicy::Fill, SizePolicy::Fill), m_dim(dim)
+    {}
 
     void SetOnOutsideClick(std::function<void()> onOutsideClick) { m_onOutsideClick = std::move(onOutsideClick); }
     void SetOnCancel(std::function<void()> onCancel) { m_onCancel = std::move(onCancel); }   // Escape

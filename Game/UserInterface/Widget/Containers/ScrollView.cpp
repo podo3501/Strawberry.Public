@@ -6,7 +6,7 @@ import :ScrollView;
 void ScrollView::SetScroll(float y)
 {
     m_scrollY = y;
-    InvalidateLayout();   // 배치 안에서 범위를 맞춘다
+    ArrangeChildren();
 }
 
 bool ScrollView::OnScroll(const ScrollEvent& e)

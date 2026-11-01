@@ -25,9 +25,9 @@ export struct Anchor
 
     constexpr Anchor WithOffset(float x, float y) const noexcept
     {
-        Anchor anchor = *this;
-        anchor.offset = { x, y };
-        return anchor;
+        Anchor result = *this;
+        result.offset = { x, y };
+        return result;
     }
 
     [[nodiscard]] Core::Vector2 Resolve(const Core::Vector2& parentSize, const Core::Vector2& selfSize) const noexcept

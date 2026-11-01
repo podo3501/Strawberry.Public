@@ -61,6 +61,8 @@ public:
     
 protected:
     explicit Widget(Core::Rect localRect);
+    Widget(Core::Rect localRect, SizePolicy width, SizePolicy height);
+
     virtual void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const = 0; // 화면 좌표로 변환된 rect를 받아 자기 모습만 그림
     virtual void ArrangeChildren(); // 자식 배치 방식. 기본은 각 자식의 앵커로 배치. 스택 같은 컨테이너가 override
     virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래->위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
@@ -87,14 +89,13 @@ protected:
     const std::vector<std::unique_ptr<Widget>>& Children() const { return m_children; }
     Core::Vector2 Size() const { return { m_rect.width, m_rect.height }; }
     static void SetLocalPosition(Widget& w, const Core::Vector2& pos); // 배치 결과를 자식의 m_rect.x/y에 기록
+    void InvalidateLayout(); // 내용/속성이 바뀌어 크기나 배치가 달라질 때 부른다
 
     // 입력 처리용 도구
     Core::Rect ScreenRect() const;
 
-    void InvalidateLayout();
-
 private:
-    // InputRouter 전용 (friend). 클라이언트가 트리 구조나 히트 판정에 의존하지 못하게 닫아 둔다
+    // 라우터 전용 (friend: InputRouter, FocusRouter, TooltipController). 클라이언트가 트리 구조나 히트 판정에 의존하지 못하게 닫아 둔다
     std::weak_ptr<Widget*> Handle();                    // 위젯이 죽으면 만료되는 추적용 핸들
     Widget* Parent() const { return m_parent; }
     Widget* HitTest(const Core::Vector2& screenPos);    // 맨 위(뒤에 Attach된) 히트 가능 위젯

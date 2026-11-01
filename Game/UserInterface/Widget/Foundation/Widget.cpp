@@ -26,6 +26,13 @@ Widget::Widget(Core::Rect localRect) // 처음 주어진 x, y는 TopLeft 앵커�
     , m_anchor(Anchor::TopLeft().WithOffset(localRect.x, localRect.y))
 {}
 
+Widget::Widget(Core::Rect localRect, SizePolicy width, SizePolicy height)
+    : Widget(localRect)
+{
+    m_widthPolicy = width;
+    m_heightPolicy = height;
+}
+
 std::weak_ptr<Widget*> Widget::Handle()   // 호버/눌림 추적에 쓰일 때만 만든다.
 {
     if (!m_handle)
