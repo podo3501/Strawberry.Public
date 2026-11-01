@@ -68,8 +68,8 @@ FileAsset -> Contract.Asset.Shared, Core.BasicTypes
 FileAsset.AudioProcessing -> -
 FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.BasicTypes, Runtime.Serialization
 FileAsset.VorbisDecoder -> -
-Game.UserInterface -> Contract.Input.Service, Contract.Render.UI, Game.UserInterface.Widget(re)
-Game.UserInterface.Widget -> Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math
+Game.UserInterface -> Contract.Input.Service, Contract.Render.UI, Core.Math, Game.UserInterface.Widget(re)
+Game.UserInterface.Widget -> Contract.Input.Shared, Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math
 Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
 Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
 Runtime.Serialization -> Core.Assert, Core.Utils
@@ -108,7 +108,7 @@ Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Service.Asset.Im
 Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
 Service.Audio => Core.Utils
 
-== removed as redundant: interface 25/339, impl-only 3/51 ==
+== removed as redundant: interface 25/341, impl-only 3/51 ==
 [interface]
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)
   Contract.Asset.Shared -> Core.ResourceID   (covered by Core.Type)

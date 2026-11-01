@@ -8,7 +8,13 @@ void Widget::ArrangeChildren()
 {
     const Core::Vector2 size = Size();
     for (auto& child : m_children)
+    {
+        // Fill 축은 부모 크기를 따른다. 앵커 계산이 이 크기를 쓰므로 위치보다 먼저 정한다
+        if (child->m_widthPolicy == SizePolicy::Fill)  child->m_rect.width = size.x;
+        if (child->m_heightPolicy == SizePolicy::Fill) child->m_rect.height = size.y;
+
         SetLocalPosition(*child, child->m_anchor.Resolve(size, child->Size()));
+    }
 }
 
 void Widget::SetLocalPosition(Widget& w, const Core::Vector2& pos)

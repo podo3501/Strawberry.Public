@@ -1,6 +1,7 @@
 export module Game.UserInterface.Widget:Group;
 
 import :Widget;
+import Contract.Render.IOverlayView;
 import Core.Math;
 
 export class Group final : public Widget

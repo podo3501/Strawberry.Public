@@ -14,10 +14,14 @@ import Core.Math;
 // 크기는 정책(Fixed/Fit)이, 위치는 부모의 ArrangeChildren이 정한다.
 
 export class InputRouter; //InputRouter가 Widget을 import 하니까 순환하지 않기 위해 전방선언. (export는 InputRouter가 클래스 선언시에 export로 했기 때문)
+export class TooltipController;
+export class FocusRouter;
 
 export class Widget
 {
     friend class InputRouter;
+    friend class TooltipController;
+    friend class FocusRouter;
 
 public:
     virtual ~Widget() = default;
@@ -25,7 +29,6 @@ public:
     Widget(const Widget&) = delete;
     Widget& operator=(const Widget&) = delete;
 
-    std::weak_ptr<Widget*> Handle();
     void Draw(IOverlayView& overlay) const;
 
     // -- Tree ---
@@ -44,18 +47,17 @@ public:
     }
 
     std::unique_ptr<Widget> Detach(); // 부모에게서 떼어내 소유권을 돌려줌. 받은 쪽이 버리면 파괴, 다른 위젯에 Attach하면 이동
-    bool IsDescendantOf(const Widget& ancestor) const; // 자기 자신 포함
+
+    // --- 툴팁 ---
+    void SetTooltip(std::string text) { m_tooltip = std::move(text); }   // 비어 있으면 없음. 이 위젯이나 툴팁이 없는 히트 가능 자손 위에 포인터가 머물면 뜬다
 
     // --- 레이아웃 ---
     void SetAnchor(const Anchor& anchor);   // offset까지 통째로 교체됨
-    void SetOffset(float x, float y);       // 앵커 기준 오프셋 (구 SetPosition)
+    void SetOffset(float x, float y);       // 앵커 기준 오프셋
     void SetSize(float width, float height);
     void SetSizePolicy(SizePolicy width, SizePolicy height);
-    const Anchor& GetAnchor() const { return m_anchor; }
 
     const Core::Rect& LocalRect() const { return m_rect; }
-    Widget* Parent() const { return m_parent; }
-    Widget* HitTest(const Core::Vector2& screenPos); // 맨 위(뒤에 Attach된) 히트 가능 위젯
     
 protected:
     explicit Widget(Core::Rect localRect);
@@ -73,6 +75,13 @@ protected:
     virtual bool OnScroll(const ScrollEvent&) { return false; } // true = 소비, false = 부모에게 버블
     virtual void OnPointerEnter() {}
     virtual void OnPointerLeave() {}
+
+    // --- 키보드 (FocusRouter가 호출) ---
+    virtual bool IsFocusable() const { return false; }   // Tab으로 포커스를 받는 위젯만 true
+    virtual bool TrapsFocus() const { return false; }    // true면 Tab 이동과 키 입력이 이 위젯의 서브트리 안에 갇힌다 (모달)
+    virtual void OnFocus(bool viaKeyboard) {}            // viaKeyboard: Tab으로 왔는가. 마우스로 받았으면 false (포커스 표시를 그리지 않는다)
+    virtual void OnBlur() {}
+    virtual bool OnKeyDown(const KeyEvent&) { return false; }   // true = 소비, false = 부모에게 버블. 포커스 위젯에서 시작한다
     
     // ArrangeChildren override용 도구
     const std::vector<std::unique_ptr<Widget>>& Children() const { return m_children; }
@@ -85,14 +94,26 @@ protected:
     void InvalidateLayout();
 
 private:
+    // InputRouter 전용 (friend). 클라이언트가 트리 구조나 히트 판정에 의존하지 못하게 닫아 둔다
+    std::weak_ptr<Widget*> Handle();                    // 위젯이 죽으면 만료되는 추적용 핸들
+    Widget* Parent() const { return m_parent; }
+    Widget* HitTest(const Core::Vector2& screenPos);    // 맨 위(뒤에 Attach된) 히트 가능 위젯
+    bool IsDescendantOf(const Widget& ancestor) const;  // 자기 자신 포함
+
     // 트리
     void AttachImpl(std::unique_ptr<Widget> child, std::size_t index);
 
     // 좌표 변환 (그리기와 hit test가 같은 계산을 쓴다)
     Core::Rect ScreenRectUnder(const Core::Vector2& parentOrigin) const;
     Core::Vector2 ParentScreenOrigin() const;
-    void DrawTree(IOverlayView& overlay, const Core::Vector2& parentOrigin) const;
+    void DrawTree(
+        IOverlayView& overlay,
+        const Core::Vector2& parentOrigin,
+        const std::optional<Core::Rect>& clip) const;
     Widget* HitTestTree(const Core::Vector2& p, const Core::Vector2& parentOrigin);
+
+    // TooltipController 전용 (friend)
+    const std::string& Tooltip() const { return m_tooltip; }   
 
     // 레이아웃
     bool IsFit() const { return m_widthPolicy == SizePolicy::Fit || m_heightPolicy == SizePolicy::Fit; }
@@ -100,12 +121,15 @@ private:
     void ArrangeTree();        // 위->아래: ArrangeChildren 후 자식 서브트리로 재귀
     void Relayout();           // 내 크기/앵커가 바뀜: 부모가 형제까지 다시 배치
 
+    static Widget* Resolve(const Widget& root, const std::weak_ptr<Widget*>& handle);   // 핸들이 가리키는 위젯. 파괴됐거나 root 트리 밖이면 nullptr
+
     Core::Rect m_rect; // 부모 기준 로컬 좌표(레이아웃이 계산한 결과)
     Anchor m_anchor;
     Widget* m_parent{ nullptr };
     std::vector<std::unique_ptr<Widget>> m_children;
     std::shared_ptr<Widget*> m_handle;   // 위젯이 죽으면 weak_ptr가 만료됨
 
+    std::string m_tooltip;
     SizePolicy m_widthPolicy{ SizePolicy::Fixed };
     SizePolicy m_heightPolicy{ SizePolicy::Fixed };
 };

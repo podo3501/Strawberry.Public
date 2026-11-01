@@ -16,7 +16,7 @@ export struct SliceMargins // 소스 텍스처 픽셀 단위
 	static constexpr SliceMargins VerticalThree(float t, float b) { return { 0.f, t, 0.f, b }; } // 위/아래 고정, 가운데 세로로 늘어남
 }; 
 
-export struct SliceQuad 
+export struct SliceQuad
 { 
 	Core::Rect dest; 
 	Core::Rect uv; 

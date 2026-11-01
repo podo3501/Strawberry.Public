@@ -82,6 +82,30 @@
     <ClCompile Include="Widget\Controls\Text.ixx">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Controls\Pressable.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Toggle.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Backdrop.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\Tooltip.ixx">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\Tooltip.cpp">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Panel.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\Focus.ixx">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\Focus.cpp">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Widget">

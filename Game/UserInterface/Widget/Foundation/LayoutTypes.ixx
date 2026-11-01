@@ -3,11 +3,12 @@ export module Game.UserInterface.Widget:LayoutTypes;
 import std;
 import Core.Math;
 
-export enum class SizePolicy // Fit: 내용 크기에 맞춤 (소수는 올림)
-{ 
-    Fixed, 
-    Fit 
-};   
+export enum class SizePolicy
+{
+    Fixed, // 직접 정한 크기
+    Fit, // 내용 크기에 맞춤 (소수는 올림)
+    Fill // 부모 크기에 맞춤. 기본 배치(앵커)를 쓰는 부모 안에서만 적용된다. Stack처럼 배치를 직접 정하는 컨테이너와, Fit인 부모 안에서는 쓰지 않는다.             
+};
 
 export struct Anchor
 {

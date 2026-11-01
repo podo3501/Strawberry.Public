@@ -18,6 +18,8 @@ export struct PointerFrame
 export class InputRouter
 {
 public:
+    Widget* Hovered(const Widget& root) const;   // 지금 hover 중인 위젯. 없거나 파괴됐거나 트리 밖이면 nullptr
+    Widget* Pressed(const Widget& root) const;   // 지금 누름을 캡처한 위젯. 없거나 파괴됐거나 트리 밖이면 nullptr
     bool Update(Widget& root, const PointerFrame& frame); // 반환값: 이 입력이 UI 위에서 일어났는가 (히트 위젯이 있거나 캡처 중)
 
 private:
@@ -26,8 +28,6 @@ private:
     void DispatchPress(Widget* hit, const PointerEvent& e);
     void DispatchMove(const Widget& root, const PointerEvent& e);
     void DispatchRelease(const Widget& root, Widget* hit, const PointerEvent& e);
-
-    static Widget* Resolve(const Widget& root, const std::weak_ptr<Widget*>& handle); // 파괴됐으면 nullptr, Detach돼서 트리 밖이어도 nullptr
 
     std::weak_ptr<Widget*> m_hovered;
     std::weak_ptr<Widget*> m_pressed;

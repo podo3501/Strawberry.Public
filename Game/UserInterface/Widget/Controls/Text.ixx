@@ -1,5 +1,6 @@
 export module Game.UserInterface.Widget:Text;
 
+import std;
 import :Widget;
 import Contract.Render.UI;
 import Contract.Render.ITextMeasurer;

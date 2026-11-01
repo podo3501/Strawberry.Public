@@ -4,27 +4,46 @@ import std;
 import Game.UserInterface.Widget;
 import Contract.Render.UI;
 import Contract.Input.Service;
+import Core.Math;
+
+// 아래에서 위로 그려지고, 위쪽이 입력을 먼저 받는다. 같은 레이어 안에서는 나중에 붙인 위젯이 위.
+export enum class UILayer { Hud, Window, Popup, Tooltip };
 
 export class UserInterface
 {
 public:
+    UserInterface();
+
     template<std::derived_from<Widget> T>
-    T& Attach(std::unique_ptr<T> widget)
+    T& Attach(std::unique_ptr<T> widget, UILayer layer = UILayer::Hud)
     {
-        return m_root.Attach(std::move(widget));
+        return LayerRoot(layer).Attach(std::move(widget));
     }
 
     template<std::derived_from<Widget> T>
-    T& Attach(std::unique_ptr<T> widget, std::size_t index)
+    T& Attach(std::unique_ptr<T> widget, UILayer layer, std::size_t index)
     {
-        return m_root.Attach(std::move(widget), index);
+        return LayerRoot(layer).Attach(std::move(widget), index);
     }
 
     void Draw(IOverlayView& overlay) const;
-    bool Update(const MouseState& mouse);
+    bool Update(const MouseState& mouse); // 입력 처리. 프레임마다 Tick보다 먼저 부른다
+    bool OnKeyDown(KeyCode key, bool shift = false); // 키를 누른 프레임에 한 번 부른다 (Tab, Escape, Enter, Space 등 UI가 쓰는 키만 넘기면 된다). 소비되면 true: 게임이 같은 키를 또 처리하지 않도록 건너뛴다.
+    void Tick(float dt); // 시간 진행(초). 입력이 없어도 부른다 (툴팁 지연 등). 일시정지 중에도 UI를 돌리려면 실시간 dt를 넘긴다
     void Resize(float width, float height);   // 화면 크기 변경. root를 (0,0,w,h)로 두고 전체 재배치
 
+    // 툴팁을 만드는 방법과 타이밍. 호출하지 않으면 툴팁은 뜨지 않는다
+    void ConfigureTooltip(TooltipFactory factory, TooltipSettings settings = {});
+
 private:
+    static constexpr std::size_t kLayerCount = static_cast<std::size_t>(UILayer::Tooltip) + 1;
+
+    Group& LayerRoot(UILayer layer) { return *m_layers[static_cast<std::size_t>(layer)]; }
+
     Group m_root;
+    std::array<Group*, kLayerCount> m_layers{};   // m_root의 자식. 생성자에서 채운다
     InputRouter m_input;
+    FocusRouter m_focus;
+    TooltipController m_tooltip;
+    Core::Vector2 m_pointer{};                    // 마지막 Update의 포인터 위치 (툴팁 위치용)
 };

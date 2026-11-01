@@ -9,7 +9,8 @@ export enum class StackAxis { Horizontal, Vertical };
 export enum class CrossAlign { Start, Center, End };
 
 // 자식을 한 줄로 나열하는 컨테이너. 자식의 앵커는 무시되고 위치는 스택이 정한다.
-// 스택 크기는 고정이며, 내용이 넘쳐도 자르거나 줄이지 않는다.
+// 크기는 기본이 Fixed이고, Fit으로 주면 자식 크기의 합(+간격, 패딩)에 맞춘다. 내용이 넘쳐도 자르지 않는다.
+// 자식의 Fill 정책은 적용되지 않는다 (자식은 자기가 가진 크기를 그대로 쓴다).
 export class Stack : public Widget
 {
 public:

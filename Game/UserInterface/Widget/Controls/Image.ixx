@@ -4,6 +4,7 @@ import :Widget;
 import :Slice;
 import :SlicedBrush;
 import Contract.Render.UI;
+import Core.Math;
 
 export class Image final : public Widget
 {
