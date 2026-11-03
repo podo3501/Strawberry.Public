@@ -35,8 +35,35 @@ InputFrame InputBackend::TakeFrame() noexcept
 
     TakeKeyboard(frame);
     TakeMouse(frame);
+    frame.text = std::exchange(m_text, {});
 
     return frame;
+}
+
+void InputBackend::OnChar(wchar_t unit) noexcept
+{
+    // Backspace/Enter/Tab/Esc 같은 제어 문자는 KeyCode로 전달되므로 문자에서 제외한다.
+    if (unit < 0x20 || unit == 0x7F)
+        return;
+
+    char32_t codePoint = unit;
+
+    if (IS_HIGH_SURROGATE(unit))
+    {
+        m_highSurrogate = unit; // 뒤따라오는 low surrogate와 합친다.
+        return;
+    }
+
+    if (IS_LOW_SURROGATE(unit))
+    {
+        if (!m_highSurrogate)
+            return; // 짝 없는 low surrogate는 버린다.
+
+        codePoint = 0x10000 + ((static_cast<char32_t>(m_highSurrogate) - 0xD800) << 10) + (unit - 0xDC00);
+    }
+
+    m_highSurrogate = 0;
+    Core::UTF32ToUTF8Char(codePoint, m_text);
 }
 
 void InputBackend::TakeKeyboard(InputFrame& frame) noexcept
@@ -85,6 +112,9 @@ LRESULT CALLBACK InputBackend::SubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
     // 상태 갱신은 DirectXTK가 한다 (포커스 상실 시 상태 리셋도 내부에서 처리)
     DirectX::Keyboard::ProcessMessage(msg, wParam, lParam);
     DirectX::Mouse::ProcessMessage(msg, wParam, lParam);
+
+    if (msg == WM_CHAR && self)
+        self->OnChar(static_cast<wchar_t>(wParam));
 
     if (msg == WM_NCDESTROY && self)
         self->Detach(); // 윈도우가 먼저 파괴되는 경우: 스스로 해제하고 체인을 이어준다.

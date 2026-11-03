@@ -32,6 +32,7 @@ void InputService::Update() noexcept
     for (const MouseButtonEvent& e : frame.mouseButtonEvents)
         m_mouseState[e.button].Apply(e.down);
 
+    m_text = frame.text;
     m_mouseState.prevPosition = m_mouseState.position;
     m_mouseState.position = frame.position;
 

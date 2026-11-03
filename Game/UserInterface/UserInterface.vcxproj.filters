@@ -55,6 +55,9 @@
     <ClCompile Include="Widget\Containers\ScrollView.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Containers\RadioGroup.ixx">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Containers\Stack.cpp">
       <Filter>Widget\Containers</Filter>
     </ClCompile>

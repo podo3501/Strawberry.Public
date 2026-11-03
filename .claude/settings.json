@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Test_UI.bat *)",
+      "Bash(git add -N *)"
+    ]
+  }
+}

@@ -20,12 +20,13 @@ export struct InputFrame
 {
     std::vector<KeyEvent> keyEvents;
     std::vector<MouseButtonEvent> mouseButtonEvents;
+    std::string text; // 이번 프레임에 입력된 확정 문자(UTF-8). 제어 문자는 제외하며 KeyCode로 전달한다.
 
     Core::Point position{}; // Take 시점의 현재 위치 (backend가 마지막 값을 계속 유지)
     int wheelDelta{ 0 }; // 이번 프레임에 누적된 휠 변화량 (한 틱 = 120)
 
     [[nodiscard]] bool Empty() const noexcept
     {
-        return keyEvents.empty() && mouseButtonEvents.empty() && wheelDelta == 0;
+        return keyEvents.empty() && mouseButtonEvents.empty() && text.empty() && wheelDelta == 0;
     }
 };

@@ -10,6 +10,7 @@ export import :Pressable;
 export import :Button;
 export import :Toggle;
 export import :Stack;
+export import :RadioGroup;
 export import :Panel;
 export import :ScrollView;
 export import :Backdrop;

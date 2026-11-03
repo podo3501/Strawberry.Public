@@ -25,6 +25,7 @@
     <ClCompile Include="Widget\Containers\Backdrop.ixx" />
     <ClCompile Include="Widget\Containers\Group.ixx" />
     <ClCompile Include="Widget\Containers\Panel.ixx" />
+    <ClCompile Include="Widget\Containers\RadioGroup.ixx" />
     <ClCompile Include="Widget\Containers\ScrollView.cpp" />
     <ClCompile Include="Widget\Containers\ScrollView.ixx" />
     <ClCompile Include="Widget\Containers\Stack.cpp" />

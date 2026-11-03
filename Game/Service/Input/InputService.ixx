@@ -20,6 +20,7 @@ public:
 	Core::Point GetMouseDelta() const noexcept override { return m_mouseState.GetDelta(); }
 	float GetMouseWheelDelta() const noexcept override { return m_mouseState.GetWheelDelta(); }
 	const MouseState& GetMouseState() const noexcept override { return m_mouseState; }
+	std::string_view GetTextInput() const noexcept override { return m_text; }
 
 	bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept override;
 	bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept override;
@@ -32,5 +33,6 @@ private:
 	std::unique_ptr<IInputBackend> m_backend;
 	KeyboardState m_keyboardState{};
 	MouseState m_mouseState{};
+	std::string m_text;
 	bool m_mouseInitialized{ false };
 };

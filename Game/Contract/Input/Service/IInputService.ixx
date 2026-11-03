@@ -18,6 +18,7 @@ export struct IInputService
 	virtual Core::Point GetMouseDelta() const noexcept = 0;
 	virtual float GetMouseWheelDelta() const noexcept = 0;
 	virtual const MouseState& GetMouseState() const noexcept = 0;
+	virtual std::string_view GetTextInput() const noexcept = 0; // 이번 Update에서 입력된 문자(UTF-8). 다음 Update에서 교체된다.
 
 	virtual bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept = 0;
 	virtual bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept = 0;

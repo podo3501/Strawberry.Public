@@ -35,6 +35,7 @@ private:
         LPARAM lParam,
         UINT_PTR id, DWORD_PTR refData);
 
+    void OnChar(wchar_t unit) noexcept;
     void Detach() noexcept;
 
     static inline DirectX::Keyboard m_keyboard{};
@@ -44,4 +45,6 @@ private:
     std::array<bool, Core::EnumSize<KeyCode>> m_keyDown{};
     std::array<bool, Core::EnumSize<MouseButton>> m_buttonDown{};
     int m_prevWheel{ 0 };
+    std::string m_text;             // 프레임 사이에 도착한 문자(UTF-8). TakeFrame에서 비운다.
+    wchar_t m_highSurrogate{ 0 };   // 서로게이트 쌍의 앞 절반을 기다리는 중
 };
