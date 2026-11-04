@@ -15,6 +15,7 @@ export struct IRenderBackend
 {
     virtual ~IRenderBackend() = default;
 
+    // hwnd가 nullptr이면 창 없이 텍스처에만 그리는 오프스크린 모드로 동작한다 (결과는 ReadbackFrame으로 읽는다).
     virtual bool Initialize(
         HWND hwnd, 
         const Core::Size& wndSize, 
@@ -34,6 +35,7 @@ export struct IRenderBackend
         float maxWidth,
         const TextLayout& layout) = 0;
     virtual RenderMetrics GetRenderMetrics() = 0;
+    virtual bool ReadbackFrame(FrameImage& out) = 0; // 오프스크린 모드에서 마지막으로 그린 프레임을 CPU로 읽는다
 };
 
 export std::unique_ptr<IRenderBackend> CreateRenderBackend(const RenderConfig& config);

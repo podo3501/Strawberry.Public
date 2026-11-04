@@ -25,15 +25,17 @@ bool SwapChainPresenter::Initialize(Device& device, const SwapChainDesc& desc)
 
     m_size = desc.size;
     m_tearing = desc.allowTearing;
+    m_offscreen = (desc.hwnd == nullptr);
 
     auto queue = m_cmdScheduler.GetQueue(CommandType::Direct)->GetQueue();
-    if (!CreateSwapChain(device, queue, desc)) return false;
+    if (desc.hwnd && !CreateSwapChain(device, queue, desc)) return false;
 
     if (!CreateRTV(device)) return false;
     if (!CreateDSV(device)) return false;
     if (!CreateDepthBuffer(device)) return false;
+    if (IsOffscreen() && !CreateReadbackBuffer(device)) return false;
 
-    m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
+    m_frameIndex = m_swapChain ? m_swapChain->GetCurrentBackBufferIndex() : 0;
 
     return true;
 }
@@ -78,6 +80,13 @@ void SwapChainPresenter::TransitionToPresent(CommandList& cmd)
 
 bool SwapChainPresenter::Present(bool vsync)
 {
+    if (IsOffscreen())
+    {
+        m_cmdScheduler.SignalQueue(CommandType::Direct);
+        m_frameIndex = (m_frameIndex + 1) % m_frameCount;
+        return true;
+    }
+
     UINT syncInterval = vsync ? 1 : 0;
     UINT flags = (!vsync && m_tearing) ? DXGI_PRESENT_ALLOW_TEARING : 0;
 
@@ -109,6 +118,13 @@ bool SwapChainPresenter::Resize(Device& device, const Core::Size& size)
         m_renderTargets[i].Reset(); // 기존 RTV 리소스 해제
 
     m_depthBuffer.Reset();
+
+    if (IsOffscreen())
+    {
+        m_size = size;
+        m_frameIndex = 0;
+        return CreateFrameRTVs(device) && CreateDepthBuffer(device) && CreateReadbackBuffer(device);
+    }
 
     DXGI_SWAP_CHAIN_DESC desc{}; // SwapChain Resize
     if (FAILED(m_swapChain->GetDesc(&desc)))
@@ -215,8 +231,20 @@ bool SwapChainPresenter::CreateFrameRTVs(Device& device)
 
     for (std::uint32_t i = 0; i < m_frameCount; ++i)
     {
-        auto result = m_swapChain->GetBuffer(i, IID_PPV_ARGS(m_renderTargets[i].GetAddressOf()));
-        if (FAILED(result))
+        if (IsOffscreen())
+        {
+            // sRGB 뷰로 쓰기 위해 타입 없는 포맷으로 만든다. 처음 상태는 스왑체인 백버퍼처럼 Present다.
+            const auto texDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+                DXGI_FORMAT_R8G8B8A8_TYPELESS, m_size.width, m_size.height, 1, 1, 1, 0,
+                D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+            D3D12_CLEAR_VALUE clear{};
+            clear.Format = RenderFormat::BackBufferSRGBView;
+            m_renderTargets[i] = device.CreateResource(
+                texDesc, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_PRESENT, &clear);
+            if (!m_renderTargets[i])
+                return false;
+        }
+        else if (FAILED(m_swapChain->GetBuffer(i, IID_PPV_ARGS(m_renderTargets[i].GetAddressOf()))))
             return false;
 
         D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
@@ -271,6 +299,70 @@ bool SwapChainPresenter::CreateDepthBuffer(Device& device)
     return true;
 }
 
+std::uint32_t SwapChainPresenter::GetReadbackRowPitch() const
+{
+    return (m_size.width * 4 + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1) / D3D12_TEXTURE_DATA_PITCH_ALIGNMENT
+        * D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
+}
+
+bool SwapChainPresenter::CreateReadbackBuffer(Device& device)
+{
+    const UINT64 size = static_cast<UINT64>(GetReadbackRowPitch()) * m_size.height;
+    m_readbackBuffer = device.CreateResource(
+        CD3DX12_RESOURCE_DESC::Buffer(size),
+        D3D12_HEAP_TYPE_READBACK,
+        D3D12_RESOURCE_STATE_COPY_DEST);
+
+    return static_cast<bool>(m_readbackBuffer);
+}
+
+void SwapChainPresenter::RecordReadback(CommandList& cmd)
+{
+    if (!m_readbackBuffer) return;
+
+    Resource& backBuffer = m_renderTargets[m_frameIndex];
+    CommandUtils::Transition(cmd, backBuffer,
+        D3D12_RESOURCE_STATE_PRESENT,
+        D3D12_RESOURCE_STATE_COPY_SOURCE);
+
+    D3D12_PLACED_SUBRESOURCE_FOOTPRINT footprint{};
+    footprint.Footprint.Format = RenderFormat::BackBufferFormat;
+    footprint.Footprint.Width = m_size.width;
+    footprint.Footprint.Height = m_size.height;
+    footprint.Footprint.Depth = 1;
+    footprint.Footprint.RowPitch = GetReadbackRowPitch();
+
+    const CD3DX12_TEXTURE_COPY_LOCATION src(backBuffer.Get(), 0);
+    const CD3DX12_TEXTURE_COPY_LOCATION dst(m_readbackBuffer.Get(), footprint);
+    cmd->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+
+    CommandUtils::Transition(cmd, backBuffer,
+        D3D12_RESOURCE_STATE_COPY_SOURCE,
+        D3D12_RESOURCE_STATE_PRESENT);
+}
+
+bool SwapChainPresenter::ReadPixels(std::vector<std::uint8_t>& out)
+{
+    if (!m_readbackBuffer) return false;
+
+    m_cmdScheduler.WaitIdle(); // 복사가 끝날 때까지 기다린다
+
+    const std::uint32_t rowPitch = GetReadbackRowPitch();
+    const std::uint32_t rowBytes = m_size.width * 4;
+
+    std::uint8_t* data = nullptr;
+    if (FAILED(m_readbackBuffer->Map(0, nullptr, reinterpret_cast<void**>(&data))))
+        return false;
+
+    out.resize(static_cast<std::size_t>(rowBytes) * m_size.height);
+    for (std::uint32_t y = 0; y < m_size.height; ++y)
+        std::memcpy(out.data() + static_cast<std::size_t>(y) * rowBytes, data + static_cast<std::size_t>(y) * rowPitch, rowBytes);
+
+    const D3D12_RANGE written{ 0, 0 };
+    m_readbackBuffer->Unmap(0, &written);
+    return true;
+}
+
 void SwapChainPresenter::HandleDeviceLost()
 {
     // GPU device lost 발생 시 진입
@@ -289,6 +381,7 @@ void SwapChainPresenter::HandleDeviceLost()
     m_renderTargets.resize(m_frameCount);
 
     m_depthBuffer.Reset();
+    m_readbackBuffer.Reset();
     m_rtvHeap.Reset();
     m_dsvHeap.Reset();
     m_swapChain.Reset();

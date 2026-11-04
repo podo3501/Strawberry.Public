@@ -38,13 +38,17 @@
     <ClCompile Include="Widget\Controls\Slider.cpp" />
     <ClCompile Include="Widget\Controls\Slider.ixx" />
     <ClCompile Include="Widget\Controls\Text.ixx" />
+    <ClCompile Include="Widget\Controls\TextBox.cpp" />
+    <ClCompile Include="Widget\Controls\TextBox.ixx" />
+    <ClCompile Include="Widget\Controls\Dropdown.cpp" />
+    <ClCompile Include="Widget\Controls\Dropdown.ixx" />
     <ClCompile Include="Widget\Controls\Toggle.ixx" />
     <ClCompile Include="Widget\Drawing\Gauge.cpp" />
     <ClCompile Include="Widget\Drawing\Gauge.ixx" />
     <ClCompile Include="Widget\Drawing\Slice.ixx" />
     <ClCompile Include="Widget\Drawing\SliceBrush.ixx" />
-    <ClCompile Include="Widget\Foundation\Focus.cpp" />
-    <ClCompile Include="Widget\Foundation\Focus.ixx" />
+    <ClCompile Include="Widget\Foundation\FocusRouter.cpp" />
+    <ClCompile Include="Widget\Foundation\FocusRouter.ixx" />
     <ClCompile Include="Widget\Foundation\InputEvents.ixx" />
     <ClCompile Include="Widget\Foundation\InputRouter.cpp" />
     <ClCompile Include="Widget\Foundation\InputRouter.ixx" />
@@ -56,6 +60,7 @@
     <ClCompile Include="Widget\Foundation\Widget.ixx" />
     <ClCompile Include="Widget\Foundation\Widget.Layout.cpp" />
     <ClCompile Include="Widget\Foundation\Widget.Tree.cpp" />
+    <ClCompile Include="Widget\Foundation\WidgetInspector.ixx" />
     <ClCompile Include="Widget\UserInterface.Widget.ixx" />
   </ItemGroup>
   <ItemGroup>

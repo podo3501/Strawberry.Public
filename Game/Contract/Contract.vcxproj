@@ -115,6 +115,7 @@
     <ClCompile Include="Render\Service\Render.Service.ixx" />
     <ClCompile Include="Render\Service\Render.UI.ixx" />
     <ClCompile Include="Render\Shared\Render.Shared.ixx" />
+    <ClCompile Include="Render\Shared\FrameImage.ixx" />
     <ClCompile Include="Render\Shared\RenderMetrics.ixx" />
     <ClCompile Include="Render\Shared\Types\GridVertex.ixx" />
     <ClCompile Include="Render\Shared\Types\ShaderID.ixx" />

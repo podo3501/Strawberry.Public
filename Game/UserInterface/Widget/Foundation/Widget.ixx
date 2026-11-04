@@ -16,12 +16,14 @@ import Core.Math;
 export class InputRouter; //InputRouter가 Widget을 import 하니까 순환하지 않기 위해 전방선언. (export는 InputRouter가 클래스 선언시에 export로 했기 때문)
 export class TooltipController;
 export class FocusRouter;
+export class WidgetInspector;
 
 export class Widget
 {
     friend class InputRouter;
     friend class TooltipController;
     friend class FocusRouter;
+    friend class WidgetInspector;
 
 public:
     virtual ~Widget() = default;
@@ -64,6 +66,7 @@ protected:
     Widget(Core::Rect localRect, SizePolicy width, SizePolicy height);
 
     virtual void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const = 0; // 화면 좌표로 변환된 rect를 받아 자기 모습만 그림
+    virtual void DrawAfterChildren(IOverlayView& overlay, const Core::Rect& screenRect) const {} // 자식 위에 덧그림 (스크롤 막대 등). 자식과 같은 클립 안에서 그려진다
     virtual void ArrangeChildren(); // 자식 배치 방식. 기본은 각 자식의 앵커로 배치. 스택 같은 컨테이너가 override
     virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래->위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
     virtual bool ClipsChildren() const { return false; } // true면 자식(과 그 자손)을 내 rect로 자른다. 잘린 영역은 히트 테스트에서도 제외된다
@@ -84,6 +87,8 @@ protected:
     virtual void OnFocus(bool viaKeyboard) {}            // viaKeyboard: Tab으로 왔는가. 마우스로 받았으면 false (포커스 표시를 그리지 않는다)
     virtual void OnBlur() {}
     virtual bool OnKeyDown(const KeyEvent&) { return false; }   // true = 소비, false = 부모에게 버블. 포커스 위젯에서 시작한다
+    virtual void OnTextInput(std::string_view utf8) {}          // 입력된 문자(UTF-8). 포커스 위젯만 받고 버블되지 않는다
+    virtual void OnTick(float dt) {}                            // 시간 진행(초). 포커스 위젯만 받는다 (캐럿 깜빡임 등)
     
     // ArrangeChildren override용 도구
     const std::vector<std::unique_ptr<Widget>>& Children() const { return m_children; }

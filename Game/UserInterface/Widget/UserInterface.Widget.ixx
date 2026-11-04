@@ -1,5 +1,6 @@
 export module Game.UserInterface.Widget;
 
+export import :LayoutTypes;
 export import :Slice;
 export import :SlicedBrush;
 
@@ -9,6 +10,8 @@ export import :Text;
 export import :Pressable;
 export import :Button;
 export import :Toggle;
+export import :TextBox;
+export import :Dropdown;
 export import :Stack;
 export import :RadioGroup;
 export import :Panel;
@@ -18,6 +21,7 @@ export import :Gauge;
 export import :ProgressBar;
 export import :Slider;
 export import :InputRouter;
-export import :Focus;
+export import :FocusRouter;
 export import :Tooltip;
+export import :WidgetInspector;
 export import :Widget;

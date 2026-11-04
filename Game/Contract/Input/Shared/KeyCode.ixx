@@ -15,6 +15,9 @@ export enum class KeyCode : std::uint8_t
     Escape,
     Tab,
     Backspace,
+    Delete,
+    Home,
+    End,
 
     // --- Modifiers ---
     LeftShift,

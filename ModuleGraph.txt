@@ -23,7 +23,7 @@ Contract.Render.IResource -> -
 Contract.Render.ITextMeasurer -> Contract.Render.Handles, Contract.Render.Shared.Types, Core.Math
 Contract.Render.Service -> Contract.Common.IAssetAsyncLoader, Contract.Render.Backend, Contract.Render.Handles(re), Contract.Render.IOverlayView(re), Contract.Render.IRenderResources(re), Contract.Render.ITextMeasurer(re), Contract.Render.Service.Descriptors(re), Contract.Render.Shared, Core.Math, Core.Type
 Contract.Render.Service.Descriptors -> Contract.Common.Asset, Contract.Render.Assets, Core.Type, Core.Utils
-Contract.Render.Shared -> Contract.Render.Shared.Types(re), Contract.Render.Shared.View(re)
+Contract.Render.Shared -> Contract.Render.Shared.Types(re), Contract.Render.Shared.View(re), Core.Math
 Contract.Render.Shared.Types -> Core.Math
 Contract.Render.Shared.View -> Contract.Render.Shared.Types, Core.Math
 Contract.Render.UI -> Contract.Render.Handles(re), Contract.Render.IOverlayView(re), Contract.Render.IRenderResources(re), Contract.Render.Shared.Types(re)
@@ -39,7 +39,7 @@ Core.Type -> Core.BasicTypes(re), Core.ResourceID(re), Core.TypeHierarchy(re)
 Core.TypeHierarchy -> -
 Core.Utils -> Core.Assert
 DxInput -> Contract.Input.Backend, Contract.Input.Shared, Core.Utils
-DxRender -> Contract.Render.Backend, Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Diagnostics, DxRender.Factory, DxRender.Packet, DxRender.Pipeline, DxRender.Provider, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task, DxRender.Text, DxRender.TransientMesh
+DxRender -> Contract.Render.Backend, Contract.Render.Shared, Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Diagnostics, DxRender.Factory, DxRender.Packet, DxRender.Pipeline, DxRender.Provider, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task, DxRender.Text, DxRender.TransientMesh
 DxRender.Allocator -> Core.Assert, Core.Bit, Core.IndexAllocator, DxRender.Constants, DxRender.Core, DxRender.Resource
 DxRender.Command -> Contract.Render.Backend.Types, Core.Assert, Core.Math, DxRender.Core, DxRender.Definition
 DxRender.Constants -> -
@@ -108,7 +108,7 @@ Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Service.Asset.Im
 Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
 Service.Audio => Core.Utils
 
-== removed as redundant: interface 25/341, impl-only 3/51 ==
+== removed as redundant: interface 25/343, impl-only 3/51 ==
 [interface]
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)
   Contract.Asset.Shared -> Core.ResourceID   (covered by Core.Type)

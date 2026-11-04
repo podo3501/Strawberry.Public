@@ -19,6 +19,7 @@ import DxRender.Pipeline;
 import DxRender.Packet;
 import DxRender.Task;
 import Core.Math;
+import Contract.Render.Shared;
 import Contract.Render.Backend;
 
 class RenderBackend : public IRenderBackend
@@ -46,6 +47,7 @@ public:
         float maxWidth,
         const TextLayout& layout) override;
 	RenderMetrics GetRenderMetrics() override;
+    bool ReadbackFrame(FrameImage& out) override;
 
 private:
     Device m_device;

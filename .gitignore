@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# ImGui가 실행 폴더에 만드는 창 배치 파일
+imgui.ini

@@ -31,6 +31,9 @@
     <ClCompile Include="Widget\Foundation\Widget.Layout.cpp">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Foundation\WidgetInspector.ixx">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Foundation\Widget.Tree.cpp">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
@@ -91,6 +94,18 @@
     <ClCompile Include="Widget\Controls\Toggle.ixx">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Controls\TextBox.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\TextBox.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Dropdown.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Dropdown.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Containers\Backdrop.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
@@ -103,10 +118,10 @@
     <ClCompile Include="Widget\Containers\Panel.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Foundation\Focus.ixx">
+    <ClCompile Include="Widget\Foundation\FocusRouter.ixx">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\Foundation\Focus.cpp">
+    <ClCompile Include="Widget\Foundation\FocusRouter.cpp">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
   </ItemGroup>

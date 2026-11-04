@@ -243,6 +243,9 @@
     <ClCompile Include="Render\Shared\Render.Shared.ixx">
       <Filter>Render\Shared</Filter>
     </ClCompile>
+    <ClCompile Include="Render\Shared\FrameImage.ixx">
+      <Filter>Render\Shared</Filter>
+    </ClCompile>
     <ClCompile Include="Render\Shared\RenderMetrics.ixx">
       <Filter>Render\Shared</Filter>
     </ClCompile>

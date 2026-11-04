@@ -88,6 +88,8 @@ void Widget::DrawTree(IOverlayView& overlay, const Core::Vector2& parentOrigin,
     for (const auto& child : m_children)
         child->DrawTree(overlay, childOrigin, childClip);
 
+    DrawAfterChildren(overlay, screen);
+
     if (clips)
         overlay.PopClip();
 }

@@ -30,6 +30,7 @@ public:
 
     void SetOnOutsideClick(std::function<void()> onOutsideClick) { m_onOutsideClick = std::move(onOutsideClick); }
     void SetOnCancel(std::function<void()> onCancel) { m_onCancel = std::move(onCancel); }   // Escape
+    void SetOnKeyDown(std::function<bool(const KeyEvent&)> onKeyDown) { m_onKeyDown = std::move(onKeyDown); }   // 키를 가장 먼저 받는다. true를 돌려주면 소비해서 Escape 처리까지 가지 않는다
 
 protected:
     bool IsHitTestable() const override { return true; }
@@ -39,6 +40,13 @@ protected:
 
     bool OnKeyDown(const KeyEvent& e) override
     {
+        if (m_onKeyDown)
+        {
+            auto callback = m_onKeyDown;   // 콜백이 이 위젯을 파괴(Detach)해도 실행 중인 함수 객체는 살아 있어야 한다
+            if (callback(e))
+                return true;
+        }
+
         if (e.key == KeyCode::Escape && m_onCancel)
         {
             auto callback = m_onCancel;   // 콜백이 이 위젯을 파괴(Detach)해도 실행 중인 함수 객체는 살아 있어야 한다
@@ -78,4 +86,5 @@ private:
     std::optional<BrushHandle> m_dim;
     std::function<void()> m_onOutsideClick;
     std::function<void()> m_onCancel;
+    std::function<bool(const KeyEvent&)> m_onKeyDown;
 };

@@ -43,8 +43,14 @@ bool UserInterface::OnKeyDown(KeyCode key, bool shift)
     return m_focus.OnKeyDown(m_root, KeyEvent{ key, shift });
 }
 
+bool UserInterface::OnTextInput(std::string_view utf8)
+{
+    return m_focus.OnText(m_root, utf8);
+}
+
 void UserInterface::Tick(float dt)
 {
+    m_focus.Tick(m_root, dt);
     const Core::Rect& screen = m_root.LocalRect();
     m_tooltip.Tick(dt, m_input.Hovered(m_root), m_pointer,
         Core::Vector2{ screen.width, screen.height }, LayerRoot(UILayer::Tooltip));

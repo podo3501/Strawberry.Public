@@ -40,6 +40,7 @@ public:
     IFrameRecorder& GetFrameRecorder() override { return m_frameRecorder; }
     ITextMeasurer& GetTextMeasurer() override { return m_textMeasurer; }
     RenderMetrics GetRenderMetrics() override { return m_backend->GetRenderMetrics(); }
+    bool ReadbackFrame(FrameImage& out) override { return m_backend->ReadbackFrame(out); }
 
 private:
     std::vector<RegistryShaderEntry> LoadRegistryShaderEntries();

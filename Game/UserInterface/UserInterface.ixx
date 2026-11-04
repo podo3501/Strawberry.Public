@@ -26,9 +26,13 @@ public:
         return LayerRoot(layer).Attach(std::move(widget), index);
     }
 
+    // 레이어의 루트. Dropdown처럼 다른 레이어에 팝업을 띄우는 위젯에게 넘긴다. 화면 전체를 덮고 원점이 화면 (0,0)이다
+    Widget& Layer(UILayer layer) { return LayerRoot(layer); }
+
     void Draw(IOverlayView& overlay) const;
     bool Update(const MouseState& mouse); // 입력 처리. 프레임마다 Tick보다 먼저 부른다
     bool OnKeyDown(KeyCode key, bool shift = false); // 키를 누른 프레임에 한 번 부른다 (Tab, Escape, Enter, Space 등 UI가 쓰는 키만 넘기면 된다). 소비되면 true: 게임이 같은 키를 또 처리하지 않도록 건너뛴다.
+    bool OnTextInput(std::string_view utf8); // 이번 프레임에 입력된 문자(UTF-8)를 포커스 위젯에 넘긴다. 전달되었으면 true
     void Tick(float dt); // 시간 진행(초). 입력이 없어도 부른다 (툴팁 지연 등). 일시정지 중에도 UI를 돌리려면 실시간 dt를 넘긴다
     void Resize(float width, float height);   // 화면 크기 변경. root를 (0,0,w,h)로 두고 전체 재배치
 

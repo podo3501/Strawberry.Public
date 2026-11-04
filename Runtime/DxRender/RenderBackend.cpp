@@ -105,6 +105,9 @@ void RenderBackend::Render(SceneFrameData frame)
             return;
         }
 
+        if (m_swapChain.IsOffscreen())
+            m_swapChain.RecordReadback(*cmd);
+
         m_profiler.EndFrame(*cmd);
 
         m_cmdScheduler.End();
@@ -144,6 +147,15 @@ RenderMetrics RenderBackend::GetRenderMetrics()
     metrics.gpuFrameMs = m_profiler.GetGpuFrameTimeMs();
 
     return metrics;
+}
+
+bool RenderBackend::ReadbackFrame(FrameImage& out)
+{
+    if (!m_swapChain.IsOffscreen()) return false;
+    if (!m_swapChain.ReadPixels(out.pixels)) return false;
+
+    out.size = m_swapChain.GetSize();
+    return true;
 }
 
 std::unique_ptr<IRenderBackend> CreateRenderBackend(const RenderConfig& config)

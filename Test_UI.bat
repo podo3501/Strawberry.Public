@@ -1,7 +1,9 @@
 @echo off
 rem Build the UI test solution (Debug x64) and run the tests.
 rem Usage: Test_UI.bat [gtest_filter]   e.g. Test_UI.bat UserInterfaceT_Toggle.*
+rem Console shows errors only (English). The full build log is x64\build_ui.log.
 setlocal
+set VSLANG=1033
 cd /d "%~dp0Testing\Game"
 
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -12,8 +14,12 @@ if not defined MSBUILD (
     exit /b 1
 )
 
-"%MSBUILD%" UserInterface-Test.slnx -p:Configuration=Debug -p:Platform=x64 -m -v:m -nologo
-if errorlevel 1 exit /b 1
+if not exist x64 mkdir x64
+"%MSBUILD%" UserInterface-Test.slnx -p:Configuration=Debug -p:Platform=x64 -m -nologo -clp:ErrorsOnly;NoSummary -flp:logfile=x64\build_ui.log;verbosity=normal
+if errorlevel 1 (
+    echo Build failed. Full log: Testing\Game\x64\build_ui.log
+    exit /b 1
+)
 
 set "FILTER=%~1"
 if not defined FILTER set "FILTER=*"

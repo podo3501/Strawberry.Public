@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:Focus;
+export module Game.UserInterface.Widget:FocusRouter;
 
 import std;
 import :Widget;
@@ -17,6 +17,13 @@ public:
     // 그 밖의 키는 포커스 위젯(없거나 모달 밖이면 모달 자체)에서 부모 방향으로 버블된다.
     // 반환: 소비되었는가 (Tab은 이동할 위젯이 있으면 true)
     bool OnKeyDown(Widget& root, const KeyEvent& e);
+
+    // 입력된 문자를 포커스 위젯에게만 전달한다 (버블링 없음). 포커스가 없거나 모달 밖이면 버린다.
+    // 반환: 포커스 위젯에게 전달되었는가
+    bool OnText(Widget& root, std::string_view utf8);
+
+    // 시간 진행(초)을 포커스 위젯에게만 전달한다.
+    void Tick(Widget& root, float dt);
 
 private:
     static Widget* FindScope(Widget& w); // 맨 위의 TrapsFocus 위젯 (없으면 nullptr)

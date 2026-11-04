@@ -28,6 +28,7 @@ export struct IRenderService
 	virtual IFrameRecorder& GetFrameRecorder() = 0;
 	virtual ITextMeasurer& GetTextMeasurer() = 0;
 	virtual RenderMetrics GetRenderMetrics() = 0;
+	virtual bool ReadbackFrame(FrameImage& out) = 0; // 오프스크린 모드에서 마지막으로 그린 프레임을 CPU로 읽는다
 };
 
 export std::unique_ptr<IRenderService> CreateRenderService(	

@@ -1,7 +1,7 @@
 module Game.UserInterface.Widget;
 
 import std;
-import :Focus;
+import :FocusRouter;
 import :Widget;
 import :InputEvents;
 import Contract.Input.Shared;
@@ -31,6 +31,26 @@ bool FocusRouter::OnKeyDown(Widget& root, const KeyEvent& e)
         if (w->OnKeyDown(e))
             return true;   // 콜백이 위젯을 파괴할 수 있으니 소비된 뒤에는 w를 건드리지 않는다
     return false;
+}
+
+bool FocusRouter::OnText(Widget& root, std::string_view utf8)
+{
+    if (utf8.empty())
+        return false;
+
+    Widget* trap = FindScope(root);
+    Widget* focused = Widget::Resolve(root, m_focused);
+    if (!focused || !focused->IsDescendantOf(trap ? *trap : root))
+        return false;
+
+    focused->OnTextInput(utf8);
+    return true;
+}
+
+void FocusRouter::Tick(Widget& root, float dt)
+{
+    if (Widget* focused = Widget::Resolve(root, m_focused))
+        focused->OnTick(dt);
 }
 
 // 트리 순서(앞이 아래, 뒤가 위)에서 마지막으로 만나는 모달 = 가장 위에 떠 있는 모달

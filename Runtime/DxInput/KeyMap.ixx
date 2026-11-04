@@ -42,6 +42,9 @@ export constexpr std::pair<DXKey, KeyCode> KeyMap[] = {
     { DXKey::Escape, KeyCode::Escape },
     { DXKey::Tab, KeyCode::Tab },
     { DXKey::Back, KeyCode::Backspace },
+    { DXKey::Delete, KeyCode::Delete },
+    { DXKey::Home, KeyCode::Home },
+    { DXKey::End, KeyCode::End },
 
     { DXKey::LeftShift, KeyCode::LeftShift },
     { DXKey::RightShift, KeyCode::RightShift },
