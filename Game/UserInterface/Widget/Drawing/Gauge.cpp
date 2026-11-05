@@ -1,7 +1,12 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :Gauge;
+import Serialization;
 
 void DrawGauge(IOverlayView& overlay, const GaugeSkin& skin, const Core::Rect& rect,
     float ratio, GaugeDirection direction)
@@ -33,4 +38,18 @@ void DrawGauge(IOverlayView& overlay, const GaugeSkin& skin, const Core::Rect& r
         return;
 
     DrawSliced(overlay, skin.fill, fill);
+}
+
+bool SerializeGaugeSkin(Serializer& serializer, IWidgetResources& resources, GaugeSkin& skin, std::string_view prefix)
+{
+    if (!SerializeSlicedBrush(serializer, resources, skin.background, SerializedKey(prefix, "background")))
+        return false;
+    if (!SerializeSlicedBrush(serializer, resources, skin.fill, SerializedKey(prefix, "fill")))
+        return false;
+
+    serializer.Process(SerializedKey(prefix, "fillInsetLeft"), skin.fillInset.left);
+    serializer.Process(SerializedKey(prefix, "fillInsetTop"), skin.fillInset.top);
+    serializer.Process(SerializedKey(prefix, "fillInsetRight"), skin.fillInset.right);
+    serializer.Process(SerializedKey(prefix, "fillInsetBottom"), skin.fillInset.bottom);
+    return true;
 }

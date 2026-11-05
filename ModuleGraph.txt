@@ -66,14 +66,12 @@ DxRender.Text -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract
 DxRender.TransientMesh -> Contract.Render.Backend.Types, Core.Utils, DxRender.Allocator, DxRender.Core, DxRender.Factory, DxRender.Resource
 FileAsset -> Contract.Asset.Shared, Core.BasicTypes
 FileAsset.AudioProcessing -> -
-FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.BasicTypes, Runtime.Serialization
+FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.BasicTypes, Serialization
 FileAsset.VorbisDecoder -> -
-Game.UserInterface -> Contract.Input.Service, Contract.Render.UI, Core.Math, Game.UserInterface.Widget(re)
-Game.UserInterface.Widget -> Contract.Input.Shared, Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math
 Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
 Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
-Runtime.Serialization -> Core.Assert, Core.Utils
 SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset, Core.BasicTypes
+Serialization -> Core.Assert, Core.Utils
 Service.Asset -> Contract.Asset.Backend, Contract.Asset.Service, Contract.Common.Asset, Contract.Common.IAssetAsyncLoader, Core.Assert, Core.Type, Core.Utils, Service.AssetMetaRegistry
 Service.Asset.ImageExtensions -> -
 Service.AssetAsyncHelper -> Contract.Common.IAssetAsyncLoader(re), Core.Type
@@ -82,6 +80,8 @@ Service.Audio -> Contract.Audio.Assets, Contract.Audio.Backend, Contract.Audio.S
 Service.Input -> Contract.Input.Backend, Contract.Input.Service, Core.Math
 Service.Render -> Contract.Render.Assets, Contract.Render.Backend, Contract.Render.Service, Contract.Render.Shared, Core.Assert, Core.Math, Core.Type, Core.Utils, Service.AssetAsyncHelper, Service.Render.Repository
 Service.Render.Repository -> Contract.Common.Asset, Contract.Render.Backend, Contract.Render.Service, Core.Assert, Core.Handle, Core.Utils, Service.AssetAsyncHelper
+UserInterface -> Contract.Input.Service, Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math, UserInterface.Widget(re)
+UserInterface.Widget -> Contract.Asset.Shared, Contract.Input.Shared, Contract.Render.ITextMeasurer, Contract.Render.UI, Core.Math, Core.TypeHierarchy, Serialization
 
 == impl-only imports (reduced; 구현부 전용, 소비자에게 전파되지 않음) ==
 DxInput => Core.Math
@@ -102,13 +102,13 @@ DxRender.SwapChainPresenter => Core.Assert, DxRender.Definition
 DxRender.Text => DxRender.Helper
 DxRender.TransientMesh => Core.Assert
 FileAsset => Core.Utils
-Game.UserInterface.Widget => Core.Assert
 SDLAudio => Contract.Audio.Assets, Core.Assert, Core.TypeHierarchy, Core.Utils
 Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Service.Asset.ImageExtensions
 Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
 Service.Audio => Core.Utils
+UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 25/343, impl-only 3/51 ==
+== removed as redundant: interface 25/347, impl-only 3/52 ==
 [interface]
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)
   Contract.Asset.Shared -> Core.ResourceID   (covered by Core.Type)
@@ -120,8 +120,6 @@ Service.Audio => Core.Utils
   DxRender.Definition -> Contract.Render.Shared.Types   (covered by Contract.Render.Shared)
   DxRender.Pipeline.GraphBuilder -> DxRender.RGResourceID   (covered by DxRender.Graph)
   DxRender.Provider -> Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
-  Game.UserInterface.Widget -> Contract.Render.Handles   (covered by Contract.Render.UI)
-  Game.UserInterface.Widget -> Contract.Render.IOverlayView   (covered by Contract.Render.UI)
   Service.Asset -> Contract.Asset.Shared   (covered by Contract.Asset.Service)
   Service.Asset -> Contract.Common.AssetAsyncTypes   (covered by Contract.Common.IAssetAsyncLoader)
   Service.Asset -> Core.ResourceID   (covered by Core.Type)
@@ -135,6 +133,8 @@ Service.Audio => Core.Utils
   Service.Render -> Core.ResourceID   (covered by Core.Type)
   Service.Render.Repository -> Contract.Common.IAssetAsyncLoader   (covered by Service.AssetAsyncHelper)
   Service.Render.Repository -> Contract.Render.Service.Descriptors   (covered by Contract.Render.Service)
+  UserInterface.Widget -> Contract.Render.Handles   (covered by Contract.Render.UI)
+  UserInterface.Widget -> Contract.Render.IOverlayView   (covered by Contract.Render.UI)
 [impl-only]
   DxRender => Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
   DxRender.Pipeline.GraphBuilder => DxRender.Constants   (covered by DxRender.Definition)

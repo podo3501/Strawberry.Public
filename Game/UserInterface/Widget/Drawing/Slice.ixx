@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:Slice;
+export module UserInterface.Widget:Slice;
 
 import std;
 import Core.Math;

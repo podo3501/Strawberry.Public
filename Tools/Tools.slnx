@@ -7,14 +7,22 @@
     <File Path="../Archives/Problem.txt" />
     <File Path="../Archives/Todo.txt" />
   </Folder>
-  <Project Path="../Game/Client/Client.vcxproj" Id="c3074755-5643-4867-804d-023448eb3b82" />
-  <Project Path="../Game/Contract/Contract.vcxproj" Id="f7556b13-a62e-4c01-852d-ed9c8c582ad7" />
-  <Project Path="../Game/Service/Service.vcxproj" Id="56fc8ecc-9fda-4433-b067-52c9748a3610" />
-  <Project Path="../Game/UserInterface/UserInterface.vcxproj" Id="fb2c4760-0436-491f-a33a-169bcba58d0c" />
-  <Project Path="../Runtime/Core/Core.vcxproj" Id="e0dcdedb-6f54-4b60-b549-20de9df2ba39" />
-  <Project Path="../Runtime/DxInput/DxInput.vcxproj" Id="a613f1a5-731d-46ed-be4f-aca6d289c21e" />
-  <Project Path="../Runtime/DxRender/DxRender.vcxproj" Id="83df7ebf-f20a-4125-a6c2-ecc736d64ac4" />
-  <Project Path="../Runtime/FileAsset/FileAsset.vcxproj" Id="9253bcf9-c241-4a6f-b171-d78c90a08064" />
-  <Project Path="../Runtime/Serialization/Serialization.vcxproj" Id="026d70d2-e39d-42d4-a5ed-441d0af53c35" />
-  <Project Path="UITool/UITool.vcxproj" Id="bc694e66-de4b-4492-bcbf-34d68e246359" />
+  <Folder Name="/Foundation/">
+    <Project Path="../Foundation/Contract/Contract.vcxproj" Id="f7556b13-a62e-4c01-852d-ed9c8c582ad7" />
+    <Project Path="../Foundation/Core/Core.vcxproj" Id="e0dcdedb-6f54-4b60-b549-20de9df2ba39" />
+    <Project Path="../Foundation/Serialization/Serialization.vcxproj" Id="026d70d2-e39d-42d4-a5ed-441d0af53c35" />
+  </Folder>
+  <Folder Name="/Game/">
+    <Project Path="../Game/Client/Client.vcxproj" Id="c3074755-5643-4867-804d-023448eb3b82" />
+    <Project Path="../Game/Service/Service.vcxproj" Id="56fc8ecc-9fda-4433-b067-52c9748a3610" />
+    <Project Path="../Game/UserInterface/UserInterface.vcxproj" Id="fb2c4760-0436-491f-a33a-169bcba58d0c" />
+  </Folder>
+  <Folder Name="/Runtime/">
+    <Project Path="../Runtime/DxInput/DxInput.vcxproj" Id="a613f1a5-731d-46ed-be4f-aca6d289c21e" />
+    <Project Path="../Runtime/DxRender/DxRender.vcxproj" Id="83df7ebf-f20a-4125-a6c2-ecc736d64ac4" />
+    <Project Path="../Runtime/FileAsset/FileAsset.vcxproj" Id="9253bcf9-c241-4a6f-b171-d78c90a08064" />
+  </Folder>
+  <Folder Name="/Tools/">
+    <Project Path="UITool/UITool.vcxproj" Id="bc694e66-de4b-4492-bcbf-34d68e246359" />
+  </Folder>
 </Solution>

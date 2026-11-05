@@ -2,7 +2,7 @@ module;
 
 #include <nlohmann/json.hpp>
 
-export module Runtime.Serialization:TraitsHelper;
+export module Serialization:TraitsHelper;
 
 import std;
 import Core.Assert;

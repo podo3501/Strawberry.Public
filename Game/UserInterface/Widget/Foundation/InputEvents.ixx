@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:InputEvents;
+export module UserInterface.Widget:InputEvents;
 
 import Core.Math;
 import Contract.Input.Shared;

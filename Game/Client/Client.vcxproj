@@ -32,13 +32,13 @@
     <ClCompile Include="Graphics\SceneObject\WorldCamera.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Runtime\Serialization\Serialization.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Serialization\Serialization.vcxproj">
       <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Contract\Contract.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
   </ItemGroup>

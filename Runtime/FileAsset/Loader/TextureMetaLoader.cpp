@@ -1,12 +1,12 @@
 #include <nlohmann/json.hpp>
 
 import std;
+import Serialization;
 import Core.BasicTypes;
 import Core.Utils;
 import Contract.Common.Asset;
 import Contract.Render.Assets;
 import Contract.Asset.Backend;
-import Runtime.Serialization;
 
 template<>
 constexpr std::array<const char*, Core::EnumSize<ColorSpace>> Core::EnumToStringMap<ColorSpace>()
@@ -15,64 +15,16 @@ constexpr std::array<const char*, Core::EnumSize<ColorSpace>> Core::EnumToString
 }
 
 template<>
-struct JsonTraitsBase<ColorSpace>
-{
-    static nlohmann::json SerializeToJson(const ColorSpace& data)
-    {
-        return Core::EnumToString(data);
-    }
-
-    static ColorSpace DeserializeFromJson(const nlohmann::json& dataJ)
-    {
-        return CreateAndFill<ColorSpace>([&dataJ](ColorSpace& data) {
-            data = *Core::StringToEnum<ColorSpace>(dataJ);
-            });
-    }
-};
-
-template<>
 constexpr std::array<const char*, Core::EnumSize<AlphaSourceState>> Core::EnumToStringMap<AlphaSourceState>()
 {
     return Core::MakeEnumStringMap<AlphaSourceState>("Opaque", "Straight", "AlreadyPremultiplied");
 }
 
 template<>
-struct JsonTraitsBase<AlphaSourceState>
-{
-    static nlohmann::json SerializeToJson(const AlphaSourceState& data)
-    {
-        return Core::EnumToString(data);
-    }
-
-    static AlphaSourceState DeserializeFromJson(const nlohmann::json& dataJ)
-    {
-        return CreateAndFill<AlphaSourceState>([&dataJ](AlphaSourceState& data) {
-            data = *Core::StringToEnum<AlphaSourceState>(dataJ);
-            });
-    }
-};
-
-template<>
 constexpr std::array<const char*, Core::EnumSize<BlendTargetSpace>> Core::EnumToStringMap<BlendTargetSpace>()
 {
     return Core::MakeEnumStringMap<BlendTargetSpace>("NonPremultiplied", "Premultiplied", "None");
 }
-
-template<>
-struct JsonTraitsBase<BlendTargetSpace>
-{
-    static nlohmann::json SerializeToJson(const BlendTargetSpace& data)
-    {
-        return Core::EnumToString(data);
-    }
-
-    static BlendTargetSpace DeserializeFromJson(const nlohmann::json& dataJ)
-    {
-        return CreateAndFill<BlendTargetSpace>([&dataJ](BlendTargetSpace& data) {
-            data = *Core::StringToEnum<BlendTargetSpace>(dataJ);
-            });
-    }
-};
 
 // --- Serialization Internal Struct ---
 

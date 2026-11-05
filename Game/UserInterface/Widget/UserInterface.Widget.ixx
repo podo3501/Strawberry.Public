@@ -1,8 +1,9 @@
-export module Game.UserInterface.Widget;
+export module UserInterface.Widget;
 
 export import :LayoutTypes;
 export import :Slice;
 export import :SlicedBrush;
+export import :TextSerialize;
 
 export import :Group;
 export import :Image;
@@ -23,5 +24,7 @@ export import :Slider;
 export import :InputRouter;
 export import :FocusRouter;
 export import :Tooltip;
+export import :WidgetResources;
 export import :WidgetInspector;
+export import :WidgetSerializer;
 export import :Widget;

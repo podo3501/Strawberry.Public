@@ -115,14 +115,14 @@ RenderService
 
 ## UI System
 
-UI 시스템(`Game.UserInterface`)은 위젯 트리 기반의 오버레이 UI 모듈입니다.
+UI 시스템(`UserInterface`)은 위젯 트리 기반의 오버레이 UI 모듈입니다.
 HUD, 창, 팝업, 툴팁을 대상으로 하며, 렌더링 백엔드를 모르는 상태에서
 레이아웃, 입력, 포커스, 툴팁까지 스스로 처리합니다.
 
 ### 의존 경계
 
 ``` text
-Game.UserInterface -> Contract.Input.Service
+UserInterface -> Contract.Input.Service
                       Contract.Render.UI
                       Core.Math
 ```

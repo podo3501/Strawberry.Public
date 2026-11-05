@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:WidgetInspector;
+export module UserInterface.Widget:WidgetInspector;
 
 import std;
 import :Widget;
@@ -23,7 +23,7 @@ public:
     // 위젯의 클래스 이름 (네임스페이스 포함, class/struct 접두어와 모듈 표기 제외)
     static std::string TypeName(const Widget& widget)
     {
-        std::string name = typeid(widget).name();   // MSVC는 모듈 안의 클래스에 "class Button[Game.UserInterface.Widget]" 형태로 준다
+        std::string name = typeid(widget).name();   // MSVC는 모듈 안의 클래스에 "class Button[UserInterface.Widget]" 형태로 준다
         if (const auto module = name.find('['); module != std::string::npos)
             name.erase(module);
         if (const auto space = name.rfind(' '); space != std::string::npos)

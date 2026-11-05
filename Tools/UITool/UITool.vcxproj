@@ -81,7 +81,7 @@
     <ProjectReference Include="..\..\Game\Client\Client.vcxproj">
       <Project>{c3074755-5643-4867-804d-023448eb3b82}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Game\Service\Service.vcxproj">
@@ -90,7 +90,7 @@
     <ProjectReference Include="..\..\Game\UserInterface\UserInterface.vcxproj">
       <Project>{fb2c4760-0436-491f-a33a-169bcba58d0c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Runtime\DxInput\DxInput.vcxproj">
@@ -102,7 +102,7 @@
     <ProjectReference Include="..\..\Runtime\FileAsset\FileAsset.vcxproj">
       <Project>{9253bcf9-c241-4a6f-b171-d78c90a08064}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Runtime\Serialization\Serialization.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Serialization\Serialization.vcxproj">
       <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
     </ProjectReference>
   </ItemGroup>

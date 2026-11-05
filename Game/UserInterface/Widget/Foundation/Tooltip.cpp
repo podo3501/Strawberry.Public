@@ -1,4 +1,4 @@
-module Game.UserInterface.Widget;
+module UserInterface.Widget;
 
 import std;
 import :Tooltip;

@@ -25,10 +25,10 @@
     <ClCompile Include="MouseButtonMap.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\Contract\Contract.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Core.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
   </ItemGroup>

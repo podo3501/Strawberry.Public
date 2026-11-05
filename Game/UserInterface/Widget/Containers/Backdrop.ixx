@@ -1,13 +1,16 @@
-export module Game.UserInterface.Widget:Backdrop;
+export module UserInterface.Widget:Backdrop;
 
 import std;
 import :Widget;
 import :LayoutTypes;
 import :InputEvents;
+import :WidgetResources;
 import Contract.Render.Handles;
 import Contract.Render.IOverlayView;
 import Contract.Input.Shared;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 // 모달/팝업 뒤를 막는 전체 크기 판. 대화상자나 메뉴는 이 위젯의 자식으로 붙인다.
 // 판 위의 누름과 휠을 소비해서 아래 위젯에 닿지 않게 하고, 자식 바깥을 클릭하면 콜백을 부른다.
@@ -21,11 +24,11 @@ import Core.Math;
 //   auto& dialog = modal.Attach(std::make_unique<Group>(Core::Rect{ 0, 0, 300, 160 }));
 //   dialog.SetAnchor(Anchor::Center());
 //   modal.SetOnOutsideClick([&] { modal.Detach(); });   // 닫기. 바깥 클릭으로 안 닫으려면 콜백을 비워 둔다
-export class Backdrop final : public Widget
+export class Backdrop final : public Core::TypeNode<Backdrop, Widget>
 {
 public:
     explicit Backdrop(std::optional<BrushHandle> dim = std::nullopt)
-        : Widget(Core::Rect{ 0.f, 0.f, 0.f, 0.f }, SizePolicy::Fill, SizePolicy::Fill), m_dim(dim)
+        : TypeNode(Core::Rect{ 0.f, 0.f, 0.f, 0.f }, SizePolicy::Fill, SizePolicy::Fill), m_dim(dim)
     {}
 
     void SetOnOutsideClick(std::function<void()> onOutsideClick) { m_onOutsideClick = std::move(onOutsideClick); }
@@ -33,6 +36,7 @@ public:
     void SetOnKeyDown(std::function<bool(const KeyEvent&)> onKeyDown) { m_onKeyDown = std::move(onKeyDown); }   // 키를 가장 먼저 받는다. true를 돌려주면 소비해서 Escape 처리까지 가지 않는다
 
 protected:
+    bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: Backdrop.cpp
     bool IsHitTestable() const override { return true; }
     bool OnPointerDown(const PointerEvent&) override { return true; }   // 캡처: 아래 위젯으로 버블되지 않는다
     bool OnScroll(const ScrollEvent&) override { return true; }         // 휠도 아래로 새지 않는다

@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:InputRouter;
+export module UserInterface.Widget:InputRouter;
 
 import std;
 import :Widget;

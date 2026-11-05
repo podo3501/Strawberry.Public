@@ -1,8 +1,9 @@
-module Game.UserInterface;
+module UserInterface;
 
 import :UserInterface;
 
-UserInterface::UserInterface()
+UserInterface::UserInterface(ITextMeasurer& measurer)
+    : m_measurer(measurer)
 {
     for (Group*& slot : m_layers)
     {

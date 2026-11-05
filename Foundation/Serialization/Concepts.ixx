@@ -1,4 +1,4 @@
-export module Runtime.Serialization:Concepts;
+export module Serialization:Concepts;
 
 import std;
 import Core.Utils;

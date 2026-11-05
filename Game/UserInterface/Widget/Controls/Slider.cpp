@@ -1,10 +1,16 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :Slider;
+import Serialization;
+import Core.Utils;
 
 Slider::Slider(Core::Rect localRect, SliderSkin skin, SliderAxis axis, float value)
-    : Widget(localRect)
+    : TypeNode(localRect)
     , m_skin(std::move(skin))
     , m_axis(axis)
     , m_value(Clamp01(value)) 
@@ -55,4 +61,33 @@ void Slider::DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const
     : Core::Vector2{ screenRect.x + (screenRect.width - thumb.x) * 0.5f, screenRect.y + screenRect.height - thumb.y - shift };
 
     overlay.DrawImage(m_skin.thumb, { std::round(pos.x), std::round(pos.y), thumb.x, thumb.y });
+}
+
+// 저장 파일에 적히는 이름. 한 번 정하면 바꾸지 않는다 (옛 파일을 읽을 수 없게 된다)
+template<>
+constexpr std::array<const char*, Core::EnumSize<SliderAxis>> Core::EnumToStringMap<SliderAxis>()
+{
+    return Core::MakeEnumStringMap<SliderAxis>("Horizontal", "Vertical");
+}
+
+// 값 변경 콜백(SetOnChanged)은 저장하지 않고, 읽을 때도 부르지 않는다
+bool Slider::Serialize(Serializer& serializer, IWidgetResources& resources)
+{
+    if (!Widget::Serialize(serializer, resources))
+        return false;
+
+    serializer.Process("axis", m_axis);
+    serializer.Process("value", m_value);
+    serializer.Process("thumbWidth", m_skin.thumbSize.x);
+    serializer.Process("thumbHeight", m_skin.thumbSize.y);
+    if (m_axis == Core::InvalidEnum<SliderAxis>)
+        return false;
+    if (!SerializeBrushName(serializer, resources, m_skin.thumb, "thumbBrush"))
+        return false;
+    if (!SerializeGaugeSkin(serializer, resources, m_skin.bar, "bar"))
+        return false;
+
+    if (!serializer.IsWrite())
+        m_value = Clamp01(m_value);   // 파일에 범위를 벗어난 값이 있어도 0~1로 맞춘다
+    return true;
 }

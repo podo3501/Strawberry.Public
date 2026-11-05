@@ -1,10 +1,14 @@
-export module Game.UserInterface.Widget:Pressable;
+export module UserInterface.Widget:Pressable;
 
 import :Widget;
 import :InputEvents;
+import :SlicedBrush;
+import :WidgetResources;
 import Contract.Input.Shared;
 import Contract.Render.Handles;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 만들 때 채우는 값
 {
@@ -13,12 +17,16 @@ export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 
     BrushHandle pressed{};
 };
 
+// 저장/불러오기: 브러시 3개를 prefix가 붙은 키(normalBrush, hoverBrush, pressedBrush)로 적는다. 구현: Pressable.cpp
+// 하나라도 이름을 모르는 핸들(저장), 이름이 없거나 모르는 이름(불러오기)이면 false.
+export bool SerializeButtonBrushes(Serializer& serializer, IWidgetResources& resources, ButtonBrushes& brushes, std::string_view prefix);
+
 // 누르면 캡처하고, hover/눌림/키보드 포커스를 추적하는 위젯의 공통 부모. Button, Toggle이 상속한다.
 // 클릭 시 동작(OnClick)과 그리기(DrawSelf)는 자식이 정한다. Enter/Space는 클릭과 같은 동작을 한다.
-class Pressable : public Widget
+class Pressable : public Core::TypeNode<Pressable, Widget>
 {
 protected:
-    explicit Pressable(Core::Rect localRect) : Widget(localRect) {}
+    explicit Pressable(Core::Rect localRect) : TypeNode(localRect) {}
 
     bool IsHitTestable() const override { return true; }
     bool IsFocusable() const override { return true; }

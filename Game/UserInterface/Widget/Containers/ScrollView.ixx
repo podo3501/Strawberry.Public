@@ -1,11 +1,14 @@
-export module Game.UserInterface.Widget:ScrollView;
+export module UserInterface.Widget:ScrollView;
 
 import std;
 import :Widget;
 import :InputEvents;
+import :WidgetResources;
 import Contract.Render.UI;
 import Contract.Render.IOverlayView;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 // 세로 스크롤 뷰포트. 자식은 앵커로 배치된 뒤 스크롤 오프셋만큼 위로 밀리고, 뷰포트 밖은 잘린다.
 // 내용 크기는 자식들이 차지하는 가장 아래 끝으로 잰다 (보통 Fit 세로 Stack 하나를 자식으로 둔다).
@@ -23,10 +26,10 @@ export struct ScrollBarSkin
     float minThumbLength{ 16.f };   // 내용이 아주 길어도 손잡이를 잡을 수 있게 하는 최소 길이
 };
 
-export class ScrollView : public Widget
+export class ScrollView : public Core::TypeNode<ScrollView, Widget>
 {
 public:
-    explicit ScrollView(Core::Rect localRect) : Widget(localRect) {}
+    explicit ScrollView(Core::Rect localRect) : TypeNode(localRect) {}
 
     void SetScroll(float y);                                  // 범위는 배치 때 내용 크기를 보고 맞춘다
     float Scroll() const { return m_scrollY; }
@@ -34,6 +37,7 @@ public:
     void SetScrollBar(ScrollBarSkin skin) { m_bar = skin; }
 
 protected:
+    bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: ScrollView.cpp
     bool IsHitTestable() const override { return true; }      // 자식이 없는 빈 곳에서도 휠을 받는다
     bool OnScroll(const ScrollEvent& e) override;
     bool OnPointerDown(const PointerEvent& e) override;       // 막대 위일 때만 소비(캡처)한다

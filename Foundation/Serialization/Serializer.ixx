@@ -2,7 +2,7 @@ module;
 
 #include <nlohmann/json.hpp>
 
-export module Runtime.Serialization:Serializer;
+export module Serialization:Serializer;
 
 import std;
 import :Concepts;

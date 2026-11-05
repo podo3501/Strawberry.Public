@@ -1,7 +1,26 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :Stack;
+import Serialization;
+import Core.Utils;
+
+// 저장 파일에 적히는 이름. 한 번 정하면 바꾸지 않는다 (옛 파일을 읽을 수 없게 된다)
+template<>
+constexpr std::array<const char*, Core::EnumSize<StackAxis>> Core::EnumToStringMap<StackAxis>()
+{
+    return Core::MakeEnumStringMap<StackAxis>("Horizontal", "Vertical");
+}
+
+template<>
+constexpr std::array<const char*, Core::EnumSize<CrossAlign>> Core::EnumToStringMap<CrossAlign>()
+{
+    return Core::MakeEnumStringMap<CrossAlign>("Start", "Center", "End");
+}
 
 namespace
 {
@@ -59,4 +78,25 @@ Core::Vector2 Stack::MeasureContent() const
 
     const Core::Vector2 content = Compose(main, cross, h);
     return { content.x + m_padding.Horizontal(), content.y + m_padding.Vertical() };   // 패딩은 축과 무관하게 x/y에 더한다
+}
+
+bool Stack::Serialize(Serializer& serializer, IWidgetResources& resources)
+{
+    if (!Widget::Serialize(serializer, resources))
+        return false;
+
+    serializer.Process("axis", m_axis);
+    serializer.Process("crossAlign", m_crossAlign);
+    serializer.Process("paddingLeft", m_padding.left);
+    serializer.Process("paddingTop", m_padding.top);
+    serializer.Process("paddingRight", m_padding.right);
+    serializer.Process("paddingBottom", m_padding.bottom);
+    serializer.Process("spacing", m_spacing);
+
+    if (m_axis == Core::InvalidEnum<StackAxis> || m_crossAlign == Core::InvalidEnum<CrossAlign>)
+        return false;
+
+    if (!serializer.IsWrite())
+        InvalidateLayout();
+    return true;
 }

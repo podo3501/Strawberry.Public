@@ -1,18 +1,21 @@
-export module Game.UserInterface.Widget:Text;
+export module UserInterface.Widget:Text;
 
 import std;
 import :Widget;
+import :WidgetResources;
 import Contract.Render.UI;
 import Contract.Render.ITextMeasurer;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
-export class Text final : public Widget
+export class Text final : public Core::TypeNode<Text, Widget>
 {
 public:
     Text(ITextMeasurer& measurer, FontHandle font, TextRenderMode mode, std::string text,
         std::uint32_t size, Core::Rect localBounds,
         TextLayout layout = {}, TextStyle style = {})
-        : Widget(localBounds), m_measurer(measurer), m_font(font), m_mode(mode)
+        : TypeNode(localBounds), m_measurer(measurer), m_font(font), m_mode(mode)
         , m_text(std::move(text)), m_size(size)
         , m_layout(layout), m_style(style)
         , m_wrapWidth(layout.wordWrap ? localBounds.width : 0.f) 
@@ -29,6 +32,8 @@ public:
     }
 
 protected:
+    bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: Text.cpp
+
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
     {
         overlay.DrawText(m_font, m_mode, m_text, m_size, screenRect, m_layout, m_style);

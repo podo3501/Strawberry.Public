@@ -131,7 +131,7 @@
     <ClCompile Include="Render\Shared\View\ViewTargetInfo.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+    <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
   </ItemGroup>

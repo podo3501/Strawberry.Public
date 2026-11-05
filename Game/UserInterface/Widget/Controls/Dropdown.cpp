@@ -1,8 +1,14 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :Dropdown;
+import :TextSerialize;
 import Contract.Input.Shared;
+import Serialization;
 
 namespace
 {
@@ -84,7 +90,7 @@ private:
 };
 
 Dropdown::Dropdown(Widget& popupHost, Core::Rect localRect, DropdownSkin skin, std::vector<std::string> items, std::size_t selected)
-    : Pressable(localRect), m_popupHost(popupHost), m_skin(skin), m_items(std::move(items)),
+    : TypeNode(localRect), m_popupHost(popupHost), m_skin(skin), m_items(std::move(items)),
       m_selected(m_items.empty() ? 0 : std::min(selected, m_items.size() - 1))
 {}
 
@@ -176,4 +182,32 @@ void Dropdown::DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) con
     overlay.PushClip(inner);   // 긴 글자가 버튼 밖으로 나가지 않게 자른다
     overlay.DrawText(m_skin.font, m_skin.mode, GetSelectedText(), m_skin.fontSize, inner, SingleLineLayout(), m_skin.style);
     overlay.PopClip();
+}
+
+// 저장하는 것: 항목 글자 목록, 선택 위치, 스킨(닫힌 모습 브러시 3개, 목록 배경/강조 브러시, 폰트, 렌더 모드, 글자 크기, 스타일, 여백, 항목 높이).
+// 목록이 열려 있어도 닫힌 모습으로 저장한다 (열린 목록은 팝업 레이어에 따로 붙어 있어 저장 대상이 아니다).
+// 팝업 레이어(popupHost)와 변경 콜백(SetOnChanged)은 저장하지 않는다. 팝업 레이어는 불러올 때 WidgetLoadContext로 받는다.
+// 항목 목록은 읽을 때 기존 내용 뒤에 덧붙으므로, 비어 있는 새 위젯에만 읽는다 (WidgetSerializer가 그렇게 만든다).
+bool Dropdown::Serialize(Serializer& serializer, IWidgetResources& resources)
+{
+    if (!Widget::Serialize(serializer, resources))
+        return false;
+
+    serializer.Process("items", m_items);
+    serializer.Process("selected", m_selected);
+    serializer.Process("fontSize", m_skin.fontSize);
+    serializer.Process("padding", m_skin.padding);
+    serializer.Process("itemHeight", m_skin.itemHeight);
+
+    if (!SerializeButtonBrushes(serializer, resources, m_skin.button, "button")
+        || !SerializeBrushName(serializer, resources, m_skin.listBackground, "listBackgroundBrush")
+        || !SerializeBrushName(serializer, resources, m_skin.itemHighlight, "itemHighlightBrush")
+        || !SerializeFontName(serializer, resources, m_skin.font, "font")
+        || !SerializeTextRenderMode(serializer, m_skin.mode, "renderMode")
+        || !SerializeTextStyle(serializer, m_skin.style, ""))
+        return false;
+
+    if (!serializer.IsWrite())
+        m_selected = m_items.empty() ? 0 : std::min(m_selected, m_items.size() - 1);   // SetSelected와 같은 규칙
+    return true;
 }

@@ -1,4 +1,4 @@
-export module Runtime.Serialization;
+export module Serialization;
 
 export import :Traits;
 export import :TraitsHelper;

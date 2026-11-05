@@ -8,7 +8,7 @@ import std;
 import Core.BasicTypes;
 import Contract.Asset.Backend;
 import Contract.Common.Asset;
-import Runtime.Serialization;
+import Serialization;
 
 template<typename T>
 class JsonLoader : public IAssetLoader

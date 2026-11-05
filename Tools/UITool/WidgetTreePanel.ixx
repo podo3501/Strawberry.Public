@@ -5,7 +5,7 @@ module;
 export module UITool.WidgetTreePanel;
 
 import std;
-import Game.UserInterface;
+import UserInterface;
 import Core.Math;
 
 // UserInterface의 위젯 트리를 보여 주고, 클릭한 위젯을 선택하는 패널.

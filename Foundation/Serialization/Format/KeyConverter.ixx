@@ -1,4 +1,4 @@
-export module Runtime.Serialization:KeyConverter;
+export module Serialization:KeyConverter;
 
 import std;
 import Core.Utils;

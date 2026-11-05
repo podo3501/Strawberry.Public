@@ -5,7 +5,7 @@ module;
 export module UITool.PropertyPanel;
 
 import std;
-import Game.UserInterface;
+import UserInterface;
 import Core.Math;
 
 // 선택한 위젯의 공통 레이아웃 속성(앵커, 피벗, 오프셋, 크기, 크기 정책, 툴팁)을 보여 주고 고치는 패널.

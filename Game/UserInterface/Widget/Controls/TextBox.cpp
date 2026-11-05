@@ -1,7 +1,13 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :TextBox;
+import :TextSerialize;
+import Serialization;
 import Contract.Input.Shared;
 
 namespace
@@ -29,7 +35,7 @@ namespace
 }
 
 TextBox::TextBox(ITextMeasurer& measurer, Core::Rect localRect, TextBoxSkin skin, std::string text)
-    : Widget(localRect), m_measurer(measurer), m_skin(skin), m_text(std::move(text)), m_caret(m_text.size())
+    : TypeNode(localRect), m_measurer(measurer), m_skin(skin), m_text(std::move(text)), m_caret(m_text.size())
 {}
 
 void TextBox::SetText(std::string text)
@@ -254,4 +260,37 @@ void TextBox::ClampToMaxLength()
 {
     if (m_maxLength > 0)
         m_text.resize(BytesForCharacters(m_text, m_maxLength));
+}
+
+// 저장하는 것: 스킨(브러시 3개, 폰트, 렌더 모드, 글자 크기, 스타일, 여백, 캐럿 폭과 깜빡임 간격), 문자열, 최대 글자 수.
+// 캐럿 위치, 가로 스크롤, 포커스는 저장하지 않는다. 읽으면 SetText처럼 캐럿이 끝에 놓이고 최대 글자 수를 넘는 글자는 잘린다.
+// 콜백(SetOnChanged, SetOnSubmit)은 저장하지 않고 읽을 때도 부르지 않는다.
+bool TextBox::Serialize(Serializer& serializer, IWidgetResources& resources)
+{
+    if (!Widget::Serialize(serializer, resources))
+        return false;
+
+    serializer.Process("text", m_text);
+    serializer.Process("maxLength", m_maxLength);
+    serializer.Process("fontSize", m_skin.fontSize);
+    serializer.Process("padding", m_skin.padding);
+    serializer.Process("caretWidth", m_skin.caretWidth);
+    serializer.Process("caretBlinkInterval", m_skin.caretBlinkInterval);
+
+    if (!SerializeBrushName(serializer, resources, m_skin.normal, "normalBrush")
+        || !SerializeBrushName(serializer, resources, m_skin.focused, "focusedBrush")
+        || !SerializeBrushName(serializer, resources, m_skin.caret, "caretBrush")
+        || !SerializeFontName(serializer, resources, m_skin.font, "font")
+        || !SerializeTextRenderMode(serializer, m_skin.mode, "renderMode")
+        || !SerializeTextStyle(serializer, m_skin.style, ""))
+        return false;
+
+    if (!serializer.IsWrite())
+    {
+        ClampToMaxLength();
+        m_textWidth.reset();
+        m_caret = m_text.size();
+        UpdateScroll();
+    }
+    return true;
 }

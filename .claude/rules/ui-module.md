@@ -3,9 +3,9 @@ paths:
   - "Game/UserInterface/**"
 ---
 
-# UI 모듈 (`Game/UserInterface`, 모듈명 `Game.UserInterface`)
+# UI 모듈 (`Game/UserInterface`, 모듈명 `UserInterface`)
 
-- 의존 가능: `Contract.Input.Service`, `Contract.Render.UI`, `Core.Math`. **`DxRender`/`DxInput`에 의존하지 않는다.** 그리기는 `IOverlayView`, 텍스트 측정은 `ITextMeasurer`, 입력은 `MouseState`(순수 데이터)로만 접근한다. 폰트와 스킨은 클라이언트가 주입한다.
+- 의존 가능: `Contract.Input.Service`, `Contract.Render.UI`, `Contract.Asset.Shared`(`IAssetStorage`만), `Serialization`, `Core.Math`, `Core.Utils`, `Core.TypeHierarchy`. **`DxRender`/`DxInput`에 의존하지 않는다.** 그리기는 `IOverlayView`, 텍스트 측정은 `ITextMeasurer`, 입력은 `MouseState`(순수 데이터)로만 접근한다. 폰트와 스킨은 클라이언트가 주입한다. 저장소도 `IAssetStorage&`를 호출 때마다 인자로 받고, `FileAsset`은 import하지 않는다 (구현체는 툴/클라이언트가 만들어 넘긴다).
 - `UserInterface`가 레이어(Hud < Window < Popup < Tooltip)별 위젯 트리를 소유한다. 위쪽 레이어가 입력을 먼저 받는다. 보조 객체: `InputRouter`(hover/캡처/클릭/휠), `FocusRouter`(Tab/키 버블링/문자 입력/모달), `TooltipController`.
 - 수명: 부모가 자식을 `unique_ptr`로 소유하고 `Detach`는 소유권을 돌려준다. 라우터는 `weak_ptr` 핸들만 보관한다. **콜백 중에 위젯이 Detach/파괴돼도 안전해야 한다** (전용 테스트가 있다).
 - 레이아웃: 위치는 anchor/pivot/offset, 크기는 축별 `SizePolicy`(Fixed/Fit/Fill). 변경 시 `MeasureTree`(아래→위) 후 `ArrangeTree`(위→아래). 컨테이너는 `ArrangeChildren`을 재정의한다. 좌표는 정수 픽셀로 맞춘다.
@@ -14,3 +14,6 @@ paths:
 - 위젯 파일은 `Widget/{Containers,Controls,Drawing,Foundation}`에 있고 `UserInterface.Widget.ixx`가 묶는다. 새 위젯은 이 구조와 `.vcxproj`(+`.filters`) 등록을 따른다.
 - 시간: `UserInterface::Tick(dt)`는 툴팁과 포커스 위젯(`OnTick`)에게 시간을 전달한다. 캐럿 깜빡임처럼 포커스 위젯에만 필요한 갱신이 이 경로를 쓴다.
 - **`SetXxx()` 규약**: 프로그램에서 호출하는 `SetXxx()`는 콜백을 발생시키지 않고, 사용자 입력으로 값이 바뀔 때만 `OnChanged` 류가 발생한다 (Toggle, Slider, TextBox 참고).
+- 저장/불러오기: `WidgetSerializer`가 트리를 JSON(`{ version, root }`)으로 `IAssetStorage::WriteText/ReadText`에 맡긴다. 위젯이 저장을 지원하려면 `bool Serialize(Serializer&, IWidgetResources&)`(`Widget::Serialize`를 먼저 호출, 실패하면 false)를 구현하고 `WidgetSerializer.cpp`의 표에 한 줄(파일에 적는 이름, `Core::GetTypeID<클래스>()`, 생성 함수) 더한다. 표에는 정확한 클래스를 등록하므로 등록하지 않은 파생 클래스는 부모 이름으로 저장되지 않고 저장이 거부된다. 파일에 적는 이름은 바꾸지 않는다 (`TypeID`는 실행마다 달라질 수 있어 파일에 적지 않는다). 읽을 때 키가 없으면 현재 값을 유지하고, 지원하지 않는 버전이나 모르는 위젯 종류는 불러오기 전체를 실패로 본다. 브러시 같은 런타임 핸들은 파일에 못 적으므로 `IWidgetResources`(이름 <-> 핸들, 클라이언트/툴이 구현)로 이름을 적고 읽는다. 이름을 모르면 저장/불러오기 전체가 실패한다. 단순한 값은 멤버를 `Process`에 직접 넘겨 읽기/쓰기를 같은 코드로 쓰고(`IsWrite` 분기는 읽은 뒤 레이아웃 반영처럼 꼭 필요한 곳만), 값은 스칼라 키로 적는다 (`Serializer`는 시퀀스를 읽을 때 기존 내용 뒤에 덧붙인다). enum은 `Count`를 마지막에 두고 `Core::EnumToStringMap<T>()` 이름 표를 Serialize를 구현한 `.cpp`에 특수화하면 (다른 `.cpp`에서도 이름이 필요해지면 그때 `.ixx`로 옮긴다) 이름으로 저장된다. 모르는 이름은 `Core::InvalidEnum<T>`가 되므로 `Serialize`에서 걸러 false를 돌려준다. 이름 표의 이름은 바꾸지 않는다. 타입이 틀린 값은 `Serializer::Process`가 noexcept라 종료될 수 있으니 주의한다.
+- 글자를 그리는 위젯의 저장은 `TextSerialize`(폰트 이름, 렌더 모드, 레이아웃, 색과 효과 5개)를 재사용한다. 폰트도 브러시처럼 `IWidgetResources`의 이름으로 적는다. `UserInterface`는 `ITextMeasurer&`를 생성자로 받아 보관하고(`TextMeasurer()`), 위젯을 불러올 때(`WidgetSerializer::Load`)만 측정기가 필요하다. 불러올 때 필요한 실행 중 참조(측정기, `Dropdown`이 목록을 펼칠 팝업 레이어)는 `WidgetLoadContext`로 묶어 넘긴다. 새 위젯이 다른 서비스가 필요하면 이 구조체에 필드를 더한다. 줄바꿈 폭(`Text::m_wrapWidth`)처럼 생성 때 고정되는 값은 크기와 따로 저장한다.
+- **위젯 타입은 `Core.TypeHierarchy`로 알아본다 (`dynamic_cast` 금지).** `Widget`은 `Core::TypeRoot<Widget>`을, 나머지 위젯은 `Core::TypeNode<자기, 부모>`를 상속한다 (예: `class Button : public Core::TypeNode<Button, Pressable>`). 새 위젯을 만들 때도 같은 형태로 쓰고, **`Derived` 자리에 반드시 자기 이름을 쓴다** (복사해서 만들 때 이전 이름이 남으면 컴파일은 되지만 `Cast`가 조용히 실패한다). 생성자에서 부모를 부를 때는 `TypeNode(...)`라고 쓴다 (부모 이름 대신 상속한 `TypeNode`의 주입된 클래스 이름). 위젯에서 하위 타입으로 바꿀 때는 `Core::Cast<Toggle>(widget)`를 쓴다.

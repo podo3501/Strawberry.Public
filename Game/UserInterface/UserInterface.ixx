@@ -1,8 +1,9 @@
-export module Game.UserInterface:UserInterface;
+export module UserInterface:UserInterface;
 
 import std;
-import Game.UserInterface.Widget;
+import UserInterface.Widget;
 import Contract.Render.UI;
+import Contract.Render.ITextMeasurer;
 import Contract.Input.Service;
 import Core.Math;
 
@@ -12,7 +13,7 @@ export enum class UILayer { Hud, Window, Popup, Tooltip };
 export class UserInterface
 {
 public:
-    UserInterface();
+    explicit UserInterface(ITextMeasurer& measurer);   // 텍스트를 쓰지 않는 UI는 없으므로 처음에 한 번 받는다. UserInterface보다 오래 살아야 한다
 
     template<std::derived_from<Widget> T>
     T& Attach(std::unique_ptr<T> widget, UILayer layer = UILayer::Hud)
@@ -25,6 +26,8 @@ public:
     {
         return LayerRoot(layer).Attach(std::move(widget), index);
     }
+
+    ITextMeasurer& TextMeasurer() const { return m_measurer; }   // Text 계열 위젯을 만들 때 넘긴다. 저장된 UI를 불러올 때도 이 측정기를 쓴다
 
     // 레이어의 루트. Dropdown처럼 다른 레이어에 팝업을 띄우는 위젯에게 넘긴다. 화면 전체를 덮고 원점이 화면 (0,0)이다
     Widget& Layer(UILayer layer) { return LayerRoot(layer); }
@@ -44,6 +47,7 @@ private:
 
     Group& LayerRoot(UILayer layer) { return *m_layers[static_cast<std::size_t>(layer)]; }
 
+    ITextMeasurer& m_measurer;
     Group m_root;
     std::array<Group*, kLayerCount> m_layers{};   // m_root의 자식. 생성자에서 채운다
     InputRouter m_input;

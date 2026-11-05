@@ -1,12 +1,15 @@
-export module Game.UserInterface.Widget:TextBox;
+export module UserInterface.Widget:TextBox;
 
 import std;
 import :Widget;
 import :InputEvents;
+import :WidgetResources;
 import Contract.Render.UI;
 import Contract.Render.IOverlayView;
 import Contract.Render.ITextMeasurer;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 export struct TextBoxSkin   // 순수 데이터: 클라이언트가 폰트와 브러시를 채워서 넘긴다
 {
@@ -27,7 +30,7 @@ export struct TextBoxSkin   // 순수 데이터: 클라이언트가 폰트와 �
 // 키: Left/Right/Home/End는 캐럿 이동, Backspace는 캐럿 앞 글자, Delete는 캐럿 뒤 글자를 지운다.
 // SetText는 콜백을 부르지 않고 캐럿을 끝으로 옮긴다. 사용자 입력으로 문자열이 바뀔 때만 SetOnChanged 콜백이 불린다.
 // Enter는 SetOnSubmit 콜백을 부른다. SetMaxLength를 넘는 입력은 버려진다.
-export class TextBox final : public Widget
+export class TextBox final : public Core::TypeNode<TextBox, Widget>
 {
 public:
     TextBox(ITextMeasurer& measurer, Core::Rect localRect, TextBoxSkin skin, std::string text = {});
@@ -43,6 +46,8 @@ public:
     void SetOnSubmit(std::function<void(const std::string&)> onSubmit) { m_onSubmit = std::move(onSubmit); }
 
 protected:
+    bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: TextBox.cpp
+
     bool IsHitTestable() const override { return true; }
     bool IsFocusable() const override { return true; }
 

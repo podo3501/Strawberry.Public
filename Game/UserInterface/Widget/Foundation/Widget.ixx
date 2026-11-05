@@ -1,10 +1,13 @@
-export module Game.UserInterface.Widget:Widget;
+export module UserInterface.Widget:Widget;
 
 import std;
 import :LayoutTypes;
 import :InputEvents;
+import :WidgetResources;
 import Contract.Render.IOverlayView;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 // 레이아웃 흐름 (구현: Widget.Layout.cpp)
 //   무언가 바뀜(SetSize, SetAnchor, 내용 변화 등)
@@ -17,13 +20,15 @@ export class InputRouter; //InputRouter가 Widget을 import 하니까 순환하�
 export class TooltipController;
 export class FocusRouter;
 export class WidgetInspector;
+export class WidgetSerializer;
 
-export class Widget
+export class Widget : public Core::TypeRoot<Widget>
 {
     friend class InputRouter;
     friend class TooltipController;
     friend class FocusRouter;
     friend class WidgetInspector;
+    friend class WidgetSerializer;
 
 public:
     virtual ~Widget() = default;
@@ -69,6 +74,8 @@ protected:
     virtual void DrawAfterChildren(IOverlayView& overlay, const Core::Rect& screenRect) const {} // 자식 위에 덧그림 (스크롤 막대 등). 자식과 같은 클립 안에서 그려진다
     virtual void ArrangeChildren(); // 자식 배치 방식. 기본은 각 자식의 앵커로 배치. 스택 같은 컨테이너가 override
     virtual Core::Vector2 MeasureContent() const; // Fit 축의 크기를 정하는 내용 크기. 자식은 이미 측정된 뒤(아래->위)에 호출된다. 기본은 현재 크기를 그대로 돌려줘서 Fit이어도 변하지 않는다. 텍스트 같은 리프와 스택이 override
+    virtual bool Serialize(Serializer& serializer, IWidgetResources& resources); // 저장/불러오기 공통 경로. 실패(리소스 이름을 모름 등)하면 false. 공통 레이아웃 속성을 처리하고, 파생 위젯은 Widget::Serialize를 먼저 부른 뒤 자기 속성을 더한다. 읽을 때는 키가 없으면 현재 값을 유지한다
+    virtual void OnChildLoaded(Widget& child) {} // 저장된 UI를 불러올 때, 자식을 붙일 때마다 불린다. AddOption처럼 붙이는 것만으로는 안 되는 등록을 하는 컨테이너가 재정의한다 (RadioGroup). 자식의 종류는 Core::Cast로 알아본다
     virtual bool ClipsChildren() const { return false; } // true면 자식(과 그 자손)을 내 rect로 자른다. 잘린 영역은 히트 테스트에서도 제외된다
 
     // --- 입력 (InputRouter가 호출) ---

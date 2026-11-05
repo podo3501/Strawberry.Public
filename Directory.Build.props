@@ -28,7 +28,8 @@
       <AdditionalIncludeDirectories>
         $(ProjectDir);
         $(StrawberryRoot);
-	$(StrawberryRoot)Game;
+        $(StrawberryRoot)Foundation;
+        $(StrawberryRoot)Game;
         $(StrawberryRoot)Runtime;
         $(StrawberryRoot)ThirdParty\Include;
         $(StrawberryRoot)ThirdParty;

@@ -1,4 +1,4 @@
-export module Game.UserInterface.Widget:FocusRouter;
+export module UserInterface.Widget:FocusRouter;
 
 import std;
 import :Widget;

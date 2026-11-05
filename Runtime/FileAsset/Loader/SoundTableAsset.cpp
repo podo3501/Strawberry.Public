@@ -1,12 +1,12 @@
 #include <nlohmann/json.hpp>
 
 import std;
+import Serialization;
 import Core.Utils;
 import Core.ResourceID;
 import Contract.Audio.Assets;
 import Contract.Asset.Backend;
 import FileAsset.JsonLoader;
-import Runtime.Serialization;
 
 template<>
 constexpr std::array<const char*, Core::EnumSize<SoundType>> Core::EnumToStringMap<SoundType>()
@@ -22,18 +22,6 @@ constexpr std::array<const char*, Core::EnumSize<AudioGroup>> Core::EnumToString
 
 ////////////////////////////////////////////////////////////////
 
-nlohmann::json JsonTraitsBase<SoundType>::SerializeToJson(const SoundType& data)
-{
-	return Core::EnumToString(data);
-}
-
-SoundType JsonTraitsBase<SoundType>::DeserializeFromJson(const nlohmann::json& dataJ)
-{
-	return CreateAndFill<SoundType>([&dataJ](SoundType& data) {
-		data = *Core::StringToEnum<SoundType>(dataJ.get<std::string>());
-		});
-}
-
 nlohmann::json JsonTraitsBase<Core::ResourceID>::SerializeToJson(const Core::ResourceID& data)
 {
 	return data.GetValue();
@@ -42,18 +30,6 @@ nlohmann::json JsonTraitsBase<Core::ResourceID>::SerializeToJson(const Core::Res
 Core::ResourceID JsonTraitsBase<Core::ResourceID>::DeserializeFromJson(const nlohmann::json& dataJ)
 {
 	return Core::ResourceID::MakePath(dataJ.get<std::string>());
-}
-
-nlohmann::json JsonTraitsBase<AudioGroup>::SerializeToJson(const AudioGroup& data)
-{
-	return Core::EnumToString(data);
-}
-
-AudioGroup JsonTraitsBase<AudioGroup>::DeserializeFromJson(const nlohmann::json& dataJ)
-{
-	return CreateAndFill<AudioGroup>([&dataJ](AudioGroup& data) {
-		data = *Core::StringToEnum<AudioGroup>(dataJ.get<std::string>());
-		});
 }
 
 ////////////////////////////////////////////////////////////////

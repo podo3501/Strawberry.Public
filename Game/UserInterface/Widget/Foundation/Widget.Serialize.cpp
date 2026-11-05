@@ -1,0 +1,41 @@
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
+
+import std;
+import :Widget;
+import Serialization;
+import Core.Utils;
+
+// 저장 파일에 적히는 이름. 한 번 정하면 바꾸지 않는다 (옛 파일을 읽을 수 없게 된다)
+template<>
+constexpr std::array<const char*, Core::EnumSize<SizePolicy>> Core::EnumToStringMap<SizePolicy>()
+{
+    return Core::MakeEnumStringMap<SizePolicy>("Fixed", "Fit", "Fill");
+}
+
+// 멤버를 그대로 읽고 쓴다 (읽기/쓰기가 같은 코드). 값은 스칼라 키로 적는다: Serializer가 시퀀스는 읽을 때 기존 내용 뒤에 덧붙이기 때문에 현재 값이 들어 있는 멤버에는 맞지 않는다.
+// 읽을 때 키가 없으면 멤버가 그대로 남는다. enum은 이름으로 적히고, 모르는 이름이면 InvalidEnum이 되어 실패로 돌려준다.
+bool Widget::Serialize(Serializer& serializer, IWidgetResources&)
+{
+    serializer.Process("anchorX", m_anchor.anchor.x);
+    serializer.Process("anchorY", m_anchor.anchor.y);
+    serializer.Process("pivotX", m_anchor.pivot.x);
+    serializer.Process("pivotY", m_anchor.pivot.y);
+    serializer.Process("offsetX", m_anchor.offset.x);
+    serializer.Process("offsetY", m_anchor.offset.y);
+    serializer.Process("width", m_rect.width);
+    serializer.Process("height", m_rect.height);
+    serializer.Process("widthPolicy", m_widthPolicy);
+    serializer.Process("heightPolicy", m_heightPolicy);
+    serializer.Process("tooltip", m_tooltip);
+
+    if (m_widthPolicy == Core::InvalidEnum<SizePolicy> || m_heightPolicy == Core::InvalidEnum<SizePolicy>)
+        return false;
+
+    if (!serializer.IsWrite())
+        Relayout();   // 직접 채운 값을 레이아웃에 반영
+    return true;
+}

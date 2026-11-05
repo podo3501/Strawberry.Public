@@ -1,13 +1,16 @@
-export module Game.UserInterface.Widget:Dropdown;
+export module UserInterface.Widget:Dropdown;
 
 import std;
 import :Widget;
 import :Pressable;
 import :Backdrop;
 import :InputEvents;
+import :WidgetResources;
 import Contract.Render.UI;
 import Contract.Render.IOverlayView;
+import Serialization;
 import Core.Math;
+import Core.TypeHierarchy;
 
 export struct DropdownSkin   // 순수 데이터: 클라이언트가 폰트와 브러시를 채워서 넘긴다
 {
@@ -30,7 +33,7 @@ class DropdownList;   // 펼친 목록 (Dropdown.cpp)
 // popupHost는 화면 전체를 덮는 팝업 레이어이고, 원점이 화면 (0,0)이어야 한다 (UserInterface의 레이어).
 // 목록이 열린 채로 Dropdown이 파괴되면 목록도 함께 닫힌다.
 // SetSelected는 콜백을 부르지 않고, 사용자가 다른 항목을 골랐을 때만 SetOnChanged 콜백이 불린다 (같은 항목은 부르지 않는다).
-export class Dropdown final : public Pressable
+export class Dropdown final : public Core::TypeNode<Dropdown, Pressable>
 {
 public:
     Dropdown(Widget& popupHost, Core::Rect localRect, DropdownSkin skin, std::vector<std::string> items, std::size_t selected = 0);
@@ -42,6 +45,7 @@ public:
     void SetOnChanged(std::function<void(std::size_t)> onChanged) { m_onChanged = std::move(onChanged); }
 
 protected:
+    bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: Dropdown.cpp
     void OnClick(const PointerEvent&) override { Open(); }
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override;
 

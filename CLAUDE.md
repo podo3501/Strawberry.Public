@@ -18,11 +18,13 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
   - `Testing/Runtime-Test.slnx` — 백엔드 전체(DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service 등)를 빌드하고 테스트한다 (`Testing/Runtime/*-Test`). UI 모듈은 포함하지 않는다. 입력/렌더/에셋/오디오 작업은 이 솔루션을 쓴다. 실행 파일은 `Testing\x64\Debug\<이름>-Test.exe`다 (예: `DxInput-Test.exe`).
   - `Testing/Game/UserInterface-Test.slnx` — UI 모듈만 빌드하고 테스트한다. UI 작업 시 이 솔루션만 빌드하면 된다 (Contract, UserInterface, Core, GoogleTest, UserInterface-Test)
 - `Testing/Runtime/DxRender-Test.slnx` — Render 백엔드만 테스트하는 솔루션이다. 가끔 쓴다.
+- `Testing/Runtime/FileAsset-Test.slnx` — 에셋 로딩/저장(FileAsset)만 테스트하는 솔루션이다 (Core, Contract, Serialization, Service 포함). 실행 파일은 `Testingd\Debug\FileAsset-Test.exe`다.
 - `Tools/Tools.slnx` — 툴 솔루션이다 (`Tools/UITool`: UI를 입력/렌더에 연결하는 실행 파일). 실행 파일은 `Tool\x64\Debug\UITool.exe`다.
 - `Testing/Runtime/Runtime.NoRender-Test.slnx` — 렌더를 뺀 런타임 솔루션이다. 당분간 쓰지 않으며, 현재 `Service`/`GoogleTest`에서 pch 오류(C1010)가 난다. 빌드/테스트에 사용하지 않는다.
+- **`DxRender-Test.exe`와 `SDLAudio-Test.exe`는 실행하지 않는다.** 실행 시간이 길고 사람이 눈과 귀로 판단하도록 만든 테스트라서 자동 실행에 맞지 않는다. 빌드(컴파일 확인)는 해도 된다.
 - 테스트는 GoogleTest(`Testing/GoogleTest`, 소스 포함) 실행 파일이다. 단일 테스트는 `UserInterface-Test.exe --gtest_filter=UserInterfaceT_Toggle.*` 처럼 실행한다.
 - `Clean_x64_vs.bat` — 모든 `x64` 출력 폴더와 `.vs`를 삭제한다.
-- 공통 컴파일 옵션/include 경로는 `Directory.Build.props`에 있다. include 루트는 저장소 루트, `Game`, `Runtime`, `ThirdParty`다.
+- 공통 컴파일 옵션/include 경로는 `Directory.Build.props`에 있다. include 루트는 저장소 루트, `Foundation`, `Game`, `Runtime`, `ThirdParty`다.
 
 ## 아키텍처
 
@@ -31,10 +33,10 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 **모듈 그래프 점검**: 한 덩어리의 작업을 끝내고 빌드/테스트가 통과하면, 매번이 아니라 이때 한 번 `ModuleGraph.txt`를 새로 뽑아 내용을 확인한다. 의존 방향이 계층(위 → 아래)을 거스르지 않는지, UI 모듈이 `DxRender`/`DxInput`에 의존하지 않는지, 마지막의 `cycles` 항목이 비었는지를 본다. 순환은 컴파일러도 잡지만 방향 위반은 이 파일로만 보인다. 실행은 저장소 루트에서 한다 (PowerShell에서 경로 두 개를 `;`로 이은 인자 하나로 묶어야 한다. Bash에서는 `;`가 명령 구분자라 잘못 실행된다):
 
 ```
-& "C:\Users\nixie\AppData\Local\Programs\Python\Python314\python.exe" ImportGraph.py 'D:\Project\Development\Strawberry\Game;D:\Project\Development\Strawberry\Runtime'
+& "C:\Users\nixie\AppData\Local\Programs\Python\Python314\python.exe" ImportGraph.py 'D:\Project\Development\Strawberry\Foundation;D:\Project\Development\Strawberry\Game;D:\Project\Development\Strawberry\Runtime'
 ```
 
-디렉터리: `Game/` (App, Client, Contract, Service, UserInterface), `Runtime/` (Core, DxInput, DxRender, FileAsset, SDLAudio, Serialization), `Tools/` (UITool), `Testing/` (테스트 미러 구조). `Tools/`는 `Game`과 `Runtime`을 모두 쓰는 최상위 실행 파일 층이고 아무도 import하지 않으므로 `ImportGraph.py` 점검 대상에 넣지 않는다.
+디렉터리: `Foundation/` (Core, Serialization, Contract: Game과 Runtime이 함께 쓰는 기반으로 아무 데도 의존하지 않는다), `Game/` (App, Client, Service, UserInterface), `Runtime/` (DxInput, DxRender, FileAsset, SDLAudio), `Tools/` (UITool), `Testing/` (테스트 미러 구조). `Tools/`는 `Foundation`, `Game`, `Runtime`을 모두 쓰는 최상위 실행 파일 층이고 아무도 import하지 않으므로 `ImportGraph.py` 점검 대상에 넣지 않는다.
 
 ## 규약
 

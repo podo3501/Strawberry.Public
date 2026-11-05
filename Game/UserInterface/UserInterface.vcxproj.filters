@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Game.UserInterface.ixx" />
+    <ClCompile Include="UserInterface.Module.ixx" />
     <ClCompile Include="UserInterface.ixx" />
     <ClCompile Include="Widget\UserInterface.Widget.ixx">
       <Filter>Widget</Filter>
@@ -34,6 +34,18 @@
     <ClCompile Include="Widget\Foundation\WidgetInspector.ixx">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Foundation\WidgetResources.ixx">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\WidgetSerializer.cpp">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\WidgetSerializer.ixx">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Foundation\Widget.Serialize.cpp">
+      <Filter>Widget\Foundation</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Foundation\Widget.Tree.cpp">
       <Filter>Widget\Foundation</Filter>
     </ClCompile>
@@ -46,7 +58,16 @@
     <ClCompile Include="Widget\Drawing\Slice.ixx">
       <Filter>Widget\Drawing</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Drawing\SliceBrush.cpp">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Drawing\SliceBrush.ixx">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Drawing\TextSerialize.cpp">
+      <Filter>Widget\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Drawing\TextSerialize.ixx">
       <Filter>Widget\Drawing</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Containers\Group.ixx">
@@ -58,6 +79,9 @@
     <ClCompile Include="Widget\Containers\ScrollView.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Containers\RadioGroup.cpp">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Containers\RadioGroup.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
@@ -67,7 +91,13 @@
     <ClCompile Include="Widget\Containers\Stack.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Controls\Button.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Controls\Button.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Image.cpp">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Controls\Image.ixx">
@@ -85,10 +115,19 @@
     <ClCompile Include="Widget\Controls\Slider.ixx">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Controls\Text.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Controls\Text.ixx">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Controls\Pressable.cpp">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Controls\Pressable.ixx">
+      <Filter>Widget\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Controls\Toggle.cpp">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Controls\Toggle.ixx">
@@ -106,6 +145,9 @@
     <ClCompile Include="Widget\Controls\Dropdown.cpp">
       <Filter>Widget\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Containers\Backdrop.cpp">
+      <Filter>Widget\Containers</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\Containers\Backdrop.ixx">
       <Filter>Widget\Containers</Filter>
     </ClCompile>
@@ -114,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="Widget\Foundation\Tooltip.cpp">
       <Filter>Widget\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Containers\Panel.cpp">
+      <Filter>Widget\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Containers\Panel.ixx">
       <Filter>Widget\Containers</Filter>

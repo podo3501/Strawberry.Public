@@ -10,7 +10,7 @@ export enum class TextRenderMode
     Count
 };
 
-// text style은 4비트로 패킹되기 때문에 enum 개수가 16개를 넘기면 안 됨
+// text style은 4비트로 패킹되기 때문에 enum 개수가 16개를 넘기면 안 됨 (Count는 개수를 세는 표식이라 값으로 쓰지 않는다)
 export enum class TextEffectLevel
 {
     None = 0,
@@ -29,6 +29,7 @@ export enum class TextEffectLevel
     Level13,
     Level14,
     Level15,
+    Count
 };
 
 export enum class TextColor
@@ -51,7 +52,8 @@ export enum class TextColor
     Navy,
     Charcoal,
     DarkBrown,
-    Gold
+    Gold,
+    Count
 };
 
 export struct TextOutline
@@ -110,20 +112,23 @@ export enum class TextHorizontalAlign
 {
     Left,
     Center,
-    Right
+    Right,
+    Count
 };
 
 export enum class TextVerticalAlign
 {
     Top,
     Middle,
-    Bottom
+    Bottom,
+    Count
 };
 
 export enum class TextOverflow
 {
     Overflow, // 영역 밖으로 그림
     Clip,     // Rect 밖은 자름
+    Count
 };
 
 export struct TextLayout

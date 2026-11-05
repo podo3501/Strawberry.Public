@@ -19,6 +19,8 @@ namespace Core
         class TypeNode : public Base
     {
     public:
+        using Base::Base;   // 인자가 있는 생성자를 가진 부모(Widget 등)도 쓸 수 있도록 부모 생성자를 그대로 물려받는다
+
         static TypeID StaticTypeID() { return Core::GetTypeID<Derived>(); }
 
         TypeID GetTypeID() const override { return StaticTypeID(); }

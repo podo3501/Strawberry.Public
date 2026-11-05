@@ -10,7 +10,7 @@ paths:
 
 1. `import std;`
 2. 같은 모듈의 파티션 (`import :Widget;`)
-3. 게임 쪽 모듈 (`Game.UserInterface.*` 등 클라이언트/UI/서비스)
+3. 게임 쪽 모듈 (`UserInterface.*` 등 클라이언트/UI/서비스)
 4. `Contract.*`
 5. 런타임 백엔드 (`DxRender`, `DxInput`, `FileAsset`, `SDLAudio`, `Serialization`)
 6. `Core.*`

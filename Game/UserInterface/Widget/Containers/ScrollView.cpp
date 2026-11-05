@@ -1,7 +1,12 @@
-module Game.UserInterface.Widget;
+module;
+
+#include <nlohmann/json.hpp>
+
+module UserInterface.Widget;
 
 import std;
 import :ScrollView;
+import Serialization;
 
 void ScrollView::SetScroll(float y)
 {
@@ -96,4 +101,29 @@ void ScrollView::ArrangeChildren()
         const Core::Rect& r = child->LocalRect();
         SetLocalPosition(*child, { r.x, r.y - shift });
     }
+}
+
+// 저장하는 것: 휠 한 칸 이동량, 스크롤 막대 스킨(없을 수 있다). 스크롤 위치는 내용 크기에 따라 배치 때 보정되는 상태라 저장하지 않고, 불러오면 맨 위에서 시작한다.
+bool ScrollView::Serialize(Serializer& serializer, IWidgetResources& resources)
+{
+    if (!Widget::Serialize(serializer, resources))
+        return false;
+
+    serializer.Process("lineStep", m_lineStep);
+
+    bool hasScrollBar = m_bar.has_value();
+    ScrollBarSkin bar = m_bar.value_or(ScrollBarSkin{});
+    serializer.Process("hasScrollBar", hasScrollBar);
+    if (hasScrollBar)
+    {
+        serializer.Process("barWidth", bar.width);
+        serializer.Process("barMinThumbLength", bar.minThumbLength);
+        if (!SerializeBrushName(serializer, resources, bar.track, "barTrackBrush")
+            || !SerializeBrushName(serializer, resources, bar.thumb, "barThumbBrush"))
+            return false;
+    }
+
+    if (!serializer.IsWrite())   // 저장할 때는 객체를 건드리지 않는다
+        m_bar = hasScrollBar ? std::optional<ScrollBarSkin>(bar) : std::nullopt;
+    return true;
 }

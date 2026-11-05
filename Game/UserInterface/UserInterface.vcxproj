@@ -19,34 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.UserInterface.ixx" />
+    <ClCompile Include="UserInterface.Module.ixx" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserInterface.ixx" />
+    <ClCompile Include="Widget\Containers\Backdrop.cpp" />
     <ClCompile Include="Widget\Containers\Backdrop.ixx" />
     <ClCompile Include="Widget\Containers\Group.ixx" />
+    <ClCompile Include="Widget\Containers\Panel.cpp" />
     <ClCompile Include="Widget\Containers\Panel.ixx" />
+    <ClCompile Include="Widget\Containers\RadioGroup.cpp" />
     <ClCompile Include="Widget\Containers\RadioGroup.ixx" />
     <ClCompile Include="Widget\Containers\ScrollView.cpp" />
     <ClCompile Include="Widget\Containers\ScrollView.ixx" />
     <ClCompile Include="Widget\Containers\Stack.cpp" />
     <ClCompile Include="Widget\Containers\Stack.ixx" />
+    <ClCompile Include="Widget\Controls\Button.cpp" />
     <ClCompile Include="Widget\Controls\Button.ixx" />
+    <ClCompile Include="Widget\Controls\Image.cpp" />
     <ClCompile Include="Widget\Controls\Image.ixx" />
+    <ClCompile Include="Widget\Controls\Pressable.cpp" />
     <ClCompile Include="Widget\Controls\Pressable.ixx" />
     <ClCompile Include="Widget\Controls\ProgressBar.cpp" />
     <ClCompile Include="Widget\Controls\ProgressBar.ixx" />
     <ClCompile Include="Widget\Controls\Slider.cpp" />
     <ClCompile Include="Widget\Controls\Slider.ixx" />
+    <ClCompile Include="Widget\Controls\Text.cpp" />
     <ClCompile Include="Widget\Controls\Text.ixx" />
     <ClCompile Include="Widget\Controls\TextBox.cpp" />
     <ClCompile Include="Widget\Controls\TextBox.ixx" />
     <ClCompile Include="Widget\Controls\Dropdown.cpp" />
     <ClCompile Include="Widget\Controls\Dropdown.ixx" />
+    <ClCompile Include="Widget\Controls\Toggle.cpp" />
     <ClCompile Include="Widget\Controls\Toggle.ixx" />
     <ClCompile Include="Widget\Drawing\Gauge.cpp" />
     <ClCompile Include="Widget\Drawing\Gauge.ixx" />
     <ClCompile Include="Widget\Drawing\Slice.ixx" />
+    <ClCompile Include="Widget\Drawing\SliceBrush.cpp" />
     <ClCompile Include="Widget\Drawing\SliceBrush.ixx" />
+    <ClCompile Include="Widget\Drawing\TextSerialize.cpp" />
+    <ClCompile Include="Widget\Drawing\TextSerialize.ixx" />
     <ClCompile Include="Widget\Foundation\FocusRouter.cpp" />
     <ClCompile Include="Widget\Foundation\FocusRouter.ixx" />
     <ClCompile Include="Widget\Foundation\InputEvents.ixx" />
@@ -61,13 +72,20 @@
     <ClCompile Include="Widget\Foundation\Widget.Layout.cpp" />
     <ClCompile Include="Widget\Foundation\Widget.Tree.cpp" />
     <ClCompile Include="Widget\Foundation\WidgetInspector.ixx" />
+    <ClCompile Include="Widget\Foundation\WidgetResources.ixx" />
+    <ClCompile Include="Widget\Foundation\WidgetSerializer.cpp" />
+    <ClCompile Include="Widget\Foundation\WidgetSerializer.ixx" />
+    <ClCompile Include="Widget\Foundation\Widget.Serialize.cpp" />
     <ClCompile Include="Widget\UserInterface.Widget.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Runtime\Core\Core.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Contract\Contract.vcxproj">
+    <ProjectReference Include="..\..\Foundation\Serialization\Serialization.vcxproj">
+      <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
   </ItemGroup>
