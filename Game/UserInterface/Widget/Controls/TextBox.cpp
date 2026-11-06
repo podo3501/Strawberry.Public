@@ -7,6 +7,7 @@ module UserInterface.Widget;
 import std;
 import :TextBox;
 import :TextSerialize;
+import :SlicedBrush;
 import Serialization;
 import Contract.Input.Shared;
 
@@ -137,7 +138,7 @@ void TextBox::OnTick(float dt)
 
 void TextBox::DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const
 {
-    overlay.DrawImage(m_focused ? m_skin.focused : m_skin.normal, screenRect);
+    DrawSliced(overlay, m_focused ? m_skin.focused : m_skin.normal, screenRect);
 
     const Core::Rect inner{
         screenRect.x + m_skin.padding, screenRect.y + m_skin.padding,
@@ -277,8 +278,8 @@ bool TextBox::Serialize(Serializer& serializer, IWidgetResources& resources)
     serializer.Process("caretWidth", m_skin.caretWidth);
     serializer.Process("caretBlinkInterval", m_skin.caretBlinkInterval);
 
-    if (!SerializeBrushName(serializer, resources, m_skin.normal, "normalBrush")
-        || !SerializeBrushName(serializer, resources, m_skin.focused, "focusedBrush")
+    if (!SerializeSlicedBrush(serializer, resources, m_skin.normal, "normal")   // 키는 normalBrush, normalSliced ... (옛 파일은 슬라이스 없음으로 읽힌다)
+        || !SerializeSlicedBrush(serializer, resources, m_skin.focused, "focused")
         || !SerializeBrushName(serializer, resources, m_skin.caret, "caretBrush")
         || !SerializeFontName(serializer, resources, m_skin.font, "font")
         || !SerializeTextRenderMode(serializer, m_skin.mode, "renderMode")

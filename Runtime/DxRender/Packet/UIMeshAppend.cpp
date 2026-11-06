@@ -32,7 +32,8 @@ namespace
         const Core::Matrix& world,
         const Core::Vector4& uvTransform,
         std::uint32_t textureIndex,
-        const std::optional<Core::Rect>& clip)
+        const std::optional<Core::Rect>& clip,
+        const Core::Color& tint)
     {
         std::uint32_t baseVertex = static_cast<std::uint32_t>(buffer.vertices.size());
         DirectX::XMMATRIX xmWorld = ToDXMatrix(world);
@@ -49,6 +50,7 @@ namespace
             out.uv.x = std::lerp(uvTransform.x, uvTransform.z, v.uv.x);
             out.uv.y = std::lerp(uvTransform.y, uvTransform.w, v.uv.y);
             out.textureIndex = textureIndex;
+            out.color = { v.color.r * tint.r, v.color.g * tint.g, v.color.b * tint.b, v.color.a * tint.a };
             out.textProps.clipRect = clipRect;
             buffer.vertices.push_back(out);
         }
@@ -92,7 +94,8 @@ void AppendUIItems(
             ui.world,
             uvTransform,
             brush->GetTextureIndex(),
-            ui.clip);
+            ui.clip,
+            ui.tint);
 
         PadToQuadAlignment(buffer);
     }

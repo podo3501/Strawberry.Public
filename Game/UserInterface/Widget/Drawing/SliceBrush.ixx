@@ -22,6 +22,7 @@ export struct SlicedBrush
 };
 
 // dest(화면 좌표)를 채우도록 그린다. 크기가 0인 슬라이스는 건너뛴다.
+// IOverlayView::DrawImage의 source는 원본 이미지 안의 픽셀 좌표이므로, 0~1 비율인 슬라이스 uv에 srcSize를 곱해 넘긴다.
 export void DrawSliced(IOverlayView& overlay, const SlicedBrush& sb, const Core::Rect& dest)
 {
     if (!sb.margins)
@@ -31,8 +32,13 @@ export void DrawSliced(IOverlayView& overlay, const SlicedBrush& sb, const Core:
     }
 
     for (const auto& q : BuildNineSlice(dest, *sb.margins, sb.srcSize))
-        if (q.dest.width > 0.f && q.dest.height > 0.f)
-            overlay.DrawImage(sb.brush, q.dest, &q.uv);
+    {
+        if (q.dest.width <= 0.f || q.dest.height <= 0.f)
+            continue;
+
+        const Core::Rect source{ q.uv.x * sb.srcSize.x, q.uv.y * sb.srcSize.y, q.uv.width * sb.srcSize.x, q.uv.height * sb.srcSize.y };
+        overlay.DrawImage(sb.brush, q.dest, &source);
+    }
 }
 
 // 저장 파일의 키 이름. prefix가 비어 있으면 name 그대로, 있으면 prefix 뒤에 첫 글자를 대문자로 한 name을 붙인다 (background + brush -> backgroundBrush)

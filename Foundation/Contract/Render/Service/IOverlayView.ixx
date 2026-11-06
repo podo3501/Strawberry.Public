@@ -11,7 +11,8 @@ export struct IOverlayView
 	virtual void DrawImage(
 		BrushHandle bh,
 		const Core::Rect& dest,
-		const Core::Rect* source = nullptr) = 0;
+		const Core::Rect* source = nullptr, // source: 원본 이미지 안의 영역(픽셀 좌표, 0~1 비율 아님). nullptr이면 이미지 전체
+		const Core::Color& tint = {}) = 0; // tint는 이미지 색에 곱해진다. 1을 넘으면 밝아지고, 알파는 전체 불투명도가 된다
 
 	virtual void DrawText(
 		FontHandle hF,

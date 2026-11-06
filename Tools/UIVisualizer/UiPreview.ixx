@@ -3,10 +3,10 @@ module;
 #include <Windows.h>
 #include <objbase.h>
 
-export module UITool.UiPreview;
+export module UIVisualizer.UiPreview;
 
 import std;
-import UITool.PanelInput;
+import UIVisualizer.PanelInput;
 import UserInterface;
 import Graphics.SceneObject;
 import Contract.Render.Shared;
@@ -100,31 +100,47 @@ private:
     void BuildSampleUi()
     {
         auto& resources = m_renderService->GetResources();
-        auto brush = [&](const char* path) { return resources.LoadBrush(BrushDesc{ Core::ResourceID::MakePath(path) }); };
-        const BrushHandle blue = brush("Texture/Buttons/BlueButton.png");
-        const BrushHandle red = brush("Texture/red.png");
-        const BrushHandle white = brush("Texture/Buttons/alpha_white.png");
-        const FontHandle font = resources.LoadFont(FontDesc{ Core::ResourceID::MakePath("Font/Pretendard-Regular.ttf") });
+        const BrushHandle bg = resources.LoadBrush(BrushDesc{ Core::ResourceID::MakePath("Sprite/detailscreen_window_actions_bg.png") });
 
         m_ui->Resize(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
-        auto& label = m_ui->Attach(std::make_unique<Text>(
-            m_ui->TextMeasurer(), font, TextRenderMode::MTSDF, "Strawberry UI",
-            20, Core::Rect{ 40.f, 120.f, 300.f, 30.f }), UILayer::Window);
+        // 원본 이미지 512x141의 절반 크기. 호버는 밝게, 눌림은 더 밝게
+        m_ui->Attach(std::make_unique<Button>(
+            Core::Rect{ 40.f, 40.f, 256.f, 70.f }, ButtonBrushes::Tinted(bg, { 1.1f, 1.1f, 1.1f }, { 1.3f, 1.3f, 1.3f })), UILayer::Window);
 
-        auto& button = m_ui->Attach(std::make_unique<Button>(
-            Core::Rect{ 40.f, 40.f, 200.f, 60.f }, ButtonBrushes{ blue, blue, red }), UILayer::Window);
-        button.SetOnClick([&label, count = 0]() mutable { label.SetText(std::format("Clicked {}", ++count)); });
+        // 14x14 원본을 2배로 키워 보여 준다. 꺼짐/켜짐 각각 일반, 호버, 눌림 이미지를 쓴다
+        auto sprite = [&](const char* name) { return resources.LoadBrush(BrushDesc{ Core::ResourceID::MakePath(std::format("Sprite/{}.png", name)) }); };
+        ToggleSkin toggleSkin;
+        toggleSkin.off = { sprite("toggle"), sprite("toggle hover"), sprite("toggle active") };
+        toggleSkin.on = { sprite("toggle on"), sprite("toggle on hover"), sprite("toggle on active") };
+        m_ui->Attach(std::make_unique<Toggle>(Core::Rect{ 40.f, 130.f, 28.f, 28.f }, toggleSkin), UILayer::Window);
 
-        TextBoxSkin skin;
-        skin.normal = white;
-        skin.focused = blue;
-        skin.caret = red;
-        skin.font = font;
-        skin.fontSize = 18;
-        skin.caretWidth = 2.f;
+        // 슬라이더와 진행 막대: 같은 틀(178x16)과 채움(154x8) 이미지를 9슬라이스로 늘려 쓴다.
+        // 슬라이더를 움직이면 아래 진행 막대가 같은 비율로 따라간다
+        GaugeSkin gauge;
+        gauge.background = SlicedBrush::Sliced(sprite("build_menu_scrollbar_frame_horizontal"), { 8.f, 0.f, 8.f, 0.f }, { 178.f, 16.f });
+        gauge.fill = SlicedBrush::Sliced(sprite("build_menu_scrollbar_inner_horizontal"), { 4.f, 0.f, 4.f, 0.f }, { 154.f, 8.f });
+        gauge.fillInset = { 4.f, 4.f, 4.f, 4.f };
+
+        SliderSkin sliderSkin;
+        sliderSkin.bar = gauge;
+        sliderSkin.thumb = sprite("slider thumb");
+        sliderSkin.thumbSize = { 12.f, 12.f };
+        auto& slider = m_ui->Attach(std::make_unique<Slider>(Core::Rect{ 40.f, 190.f, 200.f, 16.f }, sliderSkin, SliderAxis::Horizontal, 0.5f), UILayer::Window);
+        auto& progress = m_ui->Attach(std::make_unique<ProgressBar>(Core::Rect{ 40.f, 230.f, 200.f, 16.f }, gauge, 0.5f), UILayer::Window);
+        slider.SetOnChanged([&progress](float value) { progress.SetRatio(value); });
+
+        // 글자 입력 칸: 평상시 textfield, 포커스를 받으면 textfield on 이미지 (9슬라이스)
+        TextBoxSkin textSkin;
+        constexpr SliceMargins textMargins{ 5.f, 5.f, 5.f, 5.f };   // 12x12 원본의 모서리 5픽셀은 늘어나지 않는다
+        textSkin.normal = SlicedBrush::Sliced(sprite("textfield"), textMargins, { 12.f, 12.f });
+        textSkin.focused = SlicedBrush::Sliced(sprite("textfield on"), textMargins, { 12.f, 12.f });
+        textSkin.caret = resources.LoadBrush(BrushDesc{ Core::ResourceID::MakePath("Texture/Buttons/alpha_white.png") });
+        textSkin.font = resources.LoadFont(FontDesc{ Core::ResourceID::MakePath("Font/Pretendard-Regular.ttf") });
+        textSkin.fontSize = 18;
+        textSkin.caretWidth = 2.f;
         m_ui->Attach(std::make_unique<TextBox>(
-            m_ui->TextMeasurer(), Core::Rect{ 40.f, 170.f, 300.f, 36.f }, skin, "type here"), UILayer::Window);
+            m_ui->TextMeasurer(), Core::Rect{ 40.f, 270.f, 240.f, 32.f }, textSkin, "type here"), UILayer::Window);
     }
 
     bool m_comInitialized{ false };

@@ -6,18 +6,36 @@ import :SlicedBrush;
 import :WidgetResources;
 import Contract.Input.Shared;
 import Contract.Render.Handles;
+import Contract.Render.IOverlayView;
 import Serialization;
 import Core.Math;
 import Core.TypeHierarchy;
 
-export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 만들 때 채우는 값
+// 한 상태의 모습: 브러시와 그 위에 곱할 색. 틴트가 흰색(기본)이면 원본 그대로다. 1을 넘으면 밝아진다
+export struct StateBrush
 {
-    BrushHandle normal{};
-    BrushHandle hover{};
-    BrushHandle pressed{};
+    BrushHandle brush{};
+    Core::Color tint{};
+
+    StateBrush() = default;
+    StateBrush(BrushHandle brush, Core::Color tint = {}) : brush(brush), tint(tint) {}   // 브러시만 넣으면 틴트 없음
 };
 
-// 저장/불러오기: 브러시 3개를 prefix가 붙은 키(normalBrush, hoverBrush, pressedBrush)로 적는다. 구현: Pressable.cpp
+export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 만들 때 채우는 값
+{
+    StateBrush normal{};
+    StateBrush hover{};
+    StateBrush pressed{};
+
+    // 브러시 하나로 세 상태를 만들고 틴트만 다르게 한다. 기본값은 호버와 눌림이 차례로 조금씩 밝아진다
+    static ButtonBrushes Tinted(BrushHandle brush, Core::Color hoverTint = { 1.15f, 1.15f, 1.15f }, Core::Color pressedTint = { 1.3f, 1.3f, 1.3f })
+    {
+        return { StateBrush{ brush }, StateBrush{ brush, hoverTint }, StateBrush{ brush, pressedTint } };
+    }
+};
+
+// 저장/불러오기: 브러시 3개를 prefix가 붙은 키(normalBrush, hoverBrush, pressedBrush)로 적는다.
+// 틴트는 흰색이 아닌 상태만 hasNormalTint + normalTintR/G/B/A 같은 키로 적고, 키가 없으면 흰색이다. 구현: Pressable.cpp
 // 하나라도 이름을 모르는 핸들(저장), 이름이 없거나 모르는 이름(불러오기)이면 false.
 export bool SerializeButtonBrushes(Serializer& serializer, IWidgetResources& resources, ButtonBrushes& brushes, std::string_view prefix);
 
@@ -50,8 +68,15 @@ protected:
         return true;
     }
 
-    // 현재 상태에 맞는 브러시를 고른다
-    BrushHandle Pick(const ButtonBrushes& brushes) const
+    // 현재 상태의 브러시를 그 상태의 틴트로 그린다
+    void DrawPicked(IOverlayView& overlay, const ButtonBrushes& brushes, const Core::Rect& screenRect) const
+    {
+        const StateBrush& state = Pick(brushes);
+        overlay.DrawImage(state.brush, screenRect, nullptr, state.tint);
+    }
+
+    // 현재 상태에 맞는 모습을 고른다
+    const StateBrush& Pick(const ButtonBrushes& brushes) const
     {
         if (m_down && m_hover) return brushes.pressed;   // 누른 채 바깥으로 끌고 나가면 눌림 표시가 풀리도록 hover && down일 때만 Pressed
         if (m_hover || m_focusVisible) return brushes.hover;

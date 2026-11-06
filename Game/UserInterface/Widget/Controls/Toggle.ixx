@@ -38,7 +38,7 @@ protected:
 
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
     {
-        overlay.DrawImage(Pick(m_checked ? m_skin.on : m_skin.off), screenRect);
+        DrawPicked(overlay, m_checked ? m_skin.on : m_skin.off, screenRect);
     }
 
 private:

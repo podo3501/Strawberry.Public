@@ -18,10 +18,10 @@
 #pragma comment(lib, "dxgi.lib")
 
 import std;
-import UITool.UiPreview;
-import UITool.PanelInput;
-import UITool.WidgetTreePanel;
-import UITool.PropertyPanel;
+import UIVisualizer.UiPreview;
+import UIVisualizer.PanelInput;
+import UIVisualizer.WidgetTreePanel;
+import UIVisualizer.PropertyPanel;
 import Contract.Render.Shared;
 import Core.Math;
 
@@ -394,11 +394,11 @@ static LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
-int main()
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
-    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"StrawberryUITool", nullptr };
+    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"StrawberryUIVisualizer", nullptr };
     RegisterClassExW(&wc);
-    HWND hwnd = CreateWindowW(wc.lpszClassName, L"Strawberry UITool", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+    HWND hwnd = CreateWindowW(wc.lpszClassName, L"Strawberry UIVisualizer", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
 
     if (!CreateDeviceD3D(hwnd))
     {

@@ -49,7 +49,8 @@ OverlayViewData OverlayView::TakeData()
 void OverlayView::DrawImage(
     BrushHandle bh,
     const Core::Rect& dest,
-    const Core::Rect* source)
+    const Core::Rect* source,
+    const Core::Color& tint)
 {
     if (!bh)
         bh = m_defaultBrush;
@@ -78,7 +79,7 @@ void OverlayView::DrawImage(
 	m_data.draws.ui.push_back(DrawUIItem{
 		meshRes, brushRes, world,
 		source ? std::optional<Core::Rect>(*source) : std::nullopt,
-		clip });
+		clip, tint });
 }
 
 void OverlayView::DrawText(

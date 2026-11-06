@@ -23,7 +23,8 @@ public:
     void DrawImage(
         BrushHandle bh,
         const Core::Rect& dest,
-        const Core::Rect* source) override;
+        const Core::Rect* source,
+        const Core::Color& tint) override;
 
     void DrawText(
         FontHandle hF,

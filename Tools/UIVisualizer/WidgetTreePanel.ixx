@@ -2,7 +2,7 @@ module;
 
 #include <Imgui/imgui.h>
 
-export module UITool.WidgetTreePanel;
+export module UIVisualizer.WidgetTreePanel;
 
 import std;
 import UserInterface;

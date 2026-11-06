@@ -12,6 +12,7 @@ export struct DrawUIItem
     Core::Matrix world;
     std::optional<Core::Rect> source;
     std::optional<Core::Rect> clip;
+    Core::Color tint;
 };
 
 export struct DrawTextItem

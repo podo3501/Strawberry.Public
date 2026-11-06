@@ -2,7 +2,7 @@ module;
 
 #include <Imgui/imgui.h>
 
-export module UITool.PropertyPanel;
+export module UIVisualizer.PropertyPanel;
 
 import std;
 import UserInterface;

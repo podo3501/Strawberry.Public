@@ -23,6 +23,6 @@
     <Project Path="../Runtime/FileAsset/FileAsset.vcxproj" Id="9253bcf9-c241-4a6f-b171-d78c90a08064" />
   </Folder>
   <Folder Name="/Tools/">
-    <Project Path="UITool/UITool.vcxproj" Id="bc694e66-de4b-4492-bcbf-34d68e246359" />
+    <Project Path="UIVisualizer/UIVisualizer.vcxproj" Id="bc694e66-de4b-4492-bcbf-34d68e246359" />
   </Folder>
 </Solution>

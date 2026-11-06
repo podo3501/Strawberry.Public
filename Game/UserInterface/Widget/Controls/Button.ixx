@@ -23,7 +23,7 @@ protected:
 
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
     {
-        overlay.DrawImage(Pick(m_brushes), screenRect);
+        DrawPicked(overlay, m_brushes, screenRect);
     }
 
 private:

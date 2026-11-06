@@ -4,6 +4,7 @@ import std;
 import :Widget;
 import :InputEvents;
 import :WidgetResources;
+import :SlicedBrush;
 import Contract.Render.UI;
 import Contract.Render.IOverlayView;
 import Contract.Render.ITextMeasurer;
@@ -13,8 +14,8 @@ import Core.TypeHierarchy;
 
 export struct TextBoxSkin   // 순수 데이터: 클라이언트가 폰트와 브러시를 채워서 넘긴다
 {
-    BrushHandle normal{};
-    BrushHandle focused{};
+    SlicedBrush normal{};       // 배경. SlicedBrush::Sliced로 만들면 9슬라이스로 늘어난다
+    SlicedBrush focused{};      // 포커스를 받았을 때의 배경
     BrushHandle caret{};        // 캐럿(세로 막대)을 채우는 브러시
     FontHandle font{};
     TextRenderMode mode{ TextRenderMode::MTSDF };

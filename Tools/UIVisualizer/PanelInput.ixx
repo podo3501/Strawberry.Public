@@ -2,7 +2,7 @@ module;
 
 #include <Imgui/imgui.h>
 
-export module UITool.PanelInput;
+export module UIVisualizer.PanelInput;
 
 import std;
 import Contract.Input.Service;

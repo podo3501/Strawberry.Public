@@ -173,7 +173,7 @@ bool Dropdown::OnPopupKey(const KeyEvent& e)
 
 void Dropdown::DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const
 {
-    overlay.DrawImage(Pick(m_skin.button), screenRect);
+    DrawPicked(overlay, m_skin.button, screenRect);
 
     const Core::Rect inner{
         screenRect.x + m_skin.padding, screenRect.y,
