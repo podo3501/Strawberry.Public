@@ -117,6 +117,9 @@
     <ClCompile Include="Utils\StringConvert.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Type\AssetPath.ixx">
+      <Filter>Type</Filter>
+    </ClCompile>
     <ClCompile Include="Type\ResourceID.ixx">
       <Filter>Type</Filter>
     </ClCompile>

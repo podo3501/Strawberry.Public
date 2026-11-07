@@ -13,8 +13,9 @@ static std::string StripMetaSuffix(std::string path)
     return path;
 }
 
-AssetMetaRegistry::AssetMetaRegistry(IAssetAsyncLoader* loader)
+AssetMetaRegistry::AssetMetaRegistry(IAssetAsyncLoader* loader, IAssetStorage* storage)
 	: m_asyncLoader{ loader }
+	, m_storage{ storage }
 {}
 
 bool AssetMetaRegistry::Initialize()
@@ -28,22 +29,16 @@ bool AssetMetaRegistry::Initialize()
         });
 }
 
-bool AssetMetaRegistry::Scan(const std::filesystem::path& resPath)
+bool AssetMetaRegistry::Scan()
 {
-    std::vector<std::filesystem::path> metaPaths;
-    for (auto& entry : std::filesystem::recursive_directory_iterator(resPath))
-    {
-        if (entry.is_regular_file() && entry.path().extension() == ".meta")
-            metaPaths.push_back(std::filesystem::relative(entry.path(), resPath));
-    }
-
+    const auto metaPaths = m_storage->FindFiles(".meta");
     if (metaPaths.empty())
         return true;
 
-    std::unordered_map<Core::TypeID, std::vector<std::pair<Core::ResourceID, std::filesystem::path>>> grouped;
-    for (auto& metaPath : metaPaths)
+    std::unordered_map<Core::TypeID, std::vector<std::pair<Core::ResourceID, Core::AssetPath>>> grouped;
+    for (const auto& metaPath : metaPaths)
     {
-        std::string originalPathStr = StripMetaSuffix(metaPath.string());
+        std::string originalPathStr = StripMetaSuffix(metaPath.String());
         auto originalExt = Core::GetExtension(originalPathStr);
 
         auto it = m_extToMetaType.find(Core::ToLower(originalExt));
@@ -60,7 +55,7 @@ bool AssetMetaRegistry::Scan(const std::filesystem::path& resPath)
         std::vector<AssetRequest> requests;
         requests.reserve(entries.size());
         for (auto& [originalResID, metaPath] : entries)
-            requests.push_back(MakeRequest(metaTypeID, metaPath.string()));
+            requests.push_back(MakeRequest(metaTypeID, Core::ResourceID::MakePath(metaPath)));
 
         auto requestIDs = PushRequests(m_asyncLoader, requests);
         auto results = WaitAll(m_asyncLoader, requestIDs);
@@ -100,12 +95,4 @@ bool AssetMetaRegistry::RegisterMetaType(std::string_view originalExt, Core::Typ
 
     m_extToMetaType[normalized] = metaTypeID;
     return true;
-}
-
-std::unique_ptr<IAssetMetaRegistry> CreateAssetMetaRegistry(IAssetAsyncLoader* loader)
-{
-    if (loader == nullptr)
-        return nullptr;
-
-    return std::make_unique<AssetMetaRegistry>(loader);
 }

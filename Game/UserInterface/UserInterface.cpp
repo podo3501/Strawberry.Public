@@ -1,6 +1,8 @@
 module UserInterface;
 
+import std;
 import :UserInterface;
+import Core.TypeHierarchy;
 
 UserInterface::UserInterface(ITextMeasurer& measurer)
     : m_measurer(measurer)
@@ -11,6 +13,35 @@ UserInterface::UserInterface(ITextMeasurer& measurer)
         layer.SetSizePolicy(SizePolicy::Fill, SizePolicy::Fill);   // 화면 전체. Resize가 root를 바꾸면 따라온다
         slot = &layer;
     }
+}
+
+bool UserInterface::SaveLayer(UILayer layer, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename)
+{
+    return WidgetSerializer::Save(LayerRoot(layer), storage, resources, filename);
+}
+
+bool UserInterface::LoadLayer(UILayer layer, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename)
+{
+    const WidgetLoadContext context{ m_measurer, LayerRoot(UILayer::Popup) };
+    auto loaded = WidgetSerializer::Load(storage, resources, context, filename);
+    if (!loaded || loaded->GetTypeID() != Core::GetTypeID<Group>())   // 레이어 파일의 root는 SaveLayer가 쓴 Group뿐이다
+        return false;
+
+    // Detach가 자식 목록을 바꾸므로 먼저 포인터를 모아 둔다
+    const auto collect = [](Widget& parent)
+    {
+        std::vector<Widget*> children;
+        for (const auto& child : WidgetInspector::Children(parent))
+            children.push_back(child.get());
+        return children;
+    };
+
+    Widget& root = LayerRoot(layer);
+    for (Widget* old : collect(root))
+        old->Detach();   // 돌려받은 소유권을 버려서 파괴한다
+    for (Widget* child : collect(*loaded))
+        root.Attach(child->Detach());
+    return true;
 }
 
 void UserInterface::Draw(IOverlayView& overlay) const

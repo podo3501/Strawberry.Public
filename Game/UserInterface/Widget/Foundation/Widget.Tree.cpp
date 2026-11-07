@@ -37,6 +37,29 @@ std::unique_ptr<Widget> Widget::Detach()
     return self;
 }
 
+bool Widget::IsValidName(std::string_view name)
+{
+    return name.find_first_of("/#") == std::string_view::npos;
+}
+
+bool Widget::HasSiblingNamed(std::string_view name) const
+{
+    if (!m_parent || name.empty())
+        return false;
+
+    return std::ranges::any_of(m_parent->m_children,
+        [&](const std::unique_ptr<Widget>& sibling) { return sibling.get() != this && sibling->m_name == name; });
+}
+
+bool Widget::SetName(std::string name)
+{
+    if (!IsValidName(name) || HasSiblingNamed(name))
+        return false;
+
+    m_name = std::move(name);
+    return true;
+}
+
 bool Widget::IsDescendantOf(const Widget& ancestor) const
 {
     for (const Widget* w = this; w; w = w->m_parent)

@@ -19,13 +19,12 @@ concept HasMemberBeginEnd = requires(T t) {
 	{ t.end() } -> std::sentinel_for<decltype(t.begin())>;
 };
 
-export template<typename T> // 기본 문자열 계열 및 filesystem::path 제외 컨셉
+export template<typename T> // 기본 문자열 계열 제외 컨셉
 concept NotBasicString =
 !(std::same_as<std::remove_cvref_t<T>, std::string> ||
 	std::same_as<std::remove_cvref_t<T>, std::wstring> ||
 	std::same_as<std::remove_cvref_t<T>, std::u16string> ||
-	std::same_as<std::remove_cvref_t<T>, std::u32string> ||
-	std::same_as<std::remove_cvref_t<T>, std::filesystem::path>);
+	std::same_as<std::remove_cvref_t<T>, std::u32string>);
 
 export template<typename T> // Sequence 컨테이너 검사 컨셉
 concept SequenceLike =

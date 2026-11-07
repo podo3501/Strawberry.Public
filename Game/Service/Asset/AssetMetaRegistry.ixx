@@ -10,16 +10,17 @@ export class AssetMetaRegistry : public IAssetMetaRegistry
 {
 public:
     ~AssetMetaRegistry() override = default;
-    explicit AssetMetaRegistry(IAssetAsyncLoader* loader);
+    AssetMetaRegistry(IAssetAsyncLoader* loader, IAssetStorage* storage);
 
-	bool Initialize() override;
-	bool Scan(const std::filesystem::path& resPath) override;
+	bool Initialize();   // 확장자별 메타 종류를 등록한다
+	bool Scan();         // 저장소의 .meta 파일을 모두 읽는다. 하나라도 못 읽으면 false. 읽는 로더가 등록된 뒤, 작업자 스레드가 도는 중에 불러야 한다
 	std::shared_ptr<Asset> GetMeta(const Core::ResourceID& resID) const override;
 
 private:
     bool RegisterMetaType(std::string_view originalExt, Core::TypeID metaTypeID);
 
     IAssetAsyncLoader* m_asyncLoader{ nullptr };
+    IAssetStorage* m_storage{ nullptr };
     std::unordered_map<std::string, Core::TypeID> m_extToMetaType;
     std::unordered_map<Core::ResourceID, std::shared_ptr<Asset>> m_metaAssets;
 };

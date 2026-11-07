@@ -8,6 +8,8 @@
     <Project Path="Foundation/Serialization/Serialization.vcxproj" Id="026d70d2-e39d-42d4-a5ed-441d0af53c35" />
   </Folder>
   <Folder Name="/Game/">
+    <Project Path="Game/UIVisual/UIVisual.vcxproj" Id="5777a96d-a41f-48d9-9c92-b979493b272a" />
+    <Project Path="Game/App/App.vcxproj" Id="ec1bbdb5-8fac-4dc9-b29e-9887b6d6b75a" />
     <Project Path="Game/Client/Client.vcxproj" Id="c3074755-5643-4867-804d-023448eb3b82" />
     <Project Path="Game/Service/Service.vcxproj" Id="56fc8ecc-9fda-4433-b067-52c9748a3610" />
     <Project Path="Game/UserInterface/UserInterface.vcxproj" Id="fb2c4760-0436-491f-a33a-169bcba58d0c" />

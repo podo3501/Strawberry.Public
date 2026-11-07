@@ -2,6 +2,7 @@ export module Service.Input;
 
 import std;
 import :KeyboardState;
+import :KeyRepeater;
 import Contract.Input.Shared;
 import Contract.Input.Service;
 import Contract.Input.Backend;
@@ -25,13 +26,14 @@ public:
 	bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept override;
 	bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept override;
 
-	void Update() noexcept override;
+	void Update(float dt) noexcept override;
 
 private:
 	bool AreKeysDown(std::initializer_list<KeyCode> keys) const noexcept;
 
 	std::unique_ptr<IInputBackend> m_backend;
 	KeyboardState m_keyboardState{};
+	KeyRepeater m_keyRepeater;
 	MouseState m_mouseState{};
 	std::string m_text;
 	bool m_mouseInitialized{ false };

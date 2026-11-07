@@ -45,6 +45,7 @@
     <ClCompile Include="Input\InputService.cpp" />
     <ClCompile Include="Input\InputService.ixx" />
     <ClCompile Include="Input\KeyboardState.ixx" />
+    <ClCompile Include="Input\KeyRepeater.ixx" />
     <ClCompile Include="Render\Builtin\Builtin.ixx" />
     <ClCompile Include="Render\Builtin\BuiltinBrush.ixx" />
     <ClCompile Include="Render\Builtin\BuiltinMaterials.ixx" />

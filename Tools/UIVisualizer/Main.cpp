@@ -5,6 +5,7 @@
 #include <Imgui/imgui_impl_dx12.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
+#include <objbase.h>
 #include <cassert>
 
 #ifdef _DEBUG
@@ -23,6 +24,7 @@ import UIVisualizer.PanelInput;
 import UIVisualizer.WidgetTreePanel;
 import UIVisualizer.PropertyPanel;
 import Contract.Render.Shared;
+import Core.Logger;
 import Core.Math;
 
 namespace
@@ -394,6 +396,22 @@ static LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
+namespace
+{
+    // COM 초기화와 정리. UiPreview보다 먼저 만들어서 서비스가 모두 해제된 뒤에 CoUninitialize가 불리게 한다
+    class ComScope
+    {
+    public:
+        ComScope() : m_initialized(SUCCEEDED(CoInitialize(nullptr))) {}
+        ~ComScope() { if (m_initialized) CoUninitialize(); }
+        ComScope(const ComScope&) = delete;
+        ComScope& operator=(const ComScope&) = delete;
+
+    private:
+        bool m_initialized;
+    };
+}
+
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"StrawberryUIVisualizer", nullptr };
@@ -407,6 +425,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
         return 1;
     }
 
+    Core::Logger::Initialize();   // UiPreview가 서비스를 만들기 전에 로거와 COM이 준비되어 있어야 한다
+    ComScope com;
     UiPreview preview;
     PanelInputReader panelInput;
     WidgetTreePanel widgetTree;

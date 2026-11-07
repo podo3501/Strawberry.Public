@@ -5,13 +5,12 @@ import Core.Utils;
 
 AssetService::~AssetService() { StopWorkers(); }
 AssetService::AssetService(IAssetStorage* assetStorage) noexcept
-	: m_repository{ assetStorage }
+	: m_metaRegistry{ &m_asyncLoader, assetStorage }
+	, m_repository{ assetStorage }
 {}
 
-bool AssetService::Initialize(IAssetMetaRegistry* metaRegistry, size_t threadCount)
+bool AssetService::Initialize(size_t threadCount)
 {
-    m_metaRegistry = metaRegistry;
-
     if (threadCount == 0)
     {
         threadCount = std::min<size_t>(
@@ -22,11 +21,15 @@ bool AssetService::Initialize(IAssetMetaRegistry* metaRegistry, size_t threadCou
     if (!StartWorkers(threadCount))
         return false;
 
-    AssetLoaderRegistry loaderRegistry(m_repository);
-    if (!loaderRegistry.RegisterDefaultLoaders(metaRegistry))
+    // 레지스트리와 로더 등록이 서로를 필요로 하므로 이 순서로 한다: 메타 종류 등록 -> 로더 등록 -> .meta 읽기(등록된 로더와 작업자 스레드가 필요하다)
+    if (!m_metaRegistry.Initialize())
         return false;
 
-    return true;
+    AssetLoaderRegistry loaderRegistry(m_repository);
+    if (!loaderRegistry.RegisterDefaultLoaders(&m_metaRegistry))
+        return false;
+
+    return m_metaRegistry.Scan();
 }
 
 bool AssetService::IsIdle() const

@@ -16,7 +16,7 @@ bool InputService::AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseBu
     return AreKeysDown(heldKeys) && m_mouseState[button].IsPressed();
 }
 
-void InputService::Update() noexcept
+void InputService::Update(float dt) noexcept
 {
     const InputFrame frame = m_backend->TakeFrame();
 
@@ -25,6 +25,12 @@ void InputService::Update() noexcept
 
     for (const KeyEvent& e : frame.keyEvents)
         m_keyboardState[e.key].Apply(e.down); // 순서대로 적용
+
+    for (std::size_t i = 0; i < m_keyboardState.keys.size(); ++i)
+    {
+        ButtonState& state = m_keyboardState.keys[i];
+        state.repeatedThisFrame = m_keyRepeater.Poll(static_cast<KeyCode>(i), state, dt);
+    }
 
     for (auto& b : m_mouseState.buttons)
         b.BeginFrame();

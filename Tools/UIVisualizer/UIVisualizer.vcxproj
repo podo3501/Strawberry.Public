@@ -71,11 +71,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileChangeDetector.ixx" />
+    <ClCompile Include="FileChangeDetector.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PanelInput.ixx" />
+    <ClCompile Include="PanelInput.cpp" />
     <ClCompile Include="PropertyPanel.ixx" />
+    <ClCompile Include="PropertyPanel.cpp" />
     <ClCompile Include="UiPreview.ixx" />
+    <ClCompile Include="UiPreview.cpp" />
+    <ClCompile Include="UiResources.ixx" />
+    <ClCompile Include="UiResources.cpp" />
     <ClCompile Include="WidgetTreePanel.ixx" />
+    <ClCompile Include="WidgetTreePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Game\Client\Client.vcxproj">

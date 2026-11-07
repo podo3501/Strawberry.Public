@@ -19,6 +19,27 @@ public:
     static SizePolicy WidthPolicy(const Widget& widget) { return widget.m_widthPolicy; }
     static SizePolicy HeightPolicy(const Widget& widget) { return widget.m_heightPolicy; }
     static const std::string& Tooltip(const Widget& widget) { return widget.m_tooltip; }
+    static const std::string& Name(const Widget& widget) { return widget.m_name; }   // 비어 있으면 이름 없음
+
+    // from 기준 상대 경로("Menu/Ok")로 자손을 찾는다. 한 단계마다 자식 중 이름이 같은 위젯을 고른다 (형제끼리 겹치지 않으므로 하나로 정해진다).
+    // 빈 경로는 from 자신. 없거나 빈 단계("a//b", 앞뒤 '/')가 있으면 nullptr. 이름 없는 위젯은 찾을 수 없다.
+    static const Widget* Find(const Widget& from, std::string_view path)
+    {
+        const Widget* current = &from;
+        while (current && !path.empty())
+        {
+            const auto slash = path.find('/');
+            const std::string_view segment = path.substr(0, slash);
+            path = (slash == std::string_view::npos) ? std::string_view{} : path.substr(slash + 1);
+            if (segment.empty() || (slash != std::string_view::npos && path.empty()))
+                return nullptr;
+
+            const auto it = std::ranges::find_if(current->m_children,
+                [&](const std::unique_ptr<Widget>& child) { return child->m_name == segment; });
+            current = (it == current->m_children.end()) ? nullptr : it->get();
+        }
+        return current;
+    }
 
     // 위젯의 클래스 이름 (네임스페이스 포함, class/struct 접두어와 모듈 표기 제외)
     static std::string TypeName(const Widget& widget)

@@ -33,17 +33,6 @@ struct JsonTraitsBase<std::wstring>
 	}
 };
 
-// filesystem::path는 utf-8로 저장하고 읽어들인다.
-template<>
-struct JsonTraitsBase<std::filesystem::path>
-{
-	static nlohmann::json SerializeToJson(const std::filesystem::path& data) { return data.string(); }
-	static std::filesystem::path DeserializeFromJson(const nlohmann::json& dataJ)
-	{
-		return std::filesystem::path(dataJ.get<std::string>());
-	}
-};
-
 // Count가 있는 enum은 이름(문자열)으로 저장한다. enum마다 Core::EnumToStringMap<T>() 특수화(이름 표) 한 줄만 있으면 된다.
 // 파일에 없거나 모르는 이름이면 Core::InvalidEnum<T>를 돌려준다. 읽은 쪽에서 `== Core::InvalidEnum<T>`로 걸러낸다.
 template<Core::CountEnum T>

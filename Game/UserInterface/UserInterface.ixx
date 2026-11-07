@@ -5,6 +5,8 @@ import UserInterface.Widget;
 import Contract.Render.UI;
 import Contract.Render.ITextMeasurer;
 import Contract.Input.Service;
+import Contract.Asset.Shared;
+import Core.AssetPath;
 import Core.Math;
 
 // 아래에서 위로 그려지고, 위쪽이 입력을 먼저 받는다. 같은 레이어 안에서는 나중에 붙인 위젯이 위.
@@ -31,6 +33,13 @@ public:
 
     // 레이어의 루트. Dropdown처럼 다른 레이어에 팝업을 띄우는 위젯에게 넘긴다. 화면 전체를 덮고 원점이 화면 (0,0)이다
     Widget& Layer(UILayer layer) { return LayerRoot(layer); }
+
+    // 레이어 하나를 파일로 저장하고 불러온다. 파일 모양은 WidgetSerializer와 같고, 레이어 루트가 파일의 root(Group)다. 레이어마다 파일이 따로다.
+    // - SaveLayer: 레이어 안에 저장할 수 없는 위젯이 있으면 아무것도 쓰지 않고 false.
+    // - LoadLayer: 성공하면 그 레이어의 기존 위젯을 모두 버리고 파일의 위젯으로 바꾼다. 실패(파일이 없거나 깨짐, root가 Group이 아님 등)하면 false이고 레이어는 그대로다.
+    //   Text 계열은 TextMeasurer()를, Dropdown은 Popup 레이어를 팝업 호스트로 쓴다. 콜백(OnClick 등)은 파일에 없으므로 불러온 뒤에 다시 달아야 한다.
+    bool SaveLayer(UILayer layer, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename);
+    bool LoadLayer(UILayer layer, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename);
 
     void Draw(IOverlayView& overlay) const;
     bool Update(const MouseState& mouse); // 입력 처리. 프레임마다 Tick보다 먼저 부른다

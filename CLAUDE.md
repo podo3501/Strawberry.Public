@@ -17,6 +17,7 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 - **테스트 솔루션은 자주 쓰는 것이 2개다.**
   - `Testing/Runtime-Test.slnx` — 백엔드 전체(DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service 등)를 빌드하고 테스트한다 (`Testing/Runtime/*-Test`). UI 모듈은 포함하지 않는다. 입력/렌더/에셋/오디오 작업은 이 솔루션을 쓴다. 실행 파일은 `Testing\x64\Debug\<이름>-Test.exe`다 (예: `DxInput-Test.exe`).
   - `Testing/Game/UserInterface-Test.slnx` — UI 모듈만 빌드하고 테스트한다. UI 작업 시 이 솔루션만 빌드하면 된다 (Contract, UserInterface, Core, GoogleTest, UserInterface-Test)
+  - `Testing/Game/UIVisual-Test.slnx` — 게임 안에서 UI JSON을 보여 주는 UIVisual 모듈(`Game/UIVisual`)만 빌드하고 테스트한다. 창 없이 돈다. `Test_UIVisual.bat [gtest_filter]`로 빌드와 실행을 한다. UIVisual은 Tools의 UIVisualizer를 걷어낼 때 UIVisualizer로 이름을 바꾼다 (임시 이름)
 - `Testing/Runtime/DxRender-Test.slnx` — Render 백엔드만 테스트하는 솔루션이다. 가끔 쓴다.
 - `Testing/Runtime/FileAsset-Test.slnx` — 에셋 로딩/저장(FileAsset)만 테스트하는 솔루션이다 (Core, Contract, Serialization, Service 포함). 실행 파일은 `Testingd\Debug\FileAsset-Test.exe`다.
 - `Tools/Tools.slnx` — 툴 솔루션이다 (`Tools/UIVisualizer`: 같은 UI 데이터를 Claude에게는 텍스트로, 사람에게는 화면으로 보여 주는 실행 파일). 실행 파일은 `Tool\x64\Debug\UIVisualizer.exe`다.
@@ -42,7 +43,7 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 
 - 소스는 UTF-8(`/utf-8`)이다. 한국어 주석/커밋 메시지를 쓴다.
 - git의 `LF will be replaced by CRLF` 경고는 무시한다 (저장소는 LF, 작업 폴더는 CRLF/LF가 섞여 있지만 해롭지 않다). 줄바꿈을 통일하는 작업은 하지 않는다.
-- 세부 규칙은 `.claude/rules/`에 있고 해당 경로의 파일을 다룰 때 적용된다: `import-order.md`(import 순서), `module-layout.md`(.ixx/.cpp 분리 기준), `testing.md`(테스트 코드 규칙), `ui-module.md`(UI 모듈), `ui-testing.md`(UI 테스트), `input-pipeline.md`(입력 파이프라인), `ui-visualizer.md`(UIVisualizer). 길어질 규칙은 CLAUDE.md에 늘리지 말고 이곳에 파일로 추가한다.
+- 세부 규칙은 `.claude/rules/`에 있고 해당 경로의 파일을 다룰 때 적용된다: `import-order.md`(import 순서), `module-layout.md`(.ixx/.cpp 분리 기준), `path-usage.md`(`filesystem::path` 사용 범위와 `AssetPath`), `testing.md`(테스트 코드 규칙), `ui-module.md`(UI 모듈), `ui-testing.md`(UI 테스트), `input-pipeline.md`(입력 파이프라인), `ui-visualizer.md`(UIVisualizer). 길어질 규칙은 CLAUDE.md에 늘리지 말고 이곳에 파일로 추가한다.
 
 ## 작업 방침
 
@@ -50,4 +51,5 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 - **테스트 언급 금지**: 커밋 메시지에 테스트 관련 내용(테스트 추가, 테스트 통과 등)을 적지 않는다. 코드 주석에도 "이건 XXX 테스트에서 확인된다"처럼 테스트를 가리키는 주석을 쓰지 않는다.
 - **커밋**: 사용자가 요청할 때만 커밋한다. 기능 하나(코드 + 프로젝트 등록 + 문서)는 한 커밋으로 묶고, `CLAUDE.md`나 설정처럼 작은 변경은 따로 커밋하지 않는다.
 - **네이밍**: `Manager`, `System`처럼 의미가 담기지 않은 이름은 피하고, 역할이 드러나는 이름을 쓴다.
+- **멤버는 값이 기본**: `std::unique_ptr` 멤버는 팩토리가 `unique_ptr`로 돌려주는 객체(`IAssetStorage`, `IRenderService`, 백엔드 같은 인터페이스)이거나 다형성 때문에 힙이 꼭 필요할 때만 쓴다. 그 밖의 멤버는 값으로 둔다. 값으로 두려고 `std::optional`로 생성을 미루지 않는다 (`unique_ptr`처럼 "만들어지지 않은 상태"만 생긴다). 의존하는 객체를 생성자에서 먼저 만들어 값 멤버를 초기화 리스트로 만드는 쪽으로 설계하고(멤버 선언 순서가 곧 생성 순서이자 해제의 역순이다), 정말 어렵다면 `unique_ptr`을 쓴다.
 - **서브에이전트**: 파일 탐색이나 검색 같은 단순 작업에만 쓰고, 그때 모델을 haiku로 지정한다. 코드 리뷰, 설계 판단, 구현은 서브에이전트에 맡기지 않고 직접 한다 (기본 모델은 sonnet).

@@ -1,6 +1,7 @@
 export module Core.ResourceID;
 
 import std;
+import Core.AssetPath;
 import Core.Assert;
 import Core.Utils;
 
@@ -10,11 +11,10 @@ namespace Core
     inline constexpr std::string_view kRuntimePrefix = "runtime://";
     inline constexpr std::string_view kPathPrefix = "path://";
 
-    // 필요 시 내부에서 사용하는 간단한 경로 정규화 함수
+    // 경로 정규화: 구분자를 '/'로 통일하고 "a/./b", "a//b"를 정리한다. 대소문자는 보존한다 (같은 ID인지의 비교는 ResourceID가 대소문자를 무시하고 한다)
     std::string NormalizePath(const std::filesystem::path& path)
     {
-        std::string s = path.lexically_normal().generic_string();
-        return Core::ToLowerCopy(s);
+        return path.lexically_normal().generic_string();
     }
 
     export enum class ResourceIDType
@@ -29,7 +29,11 @@ namespace Core
     {
     public:
         ResourceID() = default;
-        auto operator<=>(const ResourceID&) const = default;
+
+        // Path 종류의 ID는 대소문자를 무시하고 비교한다 ("Assets/Tex.png"와 "assets/tex.png"는 같은 ID). 값(String, GetValue)은 만든 대로 보존된다.
+        // Runtime/Builtin은 이름을 그대로 비교한다 (대소문자 구분)
+        bool operator==(const ResourceID& other) const { return m_key == other.m_key; }
+        auto operator<=>(const ResourceID& other) const { return m_key <=> other.m_key; }
 
         static ResourceID MakePath(std::string_view path)
         {
@@ -37,6 +41,20 @@ namespace Core
 
             Assert(fsPath.has_extension());
             return ResourceID(std::string(kPathPrefix) + NormalizePath(fsPath));
+        }
+
+        // AssetPath로 만든다. 에셋 식별자는 파일이므로 확장자가 있어야 한다 (AssetPath 자체는 확장자를 요구하지 않는다)
+        static ResourceID MakePath(const AssetPath& path)
+        {
+            return MakePath(path.String());
+        }
+
+        // Path 종류의 ID가 가리키는 파일 경로 (만든 대소문자 그대로). Path 종류가 아니거나 AssetPath 규칙(상대 경로, 저장소 밖으로 나가는 '..' 금지)에 어긋나면 nullopt
+        std::optional<AssetPath> GetPath() const
+        {
+            if (GetType() != ResourceIDType::Path)
+                return std::nullopt;
+            return AssetPath::TryMake(GetValue());
         }
 
         static ResourceID MakeRuntime(std::string_view name)
@@ -59,7 +77,7 @@ namespace Core
             return ResourceID::MakePath(siblingPath.string());
         }
 
-        std::size_t GetHash() const noexcept { return std::hash<std::string>{}(m_value); }
+        std::size_t GetHash() const noexcept { return std::hash<std::string>{}(m_key); }
 
         ResourceIDType GetType() const
         {
@@ -93,9 +111,12 @@ namespace Core
         bool empty() const { return m_value.empty(); }
 
     private:
-        explicit ResourceID(std::string str) : m_value(std::move(str)) {}
+        explicit ResourceID(std::string str)
+            : m_value(std::move(str))
+            , m_key(m_value.starts_with(kPathPrefix) ? ToLowerCopy(m_value) : m_value) {}
 
         std::string m_value;
+        std::string m_key;   // 비교와 해시용. Path 종류만 소문자로 접는다
     };
 }
 

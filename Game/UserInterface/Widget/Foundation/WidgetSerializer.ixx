@@ -5,6 +5,7 @@ import :Widget;
 import :WidgetResources;
 import Contract.Asset.Shared;
 import Contract.Render.ITextMeasurer;
+import Core.AssetPath;
 
 // 위젯 트리를 JSON 텍스트로 IAssetStorage에 저장하고 읽어 온다. 파일이 어디에 어떻게 놓이는지는 storage가 안다.
 // 파일 모양: { "version": 1, "root": { "type": "Group", ...공통 속성..., "children": [ ... ] } }
@@ -27,8 +28,8 @@ export class WidgetSerializer
 public:
     static constexpr int kVersion = 1;
 
-    static bool Save(Widget& root, IAssetStorage& storage, IWidgetResources& resources, const std::filesystem::path& filename);
-    static std::unique_ptr<Widget> Load(IAssetStorage& storage, IWidgetResources& resources, const WidgetLoadContext& context, const std::filesystem::path& filename);
+    static bool Save(Widget& root, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename);
+    static std::unique_ptr<Widget> Load(IAssetStorage& storage, IWidgetResources& resources, const WidgetLoadContext& context, const Core::AssetPath& filename);
 
 private:
     struct Impl;   // 위젯의 닫힌 멤버(Serialize, 자식)에 접근하는 구현. WidgetSerializer의 friend 권한을 이어받는다

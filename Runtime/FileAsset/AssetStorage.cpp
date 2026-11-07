@@ -1,14 +1,15 @@
 module FileAsset;
 
+import Core.AssetPath;
 import Core.Utils;
 
 AssetStorage::AssetStorage(const std::filesystem::path& path)
 	: m_path{ path }
 {}
 
-bool AssetStorage::Write(const std::filesystem::path& filename, const Core::ByteBuffer& buffer) noexcept
+bool AssetStorage::Write(const Core::AssetPath& filename, const Core::ByteBuffer& buffer) noexcept
 {
-	auto absolutePath = Core::ResolvePath(m_path, filename);
+	auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
 	std::ofstream file(absolutePath, std::ios::binary | std::ios::trunc);
 	if (!file)
 		return false;
@@ -26,11 +27,11 @@ bool AssetStorage::Write(const std::filesystem::path& filename, const Core::Byte
 	return true;
 }
 
-bool AssetStorage::Read(const std::filesystem::path& filename, Core::ByteBuffer& outBuffer) const
+bool AssetStorage::Read(const Core::AssetPath& filename, Core::ByteBuffer& outBuffer) const
 {
 	outBuffer.clear();
 
-	auto absolutePath = Core::ResolvePath(m_path, filename);
+	auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
 	std::ifstream file(absolutePath, std::ios::binary | std::ios::ate);
 	if (!file)
 		return false;
@@ -55,7 +56,7 @@ bool AssetStorage::Read(const std::filesystem::path& filename, Core::ByteBuffer&
 	return true;
 }
 
-bool AssetStorage::WriteText(const std::filesystem::path& filename, const std::string& text) noexcept
+bool AssetStorage::WriteText(const Core::AssetPath& filename, const std::string& text) noexcept
 {
 	Core::ByteBuffer buffer;
 	buffer.resize(text.size());
@@ -65,7 +66,7 @@ bool AssetStorage::WriteText(const std::filesystem::path& filename, const std::s
 	return Write(filename, buffer);
 }
 
-bool AssetStorage::ReadText(const std::filesystem::path& filename, std::string& outText) const noexcept
+bool AssetStorage::ReadText(const Core::AssetPath& filename, std::string& outText) const noexcept
 
 {
 	Core::ByteBuffer buffer;
@@ -76,14 +77,32 @@ bool AssetStorage::ReadText(const std::filesystem::path& filename, std::string& 
 	return true;
 }
 
-std::filesystem::path AssetStorage::MakeAssetFilePath(const std::filesystem::path& filename) const noexcept
+std::vector<Core::AssetPath> AssetStorage::FindFiles(std::string_view extension) const
 {
-	return Core::ResolvePath(m_path, filename);
+	std::vector<Core::AssetPath> found;
+
+	std::error_code error;
+	std::filesystem::recursive_directory_iterator it(m_path, error);
+	if (error)
+		return found;   // 루트가 없거나 읽을 수 없음
+
+	for (const std::filesystem::recursive_directory_iterator end; it != end; it.increment(error))
+	{
+		if (error)
+			break;
+		if (!it->is_regular_file(error) || it->path().extension().string() != extension)
+			continue;
+
+		if (const auto path = Core::AssetPath::TryMake(std::filesystem::relative(it->path(), m_path).generic_string()))
+			found.push_back(*path);
+	}
+
+	return found;
 }
 
-std::unique_ptr<IReadStream> AssetStorage::	CreateReadStream(const std::filesystem::path& filename)
+std::unique_ptr<IReadStream> AssetStorage::	CreateReadStream(const Core::AssetPath& filename)
 {
-	auto stream = std::make_unique<ReadStream>(Core::ResolvePath(m_path, filename));
+	auto stream = std::make_unique<ReadStream>(Core::ResolvePath(m_path, filename.ToPath()));
 	if (!stream->IsOpen())
 		return nullptr;
 

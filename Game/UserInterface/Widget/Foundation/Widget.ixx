@@ -55,6 +55,12 @@ public:
 
     std::unique_ptr<Widget> Detach(); // 부모에게서 떼어내 소유권을 돌려줌. 받은 쪽이 버리면 파괴, 다른 위젯에 Attach하면 이동
 
+    // --- 이름 ---
+    // 비어 있으면 이름 없음 (이름 없는 형제는 여러 개여도 된다). 비어 있지 않은 이름은 같은 부모 아래 형제끼리 겹치지 않는다.
+    // '/'(경로 구분자)와 '#'(이름 없는 위젯의 임시 표기 "종류#순서")는 쓸 수 없다.
+    // 규칙에 어긋나면(형제와 겹침, 금지 문자) 바꾸지 않고 false. Attach는 겹침을 막지 못하므로 저장/불러오기에서 한 번 더 검사한다.
+    bool SetName(std::string name);
+
     // --- 툴팁 ---
     void SetTooltip(std::string text) { m_tooltip = std::move(text); }   // 비어 있으면 없음. 이 위젯이나 툴팁이 없는 히트 가능 자손 위에 포인터가 머물면 뜬다
 
@@ -116,6 +122,10 @@ private:
     // 트리
     void AttachImpl(std::unique_ptr<Widget> child, std::size_t index);
 
+    // 이름
+    static bool IsValidName(std::string_view name);   // 금지 문자가 없는가 (빈 이름은 유효)
+    bool HasSiblingNamed(std::string_view name) const;   // 나를 뺀 형제 중에 같은 이름이 있는가
+
     // 좌표 변환 (그리기와 hit test가 같은 계산을 쓴다)
     Core::Rect ScreenRectUnder(const Core::Vector2& parentOrigin) const;
     Core::Vector2 ParentScreenOrigin() const;
@@ -142,6 +152,7 @@ private:
     std::vector<std::unique_ptr<Widget>> m_children;
     std::shared_ptr<Widget*> m_handle;   // 위젯이 죽으면 weak_ptr가 만료됨
 
+    std::string m_name;
     std::string m_tooltip;
     SizePolicy m_widthPolicy{ SizePolicy::Fixed };
     SizePolicy m_heightPolicy{ SizePolicy::Fixed };

@@ -24,6 +24,7 @@ import :WidgetResources;
 import :Stack;
 import Serialization;
 import Contract.Asset.Shared;
+import Core.AssetPath;
 import Core.TypeHierarchy;
 
 using Json = nlohmann::json;
@@ -81,10 +82,20 @@ namespace
 
 struct WidgetSerializer::Impl
 {
+    // 비어 있지 않은 이름이 다른 자식과 같은 자식이 있는가 (Attach는 겹침을 막지 못하므로 저장 때 확인한다)
+    static bool HasDuplicateChildName(const Widget& widget)
+    {
+        std::unordered_set<std::string_view> names;
+        for (const auto& child : widget.m_children)
+            if (!child->m_name.empty() && !names.insert(child->m_name).second)
+                return true;
+        return false;
+    }
+
     static bool Write(Widget& widget, IWidgetResources& resources, Json& outNode)
     {
         const Entry* entry = FindByTypeID(widget.GetTypeID());   // 정확한 클래스로 찾는다
-        if (!entry)
+        if (!entry || HasDuplicateChildName(widget))
             return false;
 
         outNode = Json::object();
@@ -130,12 +141,14 @@ struct WidgetSerializer::Impl
                     return nullptr;
                 widget->OnChildLoaded(widget->Attach(std::move(child)));
             }
+            if (HasDuplicateChildName(*widget))   // 형제끼리 이름이 겹치는 파일은 통째로 실패
+                return nullptr;
         }
         return widget;
     }
 };
 
-bool WidgetSerializer::Save(Widget& root, IAssetStorage& storage, IWidgetResources& resources, const std::filesystem::path& filename)
+bool WidgetSerializer::Save(Widget& root, IAssetStorage& storage, IWidgetResources& resources, const Core::AssetPath& filename)
 {
     Json rootNode;
     if (!Impl::Write(root, resources, rootNode))
@@ -147,7 +160,7 @@ bool WidgetSerializer::Save(Widget& root, IAssetStorage& storage, IWidgetResourc
     return storage.WriteText(filename, file.dump(2));
 }
 
-std::unique_ptr<Widget> WidgetSerializer::Load(IAssetStorage& storage, IWidgetResources& resources, const WidgetLoadContext& context, const std::filesystem::path& filename)
+std::unique_ptr<Widget> WidgetSerializer::Load(IAssetStorage& storage, IWidgetResources& resources, const WidgetLoadContext& context, const Core::AssetPath& filename)
 {
     std::string text;
     if (!storage.ReadText(filename, text))

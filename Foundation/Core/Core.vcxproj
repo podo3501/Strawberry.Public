@@ -37,6 +37,7 @@
     <ClCompile Include="Math\Color.ixx" />
     <ClCompile Include="Math\Geometry2D.ixx" />
     <ClCompile Include="Math\Math.ixx" />
+    <ClCompile Include="Type\AssetPath.ixx" />
     <ClCompile Include="Type\ResourceID.ixx" />
     <ClCompile Include="Type\Core.Type.ixx" />
     <ClCompile Include="Type\TypeHierarchy\Relation.ixx" />

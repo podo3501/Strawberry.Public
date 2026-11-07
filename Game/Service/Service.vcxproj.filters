@@ -36,6 +36,9 @@
     <ClCompile Include="Input\KeyboardState.ixx">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="Input\KeyRepeater.ixx">
+      <Filter>Input</Filter>
+    </ClCompile>
     <ClCompile Include="Input\InputService.ixx">
       <Filter>Input</Filter>
     </ClCompile>

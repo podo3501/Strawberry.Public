@@ -31,8 +31,12 @@ bool Widget::Serialize(Serializer& serializer, IWidgetResources&)
     serializer.Process("widthPolicy", m_widthPolicy);
     serializer.Process("heightPolicy", m_heightPolicy);
     serializer.Process("tooltip", m_tooltip);
+    if (!serializer.IsWrite() || !m_name.empty())   // 이름 없는 위젯은 키를 적지 않는다
+        serializer.Process("name", m_name);
 
     if (m_widthPolicy == Core::InvalidEnum<SizePolicy> || m_heightPolicy == Core::InvalidEnum<SizePolicy>)
+        return false;
+    if (!IsValidName(m_name))
         return false;
 
     if (!serializer.IsWrite())

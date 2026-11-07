@@ -23,7 +23,7 @@ export struct IInputService
 	virtual bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, KeyCode key) const noexcept = 0;
 	virtual bool AreKeysCombo(std::initializer_list<KeyCode> heldKeys, MouseButton button) const noexcept = 0;
 
-	virtual void Update() noexcept = 0;
+	virtual void Update(float dt) noexcept = 0; // dt: 지난 프레임부터 흐른 시간(초). 키 반복 시점(ButtonState::IsRepeated)을 계산하는 데 쓴다
 };
 
 export std::unique_ptr<IInputService> CreateInputService(std::unique_ptr<IInputBackend> backend);

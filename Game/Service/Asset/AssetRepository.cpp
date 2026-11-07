@@ -2,6 +2,7 @@ module Service.Asset;
 
 import :AssetRepository;
 import std;
+import Core.AssetPath;
 import Core.Utils;
 import Core.Assert;
 
@@ -65,10 +66,12 @@ std::shared_ptr<Asset> AssetRepository::Load(Core::TypeID type, const Core::Reso
 
 std::shared_ptr<Asset> AssetRepository::LoadWithSource(IAssetLoader* loader, const Core::ResourceID& resID)
 {
-	if (resID.GetType() != Core::ResourceIDType::Path)
+	const auto assetPath = resID.GetPath();
+	Core::Assert(assetPath.has_value() || resID.GetType() != Core::ResourceIDType::Path); // Path 종류인데 저장소 밖을 가리키는 경로
+	if (!assetPath)
 		return nullptr;
 
-	const auto path = std::filesystem::path(resID.GetValue());
+	const Core::AssetPath& path = *assetPath;
 	if (loader->PreferStream())
 	{
 		auto stream = m_assetStorage->CreateReadStream(path);
