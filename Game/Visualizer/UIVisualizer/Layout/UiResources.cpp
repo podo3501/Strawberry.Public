@@ -1,4 +1,4 @@
-module UIVisual.UiResources;
+module UIVisualizer.UiResources;
 
 import std;
 import Core.AssetPath;

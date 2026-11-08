@@ -3,8 +3,8 @@ export module App.Application;
 import std;
 import App.GameWindow;
 import UserInterface;
-import UIVisual.LayoutLoader;
-import UIVisual.UiResources;
+import UIVisualizer.UiResources;
+import UIVisualizer.UIVisualizer;
 import Graphics.SceneObject;
 import Contract.Render.Shared;
 import Contract.Render.Service;
@@ -28,7 +28,7 @@ public:
 
 private:
     static constexpr ViewID kOverlayView = 1;
-    inline static const Core::AssetPath kLayoutFile = Core::AssetPath::Make("Sample/Window.json");   // Testing/Resource/UI 아래
+    inline static const Core::AssetPath kLayoutFile = Core::AssetPath::Make("UI/Sample/Window.json");   // Testing/Resource 아래
 
     void Frame(float dt);
     void ForwardKeysToUi();
@@ -37,14 +37,13 @@ private:
     // 선언 순서가 곧 만드는 순서이자 해제의 역순이다.
     // 창은 입력 백엔드가 서브클래싱하므로 가장 먼저 만들고 가장 나중에 해제한다
     GameWindow m_window;
-    std::unique_ptr<IAssetStorage> m_assetStorage;
+    std::unique_ptr<IAssetStorage> m_resourceStorage;   // Testing/Resource 전체. 에셋(Graphics/...), UI 레이아웃(UI/...), UIVisualizer이 Claude에게 남기는 파일(.visualizer/...)이 모두 이 아래에 있다
     std::unique_ptr<IAssetService> m_assetService;
     std::unique_ptr<IRenderService> m_renderService;
     std::unique_ptr<IInputService> m_inputService;
     UserInterface m_ui;
-    std::unique_ptr<IAssetStorage> m_layoutStorage;   // UI 레이아웃 JSON 전용. 에셋 스캔 대상인 Graphics 폴더와 따로 둔다
     UiResources m_resources;
-    LayoutLoader m_layoutLoader;
+    UIVisualizer m_visualizer;   // F1로 켜는 UIVisualizer 모드. 켜져 있는 동안 입력은 UI 대신 모드가 가져간다
 
     Core::Size m_size{};
     UICamera m_uiCamera;

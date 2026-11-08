@@ -22,15 +22,15 @@ struct RegistryShaderInfo
 using RID = Core::ResourceID;
 const RegistryShaderInfo g_shaderRegistry[] =
 {
-    { RegistryShader::Shadow, RID::MakePath("Shader/Shadow.hlsl"), ShaderType::Graphics },
-    { RegistryShader::Phong, RID::MakePath("Shader/Phong.hlsl"), ShaderType::Graphics },
-    { RegistryShader::PBR, RID::MakePath("Shader/PBR.hlsl"), ShaderType::Graphics },
-    { RegistryShader::Grid, RID::MakePath("Shader/Grid.hlsl"), ShaderType::Graphics },
-    { RegistryShader::UI, RID::MakePath("Shader/UI.hlsl"), ShaderType::Graphics },
-    { RegistryShader::Skybox, RID::MakePath("Shader/Skybox.hlsl"), ShaderType::Graphics },
-    { RegistryShader::Composite, RID::MakePath("Shader/Composite.hlsl"), ShaderType::Graphics },
-    { RegistryShader::MipGenerator, RID::MakePath("Shader/MipGen.hlsl"), ShaderType::Compute },
-    { RegistryShader::InspectorImage, RID::MakePath("Shader/InspectorImageRenderer.hlsl"), ShaderType::Graphics }
+    { RegistryShader::Shadow, RID::MakePath("Graphics/Shader/Shadow.hlsl"), ShaderType::Graphics },
+    { RegistryShader::Phong, RID::MakePath("Graphics/Shader/Phong.hlsl"), ShaderType::Graphics },
+    { RegistryShader::PBR, RID::MakePath("Graphics/Shader/PBR.hlsl"), ShaderType::Graphics },
+    { RegistryShader::Grid, RID::MakePath("Graphics/Shader/Grid.hlsl"), ShaderType::Graphics },
+    { RegistryShader::UI, RID::MakePath("Graphics/Shader/UI.hlsl"), ShaderType::Graphics },
+    { RegistryShader::Skybox, RID::MakePath("Graphics/Shader/Skybox.hlsl"), ShaderType::Graphics },
+    { RegistryShader::Composite, RID::MakePath("Graphics/Shader/Composite.hlsl"), ShaderType::Graphics },
+    { RegistryShader::MipGenerator, RID::MakePath("Graphics/Shader/MipGen.hlsl"), ShaderType::Compute },
+    { RegistryShader::InspectorImage, RID::MakePath("Graphics/Shader/InspectorImageRenderer.hlsl"), ShaderType::Graphics }
 };
 
 RenderService::~RenderService()

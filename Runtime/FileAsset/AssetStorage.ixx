@@ -20,6 +20,8 @@ public:
 
 	std::vector<Core::AssetPath> FindFiles(std::string_view extension) const override;
 
+	std::optional<std::filesystem::file_time_type> GetModifiedTime(const Core::AssetPath& filename) const noexcept override;
+
 	std::unique_ptr<IReadStream> CreateReadStream(const Core::AssetPath& filename) override;
 
 private:

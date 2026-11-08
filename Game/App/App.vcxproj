@@ -78,7 +78,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\UIVisual\UIVisual.vcxproj">
+    <ProjectReference Include="..\..\Game\Visualizer\UIVisualizer\UIVisualizer.vcxproj">
       <Project>{5777a96d-a41f-48d9-9c92-b979493b272a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Game\Client\Client.vcxproj">

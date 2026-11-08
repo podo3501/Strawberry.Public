@@ -25,6 +25,12 @@ namespace
         return Core::FindRootByMarker(exePath, "root.mark");
     }
 
+    // 리소스 폴더(Testing/Resource). 에셋, UI 레이아웃, UIVisualizer 파일이 모두 이 아래에 있다
+    std::filesystem::path ResourceRoot()
+    {
+        return Core::ResolvePath(RepositoryRoot(), "Testing/Resource/");
+    }
+
     // UI가 쓰는 키. 이 키들이 눌린 프레임에 한 번씩 UI로 넘긴다
     constexpr std::array kUiKeys{
         KeyCode::Tab, KeyCode::Escape, KeyCode::Enter, KeyCode::Space, KeyCode::Backspace, KeyCode::Delete,
@@ -53,16 +59,15 @@ namespace
 // 초기화 리스트의 순서는 Application.ixx의 멤버 선언 순서와 같다
 Application::Application()
     : m_window{ L"Strawberry", kInitialSize }
-    , m_assetStorage{ CreateAssetStorage(Core::ResolvePath(RepositoryRoot(), "Testing/Resource/Graphics/")) }
-    , m_assetService{ Required(CreateAssetService(m_assetStorage.get())) }
+    , m_resourceStorage{ CreateAssetStorage(ResourceRoot()) }
+    , m_assetService{ Required(CreateAssetService(m_resourceStorage.get())) }
     , m_renderService{ Required(CreateRenderService(CreateRenderBackend(RenderConfig{}), m_assetService->GetAsyncLoader())) }
     , m_inputService{ Required(CreateInputService(CreateDxInputBackend(m_window.Handle()))) }
     , m_ui{ m_renderService->GetTextMeasurer() }
-    , m_layoutStorage{ CreateAssetStorage(Core::ResolvePath(RepositoryRoot(), "Testing/Resource/UI/")) }
     , m_resources{ m_renderService->GetResources() }
-    , m_layoutLoader{ m_ui, *m_layoutStorage, m_resources, kLayoutFile }
+    , m_visualizer{ m_ui, *m_resourceStorage, m_resources, kLayoutFile, "Testing/Resource/" + kLayoutFile.String() }
 {
-    m_layoutLoader.SetOnLoaded([this](UserInterface& ui) { LinkLayoutCallbacks(ui); });
+    m_visualizer.SetOnLoaded([this](UserInterface& ui) { LinkLayoutCallbacks(ui); });
 }
 
 bool Application::Initialize()
@@ -74,11 +79,8 @@ bool Application::Initialize()
     if (!m_renderService->Initialize(m_window.Handle(), m_size)) return false;
 
     m_ui.Resize(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
-
-    // 읽지 못해도 게임은 뜬다 (빈 화면). 안내는 로그에 남긴다
-    if (!m_layoutLoader.Load())
-        Core::Logger::Error("{}", m_layoutLoader.Error());
-    return true;
+    // 파일이 없으면 빈 레이아웃으로 첫 JSON을 만든다. 글꼴이나 레이아웃을 읽지 못하는 등 하나라도 실패하면 시작하지 않는다 (원인은 Engine.log에 남는다)
+    return m_visualizer.Initialize();
 }
 
 int Application::Run()
@@ -114,16 +116,21 @@ void Application::Frame(float dt)
     }
 
     m_inputService->Update(dt);
-    m_ui.Update(m_inputService->GetMouseState());
-    ForwardKeysToUi();
-    if (const auto text = m_inputService->GetTextInput(); !text.empty())
-        m_ui.OnTextInput(text);
+
+    if (!m_visualizer.Update(dt, *m_inputService))   // 모드 중이면 입력은 UI가 아니라 모드가 가져간다
+    {
+        m_ui.Update(m_inputService->GetMouseState());
+        ForwardKeysToUi();
+        if (const auto text = m_inputService->GetTextInput(); !text.empty())
+            m_ui.OnTextInput(text);
+    }
     m_ui.Tick(dt);
 
     OverlayViewContext viewCtx{ kOverlayView };
     viewCtx.target.camera = m_uiCamera.BuildData(m_size, viewCtx.target.viewport);
     auto& overlay = m_renderService->GetFrameRecorder().AcquireView(viewCtx);
     m_ui.Draw(overlay);
+    m_visualizer.Draw(overlay, m_size);   // UI 위에 덧그린다
 
     m_renderService->Update();
     m_renderService->Render();

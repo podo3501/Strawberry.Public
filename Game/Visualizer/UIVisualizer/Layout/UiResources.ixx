@@ -6,7 +6,7 @@ import Contract.Render.Service;
 import Core.ResourceID;
 
 // 위젯 저장 파일에 적는 브러시/폰트 이름과 렌더 서비스의 핸들을 서로 바꾼다. (구현: UiResources.cpp)
-// 이름은 에셋 경로 문자열이다 ("Sprite/xxx.png"). 이름으로 처음 찾을 때 렌더 서비스에 불러오고, 만든 핸들과 이름을 기억해서 저장할 때 되돌려 준다.
+// 이름은 에셋 경로 문자열이다 ("Graphics/Sprite/xxx.png"). 이름으로 처음 찾을 때 렌더 서비스에 불러오고, 만든 핸들과 이름을 기억해서 저장할 때 되돌려 준다.
 // 코드로 위젯을 만들 때도 Brush/Font로 핸들을 얻어야 저장할 때 이름이 남는다.
 export class UiResources : public IWidgetResources
 {

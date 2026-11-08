@@ -19,22 +19,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LayoutLoader.ixx" />
-    <ClCompile Include="LayoutLoader.cpp" />
-    <ClCompile Include="UiResources.ixx" />
-    <ClCompile Include="UiResources.cpp" />
+    <ClCompile Include="Layout\LayoutLoader.ixx" />
+    <ClCompile Include="Layout\LayoutLoader.cpp" />
+    <ClCompile Include="Selection\SelectionOverlay.ixx" />
+    <ClCompile Include="Selection\SelectionOverlay.cpp" />
+    <ClCompile Include="Selection\SelectionReport.ixx" />
+    <ClCompile Include="Selection\SelectionReport.cpp" />
+    <ClCompile Include="Selection\WidgetSelection.ixx" />
+    <ClCompile Include="Selection\WidgetSelection.cpp" />
+    <ClCompile Include="StatusOverlay.ixx" />
+    <ClCompile Include="StatusOverlay.cpp" />
+    <ClCompile Include="Layout\UiResources.ixx" />
+    <ClCompile Include="Layout\UiResources.cpp" />
+    <ClCompile Include="UIVisualizer.ixx" />
+    <ClCompile Include="UIVisualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UserInterface\UserInterface.vcxproj">
+    <ProjectReference Include="..\..\UserInterface\UserInterface.vcxproj">
       <Project>{fb2c4760-0436-491f-a33a-169bcba58d0c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Foundation\Core\Core.vcxproj">
+    <ProjectReference Include="..\..\..\Foundation\Core\Core.vcxproj">
       <Project>{e0dcdedb-6f54-4b60-b549-20de9df2ba39}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Foundation\Serialization\Serialization.vcxproj">
+    <ProjectReference Include="..\..\..\Foundation\Serialization\Serialization.vcxproj">
       <Project>{026d70d2-e39d-42d4-a5ed-441d0af53c35}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Foundation\Contract\Contract.vcxproj">
+    <ProjectReference Include="..\..\..\Foundation\Contract\Contract.vcxproj">
       <Project>{f7556b13-a62e-4c01-852d-ed9c8c582ad7}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -42,7 +52,7 @@
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5777a96d-a41f-48d9-9c92-b979493b272a}</ProjectGuid>
-    <RootNamespace>UIVisual</RootNamespace>
+    <RootNamespace>UIVisualizer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Layout" />
+    <Filter Include="Selection" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Layout\LayoutLoader.ixx"><Filter>Layout</Filter></ClCompile>
+    <ClCompile Include="Layout\LayoutLoader.cpp"><Filter>Layout</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionOverlay.ixx"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionOverlay.cpp"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionReport.ixx"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionReport.cpp"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="UIVisualizer.ixx" />
+    <ClCompile Include="UIVisualizer.cpp" />
+    <ClCompile Include="Selection\WidgetSelection.ixx"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\WidgetSelection.cpp"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="StatusOverlay.ixx" />
+    <ClCompile Include="StatusOverlay.cpp" />
+    <ClCompile Include="Layout\UiResources.ixx"><Filter>Layout</Filter></ClCompile>
+    <ClCompile Include="Layout\UiResources.cpp"><Filter>Layout</Filter></ClCompile>
+  </ItemGroup>
+</Project>

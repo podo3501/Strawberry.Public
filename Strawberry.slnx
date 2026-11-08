@@ -7,8 +7,10 @@
     <Project Path="Foundation/Core/Core.vcxproj" Id="e0dcdedb-6f54-4b60-b549-20de9df2ba39" />
     <Project Path="Foundation/Serialization/Serialization.vcxproj" Id="026d70d2-e39d-42d4-a5ed-441d0af53c35" />
   </Folder>
+  <Folder Name="/Game/Visualizer/">
+    <Project Path="Game/Visualizer/UIVisualizer/UIVisualizer.vcxproj" Id="5777a96d-a41f-48d9-9c92-b979493b272a" />
+  </Folder>
   <Folder Name="/Game/">
-    <Project Path="Game/UIVisual/UIVisual.vcxproj" Id="5777a96d-a41f-48d9-9c92-b979493b272a" />
     <Project Path="Game/App/App.vcxproj" Id="ec1bbdb5-8fac-4dc9-b29e-9887b6d6b75a" />
     <Project Path="Game/Client/Client.vcxproj" Id="c3074755-5643-4867-804d-023448eb3b82" />
     <Project Path="Game/Service/Service.vcxproj" Id="56fc8ecc-9fda-4433-b067-52c9748a3610" />
@@ -19,10 +21,5 @@
     <Project Path="Runtime/DxRender/DxRender.vcxproj" Id="83df7ebf-f20a-4125-a6c2-ecc736d64ac4" />
     <Project Path="Runtime/FileAsset/FileAsset.vcxproj" Id="9253bcf9-c241-4a6f-b171-d78c90a08064" />
     <Project Path="Runtime/SDLAudio/SDLAudio.vcxproj" Id="40208dcb-fa20-42f4-8ada-d6f944a11abe" />
-  </Folder>
-  <Folder Name="/Tools/">
-    <Project Path="Tools/UIVisualizer/UIVisualizer.vcxproj" Id="bc694e66-de4b-4492-bcbf-34d68e246359">
-      <Platform Project="x64" />
-    </Project>
   </Folder>
 </Solution>

@@ -362,3 +362,6 @@ MigrationBackup/
 FodyWeavers.xsd
 # ImGui가 실행 폴더에 만드는 창 배치 파일
 imgui.ini
+
+# UIVisual이 Claude에게 남기는 파일 (선택 정보)
+.visualizer/

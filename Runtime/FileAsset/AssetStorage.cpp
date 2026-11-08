@@ -10,6 +10,10 @@ AssetStorage::AssetStorage(const std::filesystem::path& path)
 bool AssetStorage::Write(const Core::AssetPath& filename, const Core::ByteBuffer& buffer) noexcept
 {
 	auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
+
+	std::error_code error;
+	std::filesystem::create_directories(absolutePath.parent_path(), error);   // 새 폴더 아래에 처음 쓰는 파일도 만들어지게 한다 (실패하면 아래 열기가 실패한다)
+
 	std::ofstream file(absolutePath, std::ios::binary | std::ios::trunc);
 	if (!file)
 		return false;
@@ -98,6 +102,15 @@ std::vector<Core::AssetPath> AssetStorage::FindFiles(std::string_view extension)
 	}
 
 	return found;
+}
+
+std::optional<std::filesystem::file_time_type> AssetStorage::GetModifiedTime(const Core::AssetPath& filename) const noexcept
+{
+	std::error_code error;
+	const auto time = std::filesystem::last_write_time(Core::ResolvePath(m_path, filename.ToPath()), error);
+	if (error)
+		return std::nullopt;   // 파일이 없거나 읽을 수 없음
+	return time;
 }
 
 std::unique_ptr<IReadStream> AssetStorage::	CreateReadStream(const Core::AssetPath& filename)
