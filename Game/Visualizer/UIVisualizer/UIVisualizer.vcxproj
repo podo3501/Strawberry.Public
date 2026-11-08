@@ -19,12 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="History\LayoutHistory.ixx" />
+    <ClCompile Include="History\LayoutHistory.cpp" />
+    <ClCompile Include="Move\WidgetNudger.ixx" />
+    <ClCompile Include="Move\WidgetNudger.cpp" />
+    <ClCompile Include="Edit\LayoutEditor.ixx" />
+    <ClCompile Include="Edit\LayoutEditor.cpp" />
+    <ClCompile Include="Input\KeyQuery.ixx" />
     <ClCompile Include="Layout\LayoutLoader.ixx" />
     <ClCompile Include="Layout\LayoutLoader.cpp" />
+    <ClCompile Include="Selection\SelectionFeed.ixx" />
+    <ClCompile Include="Selection\SelectionFeed.cpp" />
+    <ClCompile Include="Selection\SelectionHandoff.ixx" />
     <ClCompile Include="Selection\SelectionOverlay.ixx" />
     <ClCompile Include="Selection\SelectionOverlay.cpp" />
     <ClCompile Include="Selection\SelectionReport.ixx" />
     <ClCompile Include="Selection\SelectionReport.cpp" />
+    <ClCompile Include="Selection\WidgetPathFinder.ixx" />
+    <ClCompile Include="Selection\WidgetPathFinder.cpp" />
     <ClCompile Include="Selection\WidgetSelection.ixx" />
     <ClCompile Include="Selection\WidgetSelection.cpp" />
     <ClCompile Include="StatusOverlay.ixx" />

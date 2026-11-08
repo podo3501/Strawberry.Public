@@ -22,6 +22,22 @@ struct JsonTraitsBase<std::string>
 	static std::string DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
 };
 
+// float를 double로 그대로 넣으면 1.1f가 1.100000023841858로 적힌다. float를 되살릴 수 있는 가장 짧은 십진수(1.1)로 적는다.
+// 읽을 때 double 1.1을 float로 줄이면 원래 float와 같은 값이 된다.
+template<>
+struct JsonTraitsBase<float>
+{
+	static nlohmann::json SerializeToJson(const float& data)
+	{
+		if (!std::isfinite(data)) return data;
+		std::array<char, 32> buffer{};
+		const auto result = std::to_chars(buffer.data(), buffer.data() + buffer.size(), data);
+		if (result.ec != std::errc{}) return data;
+		return std::strtod(std::string(buffer.data(), result.ptr).c_str(), nullptr);
+	}
+	static float DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
+};
+
 template<>
 struct JsonTraitsBase<std::wstring>
 {

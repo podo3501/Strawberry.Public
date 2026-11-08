@@ -33,10 +33,10 @@
 [x] UserInterface 레이어 단위 저장/불러오기 (WidgetLoadContext를 UserInterface가 채움), UIVisualizer 연결 (SaveLayer/LoadLayer로 레이어마다 파일 하나, UIVisualizer가 Testing/Resource/UI/Sample/Window.json을 불러오고 파일이 없을 때만 코드 샘플로 첫 JSON을 만듦, 슬라이더-진행 막대 연결은 이름으로 다시 연결)
 [x] UIVisualizer UI JSON 파일 자동 다시 읽기 (수정 시각을 확인하고 0.2초 안정되면 다시 불러옴, 읽기 실패 시 이전 화면 유지 + 미리보기 화면 안에 DxRender 글자로 안내. 도구가 쓴 변경 무시는 도구가 JSON을 쓸 때 FileChangeDetector::MarkHandled로 처리)
 [x] UIVisual 선택 정보 파일 출력 (Testing/Resource/.visual/Selection.txt에 번호, 경로, 종류, 위치와 크기, JSON 파일 이름. 선택이 바뀔 때마다 덮어씀)
-[ ] 메시지를 보낼 때 선택 정보가 자동으로 들어가고 선택 목록이 비워지는 훅 (번호는 메시지마다 1번부터, 프로젝트 설정에 상대 경로로 등록)
-[ ] UI JSON 수정 이력 (도구가 파일을 쓰기 전에 .history에 복사, Claude 수정도 같은 폴더 사용, 커밋 뒤 비움, ui-visualizer.md 규칙과 .gitignore 추가)
+[x] 메시지를 보낼 때 선택 정보가 자동으로 들어가고 선택 목록이 비워지는 훅 (번호는 메시지마다 1번부터, 프로젝트 설정에 상대 경로로 등록)
+[x] UIVisualizer UI JSON 수정 이력 (JSON을 읽을 때마다 파일 내용을 메모리에 최대 50개까지 쌓고, 모드 중 Ctrl+Z 되돌리기와 Ctrl+Y/Ctrl+Shift+Z 다시 실행, 되돌린 뒤 고른 위젯을 경로로 다시 고름)
 [x] Tools/UIVisualizer 삭제 (ImGui 미리보기, 위젯 트리, 속성 패널 포함. 쓰던 기능은 Game/UIVisual로 옮겼고 위젯 구조는 JSON으로 읽는다. Tools 솔루션과 폴더도 함께 없앰)
-[ ] UIVisualizer 선택한 위젯 키보드 미세 이동 (화살표 1px, Shift+화살표 8px, 오프셋을 JSON에 바로 저장, Ctrl+Z 되돌리기)
+[x] UIVisualizer 선택한 위젯 키보드 미세 이동 (화살표 1px, Shift+화살표 8px, 오프셋을 JSON에 바로 저장, 입력이 잠시 멈춘 뒤 한 번만 저장해 이력을 한 단계로 묶음)
 [~] UIVisualizer 샘플 UI로 기존 컴포넌트 동작 확인 (Button 틴트, Toggle, Slider, ProgressBar까지 완료)
 [-] UIVisualizer와 클라이언트를 하나로 합쳐 단축키로 수정 모드 전환 (편집 UI 없이 작업이 된다는 확신이 들면 진행)
 [-] 시나리오 파일과 실행 인자로 원하는 상황에서 바로 시작 (합칠 때 같이 설계, 시간 정지 포함)
@@ -56,5 +56,7 @@
 [ ] UIVisual 모드일 때 게임 정지 (게임이 생기면)
 [x] UIVisual을 UIVisualizer로 이름 변경 (Game/Visualizer/UIVisualizer 폴더와 프로젝트, 모듈 UIVisualizer.*, 클래스 VisualMode를 UIVisualizer로, 선택 파일 폴더를 .visualizer로, 다른 Visualizer가 생길 자리로 Game/Visualizer 묶음 폴더)
 [x] UIVisualizer 폴더를 역할별로 정리 (Layout/, Selection/, 루트는 조립과 상태 표시. 테스트 폴더와 네임스페이스도 맞춤)
+[x] UIVisualizer 코드 정리 (다시 읽는 이유를 LoadCause로 묶고, 키 조회 KeyQuery와 화살표 해석을 WidgetNudger로 모으고, 선택이 Widget*를 들어 경로 왕복을 없앰, 레이어와 파일 경로를 한 곳으로, 이력은 복사 없이 돌려줌, 이동 중에는 선택 정보 파일을 쓰지 않음, UIVisualizer의 선택 부분을 SelectionFeed로 이력과 이동 부분을 LayoutEditor로 분리하고 클래스 주석을 줄임)
+[x] UIVisualizer 위젯 고르기를 픽과 선택으로 나눔 (클릭은 안쪽부터 조상으로 올라가며 픽하고 순환, 체인에서 현재 픽 중심으로 최대 5개를 위젯 이름이 적힌 창으로 표시(처음 클릭한 마우스 위치에서 오른쪽 아래로 쌓고 창 폭은 이름 글자 폭에 맞춤), C 키로 선택하면 빨간 윤곽선과 번호만 남음, Esc는 픽 우선, 윤곽선은 white.png에 틴트)
 
 전체 컴파일 마지막 확인: 98391f6

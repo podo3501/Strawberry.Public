@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="History" />
+    <Filter Include="Edit" />
+    <Filter Include="Input" />
+    <Filter Include="Move" />
     <Filter Include="Layout" />
     <Filter Include="Selection" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="History\LayoutHistory.ixx"><Filter>History</Filter></ClCompile>
+    <ClCompile Include="History\LayoutHistory.cpp"><Filter>History</Filter></ClCompile>
+    <ClCompile Include="Selection\WidgetPathFinder.ixx"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\WidgetPathFinder.cpp"><Filter>Selection</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Move\WidgetNudger.ixx"><Filter>Move</Filter></ClCompile>
+    <ClCompile Include="Move\WidgetNudger.cpp"><Filter>Move</Filter></ClCompile>
+    <ClCompile Include="Edit\LayoutEditor.ixx"><Filter>Edit</Filter></ClCompile>
+    <ClCompile Include="Edit\LayoutEditor.cpp"><Filter>Edit</Filter></ClCompile>
+    <ClCompile Include="Input\KeyQuery.ixx"><Filter>Input</Filter></ClCompile>
     <ClCompile Include="Layout\LayoutLoader.ixx"><Filter>Layout</Filter></ClCompile>
     <ClCompile Include="Layout\LayoutLoader.cpp"><Filter>Layout</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionFeed.ixx"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionFeed.cpp"><Filter>Selection</Filter></ClCompile>
+    <ClCompile Include="Selection\SelectionHandoff.ixx"><Filter>Selection</Filter></ClCompile>
     <ClCompile Include="Selection\SelectionOverlay.ixx"><Filter>Selection</Filter></ClCompile>
     <ClCompile Include="Selection\SelectionOverlay.cpp"><Filter>Selection</Filter></ClCompile>
     <ClCompile Include="Selection\SelectionReport.ixx"><Filter>Selection</Filter></ClCompile>

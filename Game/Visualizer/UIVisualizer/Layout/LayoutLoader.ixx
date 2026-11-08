@@ -30,6 +30,11 @@ public:
     // 호출하는 쪽이 부를 때만 확인하므로, 자동으로 다시 읽을 때(UIVisualizer 모드)만 부르면 된다
     void Update(float dt);
 
+    const Core::AssetPath& File() const noexcept { return m_file; }
+
+    // 마지막으로 읽으려 한 뒤로 파일의 수정 시각이 바뀌었는가 (다른 쪽이 고쳤다). 도구가 쓴 직후에 Load를 하면 다시 false가 된다
+    bool IsChangedSinceLoad() const { return m_storage.GetModifiedTime(m_file) != m_seenTime; }
+
     // 마지막 Load의 실패 안내. 성공했거나 아직 읽은 적이 없으면 비어 있다
     const std::string& Error() const noexcept { return m_error; }
 

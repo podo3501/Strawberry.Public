@@ -10,21 +10,10 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 
 - **UI 빌드 + 테스트 한 번에**: `Test_UI.bat [gtest_filter]` (예: `Test_UI.bat UserInterfaceT_Toggle.*`). vswhere로 MSBuild를 찾고, Debug x64로 빌드한 뒤 `--gtest_brief=1`로 실행해 실패한 테스트만 출력한다. 콘솔에는 영어 오류만 나오고(`VSLANG=1033`, `-clp:ErrorsOnly`) 전체 빌드 로그는 `Testing\Game\x64\build_ui.log`에 저장된다. Bash에서는 배치 파일의 `%~dp0` 때문에 전체 경로로 실행하는 편이 안전하다.
 - **런타임 컴파일 확인**: `Build_Strawberry.bat`은 루트의 `Strawberry.slnx`(테스트를 뺀 엔진/게임/툴 프로젝트 전체)를 빌드만 한다 (테스트 코드는 없다). 프로젝트를 추가하거나 위치를 옮기면 `Strawberry.slnx`도 함께 갱신한다. 약 80초로 오래 걸리므로 작업마다 돌리지 않고, 사용자가 "전체 컴파일 해 볼까?"처럼 요청할 때만 돌려서 이상 유무를 보고한다. 마지막으로 확인한 커밋은 `Archives/Todo.txt` 맨 아래 "전체 컴파일 마지막 확인: <커밋 해시>" 줄에 있다. 전체 컴파일을 하고 이상이 없으면 이 줄의 해시를 현재 HEAD로 바꾼다 (이 줄은 항목이 아니라 기록이므로 윗부분을 지울 때도 남긴다). (입력/렌더/에셋/오디오 쪽을 고쳤다면 다음 전체 컴파일 때 확인이 필요하다고 알려 준다.) 로그는 `x64\build_strawberry.log`.
-- 수동 빌드: `"C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" Testing\Game\UserInterface-Test.slnx -p:Configuration=Debug -p:Platform=x64 -m -v:m -nologo` → 실행 파일은 `Testing\Game\x64\Debug\UserInterface-Test.exe`.
 - 새 소스 파일은 `.vcxproj`와 `.vcxproj.filters`에 직접 등록해야 한다 (자동 포함되지 않는다). 빠뜨리면 컴파일 대상에서 조용히 빠지므로, 빌드 로그 파일(`build_ui.log`, `build_runtime.log`)에 새 파일이 나오는지 확인한다.
 
-- `Strawberry.slnx` — 게임/엔진 본체 (Client, Contract, Core, DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service, UserInterface, UIVisualizer, App)
-- **테스트 솔루션은 자주 쓰는 것이 2개다.**
-  - `Testing/Runtime-Test.slnx` — 백엔드 전체(DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service 등)를 빌드하고 테스트한다 (`Testing/Runtime/*-Test`). UI 모듈은 포함하지 않는다. 입력/렌더/에셋/오디오 작업은 이 솔루션을 쓴다. 실행 파일은 `Testing\x64\Debug\<이름>-Test.exe`다 (예: `DxInput-Test.exe`).
-  - `Testing/Game/UserInterface-Test.slnx` — UI 모듈만 빌드하고 테스트한다. UI 작업 시 이 솔루션만 빌드하면 된다 (Contract, UserInterface, Core, GoogleTest, UserInterface-Test)
-  - `Testing/Game/Visualizer/UIVisualizer-Test.slnx` — 게임 안에서 UI JSON을 보여 주는 UIVisualizer 모듈(`Game/Visualizer/UIVisualizer`)만 빌드하고 테스트한다. 창 없이 돈다. `Test_UIVisualizer.bat [gtest_filter]`로 빌드와 실행을 한다.
-- `Testing/Runtime/DxRender-Test.slnx` — Render 백엔드만 테스트하는 솔루션이다. 가끔 쓴다.
-- `Testing/Runtime/FileAsset-Test.slnx` — 에셋 로딩/저장(FileAsset)만 테스트하는 솔루션이다 (Core, Contract, Serialization, Service 포함). 실행 파일은 `Testingd\Debug\FileAsset-Test.exe`다.
-- `Testing/Runtime/Runtime.NoRender-Test.slnx` — 렌더를 뺀 런타임 솔루션이다. 당분간 쓰지 않으며, 현재 `Service`/`GoogleTest`에서 pch 오류(C1010)가 난다. 빌드/테스트에 사용하지 않는다.
+- **다른 솔루션을 쓸 때**: 솔루션 목록(`Strawberry.slnx`, `Runtime-Test.slnx`, `FileAsset-Test.slnx` 등), 수동 빌드, 단일 테스트 실행, 공통 컴파일 옵션은 `.claude/rules/solutions.md`에 있다. 입력/렌더/에셋/오디오 작업은 `Testing/Runtime-Test.slnx`를 쓴다. 그 파일을 먼저 읽는다.
 - **`DxRender-Test.exe`와 `SDLAudio-Test.exe`는 실행하지 않는다.** 실행 시간이 길고 사람이 눈과 귀로 판단하도록 만든 테스트라서 자동 실행에 맞지 않는다. 빌드(컴파일 확인)는 해도 된다.
-- 테스트는 GoogleTest(`Testing/GoogleTest`, 소스 포함) 실행 파일이다. 단일 테스트는 `UserInterface-Test.exe --gtest_filter=UserInterfaceT_Toggle.*` 처럼 실행한다.
-- `Clean_x64_vs.bat` — 모든 `x64` 출력 폴더와 `.vs`를 삭제한다.
-- 공통 컴파일 옵션/include 경로는 `Directory.Build.props`에 있다. include 루트는 저장소 루트, `Foundation`, `Game`, `Runtime`, `ThirdParty`다.
 
 ## 아키텍처
 
@@ -42,7 +31,7 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 
 - 소스는 UTF-8(`/utf-8`)이다. 한국어 주석/커밋 메시지를 쓴다.
 - git의 `LF will be replaced by CRLF` 경고는 무시한다 (저장소는 LF, 작업 폴더는 CRLF/LF가 섞여 있지만 해롭지 않다). 줄바꿈을 통일하는 작업은 하지 않는다.
-- 세부 규칙은 `.claude/rules/`에 있고 해당 경로의 파일을 다룰 때 적용된다: `import-order.md`(import 순서), `module-layout.md`(.ixx/.cpp 분리 기준), `path-usage.md`(`filesystem::path` 사용 범위와 `AssetPath`), `testing.md`(테스트 코드 규칙), `ui-module.md`(UI 모듈), `ui-testing.md`(UI 테스트), `input-pipeline.md`(입력 파이프라인), `ui-visualizer.md`(UIVisualizer). 길어질 규칙은 CLAUDE.md에 늘리지 말고 이곳에 파일로 추가한다.
+- 세부 규칙은 `.claude/rules/`에 있고 해당 경로의 파일을 다룰 때 적용된다: `import-order.md`(import 순서), `module-layout.md`(.ixx/.cpp 분리 기준), `path-usage.md`(`filesystem::path` 사용 범위와 `AssetPath`), `solutions.md`(솔루션 목록과 빌드/실행), `testing.md`(테스트 코드 규칙), `ui-module.md`(UI 모듈), `ui-testing.md`(UI 테스트), `input-pipeline.md`(입력 파이프라인), `ui-visualizer.md`(UIVisualizer). 길어질 규칙은 CLAUDE.md에 늘리지 말고 이곳에 파일로 추가한다.
 
 ## 작업 방침
 
@@ -52,4 +41,7 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 - **커밋**: 사용자가 요청할 때만 커밋한다. 기능 하나(코드 + 프로젝트 등록 + 문서)는 한 커밋으로 묶고, `CLAUDE.md`나 설정처럼 작은 변경은 따로 커밋하지 않는다.
 - **네이밍**: `Manager`, `System`처럼 의미가 담기지 않은 이름은 피하고, 역할이 드러나는 이름을 쓴다.
 - **멤버는 값이 기본**: `std::unique_ptr` 멤버는 팩토리가 `unique_ptr`로 돌려주는 객체(`IAssetStorage`, `IRenderService`, 백엔드 같은 인터페이스)이거나 다형성 때문에 힙이 꼭 필요할 때만 쓴다. 그 밖의 멤버는 값으로 둔다. 값으로 두려고 `std::optional`로 생성을 미루지 않는다 (`unique_ptr`처럼 "만들어지지 않은 상태"만 생긴다). 의존하는 객체를 생성자에서 먼저 만들어 값 멤버를 초기화 리스트로 만드는 쪽으로 설계하고(멤버 선언 순서가 곧 생성 순서이자 해제의 역순이다), 정말 어렵다면 `unique_ptr`을 쓴다.
+- **커지면 나눈다**: 한 클래스의 멤버 변수가 10개 이상(참조 멤버도 센다)이거나 `.cpp`가 300줄 이상이면 역할별로 묶어 다른 클래스나 파일로 뺄 수 있는지 먼저 고민한다. 나누면 오히려 어색한 경우(하나의 상태를 함께 바꾸는 값들, 길어도 한 가지 일만 하는 파일 등)는 나누지 않아도 되고, 그때는 이유를 주석으로 남긴다.
+- **플랜 모드 답변**: 계획은 "정해야 할 것"과 "알아야 할 것" 두 묶음으로 짧게 대화에 쓰고, 질문은 말로 묻는다. `AskUserQuestion`(1, 2, 3 선택 창)과 `ExitPlanMode`는 쓰지 않는다. 사용자가 말로 답하거나 플랜 모드를 나가면 바로 구현한다. 계획 파일은 만들지 않는다.
+- **말투**: 대화 답변은 딱딱한 개조식이나 반말이 아니라 부드러운 경어체(~합니다, ~해요)로 쓴다. 호칭은 붙이지 않고 주어도 빼는 편이다. 커밋 메시지와 코드 주석에는 적용하지 않는다.
 - **서브에이전트**: 파일 탐색이나 검색 같은 단순 작업에만 쓰고, 그때 모델을 haiku로 지정한다. 코드 리뷰, 설계 판단, 구현은 서브에이전트에 맡기지 않고 직접 한다 (기본 모델은 sonnet).
