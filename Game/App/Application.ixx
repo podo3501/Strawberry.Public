@@ -45,6 +45,7 @@ private:
     UiResources m_resources;
     UIVisualizer m_visualizer;   // F1로 켜는 UIVisualizer 모드. 켜져 있는 동안 입력은 UI 대신 모드가 가져간다
 
+    bool m_visualizerWasActive{ false };   // 모드가 켜진 프레임을 알아내려고 지난 프레임의 상태를 기억한다
     Core::Size m_size{};
     UICamera m_uiCamera;
 };

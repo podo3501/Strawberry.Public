@@ -33,15 +33,18 @@ namespace
         return item;
     }
 
-    std::vector<RenderTextItem> CollectTextItems(std::vector<DrawTextItem>& texts)
+    // 글자 목록을 RenderTextItem으로 바꾼다. 글자가 비어 있어 건너뛴 항목은 slots에 -1로 남는다 (texts의 i번째 -> result의 위치)
+    std::vector<RenderTextItem> CollectTextItems(std::vector<DrawTextItem>& texts, std::vector<std::ptrdiff_t>& slots)
     {
         std::vector<RenderTextItem> result;
         result.reserve(texts.size());
-        for (auto& text : texts)
+        slots.assign(texts.size(), -1);
+        for (std::size_t i = 0; i < texts.size(); ++i)
         {
-            if (text.runs.empty())
+            if (texts[i].runs.empty())
                 continue;
-            result.push_back(ToRenderTextItem(text));
+            slots[i] = static_cast<std::ptrdiff_t>(result.size());
+            result.push_back(ToRenderTextItem(texts[i]));
         }
         return result;
     }
@@ -70,13 +73,22 @@ std::optional<RenderUIItem> BuildUIItems(
     buffer.vertices.reserve(draws.ui.size() * 4);
     buffer.indices.reserve(draws.ui.size() * 6);
 
-    if (!draws.ui.empty())
-        AppendUIItems(draws.ui, buffer);
+    std::vector<std::ptrdiff_t> textSlots;
+    const auto textItems = CollectTextItems(draws.texts, textSlots);
+    const auto shapedTexts = textSystem.PrepareDrawItems(textItems);
 
-    if (!draws.texts.empty())
+    // 호출된 순서대로 넣는다. 인덱스가 앞선 것이 먼저 그려져 아래에 깔린다
+    for (const auto& entry : draws.order)
     {
-        auto textItems = CollectTextItems(draws.texts);
-        textSystem.AppendDrawItems(textItems, buffer);
+        if (entry.kind == DrawOrderEntry::Kind::Image)
+        {
+            AppendUIItem(draws.ui[entry.index], buffer);
+            continue;
+        }
+
+        const std::ptrdiff_t slot = textSlots[entry.index];
+        if (slot >= 0)
+            textSystem.AppendDrawItem(shapedTexts[slot], textItems[slot], buffer);
     }
 
     return BakeBuffer(transientMesh, buffer);

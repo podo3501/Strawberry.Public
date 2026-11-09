@@ -20,7 +20,7 @@ public:
     // 위젯이 없는 곳이면 아무것도 바꾸지 않고 false
     bool Pick(Widget& layerRoot, const Core::Vector2& point);
 
-    // 픽 창을 띄울 기준 위치. 새로 시작한 클릭(다른 위젯을 클릭했을 때)의 위치이고, 같은 곳을 계속 클릭해 올라가는 동안에는 그대로다 (창이 움직이지 않게 한다)
+    // 픽 창을 띄울 기준 위치. 마지막으로 클릭한 위치다
     const Core::Vector2& PickAnchor() const noexcept { return m_anchor; }
 
     bool HasPick() const noexcept { return !m_chain.empty(); }
@@ -29,6 +29,9 @@ public:
     // 화면에 보여 줄 체인의 일부: 최대 kPickWindowSize개이고 Picked를 포함한다 (안쪽부터 바깥쪽 순서).
     // Picked를 가운데에 두되, 체인의 처음과 끝 가까이에서는 창이 체인 밖으로 나가지 않아 Picked가 창의 가장자리로 움직인다. 체인이 짧으면 전부
     std::span<Widget* const> PickWindow() const noexcept;
+
+    // 픽을 체인을 따라 steps칸 옮긴다 (양수는 바깥쪽 조상, 음수는 안쪽 자식). 끝에서 멈추고 순환하지 않는다. 옮겼으면 true
+    bool MovePick(int steps);
 
     void CancelPick() noexcept { m_chain.clear(); m_pickIndex = 0; }
 
@@ -52,5 +55,5 @@ private:
     std::vector<Widget*> m_items;
     std::vector<Widget*> m_chain;   // 픽 중인 체인 (안쪽부터). 픽이 없으면 비어 있다
     std::size_t m_pickIndex{ 0 };   // m_chain 안에서 지금 픽한 위치
-    Core::Vector2 m_anchor{};       // 픽 창의 기준 위치
+    Core::Vector2 m_anchor{};       // 마지막으로 클릭한 위치
 };

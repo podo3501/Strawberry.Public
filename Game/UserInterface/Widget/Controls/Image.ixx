@@ -19,14 +19,17 @@ public:
 	Image(BrushHandle bh, Core::Rect localRect, SliceMargins m, Core::Vector2 srcSize) // 슬라이스 이미지
 		: TypeNode(localRect), m_brush(SlicedBrush::Sliced(bh, m, srcSize)) {}
 
+	void SetTint(const Core::Color& tint) { m_tint = tint; }   // 이미지에 곱하는 색(sRGB). 기본은 흰색(그대로). 흰색 이미지에 색을 입힐 때 쓴다
+
 protected:
 	bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: Image.cpp
 
 	void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
 	{
-		DrawSliced(overlay, m_brush, screenRect);
+		DrawSliced(overlay, m_brush, screenRect, m_tint);
 	}
 
 private:
 	SlicedBrush m_brush;
+	Core::Color m_tint{};
 };

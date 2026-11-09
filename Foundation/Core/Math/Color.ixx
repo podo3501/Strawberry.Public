@@ -35,6 +35,13 @@ namespace Core
             return { r, g, b, alpha };
         }
 
+        // RGB를 sRGB 값에서 선형 값으로 바꾼다. 알파는 그대로다 (1.0은 1.0, 1을 넘는 값은 넘는 대로 이어진다)
+        [[nodiscard]]
+        Color SrgbToLinear() const
+        {
+            return { SrgbChannelToLinear(r), SrgbChannelToLinear(g), SrgbChannelToLinear(b), a };
+        }
+
         [[nodiscard]]
         static constexpr Color FromARGB8888(std::uint32_t argb)
         {
@@ -77,6 +84,12 @@ namespace Core
         static const Color Magenta;
         static const Color Gray;
         static const Color Transparent;
+
+    private:
+        static float SrgbChannelToLinear(float c)
+        {
+            return c <= 0.04045f ? c / 12.92f : std::pow((c + 0.055f) / 1.055f, 2.4f);
+        }
     };
 
     inline constexpr Color Color::White{ 1.0f, 1.0f, 1.0f, 1.0f };

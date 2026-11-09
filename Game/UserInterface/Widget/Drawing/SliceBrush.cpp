@@ -19,6 +19,26 @@ std::string SerializedKey(std::string_view prefix, std::string_view name)
 	return std::string(prefix) + key;
 }
 
+// 흰색(기본)이 아닐 때만 적는다. 읽을 때 키가 없으면 흰색으로 돌아간다
+void SerializeTint(Serializer& serializer, Core::Color& tint, const std::string& hasKey, const std::string& colorKey)
+{
+	bool has = tint != Core::Color{};
+	if (serializer.IsWrite() && !has)
+		return;
+
+	serializer.Process(hasKey, has);
+	if (!has)
+	{
+		tint = Core::Color{};
+		return;
+	}
+
+	serializer.Process(colorKey + "R", tint.r);
+	serializer.Process(colorKey + "G", tint.g);
+	serializer.Process(colorKey + "B", tint.b);
+	serializer.Process(colorKey + "A", tint.a);
+}
+
 // 브러시는 이름으로 저장한다. 이름을 모르는 핸들(저장), 이름이 없거나 모르는 이름(불러오기)이면 실패
 bool SerializeBrushName(Serializer& serializer, IWidgetResources& resources, BrushHandle& brush, std::string_view key)
 {
@@ -43,6 +63,16 @@ bool SerializeBrushName(Serializer& serializer, IWidgetResources& resources, Bru
 	return true;
 }
 
+void SerializeSliceMargins(Serializer& serializer, SliceMargins& margins, Core::Vector2& srcSize, std::string_view prefix)
+{
+	serializer.Process(SerializedKey(prefix, "sliceLeft"), margins.left);
+	serializer.Process(SerializedKey(prefix, "sliceTop"), margins.top);
+	serializer.Process(SerializedKey(prefix, "sliceRight"), margins.right);
+	serializer.Process(SerializedKey(prefix, "sliceBottom"), margins.bottom);
+	serializer.Process(SerializedKey(prefix, "srcWidth"), srcSize.x);
+	serializer.Process(SerializedKey(prefix, "srcHeight"), srcSize.y);
+}
+
 bool SerializeSlicedBrush(Serializer& serializer, IWidgetResources& resources, SlicedBrush& brush, std::string_view prefix)
 {
 	BrushHandle handle = brush.brush;
@@ -54,12 +84,7 @@ bool SerializeSlicedBrush(Serializer& serializer, IWidgetResources& resources, S
 	Core::Vector2 srcSize = brush.srcSize;
 
 	serializer.Process(SerializedKey(prefix, "sliced"), sliced);
-	serializer.Process(SerializedKey(prefix, "sliceLeft"), margins.left);
-	serializer.Process(SerializedKey(prefix, "sliceTop"), margins.top);
-	serializer.Process(SerializedKey(prefix, "sliceRight"), margins.right);
-	serializer.Process(SerializedKey(prefix, "sliceBottom"), margins.bottom);
-	serializer.Process(SerializedKey(prefix, "srcWidth"), srcSize.x);
-	serializer.Process(SerializedKey(prefix, "srcHeight"), srcSize.y);
+	SerializeSliceMargins(serializer, margins, srcSize, prefix);
 
 	if (serializer.IsWrite())
 		return true;

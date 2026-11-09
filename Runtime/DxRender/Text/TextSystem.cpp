@@ -16,24 +16,22 @@ bool TextSystem::Initialize(const TextConfig& texConfig)
     return m_fontAtlas.Initialize(texConfig);
 }
 
-void TextSystem::AppendDrawItems(
-    std::vector<RenderTextItem>& items,
-    UIBatchBuffer& buffer)
+std::vector<ShapedText> TextSystem::PrepareDrawItems(const std::vector<RenderTextItem>& items)
 {
     if (items.empty())
-        return;
+        return {};
 
     auto shapedTexts = ShapeTexts(items);
     m_fontAtlas.EnsureGlyphs(shapedTexts);
+    return shapedTexts;
+}
 
-    for (const auto& shaped : shapedTexts)
-    {
-        if (shaped.glyphs.empty())
-            continue;
+void TextSystem::AppendDrawItem(const ShapedText& shaped, const RenderTextItem& item, UIBatchBuffer& buffer)
+{
+    if (shaped.glyphs.empty())
+        return;
 
-        const auto& item = items[shaped.index];
-        AppendShapedText(m_fontAtlas, shaped, item, buffer);
-    }
+    AppendShapedText(m_fontAtlas, shaped, item, buffer);
 }
 
 std::vector<ShapedText> TextSystem::ShapeTexts(const std::vector<RenderTextItem>& items)

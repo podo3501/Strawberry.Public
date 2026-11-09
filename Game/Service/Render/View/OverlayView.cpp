@@ -76,7 +76,7 @@ void OverlayView::DrawImage(
     Core::Matrix translation = Core::Matrix::Translation(dest.x, dest.y, 0.0f);
     Core::Matrix world = scale * translation;
 
-	m_data.draws.ui.push_back(DrawUIItem{
+	m_data.draws.Add(DrawUIItem{
 		meshRes, brushRes, world,
 		source ? std::optional<Core::Rect>(*source) : std::nullopt,
 		clip, tint });
@@ -136,7 +136,7 @@ void OverlayView::DrawText(
         }
     }
 
-	m_data.draws.texts.push_back(DrawTextItem{
+	m_data.draws.Add(DrawTextItem{
 		fontRes, mode, size, bounds, layout, BuildTextRuns(spans), clip
 		});
 }

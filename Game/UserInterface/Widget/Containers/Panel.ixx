@@ -20,6 +20,7 @@ public:
         : TypeNode(axis, localRect), m_background(background) {}
 
     void SetBlocksInput(bool blocks) { m_blocksInput = blocks; }
+    void SetBackgroundTint(const Core::Color& tint) { m_backgroundTint = tint; }   // 배경 이미지에 곱하는 색. 기본은 흰색(그대로). 흰색 이미지를 늘려 단색 배경으로 쓸 때 색을 준다
 
 protected:
     bool Serialize(Serializer& serializer, IWidgetResources& resources) override;   // 구현: Panel.cpp
@@ -28,11 +29,12 @@ protected:
     void DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) const override
     {
         if (screenRect.width > 0.f && screenRect.height > 0.f)   // 빈 Fit 패널은 그릴 것이 없다
-            DrawSliced(overlay, m_background, screenRect);
+            DrawSliced(overlay, m_background, screenRect, m_backgroundTint);
     }
 
 private:
     SlicedBrush m_background;
+    Core::Color m_backgroundTint{};
     bool m_blocksInput{ false };
 };
 

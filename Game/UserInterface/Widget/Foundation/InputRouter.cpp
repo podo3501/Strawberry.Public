@@ -34,6 +34,17 @@ bool InputRouter::Update(Widget& root, const PointerFrame& frame)
     return hit != nullptr || Widget::Resolve(root, m_pressed) != nullptr;
 }
 
+void InputRouter::Release(const Widget& root)
+{
+    if (Widget* pressed = Widget::Resolve(root, m_pressed))
+        pressed->OnPointerUp(PointerEvent{});
+    m_pressed.reset();
+
+    if (Widget* hovered = Widget::Resolve(root, m_hovered))
+        hovered->OnPointerLeave();
+    m_hovered.reset();
+}
+
 void InputRouter::UpdateHover(const Widget& root, Widget* hit)
 {
     // 캡처 중에는 캡처한 위젯(과 자손) 위에서만 hover를 갱신한다.

@@ -34,7 +34,7 @@ public:
     // 지금 고른 위젯 목록을 선택 정보 파일에 덮어쓴다. 실패하면 로그를 남기고 false (선택 파일이 안 써져도 게임은 계속한다)
     bool Write();
 
-    // 프레임마다 모드 중에 부른다. Escape(픽 취소, 없으면 선택 비움), 왼쪽 클릭(픽), C(픽한 위젯 선택/해제, Ctrl과 함께 누른 것은 제외)를 처리한다.
+    // 프레임마다 모드 중에 부른다. Escape(픽 취소, 없으면 선택 비움), 왼쪽 클릭(픽), 휠(픽을 체인을 따라 이동), C(픽한 위젯 선택/해제)를 처리한다.
     // 픽은 파일에 영향이 없으므로 선택이 바뀔 때만 선택 정보 파일을 다시 쓴다
     void HandleInput(const IInputService& input);
 
@@ -46,11 +46,11 @@ public:
     // 고른 순서대로 (번호는 순서 + 1). 값을 바꾸는 쪽(미세 이동)도 쓰므로 const가 아니다
     std::span<Widget* const> Items() const { return m_selection.Items(); }
 
-    // 픽 창을 먼저, 선택을 그 위에 덧그린다. screen은 픽 창이 화면 밖으로 나가지 않게 하는 데 쓴다
+    // 선택을 먼저, 픽 창을 그 위(가장 위)에 덧그린다. screen은 픽 창이 화면 밖으로 나가지 않게 하는 데 쓴다
     void Draw(IOverlayView& overlay, const Core::Size& screen) const
     {
-        m_overlay.DrawPick(overlay, screen, m_selection.PickWindow(), m_selection.Picked(), m_selection.PickAnchor());
         m_overlay.Draw(overlay, m_selection.Items());
+        m_overlay.DrawPick(overlay, screen, m_selection.PickWindow(), m_selection.Picked(), m_selection.PickAnchor());
     }
 
     // 레이아웃을 다시 읽는 동안의 선택 보존. 읽기 전에 Paths로 경로를 기억하고, 읽는 동안 Drop으로 비우고, 읽은 뒤 Restore로 되살린다

@@ -47,6 +47,7 @@ public:
     bool OnTextInput(std::string_view utf8); // 이번 프레임에 입력된 문자(UTF-8)를 포커스 위젯에 넘긴다. 전달되었으면 true
     void Tick(float dt); // 시간 진행(초). 입력이 없어도 부른다 (툴팁 지연 등). 일시정지 중에도 UI를 돌리려면 실시간 dt를 넘긴다
     void Resize(float width, float height);   // 화면 크기 변경. root를 (0,0,w,h)로 두고 전체 재배치
+    void ReleaseInput();   // hover, 누름 캡처, 포커스를 모두 풀어 평상시 모습으로 돌린다. 입력을 한동안 UI에 보내지 않을 때 부른다
 
     // 툴팁을 만드는 방법과 타이밍. 호출하지 않으면 툴팁은 뜨지 않는다
     void ConfigureTooltip(TooltipFactory factory, TooltipSettings settings = {});

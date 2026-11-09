@@ -13,7 +13,7 @@ void SelectionOverlay::Draw(IOverlayView& overlay, std::span<const Widget* const
     for (std::size_t i = 0; i < items.size(); ++i)
     {
         const Core::Rect rect = WidgetInspector::ScreenRect(*items[i]);
-        DrawOutline(overlay, rect, kSelectedColor);
+        DrawFill(overlay, rect);
         DrawNumber(overlay, rect, i + 1);
     }
 }
@@ -24,7 +24,7 @@ void SelectionOverlay::DrawPick(IOverlayView& overlay, const Core::Size& screen,
     if (!current || window.empty())
         return;
 
-    DrawOutline(overlay, WidgetInspector::ScreenRect(*current), kPickColor);   // 화면의 어느 위젯인지 바로 보이게 한다
+    DrawFill(overlay, WidgetInspector::ScreenRect(*current));   // 화면의 어느 위젯인지 바로 보이게 한다
 
     // 창마다 이름과 폭을 정한다
     std::vector<std::string> labels;
@@ -63,9 +63,9 @@ float SelectionOverlay::PickRowWidth(const std::string& label) const
 void SelectionOverlay::DrawPickRow(IOverlayView& overlay, const Core::Rect& row, const std::string& label, bool isCurrent) const
 {
     if (m_brush)
-        overlay.DrawImage(m_brush, row, nullptr, isCurrent ? kPickCurrentRowColor : kPickRowColor);
+        overlay.DrawImage(m_brush, row, nullptr, kPickRowColor);
     if (isCurrent)
-        DrawOutline(overlay, row, kPickColor);
+        DrawBorder(overlay, row, kPickColor, kPickRowBorderThickness);
 
     if (!m_font)
         return;
@@ -79,17 +79,23 @@ void SelectionOverlay::DrawPickRow(IOverlayView& overlay, const Core::Rect& row,
     overlay.DrawText(m_font, TextRenderMode::MTSDF, label, kPickTextSize, bounds, layout, style);
 }
 
-// 위젯 바깥쪽에 그린다. 위, 아래 변은 양옆 두께만큼 더 길게, 왼쪽, 오른쪽 변은 위젯 높이만큼만 그려서 모서리가 겹치지 않게 한다
-void SelectionOverlay::DrawOutline(IOverlayView& overlay, const Core::Rect& rect, const Core::Color& tint) const
+void SelectionOverlay::DrawFill(IOverlayView& overlay, const Core::Rect& rect) const
+{
+    if (m_brush && rect.IsValid())   // 크기가 없는 위젯은 덮을 면이 없다
+        overlay.DrawImage(m_brush, rect, nullptr, kHighlightColor);
+}
+
+// 위, 아래 변은 양옆 두께만큼 더 길게, 왼쪽, 오른쪽 변은 높이만큼만 그려서 모서리가 겹치지 않게 한다
+void SelectionOverlay::DrawBorder(IOverlayView& overlay, const Core::Rect& rect, const Core::Color& tint, float thickness) const
 {
     if (!m_brush)
         return;
 
     const std::array edges{
-        Core::Rect{ rect.x - kThickness, rect.y - kThickness, rect.width + kThickness * 2.f, kThickness },
-        Core::Rect{ rect.x - kThickness, rect.y + rect.height, rect.width + kThickness * 2.f, kThickness },
-        Core::Rect{ rect.x - kThickness, rect.y, kThickness, rect.height },
-        Core::Rect{ rect.x + rect.width, rect.y, kThickness, rect.height },
+        Core::Rect{ rect.x - thickness, rect.y - thickness, rect.width + thickness * 2.f, thickness },
+        Core::Rect{ rect.x - thickness, rect.y + rect.height, rect.width + thickness * 2.f, thickness },
+        Core::Rect{ rect.x - thickness, rect.y, thickness, rect.height },
+        Core::Rect{ rect.x + rect.width, rect.y, thickness, rect.height },
     };
 
     for (const Core::Rect& edge : edges)

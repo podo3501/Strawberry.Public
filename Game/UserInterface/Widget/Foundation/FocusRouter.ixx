@@ -25,6 +25,8 @@ public:
     // 시간 진행(초)을 포커스 위젯에게만 전달한다.
     void Tick(Widget& root, float dt);
 
+    void Release(const Widget& root);   // 포커스를 풀고 포커스 위젯에 Blur를 알린다
+
 private:
     static Widget* FindScope(Widget& w); // 맨 위의 TrapsFocus 위젯 (없으면 nullptr)
     static void Collect(Widget& w, std::vector<Widget*>& out); // 트리 순서대로 포커스 가능한 위젯 수집

@@ -1,7 +1,9 @@
 export module UserInterface.Widget:Pressable;
 
+import std;
 import :Widget;
 import :InputEvents;
+import :Slice;
 import :SlicedBrush;
 import :WidgetResources;
 import Contract.Input.Shared;
@@ -26,6 +28,17 @@ export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 
     StateBrush normal{};
     StateBrush hover{};
     StateBrush pressed{};
+    std::optional<SliceMargins> margins;    // 세 상태가 함께 쓴다. 없으면 통짜 이미지. 세 이미지는 크기와 테두리가 같아야 한다
+    Core::Vector2 srcSize{ 1.f, 1.f };      // 소스 텍스처 크기(px). 슬라이스일 때만 쓰인다
+
+    // 세 상태를 9슬라이스로 그리도록 한 복사본을 돌려준다
+    ButtonBrushes Sliced(SliceMargins sliceMargins, Core::Vector2 sourceSize) const
+    {
+        ButtonBrushes result = *this;
+        result.margins = sliceMargins;
+        result.srcSize = sourceSize;
+        return result;
+    }
 
     // 브러시 하나로 세 상태를 만들고 틴트만 다르게 한다. 기본값은 호버와 눌림이 차례로 조금씩 밝아진다
     static ButtonBrushes Tinted(BrushHandle brush, Core::Color hoverTint = { 1.15f, 1.15f, 1.15f }, Core::Color pressedTint = { 1.3f, 1.3f, 1.3f })
@@ -35,7 +48,8 @@ export struct ButtonBrushes   // 순수 데이터: 클라이언트가 스킨을 
 };
 
 // 저장/불러오기: 브러시 3개를 prefix가 붙은 키(normalBrush, hoverBrush, pressedBrush)로 적는다.
-// 틴트는 흰색이 아닌 상태만 hasNormalTint + normalTintR/G/B/A 같은 키로 적고, 키가 없으면 흰색이다. 구현: Pressable.cpp
+// 틴트는 흰색이 아닌 상태만 hasNormalTint + normalTintR/G/B/A 같은 키로 적고, 키가 없으면 흰색이다.
+// 슬라이스는 9슬라이스일 때만 sliced + sliceLeft/Top/Right/Bottom + srcWidth/Height 키로 적고, 키가 없으면 통짜 이미지다. 구현: Pressable.cpp
 // 하나라도 이름을 모르는 핸들(저장), 이름이 없거나 모르는 이름(불러오기)이면 false.
 export bool SerializeButtonBrushes(Serializer& serializer, IWidgetResources& resources, ButtonBrushes& brushes, std::string_view prefix);
 
@@ -68,11 +82,11 @@ protected:
         return true;
     }
 
-    // 현재 상태의 브러시를 그 상태의 틴트로 그린다
+    // 현재 상태의 브러시를 그 상태의 틴트로 그린다 (슬라이스 설정이 있으면 9슬라이스로)
     void DrawPicked(IOverlayView& overlay, const ButtonBrushes& brushes, const Core::Rect& screenRect) const
     {
         const StateBrush& state = Pick(brushes);
-        overlay.DrawImage(state.brush, screenRect, nullptr, state.tint);
+        DrawSliced(overlay, SlicedBrush{ state.brush, brushes.margins, brushes.srcSize }, screenRect, state.tint);
     }
 
     // 현재 상태에 맞는 모습을 고른다

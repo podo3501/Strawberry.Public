@@ -53,8 +53,7 @@ bool WidgetSelection::Pick(Widget& layerRoot, const Core::Vector2& point)
 
     // 가장 안쪽 위젯이 그대로면 같은 곳을 다시 클릭한 것이므로 한 칸 올라가고, 다르면 새로 시작한다
     const bool continuing = HasPick() && chain.front() == m_chain.front();
-    if (!continuing)
-        m_anchor = point;   // 새로 시작할 때만 클릭 위치를 기준으로 삼는다
+    m_anchor = point;   // 픽 창은 마지막으로 클릭한 위치를 따라온다
 
     m_pickIndex = continuing ? (m_pickIndex + 1) % chain.size() : 0;
     m_chain = std::move(chain);
@@ -70,6 +69,18 @@ std::span<Widget* const> WidgetSelection::PickWindow() const noexcept
     const std::size_t half = kPickWindowSize / 2;
     const std::size_t start = std::min(m_pickIndex > half ? m_pickIndex - half : 0, count - kPickWindowSize);
     return std::span{ m_chain }.subspan(start, kPickWindowSize);
+}
+
+bool WidgetSelection::MovePick(int steps)
+{
+    if (!HasPick())
+        return false;
+
+    const auto last = static_cast<std::ptrdiff_t>(m_chain.size()) - 1;
+    const auto target = std::clamp(static_cast<std::ptrdiff_t>(m_pickIndex) + steps, std::ptrdiff_t{ 0 }, last);
+    const bool moved = static_cast<std::size_t>(target) != m_pickIndex;
+    m_pickIndex = static_cast<std::size_t>(target);
+    return moved;
 }
 
 bool WidgetSelection::SelectPicked()

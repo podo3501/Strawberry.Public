@@ -21,6 +21,7 @@ public:
     Widget* Hovered(const Widget& root) const;   // 지금 hover 중인 위젯. 없거나 파괴됐거나 트리 밖이면 nullptr
     Widget* Pressed(const Widget& root) const;   // 지금 누름을 캡처한 위젯. 없거나 파괴됐거나 트리 밖이면 nullptr
     bool Update(Widget& root, const PointerFrame& frame); // 반환값: 이 입력이 UI 위에서 일어났는가 (히트 위젯이 있거나 캡처 중)
+    void Release(const Widget& root);   // hover와 누름 캡처를 풀고 위젯에 Leave/Up을 알린다 (클릭은 일어나지 않는다)
 
 private:
     void UpdateHover(const Widget& root, Widget* hit);

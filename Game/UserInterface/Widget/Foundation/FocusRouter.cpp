@@ -53,6 +53,11 @@ void FocusRouter::Tick(Widget& root, float dt)
         focused->OnTick(dt);
 }
 
+void FocusRouter::Release(const Widget& root)
+{
+    SetFocus(root, nullptr, false);
+}
+
 // 트리 순서(앞이 아래, 뒤가 위)에서 마지막으로 만나는 모달 = 가장 위에 떠 있는 모달
 Widget* FocusRouter::FindScope(Widget& w)
 {

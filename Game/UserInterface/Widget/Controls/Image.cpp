@@ -13,5 +13,9 @@ bool Image::Serialize(Serializer& serializer, IWidgetResources& resources)
 	if (!Widget::Serialize(serializer, resources))
 		return false;
 
-	return SerializeSlicedBrush(serializer, resources, m_brush, "");
+	if (!SerializeSlicedBrush(serializer, resources, m_brush, ""))
+		return false;
+
+	SerializeTint(serializer, m_tint, "hasTint", "tint");   // 흰색이 아닐 때만 적는다
+	return true;
 }

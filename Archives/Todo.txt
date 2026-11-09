@@ -58,5 +58,13 @@
 [x] UIVisualizer 폴더를 역할별로 정리 (Layout/, Selection/, 루트는 조립과 상태 표시. 테스트 폴더와 네임스페이스도 맞춤)
 [x] UIVisualizer 코드 정리 (다시 읽는 이유를 LoadCause로 묶고, 키 조회 KeyQuery와 화살표 해석을 WidgetNudger로 모으고, 선택이 Widget*를 들어 경로 왕복을 없앰, 레이어와 파일 경로를 한 곳으로, 이력은 복사 없이 돌려줌, 이동 중에는 선택 정보 파일을 쓰지 않음, UIVisualizer의 선택 부분을 SelectionFeed로 이력과 이동 부분을 LayoutEditor로 분리하고 클래스 주석을 줄임)
 [x] UIVisualizer 위젯 고르기를 픽과 선택으로 나눔 (클릭은 안쪽부터 조상으로 올라가며 픽하고 순환, 체인에서 현재 픽 중심으로 최대 5개를 위젯 이름이 적힌 창으로 표시(처음 클릭한 마우스 위치에서 오른쪽 아래로 쌓고 창 폭은 이름 글자 폭에 맞춤), C 키로 선택하면 빨간 윤곽선과 번호만 남음, Esc는 픽 우선, 윤곽선은 white.png에 틴트)
+[x] UIVisualizer 위젯이 없는 빈 곳(바닥)을 클릭하면 픽이 취소되고 창이 닫힘. 픽 창은 마지막으로 클릭한 위치에 뜨고 현재 픽 창의 테두리는 1px, 픽 창을 선택 윤곽선 위에 그림, 마우스 휠로 픽을 체인을 따라 이동, 선택과 픽 중인 위젯을 윤곽선 대신 밝은 회색 반투명 면으로 표시
+[x] Panel 배경 틴트(SetBackgroundTint, 흰색이 아닐 때만 저장)와 샘플 Window.json에 옵션 창(분홍 제목줄과 X 버튼, 그래픽/오디오/게임 버튼, 완료 버튼) 추가, 기존 버튼은 왼쪽 위로 이동
+[x] Button 상태 브러시의 9슬라이스 (옵션 창 버튼 이미지가 통째로 늘어나는 것을 모서리는 그대로 두고 가운데만 늘어나게)
+[ ] UIVisualizer 주석을 클래스 4줄, 함수 2줄 규칙에 맞게 줄이기 (WidgetSelection, SelectionFeed, LayoutEditor, SelectionOverlay 등)
+[ ] 코드 조금만 고쳐도 UIVisualizer 밖(std, Core, UserInterface)까지 다시 컴파일되는 원인 조사 (Visual Studio와 MSBuild 번갈아 빌드할 때 std부터 다시 만드는지 확인)
+[x] UI 틴트를 sRGB 값으로 받아 그리기 직전에 선형으로 변환 (Color::SrgbToLinear, 옵션창 버튼을 web_button.png 9슬라이스와 틴트 색으로 교체)
+[x] 오버레이에서 이미지와 글자를 호출한 순서대로 그리기 (글자가 항상 이미지 위에 그려지던 것을 DrawOrderEntry로 순서를 기억해 고침)
+[x] UIVisualizer 모드를 켤 때 UI의 hover/누름/포커스를 풀기 (UserInterface::ReleaseInput, 켜진 프레임에 한 번)
 
 전체 컴파일 마지막 확인: 98391f6

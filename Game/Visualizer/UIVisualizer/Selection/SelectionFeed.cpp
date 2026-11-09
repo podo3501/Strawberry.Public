@@ -29,8 +29,14 @@ void SelectionFeed::HandleInput(const IInputService& input)
     if (input.GetMouseButton(MouseButton::Left).IsPressed())
     {
         const Core::Point position = input.GetMousePosition();
-        m_selection.Pick(m_layerRoot, Core::Vector2{ static_cast<float>(position.x), static_cast<float>(position.y) });   // 픽은 선택이 아니므로 파일은 그대로다
+        const Core::Vector2 point{ static_cast<float>(position.x), static_cast<float>(position.y) };
+        if (!m_selection.Pick(m_layerRoot, point))   // 위젯이 없는 빈 곳(바닥)을 클릭하면 픽 창을 닫는다. 픽은 선택이 아니므로 파일은 그대로다
+            m_selection.CancelPick();
     }
+
+    // 휠을 위로 굴리면 안쪽(자식), 아래로 굴리면 바깥쪽(조상)으로 한 틱에 한 칸씩 옮긴다
+    if (const int ticks = static_cast<int>(std::lround(input.GetMouseWheelDelta())); ticks != 0)
+        m_selection.MovePick(-ticks);
 
     if (input.GetKey(KeyCode::C).IsPressed() && !KeyQuery::IsCtrlDown(input) && m_selection.SelectPicked())
         Write();

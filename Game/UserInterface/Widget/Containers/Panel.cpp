@@ -16,6 +16,7 @@ bool Panel::Serialize(Serializer& serializer, IWidgetResources& resources)
 	if (!SerializeSlicedBrush(serializer, resources, m_background, "background"))
 		return false;
 
+	SerializeTint(serializer, m_backgroundTint, "hasBackgroundTint", "backgroundTint");
 	serializer.Process("blocksInput", m_blocksInput);
 	return true;
 }

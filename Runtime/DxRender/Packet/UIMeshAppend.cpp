@@ -39,6 +39,7 @@ namespace
         DirectX::XMMATRIX xmWorld = ToDXMatrix(world);
 
 		const Core::Rect clipRect = clip.value_or(Core::Rect{}); // 템플릿 정점의 textProps는 0이라 클립이 꺼져 있다. 면적 0 = 클립 없음 (셰이더 규칙).
+        const Core::Color linearTint = tint.SrgbToLinear();      // 틴트는 sRGB 값으로 받는다. 셰이더는 선형으로 계산하고 백버퍼가 sRGB로 되돌린다.
 
         for (const auto& v : srcVertices)
         {
@@ -50,7 +51,7 @@ namespace
             out.uv.x = std::lerp(uvTransform.x, uvTransform.z, v.uv.x);
             out.uv.y = std::lerp(uvTransform.y, uvTransform.w, v.uv.y);
             out.textureIndex = textureIndex;
-            out.color = { v.color.r * tint.r, v.color.g * tint.g, v.color.b * tint.b, v.color.a * tint.a };
+            out.color = { v.color.r * linearTint.r, v.color.g * linearTint.g, v.color.b * linearTint.b, v.color.a * linearTint.a };
             out.textProps.clipRect = clipRect;
             buffer.vertices.push_back(out);
         }
@@ -72,31 +73,26 @@ namespace
     }
 } //namespace
 
-// ViewDrawList::ui의 각 아이템을 CPU에서 world/uv를 구워 단일 batch buffer에 append.
-// static mesh(quad 등)의 CPU 템플릿(StaticMeshResource::GetCPUTemplate)이 있는 아이템만 처리한다.
-void AppendUIItems(
-    const std::vector<DrawUIItem>& uiItems,
+void AppendUIItem(
+    const DrawUIItem& ui,
     UIBatchBuffer& buffer)
 {
-    for (const auto& ui : uiItems)
-    {
-        auto* meshRes = static_cast<StaticMeshResource*>(ui.mesh.get());
-        const MeshAsset* tmpl = meshRes->GetCPUTemplate();
-        if (!tmpl)
-            continue; // ui는 이 cpu asset을 다 들고 있다고 가정한다. 만약 다른 메쉬종류가 template를 쓰거나 ui가 불필요한 asset을 카피한다고 생각된다면 수정해야 한다.
+    auto* meshRes = static_cast<StaticMeshResource*>(ui.mesh.get());
+    const MeshAsset* tmpl = meshRes->GetCPUTemplate();
+    if (!tmpl)
+        return; // ui는 이 cpu asset을 다 들고 있다고 가정한다. 만약 다른 메쉬종류가 template를 쓰거나 ui가 불필요한 asset을 카피한다고 생각된다면 수정해야 한다.
 
-        auto* brush = static_cast<BrushResource*>(ui.brush.get());
-        Core::Vector4 uvTransform = brush->CalcUVTransform(ui.source);
-        AppendUIMesh(
-            buffer,
-            AsUIVertices(*tmpl),
-            tmpl->indices,
-            ui.world,
-            uvTransform,
-            brush->GetTextureIndex(),
-            ui.clip,
-            ui.tint);
+    auto* brush = static_cast<BrushResource*>(ui.brush.get());
+    Core::Vector4 uvTransform = brush->CalcUVTransform(ui.source);
+    AppendUIMesh(
+        buffer,
+        AsUIVertices(*tmpl),
+        tmpl->indices,
+        ui.world,
+        uvTransform,
+        brush->GetTextureIndex(),
+        ui.clip,
+        ui.tint);
 
-        PadToQuadAlignment(buffer);
-    }
+    PadToQuadAlignment(buffer);
 }

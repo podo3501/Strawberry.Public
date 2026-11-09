@@ -93,6 +93,12 @@ void UserInterface::Resize(float width, float height)
     m_root.SetSize(width, height);
 }
 
+void UserInterface::ReleaseInput()
+{
+    m_input.Release(m_root);
+    m_focus.Release(m_root);
+}
+
 void UserInterface::ConfigureTooltip(TooltipFactory factory, TooltipSettings settings)
 {
     m_tooltip.Configure(std::move(factory), settings);

@@ -117,7 +117,12 @@ void Application::Frame(float dt)
 
     m_inputService->Update(dt);
 
-    if (!m_visualizer.Update(dt, *m_inputService))   // 모드 중이면 입력은 UI가 아니라 모드가 가져간다
+    const bool visualizerActive = m_visualizer.Update(dt, *m_inputService);
+    if (visualizerActive && !m_visualizerWasActive)
+        m_ui.ReleaseInput();   // 모드 동안 UI는 입력을 못 받으므로, 호버/눌림/포커스 모습으로 굳지 않게 평상시로 돌려놓는다
+    m_visualizerWasActive = visualizerActive;
+
+    if (!visualizerActive)   // 모드 중이면 입력은 UI가 아니라 모드가 가져간다
     {
         m_ui.Update(m_inputService->GetMouseState());
         ForwardKeysToUi();
