@@ -13,12 +13,25 @@
 
 module SDLAudio;
 
+import Core.Logger;
+
 bool AudioBackend::Initialize(int maxVoices, int maxStreams) noexcept
 {
+	if (maxVoices < 0 || maxStreams < 0)
+	{
+		Core::Logger::Error("AudioBackend: 목소리/스트림 개수는 음수일 수 없음 ({}, {})", maxVoices, maxStreams);
+		return false;
+	}
 	if (maxVoices > VoiceLimits::MaxVoices || maxStreams > VoiceLimits::MaxStreams)
+	{
+		Core::Logger::Error("AudioBackend: 목소리/스트림 개수가 한도를 넘음 ({}, {})", maxVoices, maxStreams);
 		return false;
+	}
 	if (maxVoices < maxStreams)
+	{
+		Core::Logger::Error("AudioBackend: 스트림이 목소리보다 많음 ({}, {})", maxVoices, maxStreams);
 		return false;
+	}
 
 	if (!m_mixer.Initialize()) return false;
 	if (!m_streamDevice.Initialize(StreamAudioRequestDevice{})) return false;

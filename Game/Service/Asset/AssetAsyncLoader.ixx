@@ -16,7 +16,7 @@ public:
     std::optional<AssetRequest> TakeRequest(AssetRequestID id);
 
     void PushResult(AssetRequestID id, AssetPtr result);
-    AssetPtr TakeResult(AssetRequestID id) override;
+    std::optional<AssetPtr> TakeResult(AssetRequestID id) override;
 
     bool WaitPopPending(AssetRequestID& outId);
     AssetPtr Wait(AssetRequestID id) override;

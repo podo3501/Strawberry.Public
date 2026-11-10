@@ -63,7 +63,7 @@ export inline AssetRequestID PushRequest(IAssetAsyncLoader* asyncLoader, Core::T
 export template<typename T>
     std::shared_ptr<T> TakeResult(IAssetAsyncLoader* asyncLoader, AssetRequestID id)
 {
-    AssetPtr ptr = asyncLoader->TakeResult(id);
+    AssetPtr ptr = asyncLoader->TakeResult(id).value_or(nullptr); // 아직과 실패를 구분하지 않고 둘 다 nullptr
     return std::static_pointer_cast<T>(ptr);
 }
 

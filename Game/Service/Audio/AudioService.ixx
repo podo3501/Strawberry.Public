@@ -50,6 +50,7 @@ private:
 
 	PlaybackParams GetParams(const SoundDesc* desc) noexcept;
 	VoiceHandle EnqueueDeferred(SoundHandle sh, const SoundDesc* desc);
+	void CancelPendingPlays(const std::function<bool(const PendingSoundPlay&)>& shouldCancel);
 	void FlushPending();
 
 	float GetGroupVolume(AudioGroup group) const noexcept;

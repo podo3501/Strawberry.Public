@@ -16,5 +16,6 @@ public:
 	MIX_Mixer* Get() const noexcept;
 
 private:
-	MIX_Mixer* m_mixer{ nullptr }; //믹서 안에 Device가 들어가 있다. 
+	MIX_Mixer* m_mixer{ nullptr }; //믹서 안에 Device가 들어가 있다.
+	bool m_libraryReady{ false };  // SDL 오디오와 SDL_mixer를 이 객체가 한 번 켰는지
 };

@@ -17,6 +17,9 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion> <!-- Assert 사용하기 위해서 인라인 함수확장을 /Ob1로 변경 -->
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
 
+      <!-- pdb 경로를 솔루션(OutDir)과 무관하게 고정한다. 솔루션이 달라도 같은 명령줄이어야 번갈아 빌드할 때 전체가 다시 컴파일되지 않는다 -->
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+
       <!-- CRT -->
       <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreadedDLL</RuntimeLibrary>

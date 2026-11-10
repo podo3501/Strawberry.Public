@@ -24,7 +24,7 @@ public:
 	bool Play() override;
 	bool Pause() override;
 	bool Resume() override;
-	bool Stop() override;
+	void Stop() override;
 	void Update() override;
 	bool SetVolume(float volume) override;
 	PlaybackState GetState() const noexcept override;
@@ -32,6 +32,7 @@ public:
 private:
 	bool PrepareStream();
 	bool PushChunk();
+	bool EnsureBound();
 
 	AudioDevice* m_device{ nullptr };
 	StreamSoundBuffer* m_buffer{ nullptr };
@@ -43,6 +44,7 @@ private:
 	float m_volume{ 1.0f };
 	bool m_loop{ false };
 	bool m_draining{ false };
+	int m_lowWatermarkBytes{ 0 }; // 스트림에 미리 쌓아 둘 양(약 0.5초). 소리 형식에 따라 바이트 수가 달라진다.
 	PlaybackState m_state{ PlaybackState::Stopped };
 
 	std::array<char, 16384> m_decodeBuffer{};

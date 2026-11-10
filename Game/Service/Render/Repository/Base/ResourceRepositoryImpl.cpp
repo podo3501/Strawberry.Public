@@ -2,6 +2,7 @@ module Service.Render.Repository;
 
 import :Implementation;
 import Core.Assert;
+import Core.Logger;
 import Service.AssetAsyncHelper;
 
 ResourceRepositoryImpl::ResourceRepositoryImpl(IResourceProvider* provider, IAssetAsyncLoader* asyncLoader)
@@ -98,16 +99,27 @@ void ResourceRepositoryImpl::ProcessAssetPending()
     for (auto it = m_assetPending.begin(); it != m_assetPending.end();)
     {
         auto& req = *it;
-        auto asset = m_asyncLoader->TakeResult(req.requestId);
-        if (!asset)
+        auto result = m_asyncLoader->TakeResult(req.requestId);
+        if (!result) // 아직 끝나지 않았다. (값이 nullptr이면 로딩 실패다)
         {
             ++it;
             continue;
         }
 
+        auto asset = std::move(*result);
+        if (!asset)
+        {
+            if (auto entry = m_loadedResources.Find(req.handle))
+                entry->state = LoadState::Failed;
+            Core::Logger::Error("ResourceRepository: 에셋을 읽지 못함 (요청 {})", req.requestId);
+
+            it = m_assetPending.erase(it);
+            continue;
+        }
+
         GpuPendingRequest gpuReq;
         gpuReq.handle = req.handle;
-        gpuReq.asset = asset;
+        gpuReq.asset = std::move(asset);
         m_resourcePending.push_back(std::move(gpuReq));
 
         it = m_assetPending.erase(it);

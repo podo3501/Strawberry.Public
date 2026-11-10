@@ -26,7 +26,6 @@
     </ClCompile>
     <ClCompile Include="AudioConfig.ixx" />
     <ClCompile Include="AudioDevice.ixx" />
-    <ClCompile Include="AudioFormat.ixx" />
     <ClCompile Include="AudioMixer.ixx" />
     <ClCompile Include="AudioBackend.ixx" />
     <ClCompile Include="AudioBackend.cpp" />

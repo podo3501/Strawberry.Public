@@ -5,6 +5,7 @@ import std;
 import Core.AssetPath;
 import Core.Utils;
 import Core.Assert;
+import Core.Logger;
 
 AssetRepository::AssetRepository(IAssetStorage* assetStorage) noexcept :
 	m_assetStorage{ assetStorage }
@@ -66,26 +67,35 @@ std::shared_ptr<Asset> AssetRepository::Load(Core::TypeID type, const Core::Reso
 
 std::shared_ptr<Asset> AssetRepository::LoadWithSource(IAssetLoader* loader, const Core::ResourceID& resID)
 {
+	// 파일이 없거나 못 읽는 것은 데이터 오류라서 죽지 않고 원인을 남긴 뒤 실패(nullptr)로 돌려준다.
 	const auto assetPath = resID.GetPath();
-	Core::Assert(assetPath.has_value() || resID.GetType() != Core::ResourceIDType::Path); // Path 종류인데 저장소 밖을 가리키는 경로
 	if (!assetPath)
+	{
+		if (resID.GetType() == Core::ResourceIDType::Path) // Path 종류인데 저장소 밖을 가리키는 경로
+			Core::Logger::Error("AssetRepository: 저장소 밖을 가리키는 경로: {}", resID.GetValue());
 		return nullptr;
+	}
 
 	const Core::AssetPath& path = *assetPath;
 	if (loader->PreferStream())
 	{
 		auto stream = m_assetStorage->CreateReadStream(path);
-		Core::Assert(stream != nullptr); // 파일이 없거나 열 수 없음
-		if (!stream) return nullptr;
+		if (!stream)
+		{
+			Core::Logger::Error("AssetRepository: 파일을 열 수 없음: {}", path.String());
+			return nullptr;
+		}
 
 		StreamInput source(resID, std::move(stream));
 		return loader->Load(source);
 	}
 
 	std::vector<std::byte> buffer;
-	const bool readOk = m_assetStorage->Read(path, buffer);
-	Core::Assert(readOk); // 파일이 없거나 읽기 실패
-	if (!readOk) return nullptr;
+	if (!m_assetStorage->Read(path, buffer))
+	{
+		Core::Logger::Error("AssetRepository: 파일을 읽을 수 없음: {}", path.String());
+		return nullptr;
+	}
 
 	MemoryInput source(resID, std::move(buffer));
 	return loader->Load(source);

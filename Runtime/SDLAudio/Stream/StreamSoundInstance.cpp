@@ -8,6 +8,7 @@ module SDLAudio;
 import :StreamSoundInstance;
 import :VorbisDecoder;
 import Core.Utils;
+import Core.Logger;
 
 static SDL_AudioSpec VorbisToSDLAudioSpec(OggVorbis_File& vf)
 {
@@ -79,6 +80,8 @@ bool StreamSoundInstance::Play()
 	if (!m_stream)
 		return false;
 
+	if (!EnsureBound()) return false;
+
 	m_draining = false;
 	m_state = PlaybackState::Playing;
 
@@ -103,6 +106,7 @@ bool StreamSoundInstance::Pause()
 	if (!m_stream)
 		return false;
 
+	SDL_UnbindAudioStream(m_stream); // 쌓인 소리는 스트림에 남기고 장치가 가져가지 못하게 해서 바로 조용해진다.
 	m_state = PlaybackState::Paused;
 	return true;
 }
@@ -113,22 +117,36 @@ bool StreamSoundInstance::Resume()
 		return false;
 	if (!m_stream)
 		return false;
+	if (!EnsureBound()) return false;
 
 	m_state = PlaybackState::Playing;
 	return SetVolume(m_volume);
 }
 
-bool StreamSoundInstance::Stop()
+bool StreamSoundInstance::EnsureBound()
+{
+	if (SDL_GetAudioStreamDevice(m_stream) != 0)
+		return true;
+
+	if (!SDL_BindAudioStream(m_device->Get(), m_stream))
+	{
+		Core::Logger::Error("StreamSoundInstance: 오디오 스트림을 장치에 다시 연결하지 못함: {}", SDL_GetError());
+		return false;
+	}
+
+	return true;
+}
+
+void StreamSoundInstance::Stop()
 {
 	if (!m_stream)
-		return false;
+		return; // Reset 전이라 멈출 것이 없다.
 
-	if (!SDL_ClearAudioStream(m_stream)) return false;
+	if (!SDL_ClearAudioStream(m_stream))
+		Core::Logger::Error("StreamSoundInstance: 오디오 스트림을 비우지 못함: {}", SDL_GetError());
 
 	m_draining = false;
 	m_state = PlaybackState::Stopped;
-
-	return true;
 }
 
 void StreamSoundInstance::Update()
@@ -138,9 +156,7 @@ void StreamSoundInstance::Update()
 
 	if (!m_draining)
 	{
-		constexpr int LOW_WATERMARK = 128 * 1024;
-
-		while (SDL_GetAudioStreamQueued(m_stream) < LOW_WATERMARK)
+		while (SDL_GetAudioStreamQueued(m_stream) < m_lowWatermarkBytes)
 		{
 			if (!PushChunk())
 				break;
@@ -174,7 +190,30 @@ PlaybackState StreamSoundInstance::GetState() const noexcept
 
 bool StreamSoundInstance::PrepareStream()
 {
-	m_resourceStream = m_buffer->GetStream()->Clone();
+	// 기존 상태를 건드리기 전에 필요한 것이 다 있는지 먼저 확인한다.
+	if (!m_device)
+	{
+		Core::Logger::Error("StreamSoundInstance: 장치가 지정되지 않음 (Setup 필요)");
+		return false;
+	}
+	if (!m_buffer)
+	{
+		Core::Logger::Error("StreamSoundInstance: 버퍼가 지정되지 않음 (SetBuffer 필요)");
+		return false;
+	}
+	IReadStream* source = m_buffer->GetStream();
+	if (!source)
+	{
+		Core::Logger::Error("StreamSoundInstance: 버퍼에 스트림이 없음 (LoadFromAsset 필요)");
+		return false;
+	}
+	auto resourceStream = source->Clone();
+	if (!resourceStream)
+	{
+		Core::Logger::Error("StreamSoundInstance: 스트림을 복제하지 못함");
+		return false;
+	}
+	m_resourceStream = std::move(resourceStream);
 
 	if (m_vorbisOpened)
 	{
@@ -185,10 +224,17 @@ bool StreamSoundInstance::PrepareStream()
 	auto cb = Vorbis::CreateCallbacks();
 	int result = ov_open_callbacks(m_resourceStream.get(), &m_vorbisFile, nullptr, 0, cb);
 	if (result < 0)
+	{
+		Core::Logger::Error("StreamSoundInstance: Ogg Vorbis 데이터를 열지 못함 ({})", result);
 		return false;
+	}
 	m_vorbisOpened = true;
 
 	SDL_AudioSpec srcSpec = VorbisToSDLAudioSpec(m_vorbisFile);
+
+	constexpr double PREFETCH_SECONDS = 0.5;
+	const double bytesPerSecond = static_cast<double>(srcSpec.freq) * srcSpec.channels * sizeof(std::int16_t); // 디코딩 결과는 항상 S16
+	m_lowWatermarkBytes = static_cast<int>(bytesPerSecond * PREFETCH_SECONDS);
 
 	if (m_stream)
 		SDL_DestroyAudioStream(m_stream);

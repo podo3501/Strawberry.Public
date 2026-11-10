@@ -52,9 +52,9 @@ VoiceHandle VoicePool::AcquireVoiceHandle(const SoundDesc* desc) noexcept
 	auto& stealList = isStream ? m_stealStreams : m_stealStatics;
 	const std::size_t limit = isStream ? static_cast<std::size_t>(m_maxStreams) : static_cast<std::size_t>(m_maxVoices);
 
-	VoiceHandle vh = (stealList.size() >= limit)
-		? StealAndAcquire(desc, stealList)
-		: m_voices.Emplace();
+	VoiceHandle vh = (stealList.size() < limit) ? m_voices.Emplace() : VoiceHandle::Invalid();
+	if (!vh)
+		vh = StealAndAcquire(desc, stealList); // 한도에 닿았거나 다른 종류가 슬롯을 차지해 풀이 가득 찬 경우. 같은 종류만 뺏는다.
 
 	if (!vh)
 		return VoiceHandle::Invalid();
@@ -70,13 +70,19 @@ VoiceHandle VoicePool::Play(SoundHandle sh, const LoadedSound* loaded, const Pla
 		return vh;
 
 	if (!Play(vh, sh, loaded, params))
+	{
+		m_voices.Remove(vh); // 재생하지 못했으니 얻어 둔 슬롯을 돌려준다.
 		return VoiceHandle::Invalid();
+	}
 
 	return vh;
 }
 
 bool VoicePool::Play(VoiceHandle vh, SoundHandle sh, const LoadedSound* loaded, const PlaybackParams& params) noexcept
 {
+	if (!m_voices.Get(vh)) // 이미 풀린 핸들이면 인스턴스를 빌리지 않는다. 빌리면 추적되지 않는 재생이 생긴다.
+		return false;
+
 	auto instance = CreateInstance(loaded);
 	if (!instance)
 		return false;
@@ -122,7 +128,7 @@ bool VoicePool::StopVoice(VoiceHandle vh) noexcept
 	if (voice->desc.sndType == SoundType::Static)
 		RemoveFromStealList(m_stealStatics, voice);
 
-	if (!voice->StopAndReset()) return false;
+	voice->StopAndReset();
 
 	m_voices.Remove(vh);
 	return true;
@@ -175,6 +181,25 @@ bool VoicePool::SetVolume(VoiceHandle vh, float volume) noexcept
 		return false;
 
 	return instance->SetVolume(volume);
+}
+
+// 마스터 볼륨이 바뀌어도 다시 계산할 수 있게, 소리 자체의 볼륨을 목소리에 기록해 둔다.
+bool VoicePool::SetBaseVolume(VoiceHandle vh, float baseVolume) noexcept
+{
+	auto voice = m_voices.Get(vh);
+	if (!voice || !voice->instance)
+		return false;
+
+	voice->volume = baseVolume;
+	return true;
+}
+
+void VoicePool::ForEachActiveVoice(const std::function<void(VoiceHandle, const SoundDesc&, float baseVolume)>& visit) noexcept
+{
+	m_voices.Visit([&visit](VoiceHandle h, Voice& voice) {
+		if (voice.instance) // 대기 중인 목소리는 건너뛴다. 재생을 시작할 때 현재 볼륨이 적용된다.
+			visit(h, voice.desc, voice.volume);
+		});
 }
 
 PlaybackState VoicePool::GetState(VoiceHandle vh) const noexcept
@@ -270,6 +295,7 @@ void VoicePool::ActivateVoice(VoiceHandle vh, SoundHandle sh, ISoundInstance* in
 	voice->soundHandle = sh;
 	voice->instance = instance;
 	voice->desc = *desc;
+	voice->volume = desc->volume;
 	voice->playbackTime = 0;
 
 	stealList.emplace_back(voice);

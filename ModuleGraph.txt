@@ -4,7 +4,7 @@ App.GameWindow -> Core.Math
 Contract.Asset.Backend -> Contract.Asset.Shared, Contract.Common.Asset, Core.Type
 Contract.Asset.Service -> Contract.Asset.Shared(re), Contract.Common.IAssetAsyncLoader
 Contract.Asset.Shared -> Contract.Common.Asset, Core.Type
-Contract.Audio.Assets -> Contract.Asset.Shared, Contract.Common.Asset, Core.Type
+Contract.Audio.Assets -> Contract.Asset.Shared, Contract.Common.Asset, Core.Type, Core.Utils
 Contract.Audio.Backend -> Contract.Audio.Shared, Contract.Common.Asset
 Contract.Audio.Service -> Contract.Audio.Assets, Contract.Audio.Backend, Contract.Audio.Shared(re), Contract.Common.IAssetAsyncLoader, Core.Handle
 Contract.Audio.Shared -> -
@@ -73,7 +73,7 @@ FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.Basi
 FileAsset.VorbisDecoder -> -
 Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
 Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
-SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset, Core.BasicTypes
+SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset
 Serialization -> Core.Assert, Core.Utils
 Service.Asset -> Contract.Asset.Backend, Contract.Asset.Service, Contract.Common.Asset, Contract.Common.IAssetAsyncLoader, Core.Assert, Core.Type, Core.Utils, Service.AssetMetaRegistry
 Service.Asset.ImageExtensions -> -
@@ -120,10 +120,11 @@ DxRender.SwapChainPresenter => Core.Assert, DxRender.Definition
 DxRender.Text => DxRender.Helper
 DxRender.TransientMesh => Core.Assert
 FileAsset => Core.Utils
-SDLAudio => Contract.Audio.Assets, Core.Assert, Core.TypeHierarchy, Core.Utils
-Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Service.Asset.ImageExtensions
+SDLAudio => Contract.Audio.Assets, Core.Assert, Core.Logger, Core.TypeHierarchy, Core.Utils
+Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Core.Logger, Service.Asset.ImageExtensions
 Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
-Service.Audio => Core.Utils
+Service.Audio => Core.Logger, Core.Type, Core.Utils
+Service.Render.Repository => Core.Logger
 UIVisualizer.LayoutEditor => Core.Logger, UIVisualizer.KeyQuery
 UIVisualizer.LayoutLoader => Core.Logger
 UIVisualizer.SelectionFeed => Core.Logger, UIVisualizer.KeyQuery, UIVisualizer.SelectionReport, UIVisualizer.WidgetPathFinder
@@ -133,7 +134,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 27/417, impl-only 9/74 ==
+== removed as redundant: interface 27/417, impl-only 9/79 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)

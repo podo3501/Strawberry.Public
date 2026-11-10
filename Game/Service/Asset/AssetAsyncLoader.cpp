@@ -44,11 +44,10 @@ void AssetAsyncLoader::PushResult(AssetRequestID id, AssetPtr result)
     m_waitCV.notify_all();
 }
 
-AssetPtr AssetAsyncLoader::TakeResult(AssetRequestID id)
+std::optional<AssetPtr> AssetAsyncLoader::TakeResult(AssetRequestID id)
 {
     std::lock_guard<std::mutex> lock(m_waitMutex);
-    auto result = m_results.Take(id);
-    return result.value_or(nullptr);
+    return m_results.Take(id);
 }
 
 bool AssetAsyncLoader::WaitPopPending(AssetRequestID& outId)

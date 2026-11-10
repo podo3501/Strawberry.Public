@@ -26,6 +26,8 @@ public:
 	bool StopVoices(SoundHandle sh) noexcept;
 	bool StopVoices(SoundType type) noexcept;
 	bool SetVolume(VoiceHandle vh, float volume) noexcept;
+	bool SetBaseVolume(VoiceHandle vh, float baseVolume) noexcept;
+	void ForEachActiveVoice(const std::function<void(VoiceHandle, const SoundDesc&, float baseVolume)>& visit) noexcept;
 	void UpdateVoices() noexcept;
 
 	PlaybackState GetState(VoiceHandle vh) const noexcept;

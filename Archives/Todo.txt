@@ -62,7 +62,7 @@
 [x] Panel 배경 틴트(SetBackgroundTint, 흰색이 아닐 때만 저장)와 샘플 Window.json에 옵션 창(분홍 제목줄과 X 버튼, 그래픽/오디오/게임 버튼, 완료 버튼) 추가, 기존 버튼은 왼쪽 위로 이동
 [x] Button 상태 브러시의 9슬라이스 (옵션 창 버튼 이미지가 통째로 늘어나는 것을 모서리는 그대로 두고 가운데만 늘어나게)
 [ ] UIVisualizer 주석을 클래스 4줄, 함수 2줄 규칙에 맞게 줄이기 (WidgetSelection, SelectionFeed, LayoutEditor, SelectionOverlay 등)
-[ ] 코드 조금만 고쳐도 UIVisualizer 밖(std, Core, UserInterface)까지 다시 컴파일되는 원인 조사 (Visual Studio와 MSBuild 번갈아 빌드할 때 std부터 다시 만드는지 확인)
+[x] 솔루션을 바꿔 빌드할 때마다 Core부터 전체가 다시 컴파일되는 문제 수정 (pdb 경로가 솔루션별 OutDir를 따라 명령줄이 달라지던 것을 Directory.Build.props에서 IntDir 기준으로 고정, 32비트 MSBuild가 Visual Studio와 다른 컴파일러(HostX86)를 쓰던 것을 bat의 MSBuild를 amd64로 바꿔 해결)
 [x] UI 틴트를 sRGB 값으로 받아 그리기 직전에 선형으로 변환 (Color::SrgbToLinear, 옵션창 버튼을 web_button.png 9슬라이스와 틴트 색으로 교체)
 [x] 오버레이에서 이미지와 글자를 호출한 순서대로 그리기 (글자가 항상 이미지 위에 그려지던 것을 DrawOrderEntry로 순서를 기억해 고침)
 [x] UIVisualizer 모드를 켤 때 UI의 hover/누름/포커스를 풀기 (UserInterface::ReleaseInput, 켜진 프레임에 한 번)

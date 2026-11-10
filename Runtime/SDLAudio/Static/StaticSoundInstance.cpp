@@ -1,5 +1,6 @@
 module;
 
+#include "SDL3/SDL_error.h"
 #include "SDL3/SDL_properties.h"
 #include "SDL3_mixer/SDL_mixer.h"
 
@@ -9,6 +10,7 @@ import :StaticSoundInstance;
 import std;
 import Core.Assert;
 import Core.Utils;
+import Core.Logger;
 
 StaticSoundInstance::~StaticSoundInstance()
 {
@@ -92,9 +94,16 @@ bool StaticSoundInstance::Resume()
 	return true;
 }
 
-bool StaticSoundInstance::Stop()
+void StaticSoundInstance::Stop()
 {
-	return MIX_StopTrack(m_track, 0);
+	if (!m_track)
+		return; // 준비 전이라 멈출 것이 없다.
+
+	if (!MIX_StopTrack(m_track, 0))
+	{
+		Core::Logger::Error("StaticSoundInstance: 트랙을 멈추지 못함: {}", SDL_GetError());
+		m_state = PlaybackState::Stopped;
+	}
 }
 
 void StaticSoundInstance::Update()

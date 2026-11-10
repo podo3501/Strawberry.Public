@@ -11,6 +11,7 @@ export struct Voice
 	SoundHandle soundHandle{};
 	ISoundInstance* instance{ nullptr };
 	SoundDesc desc{};
+	float volume{ 1.0f }; // 소리 자체의 볼륨. 마스터와 그룹 볼륨을 곱하기 전의 값이다.
 
 	std::uint32_t playbackTime{ 0 };
 
@@ -20,17 +21,15 @@ export struct Voice
 		soundHandle = {};
 		instance = nullptr;
 		desc = {};
+		volume = 1.0f;
 		playbackTime = 0;
 	}
 
-	bool StopAndReset() noexcept
+	void StopAndReset() noexcept
 	{
-		if (!instance)
-			return true;
+		if (instance)
+			instance->Stop();
 
-		instance->Stop();
 		Reset();
-
-		return true;
 	}
 };

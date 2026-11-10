@@ -4,6 +4,7 @@ import std;
 import :AudioTypes;
 import Contract.Common.Asset;
 import Core.Type;
+import Core.Utils;
 
 export class Serializer;
 export struct SoundDesc
@@ -16,7 +17,7 @@ export struct SoundDesc
 
 	SoundType sndType;
 	Core::ResourceID resID;
-	AudioGroup group;
+	AudioGroup group{ Core::InvalidEnum<AudioGroup> }; // 테이블에 그룹이 없거나 모르는 이름이면 잘못된 값으로 남는다.
 	int priority{ 0 };
 	float volume{ 0.f };
 };

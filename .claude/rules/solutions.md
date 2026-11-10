@@ -20,7 +20,8 @@ paths:
 
 # 빌드와 실행
 
-- 수동 빌드: `"C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" Testing\Game\UserInterface-Test.slnx -p:Configuration=Debug -p:Platform=x64 -m -v:m -nologo` → 실행 파일은 `Testing\Game\x64\Debug\UserInterface-Test.exe`.
+- 수동 빌드: `"C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe" Testing\Game\UserInterface-Test.slnx -p:Configuration=Debug -p:Platform=x64 -m -v:m -nologo` → 실행 파일은 `Testing\Game\x64\Debug\UserInterface-Test.exe`.
+- **직접 `.vcxproj`를 빌드하지 않는다.** 솔루션마다 중간/출력 폴더가 달라서 Visual Studio가 쓰는 결과물을 갱신하지 못한다. 항상 `.slnx`를 위의 64비트(`amd64`) MSBuild로 빌드한다 (32비트는 VS와 다른 컴파일러를 써서 번갈아 빌드하면 전체가 다시 컴파일된다).
 - 테스트는 GoogleTest(`Testing/GoogleTest`, 소스 포함) 실행 파일이다. 단일 테스트는 `UserInterface-Test.exe --gtest_filter=UserInterfaceT_Toggle.*` 처럼 실행한다.
 - `Clean_x64_vs.bat` — 모든 `x64` 출력 폴더와 `.vs`를 삭제한다.
 - 공통 컴파일 옵션/include 경로는 `Directory.Build.props`에 있다. include 루트는 저장소 루트, `Foundation`, `Game`, `Runtime`, `ThirdParty`다.

@@ -21,7 +21,7 @@ public:
 	bool Play() override;
 	bool Pause() override;
 	bool Resume() override;
-	bool Stop() override;
+	void Stop() override;
 	void Update() override;
 	bool SetVolume(float volume) override;
 	PlaybackState GetState() const noexcept override;
