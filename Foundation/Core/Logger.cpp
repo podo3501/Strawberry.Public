@@ -13,24 +13,19 @@ namespace Core
 {
     std::shared_ptr<spdlog::logger> Logger::s_logger;
 
-    void Logger::Initialize()
+    void Logger::Initialize(std::string_view logFile, bool toConsole)
     {
         if (s_logger)
             return;
 
-        auto consoleSink =
-            std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        std::vector<spdlog::sink_ptr> sinks;
 
-        auto fileSink =
-            std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                "Engine.log",
-                true); // true면 새로 log 파일 만들기. false면 log 파일 뒤에 이어쓰기.
+        if (toConsole)
+            sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 
-        std::vector<spdlog::sink_ptr> sinks
-        {
-            consoleSink,
-            fileSink
-        };
+        sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+            std::string{ logFile },
+            true)); // true면 새로 log 파일 만들기. false면 log 파일 뒤에 이어쓰기.
 
         s_logger = std::make_shared<spdlog::logger>(
             "Engine",
@@ -38,6 +33,7 @@ namespace Core
             sinks.end());
 
         s_logger->set_level(spdlog::level::trace);
+        s_logger->flush_on(spdlog::level::err);   // 오류는 바로 파일에 남긴다 (프로세스가 갑자기 끝나도 읽을 수 있게)
 
         s_logger->set_pattern(
             "[%H:%M:%S.%e] [%^%l%$] %v");

@@ -12,7 +12,8 @@ export struct ISoundInstance
 	virtual bool Play() = 0;
 	virtual bool Pause() = 0;
 	virtual bool Resume() = 0;
-	virtual void Stop() = 0; // 정리 요청이라 실패를 돌려주지 않는다. 실패는 로그로 남기고 끝난 뒤에는 다시 쓸 수 있는 상태가 된다.
+	// 정리이자 반납이라 실패를 돌려주지 않고 로그로 남긴다. 부른 뒤에는 백엔드가 이 인스턴스를 다시 빌려줄 수 있다.
+	virtual void Stop() = 0;
 	virtual void Update() = 0;
 	virtual bool SetVolume(float volume) = 0;
 	virtual PlaybackState GetState() const noexcept = 0;

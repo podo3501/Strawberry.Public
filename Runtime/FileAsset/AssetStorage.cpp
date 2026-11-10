@@ -2,30 +2,62 @@ module FileAsset;
 
 import Core.AssetPath;
 import Core.Utils;
+import Core.Logger;
 
 AssetStorage::AssetStorage(const std::filesystem::path& path)
 	: m_path{ path }
 {}
 
+namespace
+{
+	std::string ToLog(const std::filesystem::path& path)
+	{
+		return Core::WStringToString(path.wstring());
+	}
+}
+
 bool AssetStorage::Write(const Core::AssetPath& filename, const Core::ByteBuffer& buffer) noexcept
 {
-	auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
+	const auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
 
 	std::error_code error;
-	std::filesystem::create_directories(absolutePath.parent_path(), error);   // 새 폴더 아래에 처음 쓰는 파일도 만들어지게 한다 (실패하면 아래 열기가 실패한다)
-
-	std::ofstream file(absolutePath, std::ios::binary | std::ios::trunc);
-	if (!file)
-		return false;
-
-	if (!buffer.empty())
+	std::filesystem::create_directories(absolutePath.parent_path(), error);
+	if (error)
 	{
-		file.write(
-			reinterpret_cast<const char*>(buffer.data()),
-			static_cast<std::streamsize>(buffer.size()));
+		Core::Logger::Error("AssetStorage: 폴더를 만들지 못함 ({}): {}", ToLog(absolutePath.parent_path()), error.message());
+		return false;
+	}
 
+	// 임시 파일에 다 쓴 뒤 이름을 바꿔 덮어쓴다. 도중에 실패해도 기존 파일이 그대로 남는다
+	auto tempPath = absolutePath;
+	tempPath += ".tmp";
+
+	{
+		std::ofstream file(tempPath, std::ios::binary | std::ios::trunc);
 		if (!file)
+		{
+			Core::Logger::Error("AssetStorage: 파일을 열지 못함 ({})", ToLog(tempPath));
 			return false;
+		}
+
+		if (!buffer.empty())
+			file.write(reinterpret_cast<const char*>(buffer.data()), static_cast<std::streamsize>(buffer.size()));
+
+		file.close();
+		if (!file)
+		{
+			Core::Logger::Error("AssetStorage: 파일에 쓰지 못함 ({})", ToLog(tempPath));
+			std::filesystem::remove(tempPath, error);
+			return false;
+		}
+	}
+
+	std::filesystem::rename(tempPath, absolutePath, error);
+	if (error)
+	{
+		Core::Logger::Error("AssetStorage: 파일 이름을 바꾸지 못함 ({}): {}", ToLog(absolutePath), error.message());
+		std::filesystem::remove(tempPath, error);
+		return false;
 	}
 
 	return true;
@@ -35,14 +67,22 @@ bool AssetStorage::Read(const Core::AssetPath& filename, Core::ByteBuffer& outBu
 {
 	outBuffer.clear();
 
-	auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
+	const auto absolutePath = Core::ResolvePath(m_path, filename.ToPath());
 	std::ifstream file(absolutePath, std::ios::binary | std::ios::ate);
 	if (!file)
+	{
+		std::error_code error;
+		if (std::filesystem::exists(absolutePath, error))   // 없는 파일은 호출하는 쪽이 판단한다. 있는데 못 여는 경우만 남긴다
+			Core::Logger::Error("AssetStorage: 파일을 열지 못함 ({})", ToLog(absolutePath));
 		return false;
+	}
 
 	const std::streamsize size = file.tellg();
 	if (size < 0)
+	{
+		Core::Logger::Error("AssetStorage: 파일 크기를 알 수 없음 ({})", ToLog(absolutePath));
 		return false;
+	}
 
 	if (size == 0)
 		return true;
@@ -54,6 +94,7 @@ bool AssetStorage::Read(const Core::AssetPath& filename, Core::ByteBuffer& outBu
 	if (!file.read(reinterpret_cast<char*>(outBuffer.data()), size))
 	{
 		outBuffer.clear();
+		Core::Logger::Error("AssetStorage: 파일을 끝까지 읽지 못함 ({})", ToLog(absolutePath));
 		return false;
 	}
 
@@ -62,8 +103,7 @@ bool AssetStorage::Read(const Core::AssetPath& filename, Core::ByteBuffer& outBu
 
 bool AssetStorage::WriteText(const Core::AssetPath& filename, const std::string& text) noexcept
 {
-	Core::ByteBuffer buffer;
-	buffer.resize(text.size());
+	Core::ByteBuffer buffer(text.size());
 	if (!text.empty())
 		std::memcpy(buffer.data(), text.data(), text.size());
 
@@ -71,8 +111,9 @@ bool AssetStorage::WriteText(const Core::AssetPath& filename, const std::string&
 }
 
 bool AssetStorage::ReadText(const Core::AssetPath& filename, std::string& outText) const noexcept
-
 {
+	outText.clear();
+
 	Core::ByteBuffer buffer;
 	if (!Read(filename, buffer))
 		return false;
@@ -94,10 +135,14 @@ std::vector<Core::AssetPath> AssetStorage::FindFiles(std::string_view extension)
 	{
 		if (error)
 			break;
-		if (!it->is_regular_file(error) || it->path().extension().string() != extension)
+		if (!it->is_regular_file(error) || Core::PathToUtf8(it->path().extension()) != extension)
 			continue;
 
-		if (const auto path = Core::AssetPath::TryMake(std::filesystem::relative(it->path(), m_path).generic_string()))
+		const auto relative = std::filesystem::relative(it->path(), m_path, error);
+		if (error)
+			continue;
+
+		if (const auto path = Core::AssetPath::TryMake(Core::PathToUtf8(relative)))
 			found.push_back(*path);
 	}
 
@@ -113,7 +158,7 @@ std::optional<std::filesystem::file_time_type> AssetStorage::GetModifiedTime(con
 	return time;
 }
 
-std::unique_ptr<IReadStream> AssetStorage::	CreateReadStream(const Core::AssetPath& filename)
+std::unique_ptr<IReadStream> AssetStorage::CreateReadStream(const Core::AssetPath& filename)
 {
 	auto stream = std::make_unique<ReadStream>(Core::ResolvePath(m_path, filename.ToPath()));
 	if (!stream->IsOpen())

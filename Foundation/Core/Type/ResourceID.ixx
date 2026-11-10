@@ -14,7 +14,7 @@ namespace Core
     // 경로 정규화: 구분자를 '/'로 통일하고 "a/./b", "a//b"를 정리한다. 대소문자는 보존한다 (같은 ID인지의 비교는 ResourceID가 대소문자를 무시하고 한다)
     std::string NormalizePath(const std::filesystem::path& path)
     {
-        return path.lexically_normal().generic_string();
+        return PathToUtf8(path.lexically_normal());
     }
 
     export enum class ResourceIDType
@@ -37,7 +37,7 @@ namespace Core
 
         static ResourceID MakePath(std::string_view path)
         {
-            std::filesystem::path fsPath(path);
+            std::filesystem::path fsPath = PathFromUtf8(path);
 
             Assert(fsPath.has_extension());
             return ResourceID(std::string(kPathPrefix) + NormalizePath(fsPath));
@@ -71,10 +71,10 @@ namespace Core
         {
             Assert(GetType() == ResourceIDType::Path);
 
-            std::filesystem::path fsPath(GetValue());
-            auto siblingPath = fsPath.parent_path() / relativeName;
+            const std::filesystem::path fsPath = PathFromUtf8(GetValue());
+            const auto siblingPath = fsPath.parent_path() / PathFromUtf8(relativeName);
 
-            return ResourceID::MakePath(siblingPath.string());
+            return ResourceID::MakePath(PathToUtf8(siblingPath));
         }
 
         std::size_t GetHash() const noexcept { return std::hash<std::string>{}(m_key); }

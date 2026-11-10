@@ -3,6 +3,7 @@ import Contract.Common.Asset;
 import Contract.Audio.Assets;
 import Contract.Asset.Backend;
 import Contract.Asset.Shared;
+import Core.Logger;
 
 class OggStreamLoader : public IAssetLoader
 {
@@ -22,6 +23,12 @@ public:
 private:
 	std::shared_ptr<StreamSoundAsset> LoadFromStream(std::unique_ptr<IReadStream> stream)
 	{
+		if (!stream || !stream->IsOpen())
+		{
+			Core::Logger::Error("OggStreamLoader: 스트림이 없거나 열려 있지 않음");
+			return nullptr;
+		}
+
 		auto asset = std::make_shared<StreamSoundAsset>();
 		asset->stream = std::move(stream);
 

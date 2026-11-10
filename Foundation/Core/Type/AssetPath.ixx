@@ -22,7 +22,10 @@ namespace Core
             if (path.empty() || path.find('\0') != std::string_view::npos)
                 return std::nullopt;
 
-            const std::filesystem::path normalized = std::filesystem::path(path).lexically_normal();
+            if (!IsValidUtf8(path))
+                return std::nullopt;
+
+            const std::filesystem::path normalized = PathFromUtf8(path).lexically_normal();
             if (normalized.empty() || normalized.has_root_name() || normalized.has_root_directory())
                 return std::nullopt;
 
@@ -30,7 +33,7 @@ namespace Core
                 if (element == "..")
                     return std::nullopt;   // lexically_normal이 정리하고도 남은 '..'은 저장소 밖으로 나간다
 
-            const std::string text = normalized.generic_string();
+            const std::string text = PathToUtf8(normalized);
             if (text == ".")
                 return std::nullopt;   // 저장소 루트 자신은 가리키지 않는다
 
@@ -48,13 +51,16 @@ namespace Core
         // 같은 폴더의 다른 파일 ("a/b.json" + "b.meta" -> "a/b.meta"). 결과가 규칙에 어긋나면 nullopt
         std::optional<AssetPath> Sibling(std::string_view relativeName) const
         {
-            return TryMake((std::filesystem::path(m_value).parent_path() / relativeName).generic_string());
+            if (!IsValidUtf8(relativeName))
+                return std::nullopt;
+
+            return TryMake(PathToUtf8(PathFromUtf8(m_value).parent_path() / PathFromUtf8(relativeName)));
         }
 
         bool IsValid() const { return !m_value.empty(); }
         bool HasExtension() const { return ToPath().has_extension(); }   // 마지막 이름에 확장자가 있는가 ("a/b.json" true, "a/b"와 "a/b/" false)
         const std::string& String() const { return m_value; }   // '/' 구분, 대소문자 보존
-        std::filesystem::path ToPath() const { return std::filesystem::path(m_value); }
+        std::filesystem::path ToPath() const { return PathFromUtf8(m_value); }
 
         // 비교와 해시는 대소문자를 무시한다
         bool operator==(const AssetPath& other) const { return m_key == other.m_key; }

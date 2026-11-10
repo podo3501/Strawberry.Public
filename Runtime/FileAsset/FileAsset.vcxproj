@@ -37,7 +37,6 @@
     <ClCompile Include="Loader\AudioProcessing.ixx" />
     <ClCompile Include="Loader\BinaryLoader.cpp" />
     <ClCompile Include="Loader\HLSLShaderLoader.cpp" />
-    <ClCompile Include="Loader\JsonLoader.cpp" />
     <ClCompile Include="Loader\MaterialJsonLoader.cpp" />
     <ClCompile Include="Loader\MeshGltfLoader.cpp" />
     <ClCompile Include="Loader\MeshJsonLoader.cpp" />

@@ -32,4 +32,5 @@ private:
 	MIX_Track* m_track{ nullptr };
 	SDL_PropertiesID m_options{};
 	PlaybackState m_state{ PlaybackState::Stopped };
+	bool m_lent{ false }; // SetBuffer로 빌려준 뒤 Stop으로 돌려받기 전. 일시정지했거나 끝난 소리도 빌려준 상태다.
 };

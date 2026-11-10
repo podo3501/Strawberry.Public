@@ -51,12 +51,13 @@ bool StreamSoundInstance::Setup(AudioDevice* device)
 
 bool StreamSoundInstance::SetBuffer(StreamSoundBuffer* buffer)
 {
-	if (m_state == PlaybackState::Playing)
+	if (m_lent || m_state == PlaybackState::Playing)
 		return false;
 	if (buffer == nullptr)
 		return false;
 
 	m_buffer = buffer;
+	m_lent = true;
 	return true;
 }
 
@@ -139,6 +140,7 @@ bool StreamSoundInstance::EnsureBound()
 
 void StreamSoundInstance::Stop()
 {
+	m_lent = false;
 	if (!m_stream)
 		return; // Reset 전이라 멈출 것이 없다.
 

@@ -68,9 +68,8 @@ DxRender.Task -> Core.Assert, Core.Handle, DxRender.Command, DxRender.Core, DxRe
 DxRender.Text -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract.Render.Shared.Types, Core.Assert, Core.Bit, Core.Math, Core.Utils, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Resource
 DxRender.TransientMesh -> Contract.Render.Backend.Types, Core.Utils, DxRender.Allocator, DxRender.Core, DxRender.Factory, DxRender.Resource
 FileAsset -> Contract.Asset.Shared, Core.AssetPath, Core.BasicTypes
-FileAsset.AudioProcessing -> -
-FileAsset.JsonLoader -> Contract.Asset.Backend, Contract.Common.Asset, Core.BasicTypes, Serialization
-FileAsset.VorbisDecoder -> -
+FileAsset.AudioProcessing -> Contract.Audio.Assets, Core.Logger
+FileAsset.VorbisDecoder -> Core.Logger
 Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
 Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
 SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset
@@ -119,7 +118,7 @@ DxRender.Shader => Core.Assert, Core.BasicTypes, Core.Utils
 DxRender.SwapChainPresenter => Core.Assert, DxRender.Definition
 DxRender.Text => DxRender.Helper
 DxRender.TransientMesh => Core.Assert
-FileAsset => Core.Utils
+FileAsset => Core.Logger, Core.Utils
 SDLAudio => Contract.Audio.Assets, Core.Assert, Core.Logger, Core.TypeHierarchy, Core.Utils
 Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Core.Logger, Service.Asset.ImageExtensions
 Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
@@ -134,7 +133,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 27/417, impl-only 9/79 ==
+== removed as redundant: interface 27/416, impl-only 9/80 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)

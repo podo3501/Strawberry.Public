@@ -7,6 +7,7 @@ import Contract.Render.Assets;
 import Contract.Asset.Service;
 import Contract.Asset.Backend;
 import Serialization;
+import Core.Logger;
 
 struct JsonPBRSurface
 {
@@ -165,7 +166,12 @@ private:
         const Core::ResourceID& resID,
         Core::ByteBuffer buffer)
     {
-        nlohmann::json data = nlohmann::json::parse(buffer.begin(), buffer.end());
+        nlohmann::json data = nlohmann::json::parse(buffer.begin(), buffer.end(), nullptr, false);   // 예외 없이 실패를 알린다
+        if (data.is_discarded())
+        {
+            Core::Logger::Error("MaterialJsonLoader: JSON 문법이 올바르지 않음");
+            return nullptr;
+        }
 
         JsonMaterialHeader header;
         Serializer reader{ std::as_const(data) };

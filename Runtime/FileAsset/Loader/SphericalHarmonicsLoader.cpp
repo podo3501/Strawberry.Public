@@ -1,5 +1,5 @@
 import std;
-import Core.Assert;
+import Core.Logger;
 import Core.Math;
 import Contract.Common.Asset;
 import Contract.Render.Assets;
@@ -63,7 +63,7 @@ private:
             Core::Vector3 coeff;
             if (!ParseVector3Line(line, coeff))
             {
-                Core::Assert(false); // 예상한 포맷과 다른 줄 -> sh.txt 포맷 확인 필요
+                Core::Logger::Error("SphericalHarmonicsLoader: 예상한 형식이 아닌 줄 ({}번째 계수): {}", index, line);
                 return nullptr;
             }
 
@@ -73,7 +73,7 @@ private:
 
         if (index != asset->coefficients.size())
         {
-            Core::Assert(false); // 9개를 못 채움 -> 파일 잘림 또는 포맷 오류
+            Core::Logger::Error("SphericalHarmonicsLoader: 계수가 {}개뿐임 ({}개 필요)", index, asset->coefficients.size());
             return nullptr;
         }
 

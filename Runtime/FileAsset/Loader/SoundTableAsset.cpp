@@ -4,9 +4,45 @@ import std;
 import Serialization;
 import Core.Utils;
 import Core.ResourceID;
+import Core.BasicTypes;
+import Core.Logger;
+import Contract.Common.Asset;
 import Contract.Audio.Assets;
 import Contract.Asset.Backend;
-import FileAsset.JsonLoader;
+
+namespace
+{
+	// JSON 소리 표를 읽는 로더. JSON 문법이 틀리면 Error를 남기고 nullptr
+	template<typename T>
+	class SoundTableLoader : public IAssetLoader
+	{
+	public:
+		~SoundTableLoader() override = default;
+
+		std::shared_ptr<Asset> Load(AssetInput& source) override
+		{
+			if (source.IsStream()) return nullptr;
+
+			auto& mem = static_cast<MemoryInput&>(source);
+			return LoadFromMemory(mem.buffer);
+		}
+
+	private:
+		std::shared_ptr<Asset> LoadFromMemory(const Core::ByteBuffer& buffer)
+		{
+			const nlohmann::json data = nlohmann::json::parse(buffer.begin(), buffer.end(), nullptr, false);   // 예외 없이 실패를 알린다
+			if (data.is_discarded())
+			{
+				Core::Logger::Error("SoundTableLoader: JSON 문법이 올바르지 않음");
+				return nullptr;
+			}
+
+			auto table = std::make_shared<T>();
+			DeserializeClass(data, *table);
+			return table;
+		}
+	};
+}
 
 template<>
 constexpr std::array<const char*, Core::EnumSize<SoundType>> Core::EnumToStringMap<SoundType>()
@@ -67,7 +103,7 @@ void StaticSoundTable::Serialize(Serializer& serializer)
 
 std::unique_ptr<IAssetLoader> CreateStaticSoundTableLoader()
 {
-	return CreateJsonLoader<StaticSoundTable>();
+	return std::make_unique<SoundTableLoader<StaticSoundTable>>();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -95,5 +131,5 @@ void StreamSoundTable::Serialize(Serializer& serializer)
 
 std::unique_ptr<IAssetLoader> CreateStreamSoundTableLoader()
 {
-	return CreateJsonLoader<StreamSoundTable>();
+	return std::make_unique<SoundTableLoader<StreamSoundTable>>();
 }

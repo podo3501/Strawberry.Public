@@ -10,7 +10,8 @@ export struct IAssetStorage
 {
 	virtual ~IAssetStorage() = default;
 
-	// 쓰기는 파일이 놓일 폴더가 없으면 만들고 쓴다
+	// 쓰기는 파일이 놓일 폴더가 없으면 만들고, 임시 파일에 쓴 뒤 이름을 바꿔 덮어쓴다 (실패해도 기존 파일이 남는다)
+	// 실패하면 false이고 원인은 Error로 남긴다. 읽기는 없는 파일이면 로그 없이 false이고 outBuffer/outText를 비운다
 	virtual bool Write(const Core::AssetPath& filename, const Core::ByteBuffer& buffer) noexcept = 0;
 	virtual bool Read(const Core::AssetPath& filename, Core::ByteBuffer& outBuffer) const = 0;
 	virtual bool WriteText(const Core::AssetPath& filename, const std::string& text) noexcept = 0;

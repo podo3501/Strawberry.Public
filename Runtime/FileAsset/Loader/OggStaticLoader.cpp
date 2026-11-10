@@ -1,5 +1,6 @@
 import std;
 import Core.BasicTypes;
+import Core.Logger;
 import Contract.Common.Asset;
 import Contract.Audio.Assets;
 import Contract.Asset.Backend;
@@ -16,51 +17,39 @@ public:
 		if (source.IsStream()) return nullptr;
 
 		auto& mem = static_cast<MemoryInput&>(source);
-		return LoadFromMemory(std::move(mem.buffer));
+		return LoadFromMemory(mem.buffer);
 	}
 
 private:
-	std::shared_ptr<StaticSoundAsset> LoadFromMemory(Core::ByteBuffer buffer)
+	std::shared_ptr<StaticSoundAsset> LoadFromMemory(const Core::ByteBuffer& buffer)
 	{
 		VorbisDecoder decoder;
 
 		if (!decoder.Open(buffer.data(), buffer.size()))
+		{
+			Core::Logger::Error("OggStaticLoader: Ogg Vorbis 파일을 열지 못함 ({}바이트)", buffer.size());
 			return nullptr;
+		}
 
 		const vorbis_info* info = decoder.GetInfo();
-		if (!info)
+		if (!info || info->channels <= 0 || info->rate <= 0)
+		{
+			Core::Logger::Error("OggStaticLoader: 채널 수나 레이트를 알 수 없음");
 			return nullptr;
+		}
 
-		const int srcRate = info->rate;
-		const int dstRate = 48000;
-
-		if (info->channels <= 0 || srcRate <= 0)
-			return nullptr;
-
+		const int srcRate = static_cast<int>(info->rate);
 		int totalFrames = 0;
 		int channels = 0;
 
 		std::vector<float> pcm = decoder.DecodeAll(totalFrames, channels);
-
 		if (pcm.empty() || totalFrames <= 0)
+		{
+			Core::Logger::Error("OggStaticLoader: 디코딩한 소리가 없음");
 			return nullptr;
+		}
 
-		std::vector<float> finalPCM;
-		if (srcRate != dstRate)
-			finalPCM = ResampleCubic(pcm.data(), totalFrames, channels, srcRate, dstRate);
-		else
-			finalPCM = std::move(pcm);
-
-		std::vector<std::uint8_t> pcm16;
-		ConvertFloatToInt16(finalPCM.data(), static_cast<int>(finalPCM.size()), pcm16);
-
-		auto asset = std::make_shared<StaticSoundAsset>();
-		asset->channels = channels;
-		asset->sampleRate = dstRate;
-		asset->format = SampleFormat::Int16;
-		asset->data = std::move(pcm16);
-
-		return asset;
+		return MakeStaticSound(std::move(pcm), totalFrames, channels, srcRate);
 	}
 };
 

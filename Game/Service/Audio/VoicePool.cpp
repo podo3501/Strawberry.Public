@@ -4,27 +4,6 @@ import std;
 import :VoicePool;
 import Core.Utils;
 
-static void SortStealCandidateList(std::vector<Voice*>& stealCandidates)
-{
-	std::sort(stealCandidates.begin(), stealCandidates.end(), [](Voice* lhs, Voice* rhs) {
-		if (lhs->desc.priority != rhs->desc.priority)
-			return lhs->desc.priority < rhs->desc.priority; // 낮은 priority부터 없앰
-
-		return lhs->playbackTime > rhs->playbackTime ||
-			(lhs->playbackTime == rhs->playbackTime && lhs < rhs); // 오래된 재생 먼저 없앰
-		});
-}
-
-static void RemoveFromStealList(std::vector<Voice*>& voices, Voice* v)
-{
-	auto it = std::find(voices.begin(), voices.end(), v);
-	if (it != voices.end())
-	{
-		*it = voices.back();
-		voices.pop_back();
-	}
-}
-
 VoicePool::VoicePool(IAudioBackend* audioBackend)
 	: m_audioBackend{ audioBackend }
 {}
@@ -46,32 +25,40 @@ bool VoicePool::Setup(int maxVoices, int maxStreams) noexcept
 	return true;
 }
 
+// 얻은 목소리는 재생을 시작하기 전까지 대기(Pending) 상태다. 대기 중인 목소리도 한도에 들어가고 뺏길 수 있다.
 VoiceHandle VoicePool::AcquireVoiceHandle(const SoundDesc* desc) noexcept
 {
-	const bool isStream = (desc->sndType == SoundType::Stream);
-	auto& stealList = isStream ? m_stealStreams : m_stealStatics;
-	const std::size_t limit = isStream ? static_cast<std::size_t>(m_maxStreams) : static_cast<std::size_t>(m_maxVoices);
+	const int limit = (desc->sndType == SoundType::Stream) ? m_maxStreams : m_maxVoices;
 
-	VoiceHandle vh = (stealList.size() < limit) ? m_voices.Emplace() : VoiceHandle::Invalid();
-	if (!vh)
-		vh = StealAndAcquire(desc, stealList); // 한도에 닿았거나 다른 종류가 슬롯을 차지해 풀이 가득 찬 경우. 같은 종류만 뺏는다.
+	VoiceHandle vh = (CountVoices(desc->sndType) < limit) ? m_voices.Emplace() : VoiceHandle::Invalid();
+	if (!vh) // 한도에 닿았거나 다른 종류가 슬롯을 차지해 풀이 가득 찬 경우. 같은 종류만 뺏는다.
+	{
+		if (!StopVoice(FindStealVictim(desc)))
+			return VoiceHandle::Invalid();
 
-	if (!vh)
+		vh = m_voices.Emplace();
+	}
+
+	auto* voice = m_voices.Get(vh);
+	if (!voice)
 		return VoiceHandle::Invalid();
+
+	voice->voiceHandle = vh;
+	voice->desc = desc;
+	voice->volume = desc->volume;
 
 	return vh;
 }
 
 VoiceHandle VoicePool::Play(SoundHandle sh, const LoadedSound* loaded, const PlaybackParams& params) noexcept
 {
-	auto desc = loaded->desc;
-	auto vh = AcquireVoiceHandle(desc);
+	auto vh = AcquireVoiceHandle(loaded->desc);
 	if (!vh)
 		return vh;
 
 	if (!Play(vh, sh, loaded, params))
 	{
-		m_voices.Remove(vh); // 재생하지 못했으니 얻어 둔 슬롯을 돌려준다.
+		StopVoice(vh); // 재생하지 못했으니 얻어 둔 슬롯을 돌려준다.
 		return VoiceHandle::Invalid();
 	}
 
@@ -80,20 +67,23 @@ VoiceHandle VoicePool::Play(SoundHandle sh, const LoadedSound* loaded, const Pla
 
 bool VoicePool::Play(VoiceHandle vh, SoundHandle sh, const LoadedSound* loaded, const PlaybackParams& params) noexcept
 {
-	if (!m_voices.Get(vh)) // 이미 풀린 핸들이면 인스턴스를 빌리지 않는다. 빌리면 추적되지 않는 재생이 생긴다.
+	auto* voice = m_voices.Get(vh); // 이미 풀린 핸들이면 인스턴스를 빌리지 않는다. 빌리면 추적되지 않는 재생이 생긴다.
+	if (!voice)
 		return false;
 
 	auto instance = CreateInstance(loaded);
 	if (!instance)
 		return false;
 
-	if (!instance->Reset(params))
+	if (!instance->Reset(params) || !instance->Play())
+	{
+		instance->Stop(); // 빌린 인스턴스를 돌려준다.
 		return false;
+	}
 
-	if (!instance->Play())
-		return false;
-
-	ActivateVoice(vh, sh, instance, loaded->desc);
+	voice->soundHandle = sh;
+	voice->instance = instance;
+	voice->playbackTime = 0;
 
 	return true;
 }
@@ -122,12 +112,6 @@ bool VoicePool::StopVoice(VoiceHandle vh) noexcept
 	if (!voice)
 		return false;
 
-	if (voice->desc.sndType == SoundType::Stream)
-		RemoveFromStealList(m_stealStreams, voice);
-
-	if (voice->desc.sndType == SoundType::Static)
-		RemoveFromStealList(m_stealStatics, voice);
-
 	voice->StopAndReset();
 
 	m_voices.Remove(vh);
@@ -136,47 +120,17 @@ bool VoicePool::StopVoice(VoiceHandle vh) noexcept
 
 bool VoicePool::StopVoices(SoundHandle sh) noexcept
 {
-	std::vector<VoiceHandle> toStop;
-
-	m_voices.Visit([&toStop, sh](VoiceHandle h, Voice& voice) {
-		if (!voice.instance)
-			return;
-
-		if (voice.soundHandle == sh)
-			toStop.push_back(h);
-		});
-
-	for (auto& h : toStop)
-		if (!StopVoice(h)) return false;
-
-	return true;
+	return StopWhere([sh](const Voice& voice) { return voice.soundHandle == sh; });
 }
 
 bool VoicePool::StopVoices(SoundType type) noexcept
 {
-	std::vector<VoiceHandle> toStop;
-
-	m_voices.Visit([&toStop, type](VoiceHandle h, Voice& voice) {
-		if (!voice.instance)
-			return;
-
-		if (voice.desc.sndType == type)
-			toStop.push_back(h);
-		});
-
-	for (auto& h : toStop)
-		if (!StopVoice(h)) return false;
-
-	return true;
+	return StopWhere([type](const Voice& voice) { return voice.desc->sndType == type; });
 }
 
 bool VoicePool::SetVolume(VoiceHandle vh, float volume) noexcept
 {
-	auto voice = m_voices.Get(vh);
-	if (!voice)
-		return false;
-
-	auto instance = voice->instance;
+	auto instance = GetInstance(vh);
 	if (!instance)
 		return false;
 
@@ -198,7 +152,7 @@ void VoicePool::ForEachActiveVoice(const std::function<void(VoiceHandle, const S
 {
 	m_voices.Visit([&visit](VoiceHandle h, Voice& voice) {
 		if (voice.instance) // 대기 중인 목소리는 건너뛴다. 재생을 시작할 때 현재 볼륨이 적용된다.
-			visit(h, voice.desc, voice.volume);
+			visit(h, *voice.desc, voice.volume);
 		});
 }
 
@@ -209,42 +163,31 @@ PlaybackState VoicePool::GetState(VoiceHandle vh) const noexcept
 		return Core::InvalidEnum<PlaybackState>;
 
 	if (!voice->instance)
-		return PlaybackState::Pending; //sh(sound handle)는 있지만 아직 데이터가 로드되지 않아서 instance가 생성되지 않았다.
+		return PlaybackState::Pending; // 소리가 아직 읽히지 않아 재생을 시작하지 못한 목소리다.
 
 	return voice->instance->GetState();
 }
 
 void VoicePool::UpdateVoices() noexcept
 {
-	std::vector<VoiceHandle> toStop; //삭제할 것을 넣어놓는 이유는 visit안에서 삭제하게 되면 iterator가 꼬여서 깨지기 때문이다.
-
-	m_voices.Visit([&](VoiceHandle h, Voice& voice) {
+	m_voices.Visit([](VoiceHandle, Voice& voice) {
 		if (!voice.instance)
 			return;
 
 		voice.instance->Update();
-
-		auto state = voice.instance->GetState();
-		if (state == PlaybackState::Playing)
+		if (voice.instance->GetState() == PlaybackState::Playing)
 			voice.playbackTime += 1;
-		else if (state == PlaybackState::Stopped)
-			toStop.push_back(h);
 		});
 
-	for (auto& h : toStop)
-		StopVoice(h);
-
-	SortStealCandidateList(m_stealStreams);
-	SortStealCandidateList(m_stealStatics);
+	StopWhere([](const Voice& voice) { // 끝난 소리의 목소리를 풀고 인스턴스를 돌려준다.
+		return voice.instance && voice.instance->GetState() == PlaybackState::Stopped;
+		});
 }
 
 const SoundDesc* VoicePool::GetDesc(VoiceHandle vh) const noexcept
 {
 	auto voice = m_voices.Get(vh);
-	if (!voice)
-		return nullptr;
-
-	return &voice->desc;
+	return voice ? voice->desc : nullptr;
 }
 
 ISoundInstance* VoicePool::CreateInstance(const LoadedSound* loaded)
@@ -262,43 +205,48 @@ ISoundInstance* VoicePool::CreateInstance(const LoadedSound* loaded)
 	return nullptr;
 }
 
-VoiceHandle VoicePool::StealAndAcquire(const SoundDesc* desc, std::vector<Voice*>& stealList) noexcept
+int VoicePool::CountVoices(SoundType type) const noexcept
 {
-	for (auto* voice : stealList)
-	{
-		if (!voice->instance)
-			continue;
+	int count = 0;
+	m_voices.Visit([&count, type](VoiceHandle, const Voice& voice) {
+		if (voice.desc->sndType == type)
+			++count;
+		});
 
-		if (voice->desc.priority >= desc->priority)
-			continue;
-
-		StopVoice(voice->voiceHandle);
-
-		auto vh = m_voices.Emplace();
-		if (vh)
-			return vh;
-	}
-
-	return VoiceHandle::Invalid();
+	return count;
 }
 
-void VoicePool::ActivateVoice(VoiceHandle vh, SoundHandle sh, ISoundInstance* instance, const SoundDesc* desc) noexcept
+// 같은 종류에서 우선순위가 더 낮은 목소리 중 가장 낮은 것, 같으면 가장 오래 재생된 것을 고른다. 없으면 Invalid.
+VoiceHandle VoicePool::FindStealVictim(const SoundDesc* desc) const noexcept
 {
-	auto* voice = m_voices.Get(vh);
-	if (!voice)
-		return;
+	const Voice* victim = nullptr;
+	m_voices.Visit([&victim, desc](VoiceHandle, const Voice& voice) {
+		if (voice.desc->sndType != desc->sndType || voice.desc->priority >= desc->priority)
+			return;
 
-	const bool isStream = (desc->sndType == SoundType::Stream);
-	auto& stealList = isStream ? m_stealStreams : m_stealStatics;
+		const bool isBetter = !victim
+			|| voice.desc->priority < victim->desc->priority
+			|| (voice.desc->priority == victim->desc->priority && voice.playbackTime > victim->playbackTime);
+		if (isBetter)
+			victim = &voice;
+		});
 
-	voice->voiceHandle = vh;
-	voice->soundHandle = sh;
-	voice->instance = instance;
-	voice->desc = *desc;
-	voice->volume = desc->volume;
-	voice->playbackTime = 0;
+	return victim ? victim->voiceHandle : VoiceHandle::Invalid();
+}
 
-	stealList.emplace_back(voice);
+bool VoicePool::StopWhere(const std::function<bool(const Voice&)>& shouldStop) noexcept
+{
+	std::vector<VoiceHandle> toStop; // 도는 중에 지우지 않으려고 먼저 모은다.
+	m_voices.Visit([&](VoiceHandle h, const Voice& voice) {
+		if (shouldStop(voice))
+			toStop.push_back(h);
+		});
+
+	bool allStopped = true;
+	for (auto h : toStop)
+		allStopped = StopVoice(h) && allStopped;
+
+	return allStopped;
 }
 
 const ISoundInstance* VoicePool::GetInstance(VoiceHandle vh) const noexcept

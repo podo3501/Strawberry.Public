@@ -45,12 +45,15 @@ bool StaticSoundInstance::Setup(MIX_Mixer* mixer)
 
 bool StaticSoundInstance::SetBuffer(StaticSoundBuffer* buffer)
 {
-	if (m_state == PlaybackState::Playing)
+	if (m_lent || m_state == PlaybackState::Playing)
 		return false;
 	if (!m_track || !buffer)
 		return false;
 
-	return MIX_SetTrackAudio(m_track, buffer->GetAudio());
+	if (!MIX_SetTrackAudio(m_track, buffer->GetAudio())) return false;
+	m_lent = true;
+
+	return true;
 }
 
 bool StaticSoundInstance::Reset(const PlaybackParams& params)
@@ -96,6 +99,7 @@ bool StaticSoundInstance::Resume()
 
 void StaticSoundInstance::Stop()
 {
+	m_lent = false;
 	if (!m_track)
 		return; // 준비 전이라 멈출 것이 없다.
 

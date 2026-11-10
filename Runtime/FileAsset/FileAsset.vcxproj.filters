@@ -34,9 +34,6 @@
     <ClCompile Include="Loader\SoundTableAsset.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Loader\JsonLoader.cpp">
-      <Filter>Loader</Filter>
-    </ClCompile>
     <ClCompile Include="Loader\MaterialJsonLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>

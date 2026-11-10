@@ -2,6 +2,7 @@
 
 import std;
 import Serialization;
+import Core.Logger;
 import Core.BasicTypes;
 import Core.Utils;
 import Contract.Common.Asset;
@@ -56,13 +57,18 @@ public:
         if (source.IsStream()) return nullptr;
 
         auto& mem = static_cast<MemoryInput&>(source);
-        return LoadFromMemory(std::move(mem.buffer));
+        return LoadFromMemory(mem.buffer);
     }
 
 private:
-    std::shared_ptr<TextureMetaAsset> LoadFromMemory(Core::ByteBuffer buffer)
+    std::shared_ptr<TextureMetaAsset> LoadFromMemory(const Core::ByteBuffer& buffer)
     {
-        nlohmann::json rData = nlohmann::json::parse(buffer.begin(), buffer.end());
+        nlohmann::json rData = nlohmann::json::parse(buffer.begin(), buffer.end(), nullptr, false);   // 예외 없이 실패를 알린다
+        if (rData.is_discarded())
+        {
+            Core::Logger::Error("TextureMetaLoader: JSON 문법이 올바르지 않음");
+            return nullptr;
+        }
 
         JsonTextureMeta jsonMeta;
         Serializer reader{ std::as_const(rData) };

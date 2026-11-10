@@ -17,7 +17,8 @@ export namespace Core
     class Logger
     {
     public:
-        static void Initialize();
+        // logFile에 기록하고 toConsole이면 콘솔에도 출력한다. 이미 초기화했으면 무시한다
+        static void Initialize(std::string_view logFile = "Engine.log", bool toConsole = true);
         static void Shutdown();
 
         template<typename... Args>

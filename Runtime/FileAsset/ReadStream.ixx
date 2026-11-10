@@ -22,7 +22,6 @@ public:
 	std::size_t Size() const noexcept override;
 
 	bool IsOpen() const noexcept override;
-	bool Eof() const noexcept override;
 
 private:
 	std::filesystem::path m_filePath;

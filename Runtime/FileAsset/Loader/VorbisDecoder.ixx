@@ -16,17 +16,21 @@ module;
 export module FileAsset.VorbisDecoder;
 
 import std;
+import Core.Logger;
 
 export class VorbisDecoder
 {
 public:
 	VorbisDecoder() = default;
+	VorbisDecoder(const VorbisDecoder&) = delete;   // 열린 파일이 내부 상태의 주소를 가리키므로 복사할 수 없다
+	VorbisDecoder& operator=(const VorbisDecoder&) = delete;
 
 	~VorbisDecoder()
 	{
 		Close();
 	}
 
+	// data는 디코더를 닫을 때까지 살아 있어야 한다 (복사하지 않고 가리킨다)
 	bool Open(const void* data, size_t size)
 	{
 		Close();
@@ -70,8 +74,19 @@ public:
 				1024,
 				&currentSection);
 
+			if (samples == OV_HOLE)
+				continue;   // 데이터가 끊긴 자리(구간 경계 포함). 이어서 읽는다
 			if (samples <= 0)
 				break;
+
+			// 이어 붙인 Ogg는 구간마다 채널 수와 레이트가 다를 수 있다. 달라진 구간을 읽으면 틀린 소리가 되므로 중단한다
+			const vorbis_info* section = ov_info(&vf, currentSection);
+			if (!section || section->channels != outChannels || section->rate != info->rate)
+			{
+				Core::Logger::Error("VorbisDecoder: 구간마다 채널 수나 레이트가 다른 Ogg는 지원하지 않음 ({}채널 {}Hz -> {}채널 {}Hz)", outChannels, info->rate, section ? section->channels : 0, section ? section->rate : 0);
+				outFrames = 0;
+				return {};
+			}
 
 			size_t oldSize = temp.size();
 			size_t sampleCount = static_cast<size_t>(samples) * outChannels;

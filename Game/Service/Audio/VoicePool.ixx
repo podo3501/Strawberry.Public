@@ -35,8 +35,9 @@ public:
 
 private:
 	ISoundInstance* CreateInstance(const LoadedSound* loaded);
-	VoiceHandle StealAndAcquire(const SoundDesc* desc, std::vector<Voice*>& stealList) noexcept;
-	void ActivateVoice(VoiceHandle vh, SoundHandle sh, ISoundInstance* instance, const SoundDesc* desc) noexcept;
+	int CountVoices(SoundType type) const noexcept;
+	VoiceHandle FindStealVictim(const SoundDesc* desc) const noexcept;
+	bool StopWhere(const std::function<bool(const Voice&)>& shouldStop) noexcept;
 
 	const ISoundInstance* GetInstance(VoiceHandle vh) const noexcept;
 	ISoundInstance* GetInstance(VoiceHandle vh) noexcept;
@@ -48,6 +49,4 @@ private:
 	static constexpr int MaxHandles{ 64 };
 
 	Core::FixedHandlePool<Voice, VoiceTag, MaxHandles> m_voices;
-	std::vector<Voice*> m_stealStatics;
-	std::vector<Voice*> m_stealStreams;
 };
