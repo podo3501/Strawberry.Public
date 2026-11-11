@@ -73,7 +73,7 @@ FileAsset.VorbisDecoder -> Core.Logger
 Graphics.Primitives -> Contract.Render.Assets, Contract.Render.Shared.Types, Core.Math
 Graphics.SceneObject -> Contract.Input.Service, Contract.Render.Shared.View, Core.Math
 SDLAudio -> Contract.Asset.Backend, Contract.Asset.Shared, Contract.Audio.Backend, Contract.Common.Asset
-Serialization -> Core.Assert, Core.Utils
+Serialization -> Core.Logger, Core.Utils
 Service.Asset -> Contract.Asset.Backend, Contract.Asset.Service, Contract.Common.Asset, Contract.Common.IAssetAsyncLoader, Core.Assert, Core.Type, Core.Utils, Service.AssetMetaRegistry
 Service.Asset.ImageExtensions -> -
 Service.AssetAsyncHelper -> Contract.Common.IAssetAsyncLoader(re), Core.Type
@@ -121,7 +121,7 @@ DxRender.TransientMesh => Core.Assert
 FileAsset => Core.Logger, Core.Utils
 SDLAudio => Contract.Audio.Assets, Core.Assert, Core.Logger, Core.TypeHierarchy, Core.Utils
 Service.Asset => Contract.Audio.Assets, Contract.Render.Assets, Core.Logger, Service.Asset.ImageExtensions
-Service.AssetMetaRegistry => Contract.Render.Assets, Core.Utils, Service.Asset.ImageExtensions
+Service.AssetMetaRegistry => Contract.Render.Assets, Core.Logger, Core.Utils, Service.Asset.ImageExtensions
 Service.Audio => Core.Logger, Core.Type, Core.Utils
 Service.Render.Repository => Core.Logger
 UIVisualizer.LayoutEditor => Core.Logger, UIVisualizer.KeyQuery
@@ -133,7 +133,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 27/416, impl-only 9/80 ==
+== removed as redundant: interface 28/417, impl-only 8/80 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)
@@ -148,6 +148,7 @@ UserInterface.Widget => Core.Assert, Core.Utils
   DxRender.Provider -> Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
   Service.Asset -> Contract.Asset.Shared   (covered by Contract.Asset.Service)
   Service.Asset -> Contract.Common.AssetAsyncTypes   (covered by Contract.Common.IAssetAsyncLoader)
+  Service.Asset -> Core.AssetPath   (covered by Core.Type)
   Service.Asset -> Core.ResourceID   (covered by Core.Type)
   Service.Asset -> Core.TypeHierarchy   (covered by Core.Type)
   Service.Audio -> Contract.Common.IAssetAsyncLoader   (covered by Service.AssetAsyncHelper)
@@ -167,7 +168,6 @@ UserInterface.Widget => Core.Assert, Core.Utils
   DxRender => Contract.Render.Backend.Types   (covered by Contract.Render.Backend)
   DxRender.Pipeline.GraphBuilder => DxRender.Constants   (covered by DxRender.Definition)
   DxRender.Provider => DxRender.Constants   (covered by DxRender.Definition)
-  Service.Asset => Core.AssetPath   (covered by Core.Type)
   UIVisualizer.LayoutEditor => Contract.Input.Shared   (covered by Contract.Input.Service)
   UIVisualizer.SelectionFeed => Contract.Input.Shared   (covered by Contract.Input.Service)
   UIVisualizer.UIVisualizer => Contract.Input.Shared   (covered by Contract.Input.Service)

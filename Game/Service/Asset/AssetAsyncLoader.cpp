@@ -2,7 +2,7 @@ module Service.Asset;
 
 import :AsyncLoader;
 import std;
-import Core.Assert;
+import Core.Logger;
 
 void AssetAsyncLoader::Shutdown()
 {
@@ -26,6 +26,11 @@ AssetRequestID AssetAsyncLoader::PushRequest(AssetRequest req)
     AssetRequestID id = m_requests.Emplace(std::move(req));
     m_pending.push(id);
 
+    {
+        std::lock_guard<std::mutex> waitLock(m_waitMutex); // 작업자가 결과를 넣기 전에 기록되도록 pendingMutex를 잡은 채로 한다
+        m_inFlight.insert(id);
+    }
+
     m_pendingCV.notify_one();
 
     return id;
@@ -40,6 +45,7 @@ std::optional<AssetRequest> AssetAsyncLoader::TakeRequest(AssetRequestID id)
 void AssetAsyncLoader::PushResult(AssetRequestID id, AssetPtr result)
 {
     std::lock_guard<std::mutex> lock(m_waitMutex);
+    m_inFlight.erase(id);
     m_results.Insert(id, std::move(result));
     m_waitCV.notify_all();
 }
@@ -72,14 +78,19 @@ AssetPtr AssetAsyncLoader::Wait(AssetRequestID id)
     std::unique_lock lock(m_waitMutex);
 
     m_waitCV.wait(lock, [&] {
-        return m_results.Contains(id) || m_shutdown.load();
+        return m_results.Contains(id) || !m_inFlight.contains(id) || m_shutdown.load();
         });
 
     if (m_shutdown.load())
         return nullptr;
 
     auto result = m_results.Take(id);
-    Core::Assert(result.has_value());
+    if (!result)
+    {
+        Core::Logger::Error("AssetAsyncLoader: 요청한 적 없거나 결과를 이미 꺼낸 ID를 기다림: {}", id);
+        return nullptr;
+    }
+
     return std::move(*result);
 }
 

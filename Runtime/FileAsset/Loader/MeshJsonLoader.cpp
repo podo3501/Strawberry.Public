@@ -109,6 +109,11 @@ private:
 		JsonMesh jsonMesh;
 		Serializer reader{ std::as_const(rData) };
 		jsonMesh.Serialize(reader);
+		if (reader.HasError())
+		{
+			Core::Logger::Error("MeshJsonLoader: 값을 읽지 못함");
+			return nullptr;
+		}
 
 		const auto format = ParseVertexFormat(jsonMesh.vertexFormat);
 		if (!format)

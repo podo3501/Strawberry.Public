@@ -67,25 +67,42 @@ struct JsonMaterialHeader // type만 먼저 확인하기 위한 헤더용 구조
 
 // --- Static Loader Helpers ---
 
+// 이름이 비어 있으면 텍스처가 없다는 뜻이라 nullptr이다. 이름이 있는데 올바르지 않거나 읽지 못하면 Error를 남기고 failed를 켠다
 static std::shared_ptr<TextureAsset> LoadTexture(
     IAssetProvider* provider,
     const Core::ResourceID& materialID,
-    const std::string& path)
+    const std::string& name,
+    const char* key,
+    bool& failed)
 {
-    if (path.empty()) return nullptr;
+    if (name.empty()) return nullptr;
 
-    auto asset = provider->Load(Core::GetTypeID<TextureAsset>(), materialID.MakeSibling(path));
-    return Core::Cast<TextureAsset>(asset);
+    const auto id = materialID.TryMakeSibling(name);
+    if (!id)
+    {
+        Core::Logger::Error("MaterialJsonLoader: {}의 파일 이름이 올바르지 않음 ({})", key, name);
+        failed = true;
+        return nullptr;
+    }
+
+    auto texture = Core::Cast<TextureAsset>(provider->Load(Core::GetTypeID<TextureAsset>(), *id));
+    if (!texture)
+    {
+        Core::Logger::Error("MaterialJsonLoader: {}의 텍스처를 읽지 못함 ({})", key, id->GetValue());
+        failed = true;
+    }
+    return texture;
 }
 
 static void LoadCommonTextures(
     MaterialAsset& material,
     const Core::ResourceID& materialID,
     IAssetProvider* provider,
-    const JsonMaterialTextures& textures)
+    const JsonMaterialTextures& textures,
+    bool& failed)
 {
-    material.albedo = LoadTexture(provider, materialID, textures.albedo);
-    material.normal = LoadTexture(provider, materialID, textures.normal);
+    material.albedo = LoadTexture(provider, materialID, textures.albedo, "albedo", failed);
+    material.normal = LoadTexture(provider, materialID, textures.normal, "normal", failed);
 }
 
 static std::shared_ptr<MaterialAsset> LoadPBR(
@@ -99,6 +116,11 @@ static std::shared_ptr<MaterialAsset> LoadPBR(
     {
         Serializer reader{ std::as_const(data["surface"]) };
         surface.Serialize(reader);
+        if (reader.HasError())
+        {
+            Core::Logger::Error("MaterialJsonLoader: surface를 읽지 못함");
+            return nullptr;
+        }
     }
 
     auto material = std::make_shared<PbrMaterialAsset>();
@@ -109,10 +131,11 @@ static std::shared_ptr<MaterialAsset> LoadPBR(
     material->surface.metallicScale = surface.metallicScale;
     material->surface.aoStrength = surface.aoStrength;
 
-    LoadCommonTextures(*material, materialID, provider, textures);
-    material->arm = LoadTexture(provider, materialID, textures.arm);
+    bool failed = false;
+    LoadCommonTextures(*material, materialID, provider, textures, failed);
+    material->arm = LoadTexture(provider, materialID, textures.arm, "arm", failed);
 
-    return material;
+    return failed ? nullptr : material;
 }
 
 static std::shared_ptr<MaterialAsset> LoadPhong(
@@ -126,6 +149,11 @@ static std::shared_ptr<MaterialAsset> LoadPhong(
     {
         Serializer reader{ std::as_const(data["surface"]) };
         surface.Serialize(reader);
+        if (reader.HasError())
+        {
+            Core::Logger::Error("MaterialJsonLoader: surface를 읽지 못함");
+            return nullptr;
+        }
     }
 
     auto material = std::make_shared<PhongMaterialAsset>();
@@ -136,9 +164,10 @@ static std::shared_ptr<MaterialAsset> LoadPhong(
     material->surface.specularScale = surface.specularScale;
     material->surface.shininess = surface.shininess;
 
-    LoadCommonTextures(*material, materialID, provider, textures);
+    bool failed = false;
+    LoadCommonTextures(*material, materialID, provider, textures, failed);
 
-    return material;
+    return failed ? nullptr : material;
 }
 
 // --- Loader Class implementation ---
@@ -176,18 +205,31 @@ private:
         JsonMaterialHeader header;
         Serializer reader{ std::as_const(data) };
         header.Serialize(reader);
+        if (reader.HasError())
+        {
+            Core::Logger::Error("MaterialJsonLoader: 머티리얼 머리 항목을 읽지 못함");
+            return nullptr;
+        }
 
         JsonMaterialTextures textures;
         if (data.contains("textures"))
         {
-            Serializer reader{ std::as_const(data["textures"]) };
-            textures.Serialize(reader);
+            Serializer texturesReader{ std::as_const(data["textures"]) };
+            textures.Serialize(texturesReader);
+            if (texturesReader.HasError())
+            {
+                Core::Logger::Error("MaterialJsonLoader: textures를 읽지 못함");
+                return nullptr;
+            }
         }
 
         if (header.type == "PBR")
             return LoadPBR(resID, data, m_assetProvider, textures);
+        if (header.type == "Phong")
+            return LoadPhong(resID, data, m_assetProvider, textures);
 
-        return LoadPhong(resID, data, m_assetProvider, textures);
+        Core::Logger::Error("MaterialJsonLoader: 알 수 없는 type ({}). PBR이나 Phong이어야 함", header.type);
+        return nullptr;
     }
 
 private:

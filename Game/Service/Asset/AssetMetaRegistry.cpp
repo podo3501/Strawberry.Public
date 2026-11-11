@@ -1,8 +1,9 @@
 module Service.AssetMetaRegistry;
 
 import Contract.Render.Assets;
-import Core.Utils;
 import Service.Asset.ImageExtensions;
+import Core.Logger;
+import Core.Utils;
 
 static std::string StripMetaSuffix(std::string path)
 {
@@ -31,6 +32,8 @@ bool AssetMetaRegistry::Initialize()
 
 bool AssetMetaRegistry::Scan()
 {
+    m_metaAssets.clear();
+
     const auto metaPaths = m_storage->FindFiles(".meta");
     if (metaPaths.empty())
         return true;
@@ -64,8 +67,9 @@ bool AssetMetaRegistry::Scan()
         {
             if (!results[i])
             {
+                Core::Logger::Error("AssetMetaRegistry: .meta를 읽을 수 없음: {}", entries[i].second.String());
                 allSucceeded = false;
-                break;
+                continue;
             }
             m_metaAssets[entries[i].first] = results[i];
         }

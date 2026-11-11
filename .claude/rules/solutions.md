@@ -10,8 +10,10 @@ paths:
 # 솔루션 목록
 
 - `Strawberry.slnx` — 게임/엔진 본체 (Client, Contract, Core, DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service, UserInterface, UIVisualizer, App)
-- **테스트 솔루션은 자주 쓰는 것이 2개다.**
+- **테스트 솔루션**
   - `Testing/Runtime-Test.slnx` — 백엔드 전체(DxInput, DxRender, FileAsset, SDLAudio, Serialization, Service 등)를 빌드하고 테스트한다 (`Testing/Runtime/*-Test`). UI 모듈은 포함하지 않는다. 입력/렌더/에셋/오디오 작업은 이 솔루션을 쓴다. 실행 파일은 `Testing\x64\Debug\<이름>-Test.exe`다 (예: `DxInput-Test.exe`).
+  - `Testing/Foundation-Test.slnx` — Foundation 전체(Contract, Core, Serialization)와 그 테스트(Core-Test, Serialization-Test)를 빌드하고 테스트한다. `Test_Foundation.bat [gtest_filter]`로 빌드와 실행을 한다. 실행 파일은 `Testing\x64\Debug\<이름>-Test.exe`다.
+  - `Testing/Foundation/Core-Test.slnx` — Core 모듈(`Foundation/Core`)만 빌드하고 테스트한다 (Core, GoogleTest, Core-Test). `Test_Core.bat [gtest_filter]`로 빌드와 실행을 한다. 실행 파일은 `Testing\Foundation\x64\Debug\Core-Test.exe`다.
   - `Testing/Game/UserInterface-Test.slnx` — UI 모듈만 빌드하고 테스트한다. UI 작업 시 이 솔루션만 빌드하면 된다 (Contract, UserInterface, Core, GoogleTest, UserInterface-Test)
   - `Testing/Game/Visualizer/UIVisualizer-Test.slnx` — 게임 안에서 UI JSON을 보여 주는 UIVisualizer 모듈(`Game/Visualizer/UIVisualizer`)만 빌드하고 테스트한다. 창 없이 돈다. `Test_UIVisualizer.bat [gtest_filter]`로 빌드와 실행을 한다.
 - `Testing/Runtime/DxRender-Test.slnx` — Render 백엔드만 테스트하는 솔루션이다. 가끔 쓴다.

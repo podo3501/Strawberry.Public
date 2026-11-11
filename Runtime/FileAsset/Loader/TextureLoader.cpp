@@ -2,9 +2,9 @@
 #include "stb_image.h"
 
 import std;
-import Core.Assert;
 import Core.Type;
 import Core.Math;
+import Core.Logger;
 import Contract.Common.Asset;
 import Contract.Render.Assets;
 import Contract.Asset.Service;
@@ -42,6 +42,12 @@ public:
 private:
     std::shared_ptr<TextureAsset> LoadFromMemory(const Core::ResourceID& resID, Core::ByteBuffer buffer)
     {
+        if (buffer.empty() || buffer.size() > static_cast<std::size_t>(std::numeric_limits<int>::max()))
+        {
+            Core::Logger::Error("TextureLoader: 이미지 크기가 올바르지 않음 ({}바이트)", buffer.size());
+            return nullptr;
+        }
+
         int width, height, channels;
 
         unsigned char* data = stbi_load_from_memory(
@@ -54,14 +60,17 @@ private:
         );
 
         if (!data)
+        {
+            Core::Logger::Error("TextureLoader: 이미지를 읽지 못함 ({})", stbi_failure_reason());
             return nullptr;
+        }
 
         auto asset = std::make_shared<TextureAsset>();
         asset->size = Core::ToSize(width, height);
         asset->stride = static_cast<uint32_t>(width * 4);
         asset->format = PixelFormat::RGBA8;
 
-        size_t size = width * height * 4;
+        const std::size_t size = static_cast<std::size_t>(width) * height * 4;
         asset->pixels.assign(data, data + size);
 
         stbi_image_free(data);
@@ -94,8 +103,8 @@ private:
         }
         else if (source == AlphaSourceState::AlreadyPremultiplied && target == BlendTargetSpace::NonPremultiplied)
         {
-            Core::Assert(false); // 역변환 케이스 경고
-            resultIsPMA = false;
+            Core::Logger::Error("TextureLoader: 이미 곱해 둔 알파를 곱하지 않은 알파로 되돌리는 조합은 지원하지 않음 ({})", resID.GetValue());
+            return nullptr;
         }
         else
         {

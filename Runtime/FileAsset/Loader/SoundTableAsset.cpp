@@ -3,6 +3,7 @@
 import std;
 import Serialization;
 import Core.Utils;
+import Core.AssetPath;
 import Core.ResourceID;
 import Core.BasicTypes;
 import Core.Logger;
@@ -12,7 +13,7 @@ import Contract.Asset.Backend;
 
 namespace
 {
-	// JSON 소리 표를 읽는 로더. JSON 문법이 틀리면 Error를 남기고 nullptr
+	// JSON 소리 표를 읽는 로더. JSON 문법이나 값의 형식이 틀리면 Error를 남기고 nullptr
 	template<typename T>
 	class SoundTableLoader : public IAssetLoader
 	{
@@ -38,7 +39,14 @@ namespace
 			}
 
 			auto table = std::make_shared<T>();
-			DeserializeClass(data, *table);
+			Serializer reader{ data };
+			table->Serialize(reader);
+			if (reader.HasError())
+			{
+				Core::Logger::Error("SoundTableLoader: 소리 표를 읽지 못함 (위의 Serializer 오류 참고)");
+				return nullptr;
+			}
+
 			return table;
 		}
 	};
@@ -58,15 +66,27 @@ constexpr std::array<const char*, Core::EnumSize<AudioGroup>> Core::EnumToString
 
 ////////////////////////////////////////////////////////////////
 
-nlohmann::json JsonTraitsBase<Core::ResourceID>::SerializeToJson(const Core::ResourceID& data)
+// 파일 이름은 저장소 안의 상대 경로이고 확장자가 있어야 한다 (ResourceID::MakePath가 확장자를 요구한다)
+template<>
+struct JsonTraitsBase<Core::ResourceID>
 {
-	return data.GetValue();
-}
+	static nlohmann::json SerializeToJson(const Core::ResourceID& data)
+	{
+		return data.GetValue();
+	}
 
-Core::ResourceID JsonTraitsBase<Core::ResourceID>::DeserializeFromJson(const nlohmann::json& dataJ)
-{
-	return Core::ResourceID::MakePath(dataJ.get<std::string>());
-}
+	static std::optional<Core::ResourceID> DeserializeFromJson(const nlohmann::json& dataJ)
+	{
+		if (!dataJ.is_string())
+			return std::nullopt;
+
+		const auto path = Core::AssetPath::TryMake(dataJ.get<std::string>());
+		if (!path || !path->HasExtension())
+			return std::nullopt;
+
+		return Core::ResourceID::MakePath(*path);
+	}
+};
 
 ////////////////////////////////////////////////////////////////
 
@@ -76,6 +96,17 @@ void SoundDesc::Serialize(Serializer& serializer)
 	serializer.Process("Group", group);
 	serializer.Process("Priority", priority);
 	serializer.Process("Volume", volume);
+
+	if (serializer.IsWrite())
+		return;
+
+	// 읽은 값의 의미를 검사한다. Group이 없거나 모르는 이름이면 InvalidEnum으로 남고 서비스가 거른다
+	if (resID.GetType() != Core::ResourceIDType::Path)
+		serializer.ReportError("Filename이 필요함");
+	if (priority < 0)
+		serializer.ReportError("Priority는 0 이상이어야 함");
+	if (!(volume >= 0.f && volume <= 1.f))
+		serializer.ReportError("Volume은 0에서 1 사이여야 함");
 }
 
 ////////////////////////////////////////////////////////////////

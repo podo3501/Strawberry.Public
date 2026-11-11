@@ -4,23 +4,17 @@ import std;
 import Contract.Common.AssetAsyncTypes;
 import Core.Assert;
 
+// ID를 매겨 값을 보관한다. 스스로 잠그지 않으므로 쓰는 쪽이 mutex로 감싼다.
 export template<typename T>
 class AssetAsyncStore
 {
 public:
-	AssetRequestID Push(T value)
-	{
-		const AssetRequestID id = ++m_nextID;
-		m_entries.emplace(id, std::move(value));
-
-		return id;
-	}
-
 	template<typename... Args>
 	AssetRequestID Emplace(Args&&... args)
 	{
 		const AssetRequestID id = ++m_nextID;
-		m_entries.emplace(id, T{ std::forward<Args>(args)... });
+		auto [_, inserted] = m_entries.emplace(id, T{ std::forward<Args>(args)... });
+		Core::Assert(inserted);
 
 		return id;
 	}
@@ -49,9 +43,8 @@ public:
 	}
 
 	std::size_t Size() const { return m_entries.size(); }
-	void Clear() { m_entries.clear(); }
 
 private:
 	std::unordered_map<AssetRequestID, T> m_entries;
-	std::atomic<AssetRequestID> m_nextID{ InvalidAssetRequestID };
+	AssetRequestID m_nextID{ InvalidAssetRequestID };
 };

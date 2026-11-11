@@ -32,8 +32,9 @@ private:
     std::queue<AssetRequestID> m_pending;
     std::condition_variable m_pendingCV;
 
-    // Wait/Result 그룹 (waitMutex로 일괄 보호)
+    // Wait/Result 그룹 (waitMutex로 일괄 보호). 두 mutex를 함께 잡을 때는 pendingMutex를 먼저 잡는다
     mutable std::mutex m_waitMutex;
     AssetAsyncStore<AssetPtr> m_results;
+    std::unordered_set<AssetRequestID> m_inFlight; // 요청했고 결과가 아직 오지 않은 ID
     std::condition_variable m_waitCV;
 };

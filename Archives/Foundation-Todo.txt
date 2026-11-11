@@ -1,0 +1,6 @@
+※ Foundation(Core, Serialization 등)의 테스트 자동화 작업을 적는다. 형식은 Backend-Todo.txt와 같다 (User/Agent 구분과 이름 규칙은 .claude/rules/testing.md).
+※ 테스트 프로젝트는 Testing/Foundation/<이름>-Test에 두고, 폴더는 시험하는 소스(Foundation/Core 등)의 구조를 따른다.
+
+[x] Core-Test 프로젝트(Testing/Foundation/Core-Test, Core-Test.slnx, Test_Core.bat) 만들기. FileAsset-Test에 있던 AssetPath와 ResourceID 시험을 Type/으로, IsValidUtf8 시험을 Utils/PathUtils-Agent.cpp로 옮김(17개)
+[ ] Core 나머지 시험: Allocator, Handle, Bit, Math, TypeHierarchy, Utils(PathUtils의 IsValidUtf8 외, StringConvert, StringOperations, Hash, EnumUtils, CycleIterator, StlUtils)
+[x] Core-Test와 Serialization-Test를 함께 담는 Testing/Foundation-Test.slnx와 Test_Foundation.bat 만들기 (Foundation의 Contract, Core, Serialization 포함. Serialization-Test는 옛 T 이름이 남아 있음)

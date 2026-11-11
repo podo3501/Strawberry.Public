@@ -127,7 +127,7 @@ struct WidgetSerializer::Impl
 
         auto widget = entry->creator(context);
         Serializer serializer{ node };   // const Json& 이므로 읽기 모드
-        if (!widget->Serialize(serializer, resources))
+        if (!widget->Serialize(serializer, resources) || serializer.HasError())   // 타입이 틀린 값이 있으면 불러오기 전체가 실패한다
             return nullptr;
 
         if (node.contains("children"))

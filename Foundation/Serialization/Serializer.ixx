@@ -7,6 +7,7 @@ export module Serialization:Serializer;
 import std;
 import :Concepts;
 import :ClassSerialize;
+import Core.Logger;
 
 export class Serializer
 {
@@ -20,13 +21,32 @@ public:
 		: m_mode{ Mode::Write }, m_write{ &write } {
 	}
 
-	explicit Serializer(const nlohmann::json& read) noexcept
-		: m_mode{ Mode::Read }, m_read{ &read } {
+	// parent는 이 객체를 포함하는 쪽의 Serializer다. 읽다가 생긴 오류가 parent에도 전해진다.
+	// 읽을 json은 객체(키와 값)여야 하고 아니면 바로 오류다.
+	explicit Serializer(const nlohmann::json& read, Serializer* parent = nullptr) noexcept
+		: m_mode{ Mode::Read }, m_read{ &read }, m_parent{ parent }
+	{
+		if (!read.is_object())
+			ReportError("객체가 아닌 JSON을 읽으려 함");
 	}
 
 	bool IsWrite() const noexcept
 	{
 		return m_mode == Mode::Write;
+	}
+
+	// 읽는 동안 형식이 틀린 값이나 객체가 아닌 JSON이 있었는가. 틀린 값은 건너뛰어 기존 값이 남는다
+	bool HasError() const noexcept
+	{
+		return m_error;
+	}
+
+	// 오류를 로그로 남기고 이 객체와 부모들에 오류를 기록한다. 호출하는 쪽이 값의 의미를 검사해서 쓸 수도 있다
+	void ReportError(std::string_view message) noexcept
+	{
+		Core::Logger::Error("Serializer: '{}' {}", m_key, message);
+		for (Serializer* s = this; s; s = s->m_parent)
+			s->m_error = true;
 	}
 
 	// JsonOperation 분기 템플릿 처리 함수
@@ -46,15 +66,29 @@ public:
 
 		auto readFunc = [this, &data](const nlohmann::json& j) {
 			if constexpr (HasSerialize<T>)
-				DeserializeClass(j, data);
+			{
+				if (j.is_null())
+					DeserializeClass(nlohmann::json::object(), data, this);   // 쓸 때 키가 하나도 없는 클래스는 null로 적힌다
+				else if (!j.is_object())
+					ReportError("객체가 아닌 값");
+				else
+					DeserializeClass(j, data, this);
+			}
 			else if constexpr (SequenceLike<T>)
-				DeserializeSeqContainer(j, data);
+				DeserializeSeqContainer(j, data, this);
 			else if constexpr (MapLike<T>)
-				DeserializeMapContainer(j, data);
+				DeserializeMapContainer(j, data, this);
 			else
-				data = JsonTraits<T>::DeserializeFromJson(j);
+			{
+				auto value = JsonTraits<T>::DeserializeFromJson(j);
+				if (value)
+					data = std::move(*value);
+				else
+					ReportError("값의 형식이 틀림");
+			}
 			};
 
+		m_key = key;
 		ProcessImpl(key, writeFunc, readFunc);
 	}
 
@@ -86,4 +120,7 @@ private:
 	Mode m_mode;
 	nlohmann::json* m_write{ nullptr };       // 생성자에 전달된 json 포인터 보관
 	const nlohmann::json* m_read{ nullptr };
+	Serializer* m_parent{ nullptr };
+	std::string m_key;                         // 지금 처리 중인 키 (오류 로그에 쓴다)
+	bool m_error{ false };
 };

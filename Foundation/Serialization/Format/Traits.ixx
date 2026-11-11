@@ -8,18 +8,71 @@ import std;
 import Core.Utils;
 import :TraitsHelper;
 
+// 읽기는 타입이 맞지 않으면 nullopt이다 (예외를 던지지 않는다). 숫자는 담을 수 없는 범위도 nullopt이다.
+template<typename T>
+std::optional<T> ReadNumber(const nlohmann::json& dataJ)
+{
+	if constexpr (std::is_integral_v<T>)
+	{
+		if (dataJ.is_number_unsigned())
+		{
+			const auto value = dataJ.get<std::uint64_t>();
+			return std::in_range<T>(value) ? std::optional<T>{ static_cast<T>(value) } : std::nullopt;
+		}
+		if (dataJ.is_number_integer())
+		{
+			const auto value = dataJ.get<std::int64_t>();
+			return std::in_range<T>(value) ? std::optional<T>{ static_cast<T>(value) } : std::nullopt;
+		}
+		return std::nullopt;   // 실수나 문자열은 정수가 아니다
+	}
+	else
+	{
+		static_assert(std::is_floating_point_v<T>);
+		if (!dataJ.is_number())
+			return std::nullopt;
+
+		const double value = dataJ.get<double>();
+		if constexpr (std::is_same_v<T, float>)
+		{
+			if (std::isfinite(value) && std::fabs(value) > std::numeric_limits<float>::max())
+				return std::nullopt;   // float로 줄이면 무한대가 된다
+		}
+		return static_cast<T>(value);
+	}
+}
+
 export template<typename T>
 struct JsonTraitsBase
 {
 	static nlohmann::json SerializeToJson(const T& data) { return data; }
-	static T DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
+
+	static std::optional<T> DeserializeFromJson(const nlohmann::json& dataJ)
+	{
+		if constexpr (std::is_same_v<T, bool>)
+		{
+			if (!dataJ.is_boolean())
+				return std::nullopt;
+			return dataJ.get<bool>();
+		}
+		else
+		{
+			static_assert(std::is_arithmetic_v<T>, "이 타입의 JsonTraits 특수화가 필요하다");
+			return ReadNumber<T>(dataJ);
+		}
+	}
 };
 
 template<>
 struct JsonTraitsBase<std::string>
 {
 	static nlohmann::json SerializeToJson(const std::string& data) { return data; }
-	static std::string DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
+	static std::optional<std::string> DeserializeFromJson(const nlohmann::json& dataJ)
+	{
+		if (!dataJ.is_string())
+			return std::nullopt;
+		return dataJ.get<std::string>();
+	}
 };
 
 // float를 double로 그대로 넣으면 1.1f가 1.100000023841858로 적힌다. float를 되살릴 수 있는 가장 짧은 십진수(1.1)로 적는다.
@@ -35,17 +88,18 @@ struct JsonTraitsBase<float>
 		if (result.ec != std::errc{}) return data;
 		return std::strtod(std::string(buffer.data(), result.ptr).c_str(), nullptr);
 	}
-	static float DeserializeFromJson(const nlohmann::json& dataJ) { return dataJ; }
+	static std::optional<float> DeserializeFromJson(const nlohmann::json& dataJ) { return ReadNumber<float>(dataJ); }
 };
 
 template<>
 struct JsonTraitsBase<std::wstring>
 {
 	static nlohmann::json SerializeToJson(const std::wstring& data) { return Core::WStringToString(data); }
-	static std::wstring DeserializeFromJson(const nlohmann::json& dataJ)
+	static std::optional<std::wstring> DeserializeFromJson(const nlohmann::json& dataJ)
 	{
-		return CreateAndFill<std::wstring>([&dataJ](std::wstring& data) {
-			data = Core::StringToWString(dataJ); });
+		if (!dataJ.is_string())
+			return std::nullopt;
+		return Core::StringToWString(dataJ.get<std::string>());
 	}
 };
 
@@ -55,7 +109,7 @@ template<Core::CountEnum T>
 struct JsonTraitsBase<T>
 {
 	static nlohmann::json SerializeToJson(const T& data) { return Core::EnumToString(data); }
-	static T DeserializeFromJson(const nlohmann::json& dataJ)
+	static std::optional<T> DeserializeFromJson(const nlohmann::json& dataJ)
 	{
 		if (!dataJ.is_string())
 			return Core::InvalidEnum<T>;

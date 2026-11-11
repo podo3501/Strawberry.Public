@@ -77,6 +77,20 @@ namespace Core
             return ResourceID::MakePath(PathToUtf8(siblingPath));
         }
 
+        // 파일에서 읽은 이름처럼 믿을 수 없는 이름용이다. Path 종류가 아니거나 이름이 규칙에 어긋나거나(저장소 밖, 절대 경로, 확장자 없음) 올바른 UTF-8이 아니면 nullopt
+        std::optional<ResourceID> TryMakeSibling(std::string_view relativeName) const
+        {
+            const auto path = GetPath();
+            if (!path)
+                return std::nullopt;
+
+            const auto sibling = path->Sibling(relativeName);
+            if (!sibling || !sibling->HasExtension())
+                return std::nullopt;
+
+            return MakePath(*sibling);
+        }
+
         std::size_t GetHash() const noexcept { return std::hash<std::string>{}(m_key); }
 
         ResourceIDType GetType() const
