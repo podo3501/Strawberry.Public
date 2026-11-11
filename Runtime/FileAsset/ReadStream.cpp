@@ -53,7 +53,7 @@ std::unique_ptr<IReadStream> ReadStream::Clone() const
 	auto clone = std::make_unique<ReadStream>(m_filePath);
 	if (!clone->IsOpen())
 	{
-		Core::Logger::Error("ReadStream: 스트림을 복제하지 못함 ({})", Core::WStringToString(m_filePath.wstring()));
+		Core::Logger::Error("ReadStream: 스트림을 복제하지 못함 ({})", Core::WStringToUTF8(m_filePath.wstring()));
 		return nullptr;
 	}
 

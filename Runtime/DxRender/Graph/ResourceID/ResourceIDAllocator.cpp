@@ -1,16 +1,19 @@
 module DxRender.RGResourceID;
 
 import :Allocator;
+import Core.Assert;
 
 RGResourceIDAllocator::RGResourceIDAllocator() noexcept
 {
-    m_persistentRegion.Initialize(PersistentResourceIDCapacity); // persistent: [0, PersistentResourceIDCapacity)
+    // 만들 때 한 번만 초기화하므로 실패하지 않는다
+    const bool persistentOk = m_persistentRegion.Initialize(PersistentResourceIDCapacity); // persistent: [0, PersistentResourceIDCapacity)
 
     m_dynamicOffset = PersistentResourceIDCapacity;
-    m_dynamicRegion.Initialize(DynamicResourceIDCapacity); // dynamic: [dynamicOffset, dynamicOffset + DynamicResourceIDCapacity)
+    const bool dynamicOk = m_dynamicRegion.Initialize(DynamicResourceIDCapacity); // dynamic: [dynamicOffset, dynamicOffset + DynamicResourceIDCapacity)
 
     m_transientOffset = m_dynamicOffset + DynamicResourceIDCapacity;
-    m_transientRegion.Initialize(TransientResourceIDCapacity); // transient: [transientOffset, transientOffset + TransientResourceIDCapacity)
+    const bool transientOk = m_transientRegion.Initialize(TransientResourceIDCapacity); // transient: [transientOffset, transientOffset + TransientResourceIDCapacity)
+    Core::Assert(persistentOk && dynamicOk && transientOk);
 }
 
 RGResourceID RGResourceIDAllocator::AllocatePersistent() noexcept

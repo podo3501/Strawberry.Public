@@ -8,11 +8,8 @@
     <ClCompile Include="Format\Traits.ixx">
       <Filter>Format</Filter>
     </ClCompile>
-    <ClCompile Include="Format\TraitsHelper.ixx">
-      <Filter>Format</Filter>
-    </ClCompile>
     <ClCompile Include="Concepts.ixx" />
-    <ClCompile Include="ClassSerialize.ixx" />
+    <ClCompile Include="ValueIO.ixx" />
     <ClCompile Include="Serializer.ixx" />
   </ItemGroup>
   <ItemGroup>

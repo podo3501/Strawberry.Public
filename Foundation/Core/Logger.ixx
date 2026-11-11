@@ -12,13 +12,14 @@ export module Core.Logger;
 
 import std;
 
-export namespace Core
+namespace Core
 {
-    class Logger
+    export class Logger
     {
     public:
-        // logFile에 기록하고 toConsole이면 콘솔에도 출력한다. 이미 초기화했으면 무시한다
-        static void Initialize(std::string_view logFile = "Engine.log", bool toConsole = true);
+        // logFile에 기록하고 toConsole이면 콘솔에도 출력한다. 이미 초기화했으면 무시하고 true다.
+        // 파일을 열 수 없으면 false이고, toConsole이면 그 뒤의 Error는 stderr로 나간다
+        [[nodiscard]] static bool Initialize(std::string_view logFile = "Engine.log", bool toConsole = true);
         static void Shutdown();
 
         template<typename... Args>
@@ -75,5 +76,6 @@ export namespace Core
             std::string_view message);
 
         static std::shared_ptr<spdlog::logger> s_logger;
+        static bool s_errorToStderr;   // 초기화에 실패했으면(toConsole일 때) 로거가 없어도 Error는 stderr로 내보낸다
     };
 }

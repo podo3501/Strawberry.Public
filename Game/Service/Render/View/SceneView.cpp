@@ -3,11 +3,6 @@ module Service.Render;
 import :SceneView;
 import Service.Render.Repository;
 
-static constexpr float DegToRad(float deg) noexcept
-{
-    return deg * std::numbers::pi_v<float> / 180.0f;
-}
-
 SceneView::SceneView(
     RepositoryContainer& repositories,
     MaterialHandle defaultMaterial)

@@ -71,12 +71,8 @@ private:
         }
 
         JsonTextureMeta jsonMeta;
-        Serializer reader{ std::as_const(rData) };
+        auto reader = Serializer::ForRead(rData);
         jsonMeta.Serialize(reader);
-        if (jsonMeta.colorSpace == Core::InvalidEnum<ColorSpace> ||
-            jsonMeta.alphaSourceState == Core::InvalidEnum<AlphaSourceState> ||
-            jsonMeta.blendTargetSpace == Core::InvalidEnum<BlendTargetSpace>)
-            reader.ReportError("알 수 없는 이름의 enum 값");
         if (reader.HasError())
         {
             Core::Logger::Error("TextureMetaLoader: 값을 읽지 못함");

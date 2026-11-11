@@ -157,7 +157,7 @@ export struct TextRun //?!? 이건 shared가 아니다. dxrender 쪽일껄 아�
 {
     std::vector<char32_t> codePoints;
     TextStyle style;
-    uint32_t lineIndex{ 0 }; // 이 run이 몇 번째 줄에 속하는지 (절대값)
+    std::uint32_t lineIndex{ 0 }; // 이 run이 몇 번째 줄에 속하는지 (절대값)
 };
 
 export struct TextSpan

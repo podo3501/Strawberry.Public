@@ -18,17 +18,21 @@ namespace
     constexpr Core::Size kInitialSize{ 1280, 720 };
 
     // 이 실행 파일 위치에서 거슬러 올라가 root.mark가 있는 저장소 루트를 찾는다
-    std::filesystem::path RepositoryRoot()
+    std::optional<std::filesystem::path> RepositoryRoot()
     {
         wchar_t exePath[MAX_PATH]{};
         GetModuleFileNameW(nullptr, exePath, MAX_PATH);
         return Core::FindRootByMarker(exePath, "root.mark");
     }
 
-    // 리소스 폴더(Testing/Resource). 에셋, UI 레이아웃, UIVisualizer 파일이 모두 이 아래에 있다
-    std::filesystem::path ResourceRoot()
+    // 리소스 폴더(Testing/Resource). 에셋, UI 레이아웃, UIVisualizer 파일이 모두 이 아래에 있다. 저장소 루트를 못 찾으면 nullopt이다
+    std::optional<std::filesystem::path> ResourceRoot()
     {
-        return Core::ResolvePath(RepositoryRoot(), "Testing/Resource/");
+        const auto root = RepositoryRoot();
+        if (!root)
+            return std::nullopt;
+
+        return Core::ResolvePath(*root, "Testing/Resource/");
     }
 
     // UI가 쓰는 키. 이 키들이 눌린 프레임에 한 번씩 UI로 넘긴다
@@ -59,7 +63,8 @@ namespace
 // 초기화 리스트의 순서는 Application.ixx의 멤버 선언 순서와 같다
 Application::Application()
     : m_window{ L"Strawberry", kInitialSize }
-    , m_resourceStorage{ CreateAssetStorage(ResourceRoot()) }
+    , m_resourceRoot{ ResourceRoot() }
+    , m_resourceStorage{ CreateAssetStorage(m_resourceRoot.value_or(std::filesystem::path{})) }
     , m_assetService{ Required(CreateAssetService(m_resourceStorage.get())) }
     , m_renderService{ Required(CreateRenderService(CreateRenderBackend(RenderConfig{}), m_assetService->GetAsyncLoader())) }
     , m_inputService{ Required(CreateInputService(CreateDxInputBackend(m_window.Handle()))) }
@@ -73,6 +78,11 @@ Application::Application()
 bool Application::Initialize()
 {
     if (!m_window.IsValid()) return false;
+    if (!m_resourceRoot)
+    {
+        Core::Logger::Error("Application: 저장소 루트(root.mark)를 찾지 못함");
+        return false;
+    }
 
     m_size = m_window.ClientSize();
     if (!m_assetService->Initialize()) return false;

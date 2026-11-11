@@ -2,5 +2,21 @@
 ※ 테스트 프로젝트는 Testing/Foundation/<이름>-Test에 두고, 폴더는 시험하는 소스(Foundation/Core 등)의 구조를 따른다.
 
 [x] Core-Test 프로젝트(Testing/Foundation/Core-Test, Core-Test.slnx, Test_Core.bat) 만들기. FileAsset-Test에 있던 AssetPath와 ResourceID 시험을 Type/으로, IsValidUtf8 시험을 Utils/PathUtils-Agent.cpp로 옮김(17개)
-[ ] Core 나머지 시험: Allocator, Handle, Bit, Math, TypeHierarchy, Utils(PathUtils의 IsValidUtf8 외, StringConvert, StringOperations, Hash, EnumUtils, CycleIterator, StlUtils)
-[x] Core-Test와 Serialization-Test를 함께 담는 Testing/Foundation-Test.slnx와 Test_Foundation.bat 만들기 (Foundation의 Contract, Core, Serialization 포함. Serialization-Test는 옛 T 이름이 남아 있음)
+[x] Core 시험: Handle (ID, Generational, Pool, FixedPool). IDHandle의 std::hash가 const가 아니던 것과 FixedHandlePool의 Remove가 객체를 바로 비우지 않던 것을 고치고, Setup을 한 번만 부르게 bool로 바꿈(두 번째 호출과 MaxCount 초과는 오류 로그와 false)
+[x] Core 시험: TypeHierarchy (TypeID, Relation, Cast). TypeNode<자기 자신, 부모>를 거치지 않은 클래스로 Cast하면 컴파일 오류가 나게 TypeSelf와 static_assert를 추가함
+[x] Core 시험: Utils (StringConvert, StringOperations, Hash, EnumUtils, StlUtils, PathUtils). 안 쓰는 함수와 CycleIterator를 지우고, WStringToString이 서로게이트 쌍을 처리하게 하고, Compare 계열이 포인터가 아닌 타입에서 컴파일되게 고침. EnumToString이 이름 표 밖의 값에 optional을 돌려주고 Serializer가 쓰기 오류를 HasError로 알리며 WidgetSerializer 저장이 이를 거부함
+[x] Core 시험: Bit (Align, Nibble). AlignUpGeneric이 음수에서도 맞게 올림하고 큰 값에서 넘치지 않게 고치고, UnpackNibbles가 32비트를 넘는 니블을 0으로 읽게 함. 시험하면서 Assert를 어떻게 다룰지 기준을 testing.md에 적음
+[x] Core 시험: Math (Vector, Matrix, Color, Geometry2D, MathUtils, CameraMatrices). 안 쓰는 Matrix::TRS를 지우고, Matrix 비교를 성분별로 바꾸고, ToSize와 Rect::Contains의 Assert 대신 정해진 결과(음수는 0, 빈 사각형은 거짓)를 주고, Color의 8비트 변환이 범위 밖 값을 0~255로 제한하게 함
+[x] Core 시험: Allocator (Reusable, Linear). 안 쓰는 DualIndexAllocator를 지우고 LinearIndexAllcator.ixx 파일 이름 오타를 고침. 용량이 찰 때의 Assert 대신 오류 로그와 InvalidIndex로 알리고, Reusable의 이중 해제와 할당한 적 없는 인덱스 해제를 무시하게 하고, Linear가 실패한 요청에서 아무것도 소모하지 않고 큰 개수에서 넘치지 않게 고침
+[x] Core 시험: ResourceID (TryMakeSibling 성공과 실패 경우, 종류와 접두사, 경로 정규화). 시험에서만 쓰이고 Assert에 의존하던 MakeSibling을 지움
+[x] Core-Test와 Serialization-Test를 함께 담는 Testing/Foundation-Test.slnx와 Test_Foundation.bat 만들기 (Foundation의 Contract, Core, Serialization 포함)
+[x] Serialization: Format/TraitsHelper.ixx 삭제 (안 쓰는 SerializeXY와 CreateAndFill, Traits의 안 쓰는 import도 정리)
+[x] Serialization: Concepts.ixx (HasSerialize, HasMemberBeginEnd, NotBasicString, SequenceLike, MapLike를 구현 유닛 시험으로 확인, 안 쓰는 Core.Utils import 정리)
+[x] Serialization: Format/KeyConverter.ixx (int 키는 숫자 전체가 맞아야 함: 뒤에 글자, 넘침, 빈 문자열, 앞의 +는 거절. string, wstring 키 왕복. 코드 변경 없음)
+[x] Serialization: Format/Traits.ixx (숫자 너비별 범위와 부호, bool, float, double, string, wstring, enum. 올바르지 않은 UTF-8 문자열과 NaN, 무한대 실수를 쓰기 오류로 알리게 고치고, FLT_MAX를 쓰면 다시 읽히지 않던 것을 float로 줄일 때 무한대가 되는 값만 거절하게 고침)
+[x] Serialization: ClassSerialize.ixx (목록, 표, 클래스, unique_ptr 요소, null 처리. 빈 unique_ptr 요소와 올바르지 않은 UTF-8인 표의 키와 쓸 때 겹치는 표의 키를 쓰기 오류로 알리고 그 항목만 건너뛰게 하고, 읽을 때 겹치거나 이미 있는 표의 키를 조용히 버리지 않고 읽기 오류로 알리게 하고, 일반 포인터 멤버를 읽는 코드를 static_assert로 막음)
+[x] Serialization: Serializer.ixx (쓰기 형태, 항목이 없는 값의 null, 키 이름, 모든 종류 값의 문자열 왕복, 오류 전달 추가. 객체가 아닌 JSON에 쓰면 예외로 프로세스가 죽던 것을 생성 때 오류로 알리고 쓰지 않게 하고, 멤버로 든 빈 unique_ptr 쓰기와 일반 포인터가 죽던 것을 오류로 알리게 하고, 알릴 Serializer가 없어도 오류 로그는 남기게 하고, Serialization-Test가 오류 로그를 ErrorLog/Serialization-Test.log에 남기게 함)
+[x] Serialization: 오류 로그에 루트부터의 키 경로를 남김 (inner/value, 목록은 list/1/value, 표는 table/a/value. 전에는 마지막 키 하나만 남았음)
+[x] Serialization 리팩토링 (점검 결과는 Archives/Review/Serialization.md: ForRead/ForWrite 생성 함수, 모듈 내보내기, 읽기/쓰기 분기를 ValueIO로 합치기, 목록과 표는 읽을 때 비우고 채움, 모르는 enum 이름을 읽기 오류로, 시험 파일 정리)
+[x] Core 리팩토링 (점검 결과는 Archives/Review/Core.md: UTF-8 디코더 합치기와 깨진 바이트는 U+FFFD, ToLower 로케일, Logger와 PathUtils와 Assert의 실패 처리, 인덱스 할당자는 Initialize를 한 번만, 두 풀의 겹치는 코드, 안 쓰는 코드와 남은 TypeID.ixx 삭제 등)
+[x] Serialization 마무리(옛 SerializationT.cpp 8개가 새 시험으로 덮이는지 대조하고 unique_ptr 값 표와 wstring 값 표를 메운 뒤 삭제, UI의 WidgetSerializer 저장이 NaN, 올바르지 않은 UTF-8 이름, 이름 표 밖의 enum을 거부하는 시험 추가, FileAsset 로더 컴파일과 모듈 그래프 확인)

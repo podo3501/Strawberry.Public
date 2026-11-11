@@ -42,12 +42,6 @@
     <ClCompile Include="Utils\StringOperations.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\CycleIterator.ixx">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\StlUtils.ixx">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\EnumUtils.ixx">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -93,16 +87,13 @@
     <ClCompile Include="Bit\Nibble.ixx">
       <Filter>Bit</Filter>
     </ClCompile>
-    <ClCompile Include="Allocator\DualIndexAllocator.ixx">
-      <Filter>Allocator</Filter>
-    </ClCompile>
     <ClCompile Include="Allocator\ReusableIndexAllocator.ixx">
       <Filter>Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Allocator\LinearIndexAllcator.ixx">
+    <ClCompile Include="Allocator\LinearIndexAllocator.ixx">
       <Filter>Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Allocator\Allocator.ixx">
+    <ClCompile Include="Allocator\IndexAllocator.ixx">
       <Filter>Allocator</Filter>
     </ClCompile>
     <ClCompile Include="Assert.ixx" />
@@ -138,7 +129,7 @@
     <ClCompile Include="Type\TypeHierarchy\TypeID.ixx">
       <Filter>Type\TypeHierarchy</Filter>
     </ClCompile>
-    <ClCompile Include="Type\Core.Type.ixx">
+    <ClCompile Include="Type\Type.ixx">
       <Filter>Type</Filter>
     </ClCompile>
   </ItemGroup>

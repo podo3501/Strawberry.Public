@@ -16,8 +16,8 @@ constexpr std::array<const char*, Core::EnumSize<SizePolicy>> Core::EnumToString
     return Core::MakeEnumStringMap<SizePolicy>("Fixed", "Fit", "Fill");
 }
 
-// 멤버를 그대로 읽고 쓴다 (읽기/쓰기가 같은 코드). 값은 스칼라 키로 적는다: Serializer가 시퀀스는 읽을 때 기존 내용 뒤에 덧붙이기 때문에 현재 값이 들어 있는 멤버에는 맞지 않는다.
-// 읽을 때 키가 없으면 멤버가 그대로 남는다. enum은 이름으로 적히고, 모르는 이름이면 InvalidEnum이 되어 실패로 돌려준다.
+// 멤버를 그대로 읽고 쓴다 (읽기/쓰기가 같은 코드). 읽을 때 키가 없으면 멤버가 그대로 남는다.
+// enum은 이름으로 적히고, 모르는 이름은 Serializer가 오류로 알린다.
 bool Widget::Serialize(Serializer& serializer, IWidgetResources&)
 {
     serializer.Process("anchorX", m_anchor.anchor.x);
@@ -34,8 +34,6 @@ bool Widget::Serialize(Serializer& serializer, IWidgetResources&)
     if (!serializer.IsWrite() || !m_name.empty())   // 이름 없는 위젯은 키를 적지 않는다
         serializer.Process("name", m_name);
 
-    if (m_widthPolicy == Core::InvalidEnum<SizePolicy> || m_heightPolicy == Core::InvalidEnum<SizePolicy>)
-        return false;
     if (!IsValidName(m_name))
         return false;
 

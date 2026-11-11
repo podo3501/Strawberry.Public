@@ -39,7 +39,7 @@ namespace
 			}
 
 			auto table = std::make_shared<T>();
-			Serializer reader{ data };
+			auto reader = Serializer::ForRead(data);
 			table->Serialize(reader);
 			if (reader.HasError())
 			{
@@ -68,11 +68,11 @@ constexpr std::array<const char*, Core::EnumSize<AudioGroup>> Core::EnumToString
 
 // 파일 이름은 저장소 안의 상대 경로이고 확장자가 있어야 한다 (ResourceID::MakePath가 확장자를 요구한다)
 template<>
-struct JsonTraitsBase<Core::ResourceID>
+struct JsonTraits<Core::ResourceID>
 {
-	static nlohmann::json SerializeToJson(const Core::ResourceID& data)
+	static std::optional<nlohmann::json> SerializeToJson(const Core::ResourceID& data)
 	{
-		return data.GetValue();
+		return nlohmann::json(data.GetValue());
 	}
 
 	static std::optional<Core::ResourceID> DeserializeFromJson(const nlohmann::json& dataJ)
@@ -100,7 +100,7 @@ void SoundDesc::Serialize(Serializer& serializer)
 	if (serializer.IsWrite())
 		return;
 
-	// 읽은 값의 의미를 검사한다. Group이 없거나 모르는 이름이면 InvalidEnum으로 남고 서비스가 거른다
+	// 읽은 값의 의미를 검사한다. Group이 없으면 InvalidEnum으로 남고 서비스가 거른다 (모르는 이름은 읽기 오류)
 	if (resID.GetType() != Core::ResourceIDType::Path)
 		serializer.ReportError("Filename이 필요함");
 	if (priority < 0)

@@ -59,15 +59,7 @@ namespace Core
             return *this;
         }
 
-        constexpr bool operator==(const Vector4& rhs) const
-        {
-            return x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w;
-        }
-
-        constexpr bool operator!=(const Vector4& rhs) const
-        {
-            return !(*this == rhs);
-        }
+        constexpr bool operator==(const Vector4&) const = default;
 
         constexpr float LengthSq() const
         {
@@ -82,51 +74,6 @@ namespace Core
         constexpr float Dot(const Vector4& rhs) const
         {
             return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
-        }
-
-        Vector4 Normalized() const
-        {
-            float len = Length();
-            if (len <= 0.00001f)
-                return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
-
-            return *this / len;
-        }
-
-        Vector4 NormalizedOr(const Vector4& fallback) const
-        {
-            float len = Length();
-            if (len <= 0.00001f)
-                return fallback;
-
-            return *this / len;
-        }
-
-        void Normalize()
-        {
-            float len = Length();
-            if (len <= 0.00001f)
-                return;
-
-            x /= len;
-            y /= len;
-            z /= len;
-            w /= len;
-        }
-
-        void NormalizeOr(const Vector4& fallback)
-        {
-            float len = Length();
-            if (len <= 0.00001f)
-            {
-                *this = fallback;
-                return;
-            }
-
-            x /= len;
-            y /= len;
-            z /= len;
-            w /= len;
         }
 
         static constexpr Vector4 Zero() { return Vector4(0.0f, 0.0f, 0.0f, 0.0f); }

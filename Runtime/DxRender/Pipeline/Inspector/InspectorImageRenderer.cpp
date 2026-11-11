@@ -88,7 +88,7 @@ void InspectorImageRenderer::SetScreenSize(const Core::Size& size)
 {
     m_screenSize = size;
 
-    m_projection = Core::Matrix::OrthographicOffCenter(
+    m_projection = Core::CreateOrthographicOffCenter(
         0.0f,
         static_cast<float>(size.width),
         static_cast<float>(size.height),

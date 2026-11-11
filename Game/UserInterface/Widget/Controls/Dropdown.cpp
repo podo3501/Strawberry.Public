@@ -187,7 +187,6 @@ void Dropdown::DrawSelf(IOverlayView& overlay, const Core::Rect& screenRect) con
 // 저장하는 것: 항목 글자 목록, 선택 위치, 스킨(닫힌 모습 브러시 3개, 목록 배경/강조 브러시, 폰트, 렌더 모드, 글자 크기, 스타일, 여백, 항목 높이).
 // 목록이 열려 있어도 닫힌 모습으로 저장한다 (열린 목록은 팝업 레이어에 따로 붙어 있어 저장 대상이 아니다).
 // 팝업 레이어(popupHost)와 변경 콜백(SetOnChanged)은 저장하지 않는다. 팝업 레이어는 불러올 때 WidgetLoadContext로 받는다.
-// 항목 목록은 읽을 때 기존 내용 뒤에 덧붙으므로, 비어 있는 새 위젯에만 읽는다 (WidgetSerializer가 그렇게 만든다).
 bool Dropdown::Serialize(Serializer& serializer, IWidgetResources& resources)
 {
     if (!Widget::Serialize(serializer, resources))

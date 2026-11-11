@@ -38,8 +38,6 @@ bool ProgressBar::Serialize(Serializer& serializer, IWidgetResources& resources)
 
     serializer.Process("ratio", m_ratio);
     serializer.Process("direction", m_direction);
-    if (m_direction == Core::InvalidEnum<GaugeDirection>)
-        return false;
     if (!SerializeGaugeSkin(serializer, resources, m_skin, ""))
         return false;
 

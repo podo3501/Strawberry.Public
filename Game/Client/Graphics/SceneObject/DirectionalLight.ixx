@@ -68,7 +68,7 @@ public:
         float nearZ = 0.1f;
         float farZ = 400.0f; // lightDistance 보다 커야 타겟 오브젝트들이 완전히 포함됨
 
-        Core::Matrix lightProj = Core::Matrix::OrthographicOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, nearZ, farZ);
+        Core::Matrix lightProj = Core::CreateOrthographicOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, nearZ, farZ);
 
         // 4. View * Proj 결합 후 구조체에 할당
         Core::Matrix lightViewProj = lightView * lightProj;

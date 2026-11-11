@@ -35,9 +35,12 @@ public:
             }
         }
 
+        if (!(width > 0.0f) || !(height > 0.0f))
+            return m_proj;   // 창이 최소화되는 등 크기가 0이면 이전 투영을 그대로 쓴다
+
         if (width != m_lastWidth || height != m_lastHeight || GetProjVersion() != m_lastProjVersion)
         {
-            m_proj = Core::Matrix::OrthographicOffCenter(0.f, width, height, 0.f, m_nearZ, m_farZ);
+            m_proj = Core::CreateOrthographicOffCenter(0.f, width, height, 0.f, m_nearZ, m_farZ);
             m_lastWidth = width;
             m_lastHeight = height;
             m_lastProjVersion = GetProjVersion();

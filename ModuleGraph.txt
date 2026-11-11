@@ -29,18 +29,18 @@ Contract.Render.Shared -> Contract.Render.Shared.Types(re), Contract.Render.Shar
 Contract.Render.Shared.Types -> Core.Math
 Contract.Render.Shared.View -> Contract.Render.Shared.Types, Core.Math
 Contract.Render.UI -> Contract.Render.Handles(re), Contract.Render.IOverlayView(re), Contract.Render.IRenderResources(re), Contract.Render.Shared.Types(re)
-Core.Assert -> -
+Core.Assert -> Core.Logger
 Core.AssetPath -> Core.Assert, Core.Utils
 Core.BasicTypes -> -
 Core.Bit -> Core.Assert
-Core.Handle -> -
-Core.IndexAllocator -> Core.Assert, Core.BasicTypes
+Core.Handle -> Core.Assert, Core.Logger
+Core.IndexAllocator -> Core.BasicTypes, Core.Logger
 Core.Logger -> -
 Core.Math -> Core.Assert
 Core.ResourceID -> Core.Assert, Core.AssetPath, Core.Utils
 Core.Type -> Core.AssetPath(re), Core.BasicTypes(re), Core.ResourceID(re), Core.TypeHierarchy(re)
 Core.TypeHierarchy -> -
-Core.Utils -> Core.Assert
+Core.Utils -> Core.Logger
 DxInput -> Contract.Input.Backend, Contract.Input.Shared, Core.Utils
 DxRender -> Contract.Render.Backend, Contract.Render.Shared, Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Diagnostics, DxRender.Factory, DxRender.Packet, DxRender.Pipeline, DxRender.Provider, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task, DxRender.Text, DxRender.TransientMesh
 DxRender.Allocator -> Core.Assert, Core.Bit, Core.IndexAllocator, DxRender.Constants, DxRender.Core, DxRender.Resource
@@ -133,7 +133,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 28/417, impl-only 8/80 ==
+== removed as redundant: interface 28/420, impl-only 8/80 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)

@@ -67,4 +67,4 @@
 [x] 오버레이에서 이미지와 글자를 호출한 순서대로 그리기 (글자가 항상 이미지 위에 그려지던 것을 DrawOrderEntry로 순서를 기억해 고침)
 [x] UIVisualizer 모드를 켤 때 UI의 hover/누름/포커스를 풀기 (UserInterface::ReleaseInput, 켜진 프레임에 한 번)
 
-전체 컴파일 마지막 확인: 98391f6
+전체 컴파일 마지막 확인: 456fa3c

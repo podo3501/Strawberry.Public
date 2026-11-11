@@ -100,8 +100,8 @@ struct WidgetSerializer::Impl
 
         outNode = Json::object();
         outNode["type"] = std::string(entry->name);
-        Serializer serializer{ outNode };
-        if (!widget.Serialize(serializer, resources))
+        auto serializer = Serializer::ForWrite(outNode);
+        if (!widget.Serialize(serializer, resources) || serializer.HasError())   // 쓸 수 없는 값(이름 표 밖의 enum 등)이 있으면 저장은 거부된다
             return false;
 
         Json children = Json::array();
@@ -126,7 +126,7 @@ struct WidgetSerializer::Impl
             return nullptr;
 
         auto widget = entry->creator(context);
-        Serializer serializer{ node };   // const Json& 이므로 읽기 모드
+        auto serializer = Serializer::ForRead(node);
         if (!widget->Serialize(serializer, resources) || serializer.HasError())   // 타입이 틀린 값이 있으면 불러오기 전체가 실패한다
             return nullptr;
 

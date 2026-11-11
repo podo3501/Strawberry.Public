@@ -1,7 +1,7 @@
 export module Core.Math:Color;
 
 import std;
-import :Vector4; // Vector4 타입 모듈 import
+import :Vector4;
 
 namespace Core
 {
@@ -42,37 +42,13 @@ namespace Core
             return { SrgbChannelToLinear(r), SrgbChannelToLinear(g), SrgbChannelToLinear(b), a };
         }
 
-        [[nodiscard]]
-        static constexpr Color FromARGB8888(std::uint32_t argb)
-        {
-            return
-            {
-                ((argb >> 16) & 0xFF) / 255.0f,
-                ((argb >> 8) & 0xFF) / 255.0f,
-                (argb & 0xFF) / 255.0f,
-                ((argb >> 24) & 0xFF) / 255.0f
-            };
-        }
-
-        [[nodiscard]]
-        static constexpr Color FromRGBA8888(std::uint32_t rgba)
-        {
-            return
-            {
-                ((rgba >> 24) & 0xFF) / 255.0f,
-                ((rgba >> 16) & 0xFF) / 255.0f,
-                ((rgba >> 8) & 0xFF) / 255.0f,
-                (rgba & 0xFF) / 255.0f
-            };
-        }
-
         constexpr bool operator==(const Color&) const = default;
-        constexpr bool operator!=(const Color&) const = default;
 
-        constexpr std::uint8_t R8() const { return static_cast<std::uint8_t>(r * 255.0f + 0.5f); }
-        constexpr std::uint8_t G8() const { return static_cast<std::uint8_t>(g * 255.0f + 0.5f); }
-        constexpr std::uint8_t B8() const { return static_cast<std::uint8_t>(b * 255.0f + 0.5f); }
-        constexpr std::uint8_t A8() const { return static_cast<std::uint8_t>(a * 255.0f + 0.5f); }
+        // 0~1을 벗어난 값은 0 또는 255로 제한한다 (NaN은 0). 틴트처럼 1을 넘는 값도 들어올 수 있다
+        constexpr std::uint8_t R8() const { return ToByte(r); }
+        constexpr std::uint8_t G8() const { return ToByte(g); }
+        constexpr std::uint8_t B8() const { return ToByte(b); }
+        constexpr std::uint8_t A8() const { return ToByte(a); }
 
         static const Color White;
         static const Color Black;
@@ -86,6 +62,16 @@ namespace Core
         static const Color Transparent;
 
     private:
+        static constexpr std::uint8_t ToByte(float value)
+        {
+            if (!(value > 0.0f))
+                return 0;
+            if (value >= 1.0f)
+                return 255;
+
+            return static_cast<std::uint8_t>(value * 255.0f + 0.5f);
+        }
+
         static float SrgbChannelToLinear(float c)
         {
             return c <= 0.04045f ? c / 12.92f : std::pow((c + 0.055f) / 1.055f, 2.4f);

@@ -15,7 +15,7 @@ bool AssetRepository::RegisterLoader(AssetLoaderDesc desc)
 {
 	if (!desc.loader) return false;
 
-	std::string normalized = Core::ToLowerCopy(desc.extension);
+	std::string normalized = Core::ToLower(desc.extension);
 	LoaderKey loaderKey{ desc.type, normalized };
 
 	if (m_loaders.contains(loaderKey))
@@ -79,9 +79,7 @@ std::shared_ptr<Asset> AssetRepository::Load(Core::TypeID type, const Core::Reso
 
 std::shared_ptr<Asset> AssetRepository::LoadUncached(Core::TypeID type, const Core::ResourceID& resID, const Core::AssetPath& path)
 {
-	auto ext = std::string(Core::GetExtension(resID.GetValue()));
-	std::string normalized = Core::ToLowerCopy(ext);
-	LoaderKey loaderKey{ type, normalized };
+	LoaderKey loaderKey{ type, path.LowerExtension() };
 
 	auto loaderIt = m_loaders.find(loaderKey);
 	Core::Assert(loaderIt != m_loaders.end()); // 파일 확장자에 맞는 로더가 없거나 타입 불일치 시 Assert

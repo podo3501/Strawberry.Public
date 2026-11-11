@@ -1,4 +1,4 @@
-export module Core.Math:Utils;
+export module Core.Math:MathUtils;
 
 import :Constants;
 
@@ -6,11 +6,11 @@ namespace Core
 {
     export constexpr float ToRadians(float degrees)
     {
-        return degrees * (PI / 180.0f); // 또는 degrees * Deg2Rad;
+        return degrees * Deg2Rad;
     }
 
     export constexpr float ToDegrees(float radians)
     {
-        return radians * (180.0f / PI); // 또는 radians * Rad2Deg;
+        return radians * Rad2Deg;
     }
 }

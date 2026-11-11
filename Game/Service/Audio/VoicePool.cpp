@@ -17,7 +17,8 @@ bool VoicePool::Setup(int maxVoices, int maxStreams) noexcept
 	if (maxVoices < maxStreams)
 		return false;
 
-	m_voices.Setup(static_cast<std::uint16_t>(maxVoices));
+	if (!m_voices.Setup(static_cast<std::size_t>(maxVoices)))
+		return false;
 
 	m_maxVoices = maxVoices;
 	m_maxStreams = maxStreams;
@@ -39,7 +40,7 @@ VoiceHandle VoicePool::AcquireVoiceHandle(const SoundDesc* desc) noexcept
 		vh = m_voices.Emplace();
 	}
 
-	auto* voice = m_voices.Get(vh);
+	auto* voice = m_voices.Find(vh);
 	if (!voice)
 		return VoiceHandle::Invalid();
 
@@ -67,7 +68,7 @@ VoiceHandle VoicePool::Play(SoundHandle sh, const LoadedSound* loaded, const Pla
 
 bool VoicePool::Play(VoiceHandle vh, SoundHandle sh, const LoadedSound* loaded, const PlaybackParams& params) noexcept
 {
-	auto* voice = m_voices.Get(vh); // 이미 풀린 핸들이면 인스턴스를 빌리지 않는다. 빌리면 추적되지 않는 재생이 생긴다.
+	auto* voice = m_voices.Find(vh); // 이미 풀린 핸들이면 인스턴스를 빌리지 않는다. 빌리면 추적되지 않는 재생이 생긴다.
 	if (!voice)
 		return false;
 
@@ -108,7 +109,7 @@ bool VoicePool::Resume(VoiceHandle vh) noexcept
 
 bool VoicePool::StopVoice(VoiceHandle vh) noexcept
 {
-	auto voice = m_voices.Get(vh);
+	auto voice = m_voices.Find(vh);
 	if (!voice)
 		return false;
 
@@ -140,7 +141,7 @@ bool VoicePool::SetVolume(VoiceHandle vh, float volume) noexcept
 // 마스터 볼륨이 바뀌어도 다시 계산할 수 있게, 소리 자체의 볼륨을 목소리에 기록해 둔다.
 bool VoicePool::SetBaseVolume(VoiceHandle vh, float baseVolume) noexcept
 {
-	auto voice = m_voices.Get(vh);
+	auto voice = m_voices.Find(vh);
 	if (!voice || !voice->instance)
 		return false;
 
@@ -158,7 +159,7 @@ void VoicePool::ForEachActiveVoice(const std::function<void(VoiceHandle, const S
 
 PlaybackState VoicePool::GetState(VoiceHandle vh) const noexcept
 {
-	auto voice = m_voices.Get(vh);
+	auto voice = m_voices.Find(vh);
 	if (!voice)
 		return Core::InvalidEnum<PlaybackState>;
 
@@ -186,7 +187,7 @@ void VoicePool::UpdateVoices() noexcept
 
 const SoundDesc* VoicePool::GetDesc(VoiceHandle vh) const noexcept
 {
-	auto voice = m_voices.Get(vh);
+	auto voice = m_voices.Find(vh);
 	return voice ? voice->desc : nullptr;
 }
 
@@ -251,7 +252,7 @@ bool VoicePool::StopWhere(const std::function<bool(const Voice&)>& shouldStop) n
 
 const ISoundInstance* VoicePool::GetInstance(VoiceHandle vh) const noexcept
 {
-	auto voice = m_voices.Get(vh);
+	auto voice = m_voices.Find(vh);
 	return voice ? voice->instance : nullptr;
 }
 

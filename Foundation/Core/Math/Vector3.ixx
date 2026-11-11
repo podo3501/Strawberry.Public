@@ -1,6 +1,7 @@
 export module Core.Math:Vector3;
 
 import std;
+import :Constants;
 
 namespace Core
 {
@@ -49,15 +50,7 @@ namespace Core
             return *this;
         }
 
-        constexpr bool operator==(const Vector3& rhs) const
-        {
-            return x == rhs.x && y == rhs.y && z == rhs.z;
-        }
-
-        constexpr bool operator!=(const Vector3& rhs) const
-        {
-            return !(*this == rhs);
-        }
+        constexpr bool operator==(const Vector3&) const = default;
 
         constexpr float LengthSq() const
         {
@@ -85,17 +78,13 @@ namespace Core
 
         Vector3 Normalized() const
         {
-            float len = Length();
-            if (len <= 0.00001f)
-                return Vector3(0.0f, 0.0f, 0.0f);
-
-            return *this / len;
+            return NormalizedOr(Vector3());
         }
 
         Vector3 NormalizedOr(const Vector3& fallback) const
         {
-            float len = Length();
-            if (len <= 0.00001f)
+            const float len = Length();
+            if (len <= NormalizeEpsilon)
                 return fallback;
 
             return *this / len;
@@ -103,27 +92,12 @@ namespace Core
 
         void Normalize()
         {
-            float len = Length();
-            if (len <= 0.00001f)
-                return;
-
-            x /= len;
-            y /= len;
-            z /= len;
+            *this = NormalizedOr(*this);   // 거의 0이면 그대로 둔다
         }
 
         void NormalizeOr(const Vector3& fallback)
         {
-            float len = Length();
-            if (len <= 0.00001f)
-            {
-                *this = fallback;
-                return;
-            }
-
-            x /= len;
-            y /= len;
-            z /= len;
+            *this = NormalizedOr(fallback);
         }
 
         static constexpr Vector3 Zero() { return Vector3(0.0f, 0.0f, 0.0f); }

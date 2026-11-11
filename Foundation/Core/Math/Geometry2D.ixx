@@ -1,7 +1,6 @@
 export module Core.Math:Geometry2D;
 
 import std;
-import Core.Assert;
 
 namespace Core
 {
@@ -12,8 +11,6 @@ namespace Core
 
         bool operator==(const Point&) const = default;
     };
-
-    export inline Point ToPoint(int x, int y) { return { x, y }; }
 
     export struct Size
     {
@@ -26,16 +23,31 @@ namespace Core
         bool operator==(const Size&) const = default;
     };
 
+    // 크기는 음수가 될 수 없으므로 음수는 0이다
+    constexpr std::uint32_t ToSizeValue(int value)
+    {
+        return value > 0 ? static_cast<std::uint32_t>(value) : 0u;
+    }
+
+    // 음수와 NaN은 0, uint32 범위를 넘으면 최댓값이다. 소수는 버린다
+    constexpr std::uint32_t ToSizeValue(float value)
+    {
+        if (!(value > 0.f))
+            return 0u;
+        if (value >= 4294967296.f)
+            return (std::numeric_limits<std::uint32_t>::max)();
+
+        return static_cast<std::uint32_t>(value);
+    }
+
     export constexpr Size ToSize(int width, int height)
     {
-        Assert(width >= 0 && height >= 0);
-        return Size{ static_cast<uint32_t>(width), static_cast<uint32_t>(height) };
+        return Size{ ToSizeValue(width), ToSizeValue(height) };
     }
 
     export constexpr Size ToSize(float width, float height)
     {
-        Assert(width >= 0.f && height >= 0.f);
-        return Size{ static_cast<uint32_t>(width), static_cast<uint32_t>(height) };
+        return Size{ ToSizeValue(width), ToSizeValue(height) };
     }
 
     export struct Rect
@@ -51,10 +63,9 @@ namespace Core
         float Top() const { return y; }
         float Bottom() const { return y + height; }
 
+        // 크기가 0이거나 음수이면 비어 있어서 아무것도 포함하지 않는다
         bool Contains(float px, float py) const
         {
-            Assert(width >= 0.f && height >= 0.f);
-
             return px >= x &&
                 px < x + width &&
                 py >= y &&
@@ -68,14 +79,17 @@ namespace Core
                 static_cast<float>(p.y));
         }
 
+        // 빈 사각형(크기가 0 이하)은 아무것도 포함하지 않고 어디에도 포함되지 않는다
         bool Contains(const Rect& other) const
         {
-            return other.x >= x &&
+            return IsValid() && other.IsValid() &&
+                other.x >= x &&
                 other.y >= y &&
                 other.x + other.width <= x + width &&
                 other.y + other.height <= y + height;
         }
 
+        // 음수 크기를 뒤집어서 같은 영역의 양수 크기 사각형으로 만든다
         void Normalize()
         {
             if (width < 0.f)
@@ -91,9 +105,11 @@ namespace Core
             }
         }
 
+        // 빈 사각형(크기가 0 이하)은 아무것과도 겹치지 않는다
         bool Intersects(const Rect& other) const
         {
-            return !(other.Left() >= Right() ||
+            return IsValid() && other.IsValid() &&
+                !(other.Left() >= Right() ||
                 other.Right() <= Left() ||
                 other.Top() >= Bottom() ||
                 other.Bottom() <= Top());
@@ -101,12 +117,12 @@ namespace Core
 
         Rect Intersect(const Rect& other) const
         {
-			const float l = (std::max)(x, other.x);
-			const float t = (std::max)(y, other.y);
-			const float r = (std::min)(Right(), other.Right());
-			const float b = (std::min)(Bottom(), other.Bottom());
+            const float l = (std::max)(x, other.x);
+            const float t = (std::max)(y, other.y);
+            const float r = (std::min)(Right(), other.Right());
+            const float b = (std::min)(Bottom(), other.Bottom());
 
-			return { l, t, (std::max)(0.f, r - l), (std::max)(0.f, b - t) }; // 겹치지 않으면 크기 0
+            return { l, t, (std::max)(0.f, r - l), (std::max)(0.f, b - t) };   // 겹치지 않으면 크기 0
         }
     };
 }

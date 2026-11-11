@@ -41,15 +41,15 @@ bool AssetMetaRegistry::Scan()
     std::unordered_map<Core::TypeID, std::vector<std::pair<Core::ResourceID, Core::AssetPath>>> grouped;
     for (const auto& metaPath : metaPaths)
     {
-        std::string originalPathStr = StripMetaSuffix(metaPath.String());
-        auto originalExt = Core::GetExtension(originalPathStr);
+        const auto originalPath = Core::AssetPath::TryMake(StripMetaSuffix(metaPath.String()));
+        if (!originalPath)
+            continue;
 
-        auto it = m_extToMetaType.find(Core::ToLower(originalExt));
+        auto it = m_extToMetaType.find(originalPath->LowerExtension());
         if (it == m_extToMetaType.end())
             continue; // 등록 안 된 확장자의 .meta -> skip
 
-        auto originalResID = Core::ResourceID::MakePath(originalPathStr);
-        grouped[it->second].push_back({ originalResID, metaPath });
+        grouped[it->second].push_back({ Core::ResourceID::MakePath(*originalPath), metaPath });
     }
 
     bool allSucceeded = true;

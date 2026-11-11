@@ -12,7 +12,7 @@ namespace
 {
 	std::string ToLog(const std::filesystem::path& path)
 	{
-		return Core::WStringToString(path.wstring());
+		return Core::WStringToUTF8(path.wstring());
 	}
 }
 

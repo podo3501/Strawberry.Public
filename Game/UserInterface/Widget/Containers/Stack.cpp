@@ -93,9 +93,6 @@ bool Stack::Serialize(Serializer& serializer, IWidgetResources& resources)
     serializer.Process("paddingBottom", m_padding.bottom);
     serializer.Process("spacing", m_spacing);
 
-    if (m_axis == Core::InvalidEnum<StackAxis> || m_crossAlign == Core::InvalidEnum<CrossAlign>)
-        return false;
-
     if (!serializer.IsWrite())
         InvalidateLayout();
     return true;

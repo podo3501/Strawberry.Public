@@ -37,6 +37,7 @@ private:
     // 선언 순서가 곧 만드는 순서이자 해제의 역순이다.
     // 창은 입력 백엔드가 서브클래싱하므로 가장 먼저 만들고 가장 나중에 해제한다
     GameWindow m_window;
+    std::optional<std::filesystem::path> m_resourceRoot;   // 저장소 루트를 못 찾으면 비고 Initialize가 실패한다
     std::unique_ptr<IAssetStorage> m_resourceStorage;   // Testing/Resource 전체. 에셋(Graphics/...), UI 레이아웃(UI/...), UIVisualizer이 Claude에게 남기는 파일(.visualizer/...)이 모두 이 아래에 있다
     std::unique_ptr<IAssetService> m_assetService;
     std::unique_ptr<IRenderService> m_renderService;

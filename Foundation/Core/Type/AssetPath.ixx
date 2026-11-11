@@ -4,11 +4,10 @@ import std;
 import Core.Assert;
 import Core.Utils;
 
-// 에셋 저장소 루트 아래의 상대 경로. IAssetStorage가 파일을 가리킬 때 쓴다.
-// - 구분자는 '/'로 통일하고 lexically_normal로 정리한다 ("a/./b", "a//b" -> "a/b"). 대소문자는 보존한다.
-// - 비교와 해시는 대소문자를 무시한다 (Windows에서 같은 파일이 다른 키가 되지 않게). 문자열 자체는 바뀌지 않는다.
-// - 절대 경로(드라이브 문자, 앞의 '/')와 저장소 밖으로 나가는 '..'는 거부한다. 확장자는 요구하지 않는다 (폴더나 확장자 없는 파일도 가리킬 수 있다).
-// - 문자열에서 암묵 변환되지 않는다. 검증이 필요한 곳에서 Make/TryMake로 명시적으로 만든다.
+// 에셋 저장소 루트 아래의 상대 경로. IAssetStorage가 파일을 가리킬 때 쓴다 (규칙은 path-usage.md).
+// 구분자는 '/'로 통일하고 대소문자는 보존하며, 비교와 해시는 대소문자를 무시한다.
+// 절대 경로와 저장소 밖으로 나가는 '..'는 거부하고, 확장자는 요구하지 않는다.
+// 문자열에서 암묵 변환되지 않는다. Make/TryMake로 명시적으로 만든다.
 namespace Core
 {
     export class AssetPath
@@ -59,6 +58,7 @@ namespace Core
 
         bool IsValid() const { return !m_value.empty(); }
         bool HasExtension() const { return ToPath().has_extension(); }   // 마지막 이름에 확장자가 있는가 ("a/b.json" true, "a/b"와 "a/b/" false)
+        std::string LowerExtension() const { return ToLower(PathToUtf8(ToPath().extension())); }   // 마지막 이름의 확장자를 소문자로 (점 포함, 없으면 빈 문자열). 로더를 찾는 키다
         const std::string& String() const { return m_value; }   // '/' 구분, 대소문자 보존
         std::filesystem::path ToPath() const { return PathFromUtf8(m_value); }
 
@@ -69,7 +69,7 @@ namespace Core
 
     private:
         explicit AssetPath(std::string value)
-            : m_value(std::move(value)), m_key(ToLowerCopy(m_value)) {}
+            : m_value(std::move(value)), m_key(ToLower(m_value)) {}
 
         std::string m_value;
         std::string m_key;   // 비교용 소문자

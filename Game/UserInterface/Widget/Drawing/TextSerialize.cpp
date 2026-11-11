@@ -49,9 +49,6 @@ constexpr std::array<const char*, Core::EnumSize<TextColor>> Core::EnumToStringM
 
 namespace
 {
-    template<Core::CountEnum T>
-    bool IsValid(T value) { return value != Core::InvalidEnum<T>; }
-
     // base + R/G/B/A 네 키로 적는다
     void SerializeColor(Serializer& serializer, Core::Color& color, const std::string& base)
     {
@@ -104,7 +101,7 @@ bool SerializeFontName(Serializer& serializer, IWidgetResources& resources, Font
 bool SerializeTextRenderMode(Serializer& serializer, TextRenderMode& mode, std::string_view key)
 {
     serializer.Process(std::string(key), mode);
-    return IsValid(mode);
+    return true;
 }
 
 bool SerializeTextLayout(Serializer& serializer, TextLayout& layout, std::string_view prefix)
@@ -115,7 +112,7 @@ bool SerializeTextLayout(Serializer& serializer, TextLayout& layout, std::string
     serializer.Process(SerializedKey(prefix, "overflow"), layout.overflow);
     serializer.Process(SerializedKey(prefix, "lineSpacing"), layout.lineSpacing);
 
-    return IsValid(layout.horizontalAlign) && IsValid(layout.verticalAlign) && IsValid(layout.overflow);
+    return true;
 }
 
 bool SerializeTextStyle(Serializer& serializer, TextStyle& style, std::string_view prefix)
@@ -126,7 +123,7 @@ bool SerializeTextStyle(Serializer& serializer, TextStyle& style, std::string_vi
     {
         serializer.Process(SerializedKey(prefix, "outlineWeight"), v.weight);
         serializer.Process(SerializedKey(prefix, "outlineColor"), v.color);
-        return IsValid(v.weight) && IsValid(v.color);
+        return true;
     };
 
     const auto shadow = [&](TextShadow& v)
@@ -134,14 +131,14 @@ bool SerializeTextStyle(Serializer& serializer, TextStyle& style, std::string_vi
         serializer.Process(SerializedKey(prefix, "shadowOffset"), v.offset);
         serializer.Process(SerializedKey(prefix, "shadowSoftness"), v.softness);
         serializer.Process(SerializedKey(prefix, "shadowColor"), v.color);
-        return IsValid(v.offset) && IsValid(v.softness) && IsValid(v.color);
+        return true;
     };
 
     const auto gradient = [&](TextGradient& v)
     {
         serializer.Process(SerializedKey(prefix, "gradientStartColor"), v.startColor);
         serializer.Process(SerializedKey(prefix, "gradientEndColor"), v.endColor);
-        return IsValid(v.startColor) && IsValid(v.endColor);
+        return true;
     };
 
     const auto glow = [&](TextGlow& v)
@@ -149,7 +146,7 @@ bool SerializeTextStyle(Serializer& serializer, TextStyle& style, std::string_vi
         serializer.Process(SerializedKey(prefix, "glowRange"), v.range);
         serializer.Process(SerializedKey(prefix, "glowIntensity"), v.intensity);
         serializer.Process(SerializedKey(prefix, "glowColor"), v.color);
-        return IsValid(v.range) && IsValid(v.intensity) && IsValid(v.color);
+        return true;
     };
 
     const auto underline = [&](TextUnderline& v)

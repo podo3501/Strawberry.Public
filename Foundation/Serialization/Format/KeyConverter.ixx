@@ -4,9 +4,11 @@ import std;
 import Core.Utils;
 
 // 파일에서 읽은 키를 바꾼다. 바꿀 수 없으면 nullopt이다 (예외를 던지지 않는다)
-export template<typename K>
+template<typename K>
 struct KeyConverter
 {
+	static_assert(std::is_same_v<K, std::string>, "이 키 타입의 KeyConverter 특수화가 필요하다");
+
 	static std::string ToKey(const K& key) { return key; }
 	static std::optional<K> FromKey(const std::string& key) { return key; }
 };
@@ -28,12 +30,12 @@ struct KeyConverter<int>
 template<>
 struct KeyConverter<std::wstring>
 {
-	static std::string ToKey(const std::wstring& key) { return Core::WStringToString(key); }
-	static std::optional<std::wstring> FromKey(const std::string& key) { return Core::StringToWString(key); }
+	static std::string ToKey(const std::wstring& key) { return Core::WStringToUTF8(key); }
+	static std::optional<std::wstring> FromKey(const std::string& key) { return Core::UTF8ToWString(key); }
 };
 
-export template<typename K>
+template<typename K>
 std::string ToKeyString(const K& key) { return KeyConverter<K>::ToKey(key); }
 
-export template<typename K>
+template<typename K>
 std::optional<K> FromKeyString(const std::string& key) { return KeyConverter<K>::FromKey(key); }

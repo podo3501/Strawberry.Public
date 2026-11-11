@@ -1,4 +1,4 @@
-export module Core.Handle:ID;
+export module Core.Handle:IDHandle;
 
 import std;
 
@@ -32,7 +32,7 @@ namespace std
     template<typename Tag>
     struct hash<Core::IDHandle<Tag>>
     {
-        std::size_t operator()(const Core::IDHandle<Tag>& h) noexcept
+        std::size_t operator()(const Core::IDHandle<Tag>& h) const noexcept
         {
             std::size_t seed = h.index;
             seed ^= (h.generation + 0x9e3779b97f4a7c15ULL + (seed << 6) + (seed >> 2));

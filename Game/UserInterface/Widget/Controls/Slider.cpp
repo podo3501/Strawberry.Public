@@ -80,8 +80,6 @@ bool Slider::Serialize(Serializer& serializer, IWidgetResources& resources)
     serializer.Process("value", m_value);
     serializer.Process("thumbWidth", m_skin.thumbSize.x);
     serializer.Process("thumbHeight", m_skin.thumbSize.y);
-    if (m_axis == Core::InvalidEnum<SliderAxis>)
-        return false;
     if (!SerializeBrushName(serializer, resources, m_skin.thumb, "thumbBrush"))
         return false;
     if (!SerializeGaugeSkin(serializer, resources, m_skin.bar, "bar"))

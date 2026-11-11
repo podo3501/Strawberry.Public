@@ -107,7 +107,7 @@ private:
 		}
 
 		JsonMesh jsonMesh;
-		Serializer reader{ std::as_const(rData) };
+		auto reader = Serializer::ForRead(rData);
 		jsonMesh.Serialize(reader);
 		if (reader.HasError())
 		{

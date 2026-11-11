@@ -114,7 +114,7 @@ static std::shared_ptr<MaterialAsset> LoadPBR(
     JsonPBRSurface surface;
     if (data.contains("surface"))
     {
-        Serializer reader{ std::as_const(data["surface"]) };
+        auto reader = Serializer::ForRead(data["surface"]);
         surface.Serialize(reader);
         if (reader.HasError())
         {
@@ -147,7 +147,7 @@ static std::shared_ptr<MaterialAsset> LoadPhong(
     JsonPhongSurface surface;
     if (data.contains("surface"))
     {
-        Serializer reader{ std::as_const(data["surface"]) };
+        auto reader = Serializer::ForRead(data["surface"]);
         surface.Serialize(reader);
         if (reader.HasError())
         {
@@ -203,7 +203,7 @@ private:
         }
 
         JsonMaterialHeader header;
-        Serializer reader{ std::as_const(data) };
+        auto reader = Serializer::ForRead(data);
         header.Serialize(reader);
         if (reader.HasError())
         {
@@ -214,7 +214,7 @@ private:
         JsonMaterialTextures textures;
         if (data.contains("textures"))
         {
-            Serializer texturesReader{ std::as_const(data["textures"]) };
+            auto texturesReader = Serializer::ForRead(data["textures"]);
             textures.Serialize(texturesReader);
             if (texturesReader.HasError())
             {

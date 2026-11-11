@@ -1,6 +1,6 @@
 export module Core.Handle;
 
-export import :ID;
-export import :Generational;
-export import :Pool;
-export import :FixedPool;
+export import :IDHandle;
+export import :GenerationalHandle;
+export import :HandlePool;
+export import :FixedHandlePool;

@@ -1,25 +1,25 @@
 export module Core.Assert;
 
 import std;
+import Core.Logger;
 
 namespace Core
 {
-    // 주의: /Ob1(Only __inline) 이상이어야 Debug 빌드에서도 __forceinline이 실제로 적용된다.
-    // 기본 Debug 설정(/Od → /Ob0)에서는 __forceinline이 무시되고 일반 함수 호출로 컴파일되므로,
-    // __debugbreak()가 이 함수 "내부"에서 멈추고 콜스택을 한 프레임 올려야 호출부가 보인다.
-    // 프로젝트 설정: C/C++ -> Optimization -> Inline Function Expansion = /Ob1 (Debug 구성)
-    export constexpr __forceinline void Assert(bool condition)
+    // 실패하면 어디서 멈췄는지 Error 로그를 남기고 멈춘다 (Debug만). /Ob1 이상이어야 호출부에서 멈춘다 (Directory.Build.props)
+    export constexpr __forceinline void Assert(bool condition, std::source_location where = std::source_location::current())
     {
 #if defined(_DEBUG)
         if !consteval // 컴파일 타임에서 Assert를 하는 경우는 실행하지 않는다. 왜냐면 __debugbreak(); 이 함수가 런타임 함수기 때문에.
         {
             if (!condition)
             {
+                Logger::Error("Assert 실패: {}({}) {}", where.file_name(), where.line(), where.function_name());
                 __debugbreak();
             }
         }
 #else
         (void)condition;
+        (void)where;
 #endif
     }
 
@@ -27,17 +27,16 @@ namespace Core
     // bool 인자는 위의 non-template 함수가 우선 선택되므로 별도 제외 조건이 필요 없다.
     export template <typename T>
     requires requires(const T& v) { static_cast<bool>(v); }
-    constexpr __forceinline void Assert(const T& value)
+    constexpr __forceinline void Assert(const T& value, std::source_location where = std::source_location::current())
     {
-        Assert(static_cast<bool>(value));
+        Assert(static_cast<bool>(value), where);
     }
 
     // 모든 enum 케이스를 처리한 switch 뒤처럼 "도달하면 안 되는" 지점에 사용한다.
-    // Debug: Assert(false)로 즉시 멈춤. Release: Assert가 사라지므로 std::unreachable()에 의한 UB.
-    // 코드가 직접 값을 고르는 enum에만 쓰고, 파일/설정/네트워크에서 읽은 값에는 쓰지 않는다.
-    export [[noreturn]] __forceinline void Unreachable()
+    // Debug는 즉시 멈추고, Release는 std::unreachable()에 의한 UB다. 파일/설정에서 읽은 값에는 쓰지 않는다.
+    export [[noreturn]] __forceinline void Unreachable(std::source_location where = std::source_location::current())
     {
-        Assert(false);
+        Assert(false, where);
         std::unreachable();
     }
 }

@@ -23,7 +23,9 @@ namespace
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
-    Core::Logger::Initialize();
+    if (!Core::Logger::Initialize())
+        return 1;
+
     ComScope com;
 
     Application app;

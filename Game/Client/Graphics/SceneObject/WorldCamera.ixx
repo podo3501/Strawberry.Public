@@ -4,11 +4,6 @@ import std;
 import :Camera;
 import Core.Math;
 
-constexpr float DegToRad(float deg) noexcept
-{
-    return deg * std::numbers::pi_v<float> / 180.0f;
-}
-
 export class WorldCamera : public Camera
 {
 public:
@@ -29,9 +24,12 @@ public:
         else
             aspect = static_cast<float>(screenSize.width) / static_cast<float>(screenSize.height);
 
+        if (!(aspect > 0.0f) || !std::isfinite(aspect))
+            return m_proj;   // 창이 최소화되는 등 크기가 0이면 이전 투영을 그대로 쓴다
+
         if (aspect != m_lastAspect || GetProjVersion() != m_lastProjVersion)
         {
-            m_proj = Core::CreatePerspectiveFov(DegToRad(m_fov), aspect, m_nearZ, m_farZ);
+            m_proj = Core::CreatePerspectiveFov(Core::ToRadians(m_fov), aspect, m_nearZ, m_farZ);
             m_lastAspect = aspect;
             m_lastProjVersion = GetProjVersion();
         }

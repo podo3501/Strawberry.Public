@@ -1,6 +1,7 @@
 export module Core.Math:Vector2;
 
-import std; // 표준 라이브러리 모듈 전체 가져오기
+import std;
+import :Constants;
 
 namespace Core
 {
@@ -46,15 +47,7 @@ namespace Core
             return *this;
         }
 
-        constexpr bool operator==(const Vector2& rhs) const
-        {
-            return x == rhs.x && y == rhs.y;
-        }
-
-        constexpr bool operator!=(const Vector2& rhs) const
-        {
-            return !(*this == rhs);
-        }
+        constexpr bool operator==(const Vector2&) const = default;
 
         constexpr float LengthSq() const
         {
@@ -71,29 +64,15 @@ namespace Core
             return x * rhs.x + y * rhs.y;
         }
 
-        float Distance(const Vector2& rhs) const
-        {
-            return (*this - rhs).Length();
-        }
-
-        constexpr float DistanceSq(const Vector2& rhs) const
-        {
-            return (*this - rhs).LengthSq();
-        }
-
         Vector2 Normalized() const
         {
-            float len = Length();
-            if (len <= 0.00001f)
-                return Vector2(0.0f, 0.0f);
-
-            return *this / len;
+            return NormalizedOr(Vector2());
         }
 
         Vector2 NormalizedOr(const Vector2& fallback) const
         {
-            float len = Length();
-            if (len <= 0.00001f)
+            const float len = Length();
+            if (len <= NormalizeEpsilon)
                 return fallback;
 
             return *this / len;
@@ -101,25 +80,12 @@ namespace Core
 
         void Normalize()
         {
-            float len = Length();
-            if (len <= 0.00001f)
-                return;
-
-            x /= len;
-            y /= len;
+            *this = NormalizedOr(*this);   // 거의 0이면 그대로 둔다
         }
 
         void NormalizeOr(const Vector2& fallback)
         {
-            float len = Length();
-            if (len <= 0.00001f)
-            {
-                *this = fallback;
-                return;
-            }
-
-            x /= len;
-            y /= len;
+            *this = NormalizedOr(fallback);
         }
 
         static constexpr Vector2 Zero() { return Vector2(0.0f, 0.0f); }

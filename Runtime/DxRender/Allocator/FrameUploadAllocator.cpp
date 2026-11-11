@@ -22,7 +22,10 @@ bool FrameUploadAllocator::Initialize(
 
         UINT slotCapacityInElements = m_perSlotSize / elementStride;
         for (auto& region : m_region)
-            region.Initialize(slotCapacityInElements);
+        {
+            if (!region.Initialize(slotCapacityInElements))
+                return false;
+        }
 
         m_resource = device.CreateResource(
             CD3DX12_RESOURCE_DESC::Buffer(m_perSlotSize * FrameBufferCount), // 슬롯 수만큼 버퍼를 늘려서, 슬롯마다 겹치지 않는 영역을 갖게 한다.

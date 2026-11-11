@@ -1,10 +1,13 @@
-export module Core.Handle:Pool;
+export module Core.Handle:HandlePool;
 
 import std;
-import :ID;
+import :IDHandle;
+import Core.Assert;
 
 namespace Core
 {
+    // 넣는 개수에 제한이 없는 핸들 풀. 지운 핸들은 generation이 달라져서 옛 핸들로는 새 값을 찾지 못한다.
+    // Visit 도중에는 Remove만 할 수 있고 Emplace는 Assert다 (슬롯 벡터가 재할당되기 때문이다)
     export template<typename T, typename Tag>
         class HandlePool
     {
@@ -19,8 +22,9 @@ namespace Core
         template<typename... Args>
         Handle Emplace(Args&&... args)
         {
-            std::uint32_t index;
+            Assert(m_visitDepth == 0);
 
+            std::uint32_t index;
             if (!m_freeList.empty())
             {
                 index = m_freeList.back();
@@ -33,76 +37,40 @@ namespace Core
             }
 
             auto& slot = m_slots[index];
-            slot.data.reset();
-            slot.handle = Handle{ index, slot.generation };
             slot.data.emplace(std::forward<Args>(args)...);
-            slot.alive = true;
 
             ++m_aliveCount;
-            return slot.handle; // generation은 1 이상 보장됨
+            return Handle{ index, slot.generation }; // generation은 1 이상 보장됨
         }
 
         bool Remove(Handle h)
         {
             if (!IsValid(h)) return false;
 
-            auto& slot = m_slots[h.index];
-            slot.data.reset();
-            slot.handle = Handle::Invalid();
-            slot.alive = false;
-
-            slot.generation++;
-            if (slot.generation == 0) slot.generation = 1; // generation 증가 (0 방지)
-
+            ReleaseSlot(h.index);
             m_freeList.push_back(h.index);
             --m_aliveCount;
-
             return true;
         }
 
         void Clear()
         {
-            for (std::size_t i = 1; i < m_slots.size(); ++i) // 0은 dummy
+            for (std::uint32_t i = 1; i < m_slots.size(); ++i) // 0은 dummy
             {
-                auto& slot = m_slots[i];
-
-                if (!slot.alive) continue;
-
-                slot.data.reset();
-                slot.handle = Handle::Invalid();
-                slot.alive = false;
-
-                slot.generation++;
-                if (slot.generation == 0) slot.generation = 1;
+                if (m_slots[i].data.has_value())
+                    ReleaseSlot(i);
             }
 
             m_freeList.clear();
-            for (std::size_t i = 1; i < m_slots.size(); ++i)
-                m_freeList.push_back(static_cast<std::uint32_t>(i));
+            for (std::uint32_t i = 1; i < m_slots.size(); ++i)
+                m_freeList.push_back(i);
 
             m_aliveCount = 0;
         }
 
-        T* Find(Handle h)
+        auto* Find(this auto& self, Handle h)
         {
-            if (!IsValid(h)) return nullptr;
-
-            auto& slot = m_slots[h.index];
-            if (!slot.data.has_value())
-                return nullptr;
-
-            return &(*slot.data);
-        }
-
-        const T* Find(Handle h) const
-        {
-            if (!IsValid(h)) return nullptr;
-
-            const auto& slot = m_slots[h.index];
-            if (!slot.data.has_value())
-                return nullptr;
-
-            return &(*slot.data);
+            return self.IsValid(h) ? &*self.m_slots[h.index].data : nullptr;
         }
 
         bool IsValid(Handle h) const
@@ -111,45 +79,46 @@ namespace Core
             if (h.index >= m_slots.size()) return false;
 
             const auto& slot = m_slots[h.index];
-            return slot.alive && slot.generation == h.generation;
+            return slot.data.has_value() && slot.generation == h.generation;
         }
 
-        std::size_t Size() const { return m_slots.size(); }
         std::size_t AliveCount() const { return m_aliveCount; }
         bool Empty() const { return m_aliveCount == 0; }
 
+        // 살아 있는 항목마다 f(핸들, 값)을 부른다
         template<typename Func>
-        void Visit(Func&& f)
+        void Visit(this auto& self, Func&& f)
         {
-            for (auto& slot : m_slots)
+            ++self.m_visitDepth;
+            for (std::uint32_t i = 1; i < self.m_slots.size(); ++i)
             {
-                if (!slot.alive) continue;
-                f(slot.handle, *slot.data);
+                auto& slot = self.m_slots[i];
+                if (slot.data.has_value())
+                    f(Handle{ i, slot.generation }, *slot.data);
             }
-        }
-
-        template<typename Func>
-        void Visit(Func&& f) const
-        {
-            for (const auto& slot : m_slots)
-            {
-                if (!slot.alive) continue;
-                f(slot.handle, *slot.data);
-            }
+            --self.m_visitDepth;
         }
 
     private:
-        template<typename ValueType>
-        struct HandleSlot
+        struct Slot
         {
-            std::optional<ValueType> data;
-            Handle handle{ Handle::Invalid() };
+            std::optional<T> data;        // 값이 있으면 살아 있는 슬롯이다
             std::uint32_t generation = 1; // 0은 사용 안 함
-            bool alive = false;
         };
 
-        std::vector<HandleSlot<T>> m_slots;
+        // 값을 비우고 generation을 올려 옛 핸들을 무효로 한다
+        void ReleaseSlot(std::uint32_t index)
+        {
+            auto& slot = m_slots[index];
+            slot.data.reset();
+
+            ++slot.generation;
+            if (slot.generation == 0) slot.generation = 1; // generation 증가 (0 방지)
+        }
+
+        std::vector<Slot> m_slots;
         std::vector<std::uint32_t> m_freeList;
         std::size_t m_aliveCount{ 0 };
+        mutable std::uint32_t m_visitDepth{ 0 };
     };
 }

@@ -7,7 +7,9 @@ bool DescriptorAllocator::Initialize(Device& device, D3D12_DESCRIPTOR_HEAP_TYPE 
 {
     Core::Assert(type != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-    m_indexAllocator.Initialize(capacity);
+    if (!m_indexAllocator.Initialize(capacity))
+        return false;
+
     m_heap = device.CreateDescriptorHeap(
         type,
         capacity,

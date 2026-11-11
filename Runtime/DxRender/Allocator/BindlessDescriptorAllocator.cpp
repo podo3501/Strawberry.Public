@@ -28,14 +28,19 @@ BindlessDescriptorAllocator::~BindlessDescriptorAllocator()
 
 bool BindlessDescriptorAllocator::Initialize(Device& device) noexcept
 {
-    m_persistentRegion.Initialize(BindlessDescriptors::PersistentCount);
+    if (!m_persistentRegion.Initialize(BindlessDescriptors::PersistentCount))
+        return false;
 
     m_dynamicOffset = BindlessDescriptors::PersistentCount;
-    m_dynamicRegion.Initialize(BindlessDescriptors::DynamicCount);
+    if (!m_dynamicRegion.Initialize(BindlessDescriptors::DynamicCount))
+        return false;
 
     m_transientOffset = m_dynamicOffset + BindlessDescriptors::DynamicCount;
     for (auto& region : m_transientRegion)
-        region.Initialize(BindlessDescriptors::TransientCount); // 슬롯당 capacity는 여기서만 넘겨줌
+    {
+        if (!region.Initialize(BindlessDescriptors::TransientCount)) // 슬롯당 capacity는 여기서만 넘겨줌
+            return false;
+    }
 
     m_heap = device.CreateDescriptorHeap(
         D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,

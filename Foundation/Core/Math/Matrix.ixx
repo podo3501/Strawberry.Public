@@ -4,38 +4,12 @@ import std;
 
 namespace Core
 {
-    // row-major
-    export class Matrix
+    // 행 우선 저장이고 행 벡터에 곱한다 (v * M). 이동은 m[3][0..2]이고 왼손 좌표계이며 깊이는 0~1이다.
+    export struct Matrix
     {
-    public:
-        float m[4][4]{ 0.0f };
+        float m[4][4]{ { 1.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f } };   // 기본은 단위 행렬이다
 
-    public:
-        constexpr Matrix()
-        {
-            SetIdentity();
-        }
-
-        // 컴파일러 기본 제공 복사 생성자 및 대입 연산자 (constexpr 지원)
-        constexpr Matrix(const Matrix& rhs) = default;
-        constexpr Matrix& operator=(const Matrix& rhs) = default;
-
-        constexpr void SetIdentity()
-        {
-            std::fill(&m[0][0], &m[0][0] + 16, 0.0f);
-
-            m[0][0] = 1.0f;
-            m[1][1] = 1.0f;
-            m[2][2] = 1.0f;
-            m[3][3] = 1.0f;
-        }
-
-        static constexpr Matrix Identity()
-        {
-            Matrix r;
-            r.SetIdentity();
-            return r;
-        }
+        static constexpr Matrix Identity() { return Matrix{}; }
 
         static constexpr Matrix Translation(float x, float y, float z)
         {
@@ -100,31 +74,6 @@ namespace Core
             return r;
         }
 
-        // 행렬 곱은 오른쪽부터 적용되므로 결과적으로 s -> r -> t 순으로 적용됨
-        static Matrix TRS(const Matrix& t, const Matrix& r, const Matrix& s)
-        {
-            return t * r * s;
-        }
-
-        static constexpr Matrix OrthographicOffCenter(float left, float right, float bottom, float top, float nearZ, float farZ)
-        {
-            Matrix r = Identity();
-
-            float rl = right - left;
-            float tb = top - bottom;
-            float fn = farZ - nearZ;
-
-            r.m[0][0] = 2.0f / rl;
-            r.m[1][1] = 2.0f / tb;
-            r.m[2][2] = 1.0f / fn;
-
-            r.m[3][0] = -(left + right) / rl;
-            r.m[3][1] = -(top + bottom) / tb;
-            r.m[3][2] = -nearZ / fn;
-
-            return r;
-        }
-
         constexpr Matrix operator*(const Matrix& rhs) const
         {
             Matrix result;
@@ -150,15 +99,8 @@ namespace Core
             return *this;
         }
 
-        bool operator==(const Matrix& rhs) const
-        {
-            return std::memcmp(m, rhs.m, sizeof(m)) == 0;
-        }
-
-        bool operator!=(const Matrix& rhs) const
-        {
-            return !(*this == rhs);
-        }
+        // 성분별 비교라서 +0.0과 -0.0은 같고 NaN은 자기 자신과도 다르다 (벡터, 색과 같다)
+        constexpr bool operator==(const Matrix&) const = default;
 
         const float* Data() const { return &m[0][0]; }
         float* Data() { return &m[0][0]; }

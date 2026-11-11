@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -19,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Allocator\Allocator.ixx" />
-    <ClCompile Include="Allocator\DualIndexAllocator.ixx" />
+    <ClCompile Include="Allocator\IndexAllocator.ixx" />
+    <ClCompile Include="Allocator\LinearIndexAllocator.ixx" />
     <ClCompile Include="Allocator\ReusableIndexAllocator.ixx" />
-    <ClCompile Include="Allocator\LinearIndexAllcator.ixx" />
     <ClCompile Include="Assert.ixx" />
     <ClCompile Include="Bit\Align.ixx" />
     <ClCompile Include="Bit\Bit.ixx" />
@@ -34,40 +25,30 @@
     <ClCompile Include="Handle\IDHandle.ixx" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Logger.ixx" />
+    <ClCompile Include="Math\CameraMatrices.ixx" />
     <ClCompile Include="Math\Color.ixx" />
+    <ClCompile Include="Math\Constants.ixx" />
     <ClCompile Include="Math\Geometry2D.ixx" />
     <ClCompile Include="Math\Math.ixx" />
-    <ClCompile Include="Type\AssetPath.ixx" />
-    <ClCompile Include="Type\ResourceID.ixx" />
-    <ClCompile Include="Type\Core.Type.ixx" />
-    <ClCompile Include="Type\TypeHierarchy\Relation.ixx" />
-    <ClCompile Include="Type\TypeHierarchy\TypeCast.ixx" />
-    <ClCompile Include="Type\TypeHierarchy\TypeHierarchy.ixx" />
-    <ClCompile Include="Type\TypeHierarchy\TypeID.ixx" />
-    <ClCompile Include="Type\BasicTypes.ixx" />
-    <ClCompile Include="Utils\CycleIterator.ixx" />
-    <ClCompile Include="Utils\Hash.ixx" />
-    <ClCompile Include="Utils\PathUtils.ixx" />
-    <ClCompile Include="Utils\StlUtils.ixx" />
-    <ClCompile Include="Utils\StringConvert.ixx" />
-    <ClCompile Include="Utils\StringOperations.ixx" />
-    <ClCompile Include="Math\Constants.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Math\MathUtils.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Utils\EnumUtils.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
-    <ClCompile Include="Utils\Utils.ixx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Math\CameraMatrices.ixx" />
+    <ClCompile Include="Math\MathUtils.ixx" />
     <ClCompile Include="Math\Matrix.ixx" />
     <ClCompile Include="Math\Vector2.ixx" />
     <ClCompile Include="Math\Vector3.ixx" />
     <ClCompile Include="Math\Vector4.ixx" />
+    <ClCompile Include="Type\AssetPath.ixx" />
+    <ClCompile Include="Type\BasicTypes.ixx" />
+    <ClCompile Include="Type\Type.ixx" />
+    <ClCompile Include="Type\ResourceID.ixx" />
+    <ClCompile Include="Type\TypeHierarchy\Relation.ixx" />
+    <ClCompile Include="Type\TypeHierarchy\TypeCast.ixx" />
+    <ClCompile Include="Type\TypeHierarchy\TypeHierarchy.ixx" />
+    <ClCompile Include="Type\TypeHierarchy\TypeID.ixx" />
+    <ClCompile Include="Utils\EnumUtils.ixx" />
+    <ClCompile Include="Utils\Hash.ixx" />
+    <ClCompile Include="Utils\PathUtils.ixx" />
+    <ClCompile Include="Utils\StringConvert.ixx" />
+    <ClCompile Include="Utils\StringOperations.ixx" />
+    <ClCompile Include="Utils\Utils.ixx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -77,19 +58,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -108,12 +76,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -121,52 +83,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp23</LanguageStandard>
-      <BuildStlModules>true</BuildStlModules>
-    </ClCompile>
-    <Link>
-      <SubSystem>
-      </SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp23</LanguageStandard>
-      <BuildStlModules>true</BuildStlModules>
-    </ClCompile>
-    <Link>
-      <SubSystem>
-      </SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>false</BuildStlModules>
     </ClCompile>
@@ -187,7 +108,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <BuildStlModules>false</BuildStlModules>
     </ClCompile>
