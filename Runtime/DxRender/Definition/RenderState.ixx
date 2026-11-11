@@ -2,6 +2,7 @@ export module DxRender.Definition:RenderState;
 
 import std;
 import :RenderStateTypes;
+import Core.Logger;
 import Core.Utils;
 import Contract.Render.Shared.Types;
 import Contract.Render.Backend.Types;
@@ -63,20 +64,46 @@ export struct ShaderMacroDesc
     }
 };
 
+// 셰이더와 런타임 매크로의 조합이다. 매크로는 이름순으로 저장해서 넣은 순서가 달라도 같은 변형이 된다.
 export struct ShaderVariant
 {
-    ShaderID shaderID;
-    std::vector<ShaderMacroDesc> runtimeMacros;
+    ShaderID shaderID{ InvalidShaderID };
+
+    ShaderVariant() = default;
+    explicit ShaderVariant(ShaderID id) : shaderID(id) {}
+
+    // 이름순으로 정렬해 저장한다. 같은 이름을 두 번 넣으면 오류를 남기고 마지막 값만 쓴다
+    void SetRuntimeMacros(std::vector<ShaderMacroDesc> macros)
+    {
+        std::ranges::stable_sort(macros, {}, &ShaderMacroDesc::name);
+
+        m_runtimeMacros.clear();
+        for (auto& macro : macros)
+        {
+            if (!m_runtimeMacros.empty() && m_runtimeMacros.back().name == macro.name)
+            {
+                Core::Logger::Error("ShaderVariant: 매크로 {}를 두 번 넣었다. 마지막 값만 쓴다", macro.name);
+                m_runtimeMacros.back() = std::move(macro);
+                continue;
+            }
+            m_runtimeMacros.push_back(std::move(macro));
+        }
+    }
+
+    const std::vector<ShaderMacroDesc>& RuntimeMacros() const { return m_runtimeMacros; }
 
     bool operator==(const ShaderVariant&) const = default;
 
     std::size_t GetHash() const
     {
         std::size_t h = Core::HashOf(shaderID);
-        for (const auto& macro : runtimeMacros)
+        for (const auto& macro : m_runtimeMacros)
             Core::HashCombine(h, macro.GetHash());
         return h;
     }
+
+private:
+    std::vector<ShaderMacroDesc> m_runtimeMacros;
 };
 
 export struct ShaderVariantHasher

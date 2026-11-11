@@ -2,6 +2,7 @@ module DxRender.RGResourceID;
 
 import :Allocator;
 import Core.Assert;
+import Core.Logger;
 
 RGResourceIDAllocator::RGResourceIDAllocator() noexcept
 {
@@ -42,6 +43,13 @@ RGResourceID RGResourceIDAllocator::AllocateTransient() noexcept
 void RGResourceIDAllocator::FreeDynamic(RGResourceID id) noexcept
 {
     if (id == InvalidRGID) return;
+
+    if (id < m_dynamicOffset || id - m_dynamicOffset >= DynamicResourceIDCapacity)
+    {
+        Core::Logger::Error("RGResourceIDAllocator::FreeDynamic: dynamic 구역이 아닌 ID {}를 해제했다", id);
+        return;
+    }
+
     m_dynamicRegion.Free(id - m_dynamicOffset); // 전역 -> 로컬
 }
 

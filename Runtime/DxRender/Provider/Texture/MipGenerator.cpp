@@ -113,7 +113,7 @@ bool MipGenerator::LoadShader(ShaderLibrary& shaderLibrary)
     for (auto& desc : shaders)
     {
         ShaderVariant variant{ RegistryShader::MipGenerator };
-        variant.runtimeMacros = desc.macros;
+        variant.SetRuntimeMacros(desc.macros);
 
         if (const auto* entry = shaderLibrary.Find(variant))
         {

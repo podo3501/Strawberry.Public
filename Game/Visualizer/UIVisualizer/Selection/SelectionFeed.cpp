@@ -1,3 +1,7 @@
+module;
+
+#include <time.h>
+
 module UIVisualizer.SelectionFeed;
 
 import std;
@@ -7,6 +11,24 @@ import UIVisualizer.WidgetPathFinder;
 import Contract.Input.Shared;
 import Core.Logger;
 import Core.Math;
+
+namespace
+{
+    // 로컬 시각을 "2026-11-12 01:02:03" 형식으로 만든다. std::chrono::current_zone은 시간대 데이터베이스를 읽어 종료 때까지 남으므로 쓰지 않는다
+    std::string LocalTimeText(std::chrono::system_clock::time_point now)
+    {
+        const std::time_t seconds = std::chrono::system_clock::to_time_t(now);
+        std::tm local{};
+        if (localtime_s(&local, &seconds) != 0)
+        {
+            Core::Logger::Error("로컬 시각을 구하지 못함");
+            return "unknown";
+        }
+
+        return std::format("{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
+            local.tm_year + 1900, local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, local.tm_sec);
+    }
+}
 
 SelectionFeed::SelectionFeed(Widget& layerRoot, IAssetStorage& storage, ITextMeasurer& measurer, std::string layoutLabel)
     : m_layerRoot{ layerRoot }
@@ -58,8 +80,7 @@ void SelectionFeed::Clear()
 
 bool SelectionFeed::Write()
 {
-    const auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now());
-    const std::string time = std::format("{:%F %T}", std::chrono::zoned_time{ std::chrono::current_zone(), now });
+    const std::string time = LocalTimeText(std::chrono::system_clock::now());
 
     const std::string text = FormatSelection(m_layerRoot, m_selection.Items(), m_layoutLabel, time);
     if (!m_storage.WriteText(kFile, text))

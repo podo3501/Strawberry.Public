@@ -208,7 +208,7 @@ bool ShaderLibrary::CompileVariant(
         default: return false;
         }
 
-        if (!CompileStage(asset.hlslSource, variant.runtimeMacros, stage.entry.c_str(), stage.target.c_str(), *targetBlob))
+        if (!CompileStage(asset.hlslSource, variant.RuntimeMacros(), stage.entry.c_str(), stage.target.c_str(), *targetBlob))
             return false;
 
         compiledAny = true;

@@ -11,6 +11,44 @@ import std;
 
 namespace Core
 {
+    ErrorCapture* ErrorCapture::s_active{ nullptr };
+    std::mutex ErrorCapture::s_mutex;
+
+    ErrorCapture::ErrorCapture()
+    {
+        std::lock_guard lock(s_mutex);
+        m_previous = s_active;
+        s_active = this;
+    }
+
+    ErrorCapture::~ErrorCapture()
+    {
+        std::lock_guard lock(s_mutex);
+        s_active = m_previous;
+    }
+
+    std::vector<std::string> ErrorCapture::Messages() const
+    {
+        std::lock_guard lock(s_mutex);
+        return m_messages;
+    }
+
+    std::size_t ErrorCapture::Count() const
+    {
+        std::lock_guard lock(s_mutex);
+        return m_messages.size();
+    }
+
+    bool ErrorCapture::TryCapture(std::string_view message)
+    {
+        std::lock_guard lock(s_mutex);
+        if (!s_active)
+            return false;
+
+        s_active->m_messages.emplace_back(message);
+        return true;
+    }
+
     std::shared_ptr<spdlog::logger> Logger::s_logger;
     bool Logger::s_errorToStderr{ false };
 
@@ -69,6 +107,9 @@ namespace Core
         Level level,
         std::string_view message)
     {
+        if (level == Level::Error && ErrorCapture::TryCapture(message))
+            return;
+
         if (!s_logger)
         {
             if (s_errorToStderr && level == Level::Error)

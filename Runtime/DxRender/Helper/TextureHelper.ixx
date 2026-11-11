@@ -4,8 +4,6 @@ module;
 
 export module DxRender.Helper:Texture;
 
-import Core.Assert;
-
 export D3D12_RESOURCE_DESC CreateTextureDescriptor(
     UINT64 width,
     UINT height,
@@ -20,7 +18,6 @@ export D3D12_RESOURCE_DESC CreateTextureDescriptor(
     desc.SampleDesc.Count = 1;
     desc.MipLevels = 1;
     desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
-    Core::Assert(desc.Flags == D3D12_RESOURCE_FLAG_NONE);
 
     return desc;
 }

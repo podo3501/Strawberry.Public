@@ -1,4 +1,4 @@
-※ Audio(SDLAudio-Test)와 DxInput(DxInput-Test)에 적용했고 FileAsset(FileAsset-Test)을 새로 쌓는 중이다. 기존 T 테스트는 새 테스트가 다 덮은 뒤에 지운다. DxRender, UI 등 다른 테스트는 건드리지 않는다.
+※ Audio(SDLAudio-Test), DxInput(DxInput-Test), FileAsset(FileAsset-Test)에 적용했고 DxRender(DxRender-Test)를 새로 쌓는 중이다. 기존 T 테스트는 새 테스트가 다 덮은 뒤에 지운다. UI 등 다른 테스트는 건드리지 않는다.
 ※ Audio에서 성공적으로 끝나면 같은 방식(User/Agent 구분과 이름 규칙)을 다른 테스트에도 적용한다 (맨 아래 [-] 항목).
 ※ 테스트는 밑단부터 쌓는다 (AudioBackend::Initialize의 단계 순서대로). 층마다 "그 층에만 해당하는 약속"만 확인하고 위층에서 같은 것을 다시 확인하지 않는다.
 ※ 빌드는 항상 .slnx를 amd64 MSBuild로 한다 (.vcxproj 직접 빌드 금지, 실행 파일은 Testing\x64\Debug).
@@ -45,5 +45,28 @@
 [x] 옛 T 테스트(AssetPathT, AssetStorageT, AssetRepositoryT, AssetServiceT, AssetAsyncLoaderT) 정리(완료: 새 테스트가 덮은 것을 확인하고 지움. AssetPathT는 Core 시험으로 옮김(이후 Foundation-Todo.txt의 Core-Test로 이동). 실제 큰 리소스(100MB 큐브맵, 8192 PNG 등)를 읽던 시험은 Resource/Agent/<종류>/<형식>의 작은 파일(PNG, glTF, 머티리얼, 환경맵, 셰이더 등)과 코드로 만든 HDR 큐브맵으로 대체함. 메우기: GetModifiedTime의 하위 폴더와 루트 없음, 스트림 소리 요청, HDR 큐브맵 형식)
 [x] 등록되지 않은 Runtime/FileAsset/Loader/VorbisDecoder.cpp와 VorbisDecoder.h 삭제 (프로젝트와 어디에서도 쓰이지 않음을 확인하고 지움. 쓰이는 것은 VorbisDecoder.ixx 모듈)
 [x] 전체 컴파일(Build_Strawberry.bat) 확인 (Core ResourceID, Serialization, FileAsset 로더, SDLAudio, Service/Asset, Contract IAssetAsyncLoader를 고쳤음. 이상 없음, 마지막 확인 커밋은 Todo.txt에 기록)
+[x] DxRender-Test를 Agent 테스트 구조로 쌓기 시작: Test_Render.bat 추가(Runtime-Test.slnx를 빌드하고 기본 필터 *Agent.*로 DxRender-Test.exe를 실행, 옛 T 테스트는 돌지 않음), Main.cpp가 Logger를 Testing/Resource/ErrorLog/Render-Test.log로 초기화하고 테스트마다 누수 검사를 켬, 프로젝트 필터 파일 추가. 소스 파일 하나에 테스트 파일 하나로 밑단부터 쌓는다(GPU 없는 파일 → Core 디바이스 → Command → 할당기 → Task → Graph → 텍스트 → 렌더러 → Provider → Packet → GraphBuilder → Pipeline → RenderBackend). 디바이스가 필요한 층은 WARP 어댑터로 고정할 예정
+[x] DxRender Agent 1: Graph/ResourceID/ResourceIDGenerator(번호 순서, Count, Reset)와 ResourceIDAllocator(구역 시작값과 용량, 가득 찼을 때, 구역끼리 독립, FreeDynamic 재사용과 이중 해제, ResetTransient/ResetAll). 고친 것: FreeDynamic가 dynamic 구역이 아닌 ID를 받으면 언더플로한 값으로 로그가 찍히던 것을 원래 ID로 Error를 남기고 무시하게 함
+[x] DxRender Agent 2: Helper/MathHelpers(ToXMFLOAT3/4, ToDXMatrix의 행과 열, 이동과 크기 행렬이 점을 같게 옮기는지)와 TextureHelper(CreateTextureDescriptor의 크기, 형식, 2D, 배열/밉/샘플 1, 플래그 없음, 32비트를 넘는 너비). 고친 것: 항상 참이던 Core::Assert(Flags == NONE)와 Core.Assert import를 지움. LocalTaskID, TaskHandle은 별칭뿐이라 시험하지 않음(핸들은 Core-Test가 확인)
+[x] DxRender Agent 3: Definition/GlyphFormat(형식별 바이트 수와 DXGI 형식, GlyphPixels 기본값), RenderState(래스터 프리셋, ShaderMacroDesc, ShaderVariant, PipelineState의 같음과 해시, PipelineLibrary 두 오버로드, 해시 맵과 집합에서 찾기), RenderConstants(정렬 값이 2의 거듭제곱, 상수 버퍼 정렬이 D3D12와 같음, 배치 정렬이 행 정렬의 배수). 고친 것: ShaderVariant의 매크로를 비공개로 하고 SetRuntimeMacros가 이름순으로 정렬해 저장하게 해서 {A,B}와 {B,A}가 같은 변형이 되게 함(같은 이름을 두 번 넣으면 Error를 남기고 마지막 값만 씀. ShaderLibrary와 MipGenerator의 호출을 맞춤). 프로젝트에 등록되지 않고 어디서도 쓰이지 않던 Definition/RenderFormat.ixx를 삭제함(같은 이름공간이 RenderConstants.ixx에 있음). RenderStateTypes와 UIBatchBuffer는 선언뿐이라 시험하지 않음
+[x] 일부러 오류를 일으키는 기존 Agent 시험(FileAsset 약 55개, SDLAudio 13개)을 Core::ErrorCapture로 받아 오류 건수를 확인하게 고침 (DxInput은 오류가 없었음. Foundation-Todo의 ErrorCapture 항목 참고). Asset-Test.log, Audio-Test.log, Input-Test.log가 모두 비었음
 [ ] DxRender FrameUploadAllocator::Allocate 시험과 수정: 용량이 차서 Core::LinearIndexAllocator가 InvalidIndex를 돌려줘도 Assert만 하고 offset을 계산해 Release에서 범위 밖 주소를 만듦. 용량이 차면 빈 UploadAllocation을 돌려주게 고치고 호출하는 쪽(TransientMesh 등)이 이를 처리하게 하며 용량 초과와 슬롯별 구간을 시험함
+[ ] DxRender Agent 4 (0단계에서 남은 GPU 없는 파일): Text/Atlas/AtlasPacker(+cpp), Packet/RenderSortKey, Pipeline/GraphBuilder/Feature/RenderRecordPool(+cpp), Provider/ProviderBudget, Provider/PendingUploadQueue
+[ ] DxRender 디바이스 준비: Core/DxDevice가 WARP 어댑터로 고정해 열 수 있게 옵션을 추가하고(결과가 기계마다 같게), 생성자의 Core::Assert(SUCCEEDED(hr)) 6곳을 bool을 돌려주는 Initialize(또는 팩토리)와 Core::Logger::Error로 바꿈
+[ ] DxRender Agent 5 (디바이스): Core/DebugOptions, DxResource, DebugHelper, DxDevice(+cpp), RootSignatureBuilder(+cpp)
+[ ] DxRender Agent 6 (할당과 생성): Allocator/UploadAllocation, DescriptorAllocator(+cpp), BindlessDescriptorAllocator(+cpp), FrameConstantAllocator(+cpp), Factory/ResourceFactory(+cpp), Command/CommandListHelper
+[ ] DxRender Agent 7 (리소스와 변환): Resource/(TextureResource, TextureCubeResource, Mesh/*, FontResource, BrushResource, EnvironmentResource, Material/*, ShadowResource), Definition/GlyphUploadData와 RenderData, Command/Conversions, Helper/D3D12Conversions, Task/TaskContext, Shader/ShaderLibrary(+cpp)
+[ ] DxRender Agent 8 (커맨드): Command/CommandList(+cpp), CommandQueue(+cpp), CommandScheduler(+cpp), Pipeline/Renderer/PipelineCache(+cpp)
+[ ] DxRender Agent 9 (프레임 업로드): Allocator/FrameUploadAllocator(위 항목) → TransientMesh/FrameUploadPools(+cpp) → TransientMesh/TransientMesh(+cpp)
+[ ] DxRender Agent 10 (Task): Task/TaskCommandLists, TaskNode, CompiledTask, TaskEntry, TaskUtils, TaskScheduler(+cpp), Release
+[ ] DxRender Agent 11 (Graph): Graph/RGPass, RGUtils, BarrierBuilder(+cpp), RenderGraph(+cpp)
+[ ] DxRender Agent 12 (텍스트): Text/Atlas/Glyph/*, TextTypes, Atlas/AtlasUtils, GlyphCache, TextLayout(+cpp), Geometry/*, AtlasPage(+cpp), FontAtlasBucket(+cpp), BitmapFontAtlasBucket, MTSDFFontAtlasBucket, FontAtlas(+cpp), TextSystem(+cpp)
+[ ] DxRender Agent 13 (렌더러): Pipeline/Renderer/(Composite, DebugSurface, Shadow, Skybox, Surface, UI, Renderers), Diagnostics/FrameProfiler(+cpp), Pipeline/Inspector/*
+[ ] DxRender Agent 14 (Provider): Provider/(PendingLoadQueue, Mesh/*, Texture/*, Material/*, FontProvider, BrushProvider, EnvironmentProvider, Providers)
+[ ] DxRender Agent 15 (패킷): Packet/(SurfaceItemBuilder, DebugSurfaceItemBuilder, UIMeshAppend, UIItemBuilder, PacketBuilder)
+[ ] DxRender Agent 16 (그래프 빌더): Pipeline/GraphBuilder/View/*, Feature/*GraphBuilder
+[ ] DxRender Agent 17 (맨 위, 창이나 오프스크린 필요): Pipeline/ForwardRenderPipeline, SwapChainPresenter, RenderBackend (아래 [-] 렌더 픽셀 검사 항목과 이어짐)
+[ ] 옛 T 테스트(RenderServiceT*, RenderGraphT)가 Agent로 다 덮이면 지우고, 눈으로 보는 것만 User 테스트로 새로 만든다 (그 전에는 Main.cpp의 누수 검사 때문에 T 테스트를 Test_Render.bat 없이 돌리면 창이 두 번 뜸)
+[ ] 일부러 오류를 내는 시험의 건수가 현재 동작에서 가져온 값이라 중복 로그가 있는지 살핌 (예: AssetRepository는 없는 파일 하나에 "파일을 읽을 수 없음"과 "파일을 열 수 없음" 두 건). 필요한 곳은 건수만이 아니라 메시지도 확인하게 고침
+[ ] 전체 컴파일(Build_Strawberry.bat) 확인: Core.Logger(ErrorCapture), DxRender(TextureHelper, ShaderVariant, ShaderLibrary, MipGenerator, ResourceIDAllocator)를 고쳤음
 [x] DxRender-Test가 누수 의심 테스트를 다시 돌려 창이 두 번 뜨던 것을 CreateGoogleTest의 perTestLeakCheck 옵션으로 끔 (D3D 누수와 종료 때 CRT 보고는 그대로)

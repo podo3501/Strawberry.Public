@@ -14,6 +14,34 @@ import std;
 
 namespace Core
 {
+    export class Logger;
+
+    // 이 객체가 살아 있는 동안의 Error를 로그에 쓰지 않고 여기에 모은다 (예상한 오류를 확인하는 시험용).
+    // 어느 스레드의 Error든 모으고, 중첩하면 가장 안쪽이 받는다. 만든 순서의 역순으로 없앤다
+    export class ErrorCapture
+    {
+    public:
+        ErrorCapture();
+        ~ErrorCapture();
+
+        ErrorCapture(const ErrorCapture&) = delete;
+        ErrorCapture& operator=(const ErrorCapture&) = delete;
+
+        std::vector<std::string> Messages() const;
+        std::size_t Count() const;
+
+    private:
+        friend class Logger;
+
+        static bool TryCapture(std::string_view message);
+
+        std::vector<std::string> m_messages;
+        ErrorCapture* m_previous{ nullptr };
+
+        static ErrorCapture* s_active;
+        static std::mutex s_mutex;
+    };
+
     export class Logger
     {
     public:
