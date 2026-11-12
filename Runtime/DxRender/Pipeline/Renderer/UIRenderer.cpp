@@ -37,7 +37,7 @@ UIRenderer::UIRenderer(const UIRendererConfig& config, PipelineCache& pipelineCa
 
 bool UIRenderer::Initialize(Device& device)
 {
-    m_uiDrawCBAllocator.Initialize<UIDrawCB>(device, m_config.maxUI);
+    if (!m_uiDrawCBAllocator.Initialize<UIDrawCB>(device, m_config.maxUI)) return false;
 
     if (!CreateRootSignature(device)) return false;
     m_pso = CreatePSO();

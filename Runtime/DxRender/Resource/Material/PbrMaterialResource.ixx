@@ -25,20 +25,12 @@ public:
 
     bool IsReady() const noexcept override { return m_ready; }
 
+    // 세 텍스처가 모두 있고 올라가야 한다. 파일이 없는 normal, arm은 Provider가 내장 텍스처로 채워 주고,
+    // 준비된 뒤에만 그려지므로 Get*의 참조는 안전하다.
     bool IsDependencyReady() const noexcept override
     {
-        // albedo는 필수
-        if (!m_albedo || !m_albedo->IsReady())
-            return false;
-
-        // normal, arm은 선택
-        if (m_normal && !m_normal->IsReady())
-            return false;
-
-        if (m_arm && !m_arm->IsReady())
-            return false;
-
-        return true;
+        return m_albedo && m_normal && m_arm &&
+            m_albedo->IsReady() && m_normal->IsReady() && m_arm->IsReady();
     }
 
     void MarkReady() override { m_ready = true; }

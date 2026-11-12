@@ -42,7 +42,7 @@ public:
 
     bool Initialize(Device& device)
     {
-        m_cbAllocator.Initialize<SkyboxCB>(device, MaxViewCount);
+        if (!m_cbAllocator.Initialize<SkyboxCB>(device, MaxViewCount)) return false;
         if (!CreateRootSignature(device)) return false;
         m_pso = CreatePSO();
         return m_pso != nullptr;

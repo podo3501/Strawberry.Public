@@ -1,13 +1,13 @@
 module;
 
 #include <wrl.h>
-#include <dxcapi.h>
 #include "d3dx12.h"
 
 module DxRender.Core;
 
+import std;
 import :RootSignatureBuilder;
-import Core.Assert;
+import Core.Logger;
 
 using Microsoft::WRL::ComPtr;
 
@@ -81,6 +81,17 @@ ComPtr<ID3D12RootSignature> RootSignatureBuilder::Build(Device& device)
     std::vector<CD3DX12_ROOT_PARAMETER> params;
     std::vector<CD3DX12_STATIC_SAMPLER_DESC> samplers;
 
+    // 루트 파라미터 크기가 64 DWORD를 넘으면 직렬화가 D3D12 오류를 내므로 먼저 막는다. 루트 상수는 개수, CBV/SRV는 2, 테이블은 1 DWORD다.
+    constexpr std::size_t MaxRootDwords = 64;
+    std::size_t rootDwords = (m_cbvs.size() + m_srvs.size()) * 2 + m_srvTables.size();
+    for (const auto& c : m_constants)
+        rootDwords += c.numConstants;
+    if (rootDwords > MaxRootDwords)
+    {
+        Core::Logger::Error("RootSignatureBuilder::Build: 루트 파라미터가 {} DWORD로 제한({})을 넘는다", rootDwords, MaxRootDwords);
+        return nullptr;
+    }
+
     ranges.reserve(m_srvTables.size());
     params.reserve(m_constants.size() + m_cbvs.size() + m_srvs.size() + m_srvTables.size());
     samplers.reserve(m_samplers.size() + m_staticSamplers.size());
@@ -142,26 +153,31 @@ ComPtr<ID3D12RootSignature> RootSignatureBuilder::Build(Device& device)
         samplers.empty() ? nullptr : samplers.data(),
         finalFlags);
 
-    ComPtr<IDxcBlob> sig;
-    ComPtr<IDxcBlob> err;
+    ComPtr<ID3DBlob> sig;
+    ComPtr<ID3DBlob> err;
 
-    HRESULT hr = D3D12SerializeRootSignature(
-        &desc,
-        D3D_ROOT_SIGNATURE_VERSION_1,
-        reinterpret_cast<ID3DBlob**>(sig.GetAddressOf()),
-        reinterpret_cast<ID3DBlob**>(err.GetAddressOf())
-    );
-
+    HRESULT hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, &sig, &err);
     if (FAILED(hr))
     {
+        std::string_view message;
         if (err)
-            OutputDebugStringA(static_cast<const char*>(err->GetBufferPointer()));
+            message = { static_cast<const char*>(err->GetBufferPointer()), err->GetBufferSize() };
+        while (!message.empty() && (message.back() == '\0' || message.back() == '\n' || message.back() == '\r'))
+            message.remove_suffix(1);
+
+        Core::Logger::Error("RootSignatureBuilder::Build: 루트 시그니처를 직렬화하지 못했다 (hr={:#010x}) {}",
+            static_cast<std::uint32_t>(hr), message);
         return nullptr;
     }
 
     ComPtr<ID3D12RootSignature> rootSig;
     hr = device->CreateRootSignature(0, sig->GetBufferPointer(), sig->GetBufferSize(), IID_PPV_ARGS(&rootSig));
-    Core::Assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("RootSignatureBuilder::Build: 루트 시그니처를 만들지 못했다 (hr={:#010x})",
+            static_cast<std::uint32_t>(hr));
+        return nullptr;
+    }
 
     return rootSig;
 }

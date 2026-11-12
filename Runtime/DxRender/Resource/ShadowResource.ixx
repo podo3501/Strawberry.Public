@@ -5,29 +5,8 @@ module;
 export module DxRender.Resource:Shadow;
 
 import std;
-import Core.Math;
 import DxRender.Core;
-import DxRender.Definition;
-import DxRender.Helper;
-
-constexpr Core::Size ShadowMapSize = { 2048, 2048 };
-
-static Resource CreateShadowResource(Device& device)
-{
-    auto desc = CreateTextureDescriptor(ShadowMapSize.width, ShadowMapSize.height, DXGI_FORMAT_R32_TYPELESS);
-    desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-
-    D3D12_CLEAR_VALUE clearValue{};
-    clearValue.Format = RenderFormat::ShadowMapFormat;
-    clearValue.DepthStencil.Depth = 1.0f;
-    clearValue.DepthStencil.Stencil = 0;
-
-    return device.CreateResource(
-        desc,
-        D3D12_HEAP_TYPE_DEFAULT,
-        D3D12_RESOURCE_STATE_DEPTH_WRITE,
-        &clearValue);
-}
+import Core.Logger;
 
 export class ShadowResource
 {
@@ -40,10 +19,14 @@ public:
     ShadowResource(ShadowResource&&) noexcept = default;
     ShadowResource& operator=(ShadowResource&&) noexcept = default;
 
-    bool Initialize(Resource resource, UINT dsvIndex, UINT srvIndex) noexcept
+    // 서술자 인덱스가 없음(UINT_MAX)이면 Error를 남기고 상태를 바꾸지 않는다.
+    bool Initialize(Resource resource, UINT dsvIndex, UINT srvIndex)
     {
         if (dsvIndex == UINT_MAX || srvIndex == UINT_MAX)
+        {
+            Core::Logger::Error("ShadowResource::Initialize: 서술자 인덱스가 올바르지 않다 (dsv={}, srv={})", dsvIndex, srvIndex);
             return false;
+        }
 
         m_resource = std::move(resource);
         m_dsvIndex = dsvIndex;

@@ -46,6 +46,8 @@ void OpaqueGraphBuilder::Build(
 
             const std::size_t total = packet->surface.size();
             const std::size_t actual = std::min(cmds.Size(), total);
+            if (actual == 0)
+                return;
             const std::size_t chunkSize = (total + actual - 1) / actual;
 
             recordPool.ExecuteParallel(actual, [&](std::size_t t)

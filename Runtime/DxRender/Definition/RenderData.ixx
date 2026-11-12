@@ -36,7 +36,7 @@ export struct RenderUIItem
 export struct RenderTextItem
 {
     std::shared_ptr<IResource> fontRes;
-    TextRenderMode mode;
+    TextRenderMode mode{ TextRenderMode::MTSDF };
     std::uint32_t fontSize{ 0 };
     Core::Vector2 position{};
     Core::Vector2 size{};
@@ -47,7 +47,7 @@ export struct RenderTextItem
 
 export struct ViewTargetPacket
 {
-    ViewID id;
+    ViewID id{ InvalidViewID };
     CameraData camera;
     Core::Rect viewport;      // 화면(백버퍼) 상의 배치. Composite가 사용
     Core::Rect localViewport; // 뷰 타겟 텍스처 내부 좌표(0,0 시작)

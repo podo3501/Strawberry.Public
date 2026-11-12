@@ -6,17 +6,32 @@ module;
 export module DxRender.Core:DxDevice;
 
 import :DxResource;
+import :DebugOptions;
 
 using Microsoft::WRL::ComPtr;
+
+export enum class AdapterKind
+{
+    Auto, // 하드웨어 어댑터를 먼저 시도하고 없으면 WARP
+    Warp  // WARP로 고정 (결과가 기계마다 같다)
+};
+
+export struct DeviceOptions
+{
+    DebugOptions debug{ .enableDebugLayer = false };
+    AdapterKind adapter{ AdapterKind::Auto };
+};
 
 export class Device
 {
 public:
     ~Device() = default;
-    explicit Device(bool enableDebug);
+    Device() = default;
 
     Device(const Device&) = delete;
     Device& operator=(const Device&) = delete;
+
+    bool Initialize(const DeviceOptions& options); // 시작할 때 한 번만 부른다.
 
     Resource CreateResource(
         const D3D12_RESOURCE_DESC& desc,
@@ -46,7 +61,8 @@ public:
 private:
     bool CreateFactory(bool enableDebug);
     bool TryCreateDevice(IUnknown* adapter);
-    bool CreateDevice();
+    bool CreateDevice(AdapterKind kind);
+    bool CreateWarpDevice();
 
 private:
     Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;

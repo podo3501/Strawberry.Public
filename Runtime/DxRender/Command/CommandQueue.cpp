@@ -12,16 +12,14 @@ import DxRender.DxCheck;
 import DxRender.Core;
 import DxRender.Constants;
 import Core.Assert;
+import Core.Logger;
 
 using Microsoft::WRL::ComPtr;
 
 CommandQueue::~CommandQueue()
 {
-    if (m_event)
-    {
-        CloseHandle(m_event);
-        m_event = nullptr;
-    }
+    if (m_fence) // 이동했거나 초기화하지 않은 큐는 기다릴 것이 없다
+        WaitIdle();
 }
 
 bool CommandQueue::Initialize(
@@ -30,15 +28,14 @@ bool CommandQueue::Initialize(
     CommandType type,
     std::uint32_t cmdPoolSize)
 {
-    if (cmdPoolSize <= 0) return false;
+    if (cmdPoolSize == 0)
+    {
+        Core::Logger::Error("CommandQueue::Initialize: 명령 목록 풀 크기가 0이다 (type={})", static_cast<int>(type));
+        return false;
+    }
 
     if (!CreateQueue(device, type)) return false;
-    if (!CreateFence(device)) return false;
-
-    //---- 테스트용 인위적 GPU 지연 fence ----
-    m_delayFence = device.CreateFence(0, D3D12_FENCE_FLAG_NONE);
-    if (m_delayFence == nullptr) return false;
-    //-------------------------------------------
+    if (!CreateFence(device, type)) return false;
 
     m_bindlessHeap = bindlessHeap;
 
@@ -55,7 +52,7 @@ CommandList* CommandQueue::Begin(std::uint32_t slot)
 
     // 0이면 아직 이 슬롯에 제출한 적이 없다는 뜻이므로 대기 없이 통과.
     // (Signal()이 ++m_fenceID로 1부터 시작하므로 0은 "미사용"을 의미)
-    if (m_frameFences[slot] != 0)
+    if (m_frameFences[slot] != InvalidFenceID)
         WaitFence(m_frameFences[slot]);
 
     CommandList* cmd = Begin();
@@ -90,9 +87,6 @@ FenceID CommandQueue::End()
     raw.reserve(m_pendingSubmission.size());
     for (auto* cmdList : m_pendingSubmission)
         raw.push_back(cmdList->Get());
-
-    if (m_artificialDelayMs > 0)
-        InjectArtificialGpuDelay(m_artificialDelayMs);
 
     m_queue->ExecuteCommandLists(static_cast<UINT>(raw.size()), raw.data());
 
@@ -178,27 +172,47 @@ FenceID CommandQueue::Signal()
 
 void CommandQueue::WaitIdle()
 {
-    if (m_fenceID > 1)
-        WaitFence(m_fenceID - 1);
+    if (m_fenceID != InvalidFenceID)
+        WaitFence(m_fenceID); // m_fenceID가 마지막으로 신호를 준 값이다
 }
 
 bool CommandQueue::CreateQueue(Device& device, CommandType type)
 {
+    const auto d3dType = ToD3D12(type);
+    if (!d3dType)
+    {
+        Core::Logger::Error("CommandQueue::CreateQueue: 명령 종류가 올바르지 않다 (type={})", static_cast<int>(type));
+        return false;
+    }
+
     D3D12_COMMAND_QUEUE_DESC desc = {};
-    desc.Type = ToD3D12(type);
+    desc.Type = *d3dType;
     desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
     desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     desc.NodeMask = 0;
 
-    return SUCCEEDED(device->CreateCommandQueue(&desc, IID_PPV_ARGS(&m_queue)));
+    if (HRESULT hr = device->CreateCommandQueue(&desc, IID_PPV_ARGS(&m_queue)); FAILED(hr))
+    {
+        Core::Logger::Error("CommandQueue::CreateQueue: 명령 큐를 만들지 못했다 (type={}, hr={:#010x})", static_cast<int>(type), static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    return true;
 }
 
-bool CommandQueue::CreateFence(Device& device)
+bool CommandQueue::CreateFence(Device& device, CommandType type)
 {
-    m_fence = device.CreateFence(0, D3D12_FENCE_FLAG_NONE);
+    m_fence = device.CreateFence(0, D3D12_FENCE_FLAG_NONE); // 실패하면 Device가 오류를 남긴다
+    if (!m_fence) return false;
 
-    m_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-    return m_event != nullptr;
+    m_event.handle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+    if (!m_event.handle)
+    {
+        Core::Logger::Error("CommandQueue::CreateFence: 대기 이벤트를 만들지 못했다 (type={}, error={})", static_cast<int>(type), GetLastError());
+        return false;
+    }
+
+    return true;
 }
 
 void CommandQueue::PrepareCommandList(CommandList& cmd)
@@ -227,25 +241,7 @@ void CommandQueue::WaitFence(FenceID fenceID)
 {
     if (m_fence->GetCompletedValue() < fenceID)
     {
-        m_fence->SetEventOnCompletion(fenceID, m_event);
-        WaitForSingleObject(m_event, INFINITE);
+        DxCheck(m_fence->SetEventOnCompletion(fenceID, m_event.handle)); // 실패하면 이벤트가 영영 오지 않아 멈추므로 확인한다
+        WaitForSingleObject(m_event.handle, INFINITE);
     }
-}
-
-void CommandQueue::InjectArtificialGpuDelay(std::uint32_t delayMs)
-{
-    ++m_delayFenceValue;
-    UINT64 targetValue = m_delayFenceValue;
-
-    // GPU 타임라인에 "이 값이 signal 될 때까지 대기"를 꽂는다.
-    // 이후 ExecuteCommandLists로 제출되는 커맨드는 이 대기가 풀려야 실행됨.
-    DxCheck(m_queue->Wait(m_delayFence.Get(), targetValue));
-
-    // CPU 스레드에서 delayMs 만큼 자다가 signal.
-    // 테스트 전용이므로 detach thread로 단순하게 처리.
-    ComPtr<ID3D12Fence> fence = m_delayFence; // 수명 보장을 위해 캡처
-    std::thread([fence, targetValue, delayMs]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
-        fence->Signal(targetValue);
-        }).detach();
 }

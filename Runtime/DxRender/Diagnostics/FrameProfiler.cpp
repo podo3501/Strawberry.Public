@@ -21,11 +21,12 @@ bool FrameProfiler::Initialize(Device& device, CommandScheduler& cmdScheduler,
     m_queryHeap = device.CreateQueryHeap(
         D3D12_QUERY_HEAP_TYPE_TIMESTAMP,
         frameCount * QueriesPerFrame);
+    if (!m_queryHeap) return false;
 
     const UINT64 size = sizeof(std::uint64_t) * frameCount * QueriesPerFrame;
     m_readbackResource = resFactory.CreateResource(size, ResInitType::Readback);
 
-    return true;
+    return static_cast<bool>(m_readbackResource);
 }
 
 void FrameProfiler::BeginFrame(CommandList& cmd, std::uint64_t frameIndex)

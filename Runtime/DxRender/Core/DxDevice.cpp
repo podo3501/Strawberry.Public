@@ -8,32 +8,20 @@ module DxRender.Core;
 import std;
 import :DxDevice;
 import :DebugHelper;
-import :DebugOptions;
 import Core.Assert;
+import Core.Logger;
 
 using Microsoft::WRL::ComPtr;
 
-Device::Device(bool enableDebug)
+bool Device::Initialize(const DeviceOptions& options)
 {
-#if defined(_DEBUG)
-    DebugOptions opt;
-    opt.enableDebugLayer = true;
-    opt.enableGpuValidation = false; // 필요할 때만 true. 계속 켜 놓으면 오래 걸린다.
-    opt.breakOnWarning = false;     // Warning도 잡는다.
+    DebugHelper::EnableDebugLayer(options.debug); // 디바이스를 만들기 전에 켜야 한다.
 
-    if (enableDebug)
-        DebugHelper::EnableDebugLayer(opt);
-#endif
+    if (!CreateFactory(options.debug.enableDebugLayer)) return false;
+    if (!CreateDevice(options.adapter)) return false;
 
-    bool result = CreateFactory(enableDebug);
-    Core::Assert(result);
-
-    result = CreateDevice();
-    Core::Assert(result);
-
-#if defined(_DEBUG)
-    DebugHelper::SetupInfoQueue(m_device.Get(), opt);
-#endif
+    DebugHelper::SetupInfoQueue(m_device.Get(), options.debug);
+    return true;
 }
 
 Resource Device::CreateResource(
@@ -56,7 +44,11 @@ Resource Device::CreateResource(
         state,
         clearValue,
         IID_PPV_ARGS(res.GetAddressOf()));
-    Core::Assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateResource: 리소스를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return {};
+    }
 
     return res;
 }
@@ -73,7 +65,11 @@ ComPtr<ID3D12DescriptorHeap> Device::CreateDescriptorHeap(
 
     ComPtr<ID3D12DescriptorHeap> heap;
     auto hr = m_device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
-    Core::Assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateDescriptorHeap: 디스크립터 힙을 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return nullptr;
+    }
 
     return heap;
 }
@@ -86,7 +82,11 @@ ComPtr<ID3D12QueryHeap> Device::CreateQueryHeap(D3D12_QUERY_HEAP_TYPE type, UINT
 
     ComPtr<ID3D12QueryHeap> heap;
     auto hr = m_device->CreateQueryHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
-    Core::Assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateQueryHeap: 쿼리 힙을 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return nullptr;
+    }
 
     return heap;
 }
@@ -98,7 +98,11 @@ ComPtr<ID3D12Fence> Device::CreateFence(UINT64 initialValue, D3D12_FENCE_FLAGS f
         initialValue,
         flags,
         IID_PPV_ARGS(fence.GetAddressOf()));
-    Core::Assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateFence: 펜스를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return nullptr;
+    }
 
     return fence;
 }
@@ -128,7 +132,15 @@ UINT64 Device::GetRequiredIntermediateSize(
 bool Device::CreateFactory(bool enableDebug)
 {
     UINT flags = enableDebug ? DXGI_CREATE_FACTORY_DEBUG : 0;
-    return SUCCEEDED(CreateDXGIFactory2(flags, IID_PPV_ARGS(&m_dxgiFactory)));
+    const HRESULT hr = CreateDXGIFactory2(flags, IID_PPV_ARGS(&m_dxgiFactory));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateFactory: DXGI 팩토리를 만들지 못했다 (debug={}, hr={:#010x})",
+            enableDebug, static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    return true;
 }
 
 bool Device::TryCreateDevice(IUnknown* adapter)
@@ -152,8 +164,11 @@ bool Device::TryCreateDevice(IUnknown* adapter)
     return false;
 }
 
-bool Device::CreateDevice()
+bool Device::CreateDevice(AdapterKind kind)
 {
+    if (kind == AdapterKind::Warp)
+        return CreateWarpDevice();
+
     ComPtr<IDXGIAdapter1> adapter;
 
     for (UINT i = 0; m_dxgiFactory->EnumAdapters1(i, &adapter) != DXGI_ERROR_NOT_FOUND; ++i)
@@ -168,9 +183,25 @@ bool Device::CreateDevice()
         adapter.Reset();
     }
 
-    ComPtr<IDXGIAdapter> warpAdapter; // fallback
-    if (FAILED(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter))))
-        return false;
+    return CreateWarpDevice(); // 쓸 수 있는 하드웨어 어댑터가 없으면 WARP
+}
 
-    return TryCreateDevice(warpAdapter.Get());
+bool Device::CreateWarpDevice()
+{
+    ComPtr<IDXGIAdapter> warpAdapter;
+    const HRESULT hr = m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("Device::CreateWarpDevice: WARP 어댑터를 얻지 못했다 (hr={:#010x})",
+            static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    if (!TryCreateDevice(warpAdapter.Get()))
+    {
+        Core::Logger::Error("Device::CreateWarpDevice: WARP 어댑터로 D3D12 디바이스를 만들지 못했다");
+        return false;
+    }
+
+    return true;
 }

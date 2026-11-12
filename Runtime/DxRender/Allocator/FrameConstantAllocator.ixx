@@ -23,7 +23,7 @@ public:
     FrameConstantAllocator& operator=(FrameConstantAllocator&&) noexcept = default;
 
     template<typename T>
-    void Initialize(Device& device, UINT count)
+    bool Initialize(Device& device, UINT count)
     {
         static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable.");
         Core::Assert(count > 0);
@@ -31,7 +31,7 @@ public:
         m_stride = static_cast<UINT>(Core::AlignUp(sizeof(T), D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT));
         m_perSlotSize = m_stride * count;
 
-        CreateBuffer(device, m_perSlotSize * FrameBufferCount);
+        return CreateBuffer(device, m_perSlotSize * FrameBufferCount);
     }
 
     template<typename T>
@@ -53,7 +53,7 @@ public:
     void Reset(std::uint32_t slot);
 
 private:
-    void CreateBuffer(Device& device, UINT bufferSize);
+    bool CreateBuffer(Device& device, UINT bufferSize);
 
     Resource m_resource;
     std::uint8_t* m_mapped{ nullptr };

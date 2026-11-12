@@ -6,34 +6,34 @@ module;
 export module DxRender.Helper:D3D12Conversions;
 
 import std;
-import Core.Assert;
 import DxRender.Definition;
 import Contract.Render.Assets;
 
+// 정의되지 않은 값은 D3D12의 "없음"인 UNDEFINED라서 PSO를 만들 때 실패로 드러난다.
 export D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12_PSO(PrimitiveTopologyType topology)
 {
     switch (topology)
     {
     case PrimitiveTopologyType::Triangle: return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
     case PrimitiveTopologyType::Line:     return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-    default:                              
-        Core::Assert(false); 
-        return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
     }
+
+    return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
 }
 
+// 정의되지 않은 값은 기본인 Solid
 export D3D12_FILL_MODE ToD3D12(FillMode mode)
 {
     switch (mode)
     {
     case FillMode::Solid:     return D3D12_FILL_MODE_SOLID;
     case FillMode::Wireframe: return D3D12_FILL_MODE_WIREFRAME;
-    default:                  
-        Core::Assert(false); 
-        return D3D12_FILL_MODE_SOLID;
     }
+
+    return D3D12_FILL_MODE_SOLID;
 }
 
+// 정의되지 않은 값은 아무것도 걸러내지 않는 None
 export D3D12_CULL_MODE ToD3D12(CullMode mode)
 {
     switch (mode)
@@ -41,10 +41,9 @@ export D3D12_CULL_MODE ToD3D12(CullMode mode)
     case CullMode::None:  return D3D12_CULL_MODE_NONE;
     case CullMode::Front: return D3D12_CULL_MODE_FRONT;
     case CullMode::Back:  return D3D12_CULL_MODE_BACK;
-    default:              
-        Core::Assert(false); 
-        return D3D12_CULL_MODE_NONE;
     }
+
+    return D3D12_CULL_MODE_NONE;
 }
 
 // ------------------------------------------------------------------------
@@ -76,5 +75,5 @@ export DXGI_FORMAT ToDXGIFormat(PixelFormat format)
     case PixelFormat::BC6H_UF16:   return DXGI_FORMAT_BC6H_UF16;
     }
 
-    return DXGI_FORMAT_R8G8B8A8_UNORM;
+    return DXGI_FORMAT_R8G8B8A8_UNORM; // 정의되지 않은 값의 기본값
 }

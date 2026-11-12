@@ -5,7 +5,7 @@ module;
 module DxRender.Pipeline.Renderer;
 
 import :PipelineCache;
-import Core.Assert;
+import Core.Logger;
 import DxRender.Helper;
 import DxRender.Definition;
 
@@ -21,14 +21,66 @@ ID3D12PipelineState* PipelineCache::GetOrCreate(
     ID3D12RootSignature* rootSignature,
     const std::function<void(D3D12_GRAPHICS_PIPELINE_STATE_DESC&)>& setup)
 {
-    auto it = m_cache.find(pipelineState);
-    if (it != m_cache.end())
+    {
+        std::shared_lock readLock{ m_mutex };
+        if (auto it = m_cache.find(pipelineState); it != m_cache.end())
+            return it->second.Get();
+
+        if (m_failed.contains(pipelineState))
+            return nullptr;
+    }
+
+    std::unique_lock writeLock{ m_mutex };
+
+    // 기다리는 동안 다른 스레드가 만들었거나 실패했을 수 있으니 다시 확인한다
+    if (auto it = m_cache.find(pipelineState); it != m_cache.end())
         return it->second.Get();
 
-    const ShaderEntry* shaderEntry = m_shaderLibrary.Find(pipelineState.shaderVariant);
-    Core::Assert(shaderEntry);
-    if (!shaderEntry)
+    if (m_failed.contains(pipelineState))
         return nullptr;
+
+    ComPtr<ID3D12PipelineState> pipeline = Build(pipelineState, rootSignature, setup);
+    if (!pipeline)
+    {
+        m_failed.insert(pipelineState);
+        return nullptr;
+    }
+
+    return m_cache.emplace(pipelineState, std::move(pipeline)).first->second.Get();
+}
+
+ID3D12PipelineState* PipelineCache::Find(const PipelineState& pipelineState)
+{
+    std::shared_lock readLock{ m_mutex };
+
+    auto it = m_cache.find(pipelineState);
+    if (it == m_cache.end())
+        return nullptr;
+
+    return it->second.Get();
+}
+
+ComPtr<ID3D12PipelineState> PipelineCache::Build(
+    const PipelineState& pipelineState,
+    ID3D12RootSignature* rootSignature,
+    const std::function<void(D3D12_GRAPHICS_PIPELINE_STATE_DESC&)>& setup)
+{
+    const ShaderID shaderID = pipelineState.shaderVariant.shaderID;
+
+    const ShaderEntry* shaderEntry = m_shaderLibrary.Find(pipelineState.shaderVariant);
+    if (!shaderEntry)
+    {
+        // 컴파일에 실패했다면 그 원인은 셰이더 라이브러리가 이미 남겼다
+        Core::Logger::Error("PipelineCache::Build: 셰이더 항목이 없다 (등록하지 않았거나 컴파일에 실패했다, shaderID={})", shaderID);
+        return nullptr;
+    }
+
+    if (!shaderEntry->vs || !shaderEntry->ps)
+    {
+        Core::Logger::Error("PipelineCache::Build: 정점이나 픽셀 셰이더가 없다 (shaderID={}, vs={}, ps={})",
+            shaderID, shaderEntry->vs != nullptr, shaderEntry->ps != nullptr);
+        return nullptr;
+    }
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC pso{};
 
@@ -54,18 +106,13 @@ ID3D12PipelineState* PipelineCache::GetOrCreate(
 
     ComPtr<ID3D12PipelineState> pipeline;
 
-    auto result = m_device->CreateGraphicsPipelineState(&pso, IID_PPV_ARGS(&pipeline));
-    Core::Assert(SUCCEEDED(result));
-    m_cache.emplace(pipelineState, pipeline);
-
-    return pipeline.Get();
-}
-
-ID3D12PipelineState* PipelineCache::Find(const PipelineState& pipelineState)
-{
-    auto it = m_cache.find(pipelineState);
-    if (it == m_cache.end())
+    HRESULT hr = m_device->CreateGraphicsPipelineState(&pso, IID_PPV_ARGS(&pipeline));
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("PipelineCache::Build: 파이프라인 상태를 만들지 못했다 (shaderID={}, hr={:#010x})",
+            shaderID, static_cast<std::uint32_t>(hr));
         return nullptr;
+    }
 
-    return it->second.Get();
+    return pipeline;
 }

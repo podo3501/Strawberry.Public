@@ -27,7 +27,7 @@ public:
     void Reset(std::uint32_t slot) noexcept;
 
 private:
-    FrameUploadAllocator& Get(FrameUploadPoolType type) noexcept;
+    FrameUploadAllocator* Find(FrameUploadPoolType type) noexcept; // 범위 밖이거나 등록하지 않은 종류면 오류를 남기고 nullptr
 
     std::array<FrameUploadAllocator, Core::EnumSize<FrameUploadPoolType>> m_pools;
 };

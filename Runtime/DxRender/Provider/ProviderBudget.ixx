@@ -3,7 +3,7 @@ export module DxRender.Provider:Budget;
 import std;
 
 // 사용자 정의 리터럴: MB 단위 변환
-export constexpr std::size_t operator"" _MB(unsigned long long value) noexcept
+export constexpr std::size_t operator""_MB(unsigned long long value) noexcept
 {
     return static_cast<std::size_t>(value * 1024ull * 1024ull);
 }
@@ -16,9 +16,12 @@ export struct BudgetRange
     std::size_t minBudget; // slowGpuMs 이상일 때의 예산
 };
 
-// GPU 프레임 타임(gpuMs)에 따른 선형 보간 예산 계산
+// GPU 프레임 타임(gpuMs)에 따른 선형 보간 예산 계산. NaN이면 최소 예산이다.
 export inline std::size_t ComputeBudget(float gpuMs, const BudgetRange& range) noexcept
 {
+    if (std::isnan(gpuMs))
+        return range.minBudget;
+
     if (gpuMs <= range.fastGpuMs)
         return range.maxBudget;
 
@@ -58,4 +61,8 @@ export namespace ProviderBudget
         .maxBudget = 16_MB,
         .minBudget = 2_MB
     };
+
+    static_assert(Texture.fastGpuMs < Texture.slowGpuMs && Texture.minBudget <= Texture.maxBudget);
+    static_assert(TextureCube.fastGpuMs < TextureCube.slowGpuMs && TextureCube.minBudget <= TextureCube.maxBudget);
+    static_assert(Mesh.fastGpuMs < Mesh.slowGpuMs && Mesh.minBudget <= Mesh.maxBudget);
 }

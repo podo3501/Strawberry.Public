@@ -1,3 +1,7 @@
+module;
+
+#include <climits>
+
 export module DxRender.Resource:TransientMesh;
 
 import :Mesh;
@@ -29,8 +33,8 @@ public:
     }
 
 private:
-    UINT m_vertexHeapIndex{};
-    UINT m_indexHeapIndex{};
+    UINT m_vertexHeapIndex{ UINT_MAX };
+    UINT m_indexHeapIndex{ UINT_MAX };
 
     UINT m_vertexCount{};
     UINT m_indexCount{};

@@ -30,8 +30,6 @@ public:
     bool IsReady() const noexcept { return m_ready; }
     void MarkReady() noexcept { m_ready = true; }
 
-    void SetPremultiplyAlpha(bool premultiplyAlpha) noexcept { m_premultiplyAlpha = premultiplyAlpha; }
-
     void SetDesc(const TextureDesc& desc) noexcept { m_desc = desc; }
     const TextureDesc& GetDesc() const noexcept { return m_desc; }
 
@@ -47,7 +45,6 @@ public:
 
 private:
     TextureDesc m_desc{};
-    bool m_premultiplyAlpha{ false };
     Resource m_texture{};
 
     Core::Size m_size{};

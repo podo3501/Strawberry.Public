@@ -48,7 +48,7 @@ InspectorImageRenderer::InspectorImageRenderer(PipelineCache& pipelineCache) noe
 
 bool InspectorImageRenderer::Initialize(Device& device, const Core::Size& screenSize)
 {
-    m_drawCBAllocator.Initialize<InspectorDrawCB>(device, MaxImage);
+    if (!m_drawCBAllocator.Initialize<InspectorDrawCB>(device, MaxImage)) return false;
 
     if (!CreateRootSignature(device)) return false;
     if (!CreateDefaultPSOs()) return false;

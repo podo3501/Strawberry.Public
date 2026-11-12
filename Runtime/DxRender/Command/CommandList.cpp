@@ -10,12 +10,34 @@ import :Conversions;
 import DxRender.DxCheck;
 import DxRender.Core;
 import Core.Assert;
+import Core.Logger;
 
 bool CommandList::Initialize(Device& device, CommandType type)
 {
-    if (FAILED(device->CreateCommandAllocator(ToD3D12(type), IID_PPV_ARGS(&m_allocator)))) return false;
-    if (FAILED(device->CreateCommandList(0, ToD3D12(type), m_allocator.Get(), nullptr, IID_PPV_ARGS(&m_command)))) return false;
-    if (FAILED(m_command->Close())) return false; // 초기 상태는 닫아둠
+    const auto d3dType = ToD3D12(type);
+    if (!d3dType)
+    {
+        Core::Logger::Error("CommandList::Initialize: 명령 종류가 올바르지 않다 (type={})", static_cast<int>(type));
+        return false;
+    }
+
+    if (HRESULT hr = device->CreateCommandAllocator(*d3dType, IID_PPV_ARGS(&m_allocator)); FAILED(hr))
+    {
+        Core::Logger::Error("CommandList::Initialize: 명령 할당자를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    if (HRESULT hr = device->CreateCommandList(0, *d3dType, m_allocator.Get(), nullptr, IID_PPV_ARGS(&m_command)); FAILED(hr))
+    {
+        Core::Logger::Error("CommandList::Initialize: 명령 목록을 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    if (HRESULT hr = m_command->Close(); FAILED(hr)) // 초기 상태는 닫아둠
+    {
+        Core::Logger::Error("CommandList::Initialize: 명령 목록을 닫지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
 
     m_type = type;
     return true;
@@ -60,7 +82,7 @@ void CommandList::Reset()
 {
     Core::Assert(m_state == CmdState::Ready);
 
-    if (m_lastFenceID != 0)
+    if (m_lastFenceID != InvalidFenceID)
     {
         Core::Assert(m_fence);
         Core::Assert(m_fence->GetCompletedValue() >= m_lastFenceID); // 이전 GPU 작업 완료 확인
@@ -100,16 +122,17 @@ bool CommandList::IsAvailable() const
 
     case CmdState::Recording:
     case CmdState::PendingSubmit:
-    default:
         return false;
     }
+
+    return false;
 }
 
 void CommandList::MarkSubmitted(ID3D12Fence* fence, FenceID fenceID)
 {
     Core::Assert(m_state == CmdState::PendingSubmit); // Close 없이 호출되는 실수 경로 차단
     Core::Assert(fence);
-    Core::Assert(fenceID != 0);
+    Core::Assert(fenceID != InvalidFenceID);
 
     m_fence = fence;
     m_lastFenceID = fenceID;
@@ -119,6 +142,9 @@ void CommandList::MarkSubmitted(ID3D12Fence* fence, FenceID fenceID)
 void CommandList::Discard()
 {
     Core::Assert(m_state == CmdState::Recording || m_state == CmdState::PendingSubmit);
+
+    if (m_state == CmdState::Recording)
+        DxCheck(m_command->Close()); // 열린 채로 두면 다시 Reset할 수 없으므로 닫고 버린다
 
     m_state = CmdState::Ready;
 }

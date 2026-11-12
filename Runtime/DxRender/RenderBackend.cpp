@@ -31,8 +31,7 @@ import Contract.Render.Backend.Types;
 import Core.Assert;
 
 RenderBackend::RenderBackend(const RenderConfig& config)
-    : m_device{ config.enableDebugLayer }
-    , m_config{ config }
+    : m_config{ config }
     , m_descFactory{ m_device }
     , m_resFactory{ m_device }
     , m_taskScheduler{ m_cmdScheduler }
@@ -45,6 +44,7 @@ RenderBackend::RenderBackend(const RenderConfig& config)
 
 bool RenderBackend::Initialize(HWND hwnd, const Core::Size& screenSize, const std::vector<RegistryShaderDesc>& registryShaders)
 {
+    if (!m_device.Initialize({ .debug = { .enableDebugLayer = m_config.enableDebugLayer } })) return false;
     if (!m_descFactory.Initialize(m_config.descriptors)) return false;
     if (!m_cmdScheduler.Initialize(m_device, m_descFactory.GetBindlessAllocator().GetHeap(), m_config.commandPools)) return false;
     SwapChainDesc desc{ hwnd, screenSize, m_config.allowTearing };

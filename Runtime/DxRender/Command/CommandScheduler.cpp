@@ -3,6 +3,7 @@ module DxRender.Command;
 import std;
 import :Scheduler;
 import Core.Assert;
+import Core.Logger;
 
 CommandScheduler::~CommandScheduler()
 {
@@ -63,12 +64,26 @@ void CommandScheduler::AbortFrame()
 
 FenceID CommandScheduler::SignalQueue(CommandType type)
 {
-    return GetQueue(type)->Signal();
+    CommandQueue* queue = GetQueue(type);
+    if (!queue)
+    {
+        Core::Logger::Error("CommandScheduler::SignalQueue: 명령 종류에 맞는 큐가 없다 (type={})", static_cast<int>(type));
+        return InvalidFenceID;
+    }
+
+    return queue->Signal();
 }
 
 void CommandScheduler::WaitIdle(CommandType type)
 {
-    GetQueue(type)->WaitIdle();
+    CommandQueue* queue = GetQueue(type);
+    if (!queue)
+    {
+        Core::Logger::Error("CommandScheduler::WaitIdle: 명령 종류에 맞는 큐가 없다 (type={})", static_cast<int>(type));
+        return;
+    }
+
+    queue->WaitIdle();
 }
 
 void CommandScheduler::WaitIdle()
@@ -80,10 +95,18 @@ void CommandScheduler::WaitIdle()
 
 bool CommandScheduler::IsFenceComplete(CommandType type, FenceID fenceID)
 {
-    if (fenceID == 0)
+    if (fenceID == InvalidFenceID)
         return true;
 
-    return GetQueue(type)->GetCompletedFence() >= fenceID;
+    CommandQueue* queue = GetQueue(type);
+    if (!queue)
+    {
+        // 기다릴 큐가 없으니 끝난 것으로 본다 (false면 작업 스케줄러가 영영 기다린다)
+        Core::Logger::Error("CommandScheduler::IsFenceComplete: 명령 종류에 맞는 큐가 없다 (type={})", static_cast<int>(type));
+        return true;
+    }
+
+    return queue->GetCompletedFence() >= fenceID;
 }
 
 CommandQueue* CommandScheduler::GetQueue(CommandType type) noexcept

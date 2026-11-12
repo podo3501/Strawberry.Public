@@ -209,6 +209,8 @@ bool SwapChainPresenter::CreateRTV(Device& device)
         D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
         m_frameCount,
         D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+    if (!m_rtvHeap)
+        return false;
 
     m_rtvDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
@@ -222,7 +224,7 @@ bool SwapChainPresenter::CreateDSV(Device& device)
         1,
         D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 
-    return true;
+    return static_cast<bool>(m_dsvHeap);
 }
 
 bool SwapChainPresenter::CreateFrameRTVs(Device& device)
@@ -286,6 +288,8 @@ bool SwapChainPresenter::CreateDepthBuffer(Device& device)
         D3D12_HEAP_TYPE_DEFAULT,
         D3D12_RESOURCE_STATE_DEPTH_WRITE,
         &clear);
+    if (!m_depthBuffer)
+        return false;
 
     auto dsvHandle = m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
 

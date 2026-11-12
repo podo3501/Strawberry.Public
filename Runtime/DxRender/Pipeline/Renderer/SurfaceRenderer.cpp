@@ -74,9 +74,9 @@ SurfaceRenderer::SurfaceRenderer(const SurfaceRendererConfig& config, PipelineCa
 
 bool SurfaceRenderer::Initialize(Device& device)
 {
-    m_objectCBAllocator.Initialize<ObjectCB>(device, m_config.maxObjectCount);
-    m_materialCBAllocator.Initialize<MaterialConstantBuffer>(device, m_config.maxObjectCount);
-    m_frameCBAllocator.Initialize<MeshFrameCB>(device, MaxViewCount);
+    if (!m_objectCBAllocator.Initialize<ObjectCB>(device, m_config.maxObjectCount)) return false;
+    if (!m_materialCBAllocator.Initialize<MaterialConstantBuffer>(device, m_config.maxObjectCount)) return false;
+    if (!m_frameCBAllocator.Initialize<MeshFrameCB>(device, MaxViewCount)) return false;
 
     if (!CreateRootSignature(device)) return false;
     if (!CreateDefaultPSOs()) return false;

@@ -43,7 +43,7 @@ private:
         float underlineOffset;
     };
 
-    void SelectSize(uint32_t size) const; // face의 현재 픽셀 크기가 size가 아닐 때만 FT_Set_Pixel_Sizes 호출
+    bool SelectSize(uint32_t size) const; // face의 현재 픽셀 크기가 size가 아닐 때만 FT_Set_Pixel_Sizes 호출, 실패하면 Error
     const SizeMetrics& MetricsFor(uint32_t size) const; // 크기별 메트릭을 최초 1회만 계산해 캐시
     static constexpr uint32_t kInvalidSize = std::numeric_limits<uint32_t>::max();
 

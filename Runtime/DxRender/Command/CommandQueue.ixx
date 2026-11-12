@@ -16,7 +16,7 @@ using Microsoft::WRL::ComPtr;
 export class CommandQueue
 {
 public:
-    ~CommandQueue();
+    ~CommandQueue(); // GPU가 목록과 할당자를 다 쓸 때까지 기다린 뒤 해제한다
     CommandQueue() = default;
 
     CommandQueue(const CommandQueue&) = delete;
@@ -48,12 +48,42 @@ public:
 
 private:
     bool CreateQueue(Device& device, CommandType type);
-    bool CreateFence(Device& device);
+    bool CreateFence(Device& device, CommandType type);
     void PrepareCommandList(CommandList& cmd);
 
     void WaitFence(FenceID fenceID);
-    void InjectArtificialGpuDelay(std::uint32_t delayMs);
     CommandList* GetAvailableCommandList();
+
+    // 이벤트 핸들을 소유한다. 이동하면 원본은 비어서 핸들이 두 번 닫히지 않는다.
+    struct EventHandle
+    {
+        HANDLE handle{ nullptr };
+
+        ~EventHandle() { Close(); }
+        EventHandle() = default;
+        EventHandle(const EventHandle&) = delete;
+        EventHandle& operator=(const EventHandle&) = delete;
+        EventHandle(EventHandle&& other) noexcept : handle{ std::exchange(other.handle, nullptr) } {}
+        EventHandle& operator=(EventHandle&& other) noexcept
+        {
+            if (this != &other)
+            {
+                Close();
+                handle = std::exchange(other.handle, nullptr);
+            }
+            return *this;
+        }
+
+    private:
+        void Close() noexcept
+        {
+            if (handle)
+            {
+                CloseHandle(handle);
+                handle = nullptr;
+            }
+        }
+    };
 
 private:
     ID3D12DescriptorHeap* m_bindlessHeap{ nullptr };
@@ -61,7 +91,7 @@ private:
     ComPtr<ID3D12Fence> m_fence;
 
     FenceID m_fenceID{ InvalidFenceID };
-    HANDLE m_event{ nullptr };
+    EventHandle m_event;
 
     std::vector<CommandList> m_pool;
     std::size_t m_next{ 0 };
@@ -72,9 +102,4 @@ private:
 
     FenceID m_frameFences[FrameBufferCount]{};
     UINT m_pendingFrameSlot{ UINT_MAX };
-
-    // 테스트용 임시 변수
-    ComPtr<ID3D12Fence> m_delayFence;
-    UINT64 m_delayFenceValue{ 0 };
-    std::uint32_t m_artificialDelayMs{ 0 };
 };

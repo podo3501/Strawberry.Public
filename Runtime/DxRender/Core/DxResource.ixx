@@ -9,6 +9,10 @@ export class Resource
 public:
 	~Resource() = default;
 	Resource() = default;
+	Resource(const Resource&) = default;
+	Resource& operator=(const Resource&) = default;
+	Resource(Resource&&) noexcept = default; // 이동하면 원본은 빈 상태가 된다
+	Resource& operator=(Resource&&) noexcept = default;
 	explicit Resource(Microsoft::WRL::ComPtr<ID3D12Resource> resource) noexcept
 		: m_resource(std::move(resource))
 	{

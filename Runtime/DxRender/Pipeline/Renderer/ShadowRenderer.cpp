@@ -43,8 +43,8 @@ ShadowRenderer::ShadowRenderer(const ShadowRendererConfig& config, PipelineCache
 
 bool ShadowRenderer::Initialize(Device& device)
 {
-    m_objectCBAllocator.Initialize<ShadowObjectCB>(device, m_config.maxObjectCount);
-    m_frameCBAllocator.Initialize<ShadowFrameCB>(device, m_config.frameCBCount);
+    if (!m_objectCBAllocator.Initialize<ShadowObjectCB>(device, m_config.maxObjectCount)) return false;
+    if (!m_frameCBAllocator.Initialize<ShadowFrameCB>(device, m_config.frameCBCount)) return false;
 
     if (!CreateRootSignature(device))
         return false;

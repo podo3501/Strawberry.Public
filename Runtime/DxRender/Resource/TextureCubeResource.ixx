@@ -6,7 +6,6 @@ export module DxRender.Resource:TextureCube;
 
 import std;
 import DxRender.Core;
-import Core.Assert;
 import Core.Math;
 import Contract.Render.Assets;
 
@@ -42,11 +41,7 @@ public:
     void SetHeapIndex(UINT index) noexcept { m_heapIndex = index; }
     UINT GetHeapIndex() const noexcept { return m_heapIndex; }
 
-    UINT GetMipCount() const noexcept
-    {
-        Core::Assert(m_texture); // IsReady() 이후에만 호출해야 함
-        return m_texture->GetDesc().MipLevels;
-    }
+    UINT GetMipCount() const noexcept { return m_texture ? m_texture->GetDesc().MipLevels : 0; }
 
 private:
     TextureCubeDesc m_desc{};

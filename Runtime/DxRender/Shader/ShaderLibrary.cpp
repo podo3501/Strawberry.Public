@@ -8,7 +8,7 @@ module DxRender.Shader;
 
 import :ShaderLibrary;
 import Core.BasicTypes;
-import Core.Assert;
+import Core.Logger;
 import Core.Utils;
 
 using Microsoft::WRL::ComPtr;
@@ -23,8 +23,17 @@ static bool CompileStage(
     ComPtr<IDxcUtils> dxcUtils;
     ComPtr<IDxcCompiler3> dxcCompiler;
 
-    if (FAILED(DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils)))) return false;
-    if (FAILED(DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler)))) return false;
+    if (HRESULT hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils)); FAILED(hr))
+    {
+        Core::Logger::Error("ShaderLibrary::CompileStage: DXC 유틸리티를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    if (HRESULT hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler)); FAILED(hr))
+    {
+        Core::Logger::Error("ShaderLibrary::CompileStage: DXC 컴파일러를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
 
     DxcBuffer sourceBuffer{};
     sourceBuffer.Ptr = source.data();
@@ -68,17 +77,32 @@ static bool CompileStage(
         IID_PPV_ARGS(&compileResult)
     );
 
-    if (FAILED(hr)) return false;
+    if (FAILED(hr))
+    {
+        Core::Logger::Error("ShaderLibrary::CompileStage: 컴파일을 시작하지 못했다 (entry={}, target={}, hr={:#010x})",
+            entry, target, static_cast<std::uint32_t>(hr));
+        return false;
+    }
 
+    std::string errorText; // 컴파일러가 알려 주는 오류 문장
     ComPtr<IDxcBlobUtf8> errorBlob;
     if (SUCCEEDED(compileResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&errorBlob), nullptr)) && errorBlob && errorBlob->GetStringLength() > 0)
-        OutputDebugStringA(errorBlob->GetStringPointer());
+        errorText.assign(errorBlob->GetStringPointer(), errorBlob->GetStringLength());
 
-    HRESULT compileStatus;
+    HRESULT compileStatus = S_OK;
     if (FAILED(compileResult->GetStatus(&compileStatus)) || FAILED(compileStatus))
+    {
+        Core::Logger::Error("ShaderLibrary::CompileStage: 셰이더를 컴파일하지 못했다 (entry={}, target={})\n{}", entry, target, errorText);
         return false;
+    }
 
-    return SUCCEEDED(compileResult->GetResult(&outBlob));
+    if (FAILED(compileResult->GetResult(&outBlob)))
+    {
+        Core::Logger::Error("ShaderLibrary::CompileStage: 컴파일 결과를 얻지 못했다 (entry={}, target={})", entry, target);
+        return false;
+    }
+
+    return true;
 }
 
 static ComPtr<IDxcBlob> CreateBlobFromBuffer(const Core::ByteBuffer& buffer)
@@ -86,12 +110,18 @@ static ComPtr<IDxcBlob> CreateBlobFromBuffer(const Core::ByteBuffer& buffer)
     if (buffer.empty()) return nullptr;
 
     ComPtr<IDxcUtils> dxcUtils;
-    if (FAILED(DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils))))
+    if (HRESULT hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils)); FAILED(hr))
+    {
+        Core::Logger::Error("ShaderLibrary::CreateBlobFromBuffer: DXC 유틸리티를 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
         return nullptr;
+    }
 
     ComPtr<IDxcBlobEncoding> blobEncoding;
-    if (FAILED(dxcUtils->CreateBlob(buffer.data(), static_cast<UINT32>(buffer.size()), DXC_CP_ACP, &blobEncoding)))
+    if (HRESULT hr = dxcUtils->CreateBlob(buffer.data(), static_cast<UINT32>(buffer.size()), DXC_CP_ACP, &blobEncoding); FAILED(hr))
+    {
+        Core::Logger::Error("ShaderLibrary::CreateBlobFromBuffer: 블롭을 만들지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
         return nullptr;
+    }
 
     ComPtr<IDxcBlob> blob;
     if (SUCCEEDED(blobEncoding.As(&blob)))
@@ -109,6 +139,8 @@ ShaderLibrary::ShaderLibrary()
 
 bool ShaderLibrary::Initialize(const std::vector<RegistryShaderDesc>& registryShaders)
 {
+    std::scoped_lock lock{ m_mutex };
+
     for (const auto& [id, desc] : registryShaders)
         if (!RegisterShader(id, desc)) return false;
 
@@ -117,6 +149,8 @@ bool ShaderLibrary::Initialize(const std::vector<RegistryShaderDesc>& registrySh
 
 ShaderID ShaderLibrary::RegisterShader(const ShaderDesc& desc)
 {
+    std::scoped_lock lock{ m_mutex };
+
     ShaderID id = static_cast<ShaderID>(m_shaders.size());
 
     if (!RegisterShader(id, desc))
@@ -130,9 +164,14 @@ const ShaderEntry* ShaderLibrary::Find(const ShaderVariant& variant) const
     if (variant.shaderID == InvalidShaderID)
         return nullptr;
 
+    std::scoped_lock lock{ m_mutex };
+
     auto it = m_variants.find(variant);
     if (it != m_variants.end())
         return &it->second;
+
+    if (m_failedVariants.contains(variant))
+        return nullptr; // 이미 실패한 변형은 다시 컴파일하지 않는다 (오류도 처음 한 번만 남는다)
 
     if (variant.shaderID >= m_shaders.size())
         return nullptr;
@@ -142,29 +181,42 @@ const ShaderEntry* ShaderLibrary::Find(const ShaderVariant& variant) const
 
     ShaderEntry entry;
     if (!CompileVariant(variant, shaderData, entry))
+    {
+        m_failedVariants.insert(variant);
         return nullptr;
+    }
 
     auto [iter, inserted] = m_variants.try_emplace(variant, std::move(entry)); // lazy cache 이기 때문에 mutable 처리.
 
     return &iter->second;
 }
 
+// 실패하면 등록하기 전의 상태로 되돌린다
 bool ShaderLibrary::RegisterShader(ShaderID id, const ShaderDesc& desc)
 {
     if (id == InvalidShaderID)
+    {
+        Core::Logger::Error("ShaderLibrary::RegisterShader: 셰이더 번호가 올바르지 않다 (id={})", id);
         return false;
+    }
 
     if (!desc.asset)
+    {
+        Core::Logger::Error("ShaderLibrary::RegisterShader: 셰이더 에셋이 없다 (id={})", id);
         return false;
+    }
 
-    if (id >= m_shaders.size())
+    const std::size_t oldSize = m_shaders.size();
+    if (id < oldSize && m_shaders[id].asset)
+    {
+        Core::Logger::Error("ShaderLibrary::RegisterShader: 이미 등록된 셰이더 번호이다 (id={})", id);
+        return false;
+    }
+
+    if (id >= oldSize)
         m_shaders.resize(static_cast<size_t>(id) + 1);
 
     ShaderData& shaderData = m_shaders[id];
-
-    if (shaderData.asset)
-        return false;
-
     shaderData.asset = desc.asset;
     shaderData.stages = desc.stages;
 
@@ -172,7 +224,14 @@ bool ShaderLibrary::RegisterShader(ShaderID id, const ShaderDesc& desc)
     ShaderEntry entry;
 
     if (!CompileVariant(baseVariant, shaderData, entry))
+    {
+        if (id >= oldSize)
+            m_shaders.resize(oldSize); // 새로 늘린 칸을 되돌려 다음 런타임 번호가 이어지게 한다
+        else
+            shaderData = ShaderData{};
+
         return false;
+    }
 
     m_variants.emplace(baseVariant, std::move(entry));
 
@@ -193,7 +252,11 @@ bool ShaderLibrary::CompileVariant(
         outEntry.ps = CreateBlobFromBuffer(asset.ps);
         outEntry.cs = CreateBlobFromBuffer(asset.cs);
 
-        return outEntry.vs || outEntry.ps || outEntry.cs;
+        if (outEntry.vs || outEntry.ps || outEntry.cs)
+            return true;
+
+        Core::Logger::Error("ShaderLibrary::CompileVariant: 소스도 미리 컴파일한 코드도 없다 (shaderID={})", variant.shaderID);
+        return false;
     }
 
     bool compiledAny = false;
@@ -205,7 +268,13 @@ bool ShaderLibrary::CompileVariant(
         case ShaderStage::Vertex: targetBlob = &outEntry.vs; break;
         case ShaderStage::Pixel: targetBlob = &outEntry.ps; break;
         case ShaderStage::Compute: targetBlob = &outEntry.cs; break;
-        default: return false;
+        }
+
+        if (!targetBlob)
+        {
+            Core::Logger::Error("ShaderLibrary::CompileVariant: 셰이더 단계 값이 올바르지 않다 (shaderID={}, stage={})",
+                variant.shaderID, static_cast<int>(stage.stage));
+            return false;
         }
 
         if (!CompileStage(asset.hlslSource, variant.RuntimeMacros(), stage.entry.c_str(), stage.target.c_str(), *targetBlob))
@@ -213,6 +282,9 @@ bool ShaderLibrary::CompileVariant(
 
         compiledAny = true;
     }
+
+    if (!compiledAny)
+        Core::Logger::Error("ShaderLibrary::CompileVariant: 컴파일할 셰이더 단계가 없다 (shaderID={})", variant.shaderID);
 
     return compiledAny;
 }

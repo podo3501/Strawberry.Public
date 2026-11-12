@@ -17,10 +17,11 @@ public:
     ~CommandScheduler();
     CommandScheduler() = default;
 
+    // 다른 곳이 이 객체의 참조를 들고 있고 m_currentQueue가 자기 멤버를 가리키므로 복사도 이동도 하지 않는다.
     CommandScheduler(const CommandScheduler&) = delete;
     CommandScheduler& operator=(const CommandScheduler&) = delete;
-    CommandScheduler(CommandScheduler&&) noexcept = default;
-    CommandScheduler& operator=(CommandScheduler&&) noexcept = default;
+    CommandScheduler(CommandScheduler&&) = delete;
+    CommandScheduler& operator=(CommandScheduler&&) = delete;
 
     bool Initialize(
         Device& device,
@@ -34,12 +35,13 @@ public:
     CommandList* EndParallel(const std::vector<CommandList*>& cmds); // Render 전용: Begin()~End() 사이에서만 유효
 
     void AbortFrame();
+    // 큐가 없는 종류(None 등)는 Error를 남긴다: SignalQueue는 InvalidFenceID, WaitIdle은 기다리지 않음, IsFenceComplete는 true
     FenceID SignalQueue(CommandType type);
     void WaitIdle(CommandType type);
     void WaitIdle();
 
     bool IsFenceComplete(CommandType type, FenceID fenceID);
-    CommandQueue* GetQueue(CommandType type) noexcept;
+    CommandQueue* GetQueue(CommandType type) noexcept; // 큐가 없는 종류는 nullptr
 
 private:
     CommandQueue m_directQueue;
