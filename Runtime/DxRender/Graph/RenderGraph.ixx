@@ -8,6 +8,8 @@ import DxRender.Task;
 import DxRender.Command;
 import DxRender.RGResourceID;
 
+// 패스와 리소스 상태를 모아 의존과 배리어를 계산해 태스크 목록으로 컴파일한다.
+// 매번 Reset한 뒤 쓰고 Compile은 한 번만 부른다. 잘못된 그래프는 Error를 남기고 빈 목록을 돌려준다.
 export class RenderGraph
 {
 public:
@@ -15,7 +17,7 @@ public:
     RenderGraph();
 
     void ImportResource(RGResourceID resID, RGAccess access); // 초기 상태 등록
-    void ExportResource(RGResourceID resID, RGAccess access); // 최종 완료 상태 등록
+    void ExportResource(RGResourceID resID, RGAccess access); // 최종 완료 상태 등록. Import하지 않았으면 Error를 남기고 무시
 
     RenderPass& AddGraphicsPass(std::string name);
     RenderPass& AddCopyPass(std::string name);
@@ -39,7 +41,7 @@ private:
     };
 
     RenderPass& AddPass(std::string name, CommandType type);
-    void ValidateGraph();
+    bool ValidateGraph() const;
     void BuildExportPass();
     std::vector<PassNode> BuildDependencyGraph();
     BarrierMap PlanBarriers(const std::vector<PassIndex>& sortedPass);
@@ -57,7 +59,7 @@ private:
 
     LocalTaskID CreateLocalTaskID();
 
-    std::vector<RenderPass> m_passes;
+    std::deque<RenderPass> m_passes; // AddPass가 돌려준 참조가 다음 AddPass에서도 유지되게 deque를 쓴다
     std::unordered_map<RGResourceID, ResourceStateTracker> m_statesTracker;
     std::vector<ExportResourceState> m_exportResources;
     LocalTaskID m_localTaskID{ 0 };

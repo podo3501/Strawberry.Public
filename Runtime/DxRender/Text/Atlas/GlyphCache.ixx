@@ -24,15 +24,10 @@ public:
         return nullptr;
     }
 
-    void Clear()
-    {
-        m_cache.clear(); // shared_ptr들의 참조 카운트만 줄어듦. 아직 살아있는 weak_ptr은 자동으로 expired 처리됨
-    }
-
 private:
     struct CacheKey
     {
-        FontResource* fontRes{ nullptr }; // 검색 속도를 극대화하기 위해 폰트 포인터(Raw주소)와 코드포인트를 64비트 키 하나로 결합
+        FontResource* fontRes{ nullptr }; // 폰트 포인터(Raw 주소), 글리프 번호, 글자 크기 세 값이 키이다.
         std::uint32_t glyphIndex{ 0 };
         std::uint32_t size{ 0 };
 

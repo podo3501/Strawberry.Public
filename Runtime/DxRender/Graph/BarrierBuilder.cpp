@@ -30,6 +30,17 @@ static CommandType ResolveCommandType(CommandType type,
 {
     Core::Assert(type != CommandType::None);
 
+    // 복사 큐는 COMMON과 복사 상태만 다룰 수 있어서 그 밖의 상태가 끼면 직접 큐가 처리한다.
+    auto isCopyQueueState = [](D3D12_RESOURCE_STATES s) {
+        return
+            s == D3D12_RESOURCE_STATE_COMMON ||
+            s == D3D12_RESOURCE_STATE_COPY_DEST ||
+            s == D3D12_RESOURCE_STATE_COPY_SOURCE;
+        };
+
+    if (type == CommandType::Copy)
+        return (isCopyQueueState(before) && isCopyQueueState(after)) ? CommandType::Copy : CommandType::Direct;
+
     auto isDirectOnly = [](D3D12_RESOURCE_STATES s) {
         return
             (s & D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) ||
@@ -54,17 +65,16 @@ D3D12_RESOURCE_STATES ToD3D12(RGAccess access)
 {
     switch (access)
     {
+    case RGAccess::CopyDest:   return D3D12_RESOURCE_STATE_COMMON; // 가져오는 리소스는 만든 직후라 COMMON이다.
     case RGAccess::SRV:        return D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
     case RGAccess::UAV:        return D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-        //case RGAccess::CopySrc:  return D3D12_RESOURCE_STATE_COPY_SOURCE;
-        //case RGAccess::CopyDst:  return D3D12_RESOURCE_STATE_COPY_DEST;
     case RGAccess::RTV:        return D3D12_RESOURCE_STATE_RENDER_TARGET;
     case RGAccess::DepthWrite: return D3D12_RESOURCE_STATE_DEPTH_WRITE;
     case RGAccess::DepthRead:  return D3D12_RESOURCE_STATE_DEPTH_READ;
     case RGAccess::Present:    return D3D12_RESOURCE_STATE_PRESENT;
-    default:
-        return D3D12_RESOURCE_STATE_COMMON;
     }
+
+    return D3D12_RESOURCE_STATE_COMMON; // 정의되지 않은 값
 }
 
 BarrierGroups BuildBarriers(
@@ -100,7 +110,7 @@ TaskNode CreateBarrierTask(CommandType type, const std::vector<BarrierPlan>& bar
     task.type = type;
     task.execute =
         [
-            barriers = std::move(barriers)
+            barriers
         ]
         (TaskCommandLists cmds, TaskContext& ctx)
         {

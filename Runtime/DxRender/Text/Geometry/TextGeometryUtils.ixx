@@ -4,7 +4,6 @@ import std;
 import :TextTypes;
 import DxRender.Definition;
 import Core.Math;
-import Core.Assert;
 import Core.Bit;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
@@ -41,9 +40,8 @@ static UIRenderMode ToUIRenderMode(TextRenderMode mode)
     case TextRenderMode::MTSDF:  return UIRenderMode::MTSDF;
     case TextRenderMode::Bitmap: return UIRenderMode::BitmapText;
     }
-    Core::Assert(false);
 
-    return UIRenderMode::MTSDF;
+    return UIRenderMode::MTSDF; // 정의되지 않은 모드는 MTSDF로 그린다. enum에 값이 늘면 위 switch에서 컴파일러가 경고한다.
 }
 
 static void AppendQuadIndices(std::vector<std::uint32_t>& indices, std::uint32_t vertexOffset)

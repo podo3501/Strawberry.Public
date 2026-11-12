@@ -7,8 +7,35 @@ import :Utils;
 import :Types;
 import :BarrierBuilder;
 import Core.Assert;
+import Core.Logger;
 import DxRender.RGResourceID;
 import DxRender.Command;
+
+namespace
+{
+    // 한 패스의 배리어를 큐 종류별로 이을 때 쓰는 고정된 순서
+    constexpr std::array<CommandType, 3> BarrierQueueOrder{ CommandType::Direct, CommandType::Compute, CommandType::Copy };
+
+    // from 태스크들이 target을 (직접이든 다른 태스크를 거쳐서든) 이미 기다리는지. 태스크 번호는 tasks의 위치와 같다.
+    bool AlreadyWaitsFor(const std::vector<CompiledTask>& tasks, const std::vector<LocalTaskID>& from, LocalTaskID target)
+    {
+        std::vector<LocalTaskID> pending = from;
+        std::unordered_set<LocalTaskID> seen;
+        while (!pending.empty())
+        {
+            const LocalTaskID current = pending.back();
+            pending.pop_back();
+
+            if (current == target)
+                return true;
+            if (current >= tasks.size() || !seen.insert(current).second)
+                continue;
+
+            pending.insert(pending.end(), tasks[current].dependencies.begin(), tasks[current].dependencies.end());
+        }
+        return false;
+    }
+}
 
 RenderGraph::~RenderGraph() = default;
 RenderGraph::RenderGraph() = default;
@@ -20,7 +47,22 @@ void RenderGraph::ImportResource(RGResourceID resID, RGAccess access)
 
 void RenderGraph::ExportResource(RGResourceID resID, RGAccess access)
 {
-    Core::Assert(m_statesTracker.contains(resID)); // 초기 상태가 존재해야 함
+    if (!m_statesTracker.contains(resID))
+    {
+        Core::Logger::Error("RenderGraph::ExportResource: Import하지 않은 리소스다 (id={})", resID);
+        return;
+    }
+
+    for (const auto& exported : m_exportResources)
+    {
+        if (exported.resID != resID)
+            continue;
+
+        if (exported.access != access)
+            Core::Logger::Error("RenderGraph::ExportResource: 이미 다른 접근으로 내보내기로 등록한 리소스다 (id={})", resID);
+        return; // 같은 접근이면 한 번만 등록한다
+    }
+
     m_exportResources.emplace_back(resID, access);
 }
 
@@ -41,18 +83,15 @@ RenderPass& RenderGraph::AddPass(std::string name, CommandType type)
 
 std::vector<CompiledTask> RenderGraph::Compile()
 {
-    ValidateGraph();
+    if (!ValidateGraph())
+        return {};
 
     BuildExportPass();
     auto passNodes = BuildDependencyGraph();                 // 종속성 그래프 생성
     auto sortedPass = TopologicalSort(passNodes);       // 위상 정렬
     auto barrierMap = PlanBarriers(sortedPass);              // 배리어 계획 수립
 
-    auto tasks = BuildCompiledTasks(passNodes, sortedPass, barrierMap);
-    BuildDependents(tasks);
-    Core::Assert(!tasks.empty());                            // 태스크 집합 검증
-
-    return tasks;
+    return BuildCompiledTasks(passNodes, sortedPass, barrierMap); // 할 일이 없는 그래프는 빈 목록이다
 }
 
 void RenderGraph::Reset()
@@ -128,26 +167,37 @@ std::vector<LocalTaskID> RenderGraph::BuildBarrierTasks(
     if (barrierIt == passToBarriersMap.end() || barrierIt->second.empty())
         return baseDependencies; // 배리어가 없으면 부모 의존성을 그대로 반환
 
-    std::vector<LocalTaskID> currentPassDependencies;
-    currentPassDependencies.reserve(barrierIt->second.size());
+    std::vector<LocalTaskID> barrierIds;
+    barrierIds.reserve(barrierIt->second.size());
 
     for (auto& planned : barrierIt->second)
     {
         if (planned->generatedTaskId == InvalidLocalTaskID)
         {
             std::vector<LocalTaskID> barrierDependencies = baseDependencies;
-            for (auto& [type, barriers] : planned->groups)
+            LocalTaskID lastBarrierId = InvalidLocalTaskID;
+            for (CommandType type : BarrierQueueOrder)
             {
-                auto barrierTask = CreateBarrierTask(type, barriers);
-                LocalTaskID barrierId = CreateLocalTaskID();
-                outTasks.push_back({ barrierId, std::move(barrierTask), std::move(barrierDependencies) });
+                auto groupIt = planned->groups.find(type);
+                if (groupIt == planned->groups.end())
+                    continue;
 
-                barrierDependencies.clear();
-                barrierDependencies.push_back(barrierId); // 체이닝: 다음 그룹 배리어는 방금 생성한 배리어 태스크에 의존
+                lastBarrierId = CreateLocalTaskID();
+                outTasks.push_back({ lastBarrierId, CreateBarrierTask(type, groupIt->second), std::move(barrierDependencies) });
+
+                barrierDependencies = { lastBarrierId }; // 체이닝: 다음 그룹 배리어는 방금 생성한 배리어 태스크에 의존
             }
-            planned->generatedTaskId = barrierDependencies.back();
+            planned->generatedTaskId = lastBarrierId;
         }
-        currentPassDependencies.push_back(planned->generatedTaskId);
+        barrierIds.push_back(planned->generatedTaskId);
+    }
+
+    // 배리어가 이미 기다리는 앞 패스는 따로 기다리지 않는다. 다른 패스가 만든 배리어를 재사용하면 그 배리어가 기다리지 않는 앞 패스만 남는다.
+    std::vector<LocalTaskID> currentPassDependencies = barrierIds;
+    for (const LocalTaskID base : baseDependencies)
+    {
+        if (!AlreadyWaitsFor(outTasks, barrierIds, base))
+            currentPassDependencies.push_back(base);
     }
     RemoveVectorDuplicates(currentPassDependencies);
 
@@ -235,28 +285,32 @@ std::vector<PassNode> RenderGraph::BuildDependencyGraph()
     return nodes;
 }
 
-void RenderGraph::ValidateGraph()
+bool RenderGraph::ValidateGraph() const
 {
     std::unordered_set<RGResourceID> produced;
 
-    for (auto& [resID, state] : m_statesTracker)
+    for (const auto& [resID, state] : m_statesTracker)
         produced.insert(resID);
 
-    for (auto& pass : m_passes)
+    for (const auto& pass : m_passes)
     {
-        for (auto& usage : pass.usages)
+        for (const auto& usage : pass.usages)
         {
-            if (usage.access == AccessType::Read)
-            {
-                Core::Assert(produced.contains(usage.resID));
-            }
-
             if (usage.access == AccessType::Write)
             {
                 produced.insert(usage.resID);
+                continue;
+            }
+
+            if (!produced.contains(usage.resID))
+            {
+                Core::Logger::Error("RenderGraph::Compile: 만들어지지 않은 리소스를 읽는다 (pass={}, id={})", pass.name, usage.resID);
+                return false;
             }
         }
     }
+
+    return true;
 }
 
 RenderGraph::BarrierMap RenderGraph::PlanBarriers(const std::vector<PassIndex>& sortedPass)
@@ -271,25 +325,27 @@ RenderGraph::BarrierMap RenderGraph::PlanBarriers(const std::vector<PassIndex>& 
         auto& pass = m_passes[passIndex];
         BarrierGroups barrierGroups = BuildBarriers(pass.type, pass, tempTracker, passIndex);
 
-        if (!barrierGroups.empty())
+        // 이 패스가 상태를 바꾸지 않는 읽기는, 그 리소스를 마지막으로 바꾼 배리어(다른 패스가 만든 것)가 끝난 뒤에 실행되어야 한다.
+        for (const auto& usage : pass.usages)
         {
-            auto planned = std::make_shared<PlannedBarrier>();
-            planned->groups = std::move(barrierGroups);
+            if (usage.access != AccessType::Read || tempTracker[usage.resID].lastUpdatedPass == passIndex)
+                continue;
 
-            passToBarriersMap[passIndex].push_back(planned);
-            for (const auto& usage : pass.usages)
-            {
-                if (tempTracker[usage.resID].lastUpdatedPass == passIndex)
-                    lastResourceBarrier[usage.resID] = planned;
-            }
+            if (auto it = lastResourceBarrier.find(usage.resID); it != lastResourceBarrier.end())
+                passToBarriersMap[passIndex].push_back(it->second);
         }
-        else
+
+        if (barrierGroups.empty())
+            continue;
+
+        auto planned = std::make_shared<PlannedBarrier>();
+        planned->groups = std::move(barrierGroups);
+
+        passToBarriersMap[passIndex].push_back(planned);
+        for (const auto& usage : pass.usages)
         {
-            for (const auto& usage : pass.usages)
-            {
-                if (usage.access == AccessType::Read && lastResourceBarrier.contains(usage.resID))
-                    passToBarriersMap[passIndex].push_back(lastResourceBarrier[usage.resID]);
-            }
+            if (tempTracker[usage.resID].lastUpdatedPass == passIndex)
+                lastResourceBarrier[usage.resID] = planned;
         }
     }
 

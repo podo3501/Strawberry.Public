@@ -46,24 +46,11 @@ static GlyphMetrics ScaleMetrics(const GlyphMetrics& metrics, float scale)
     return scaled;
 }
 
-export GlyphInfo CreateEmptyGlyphInfo(const BitmapGlyph& glyph)
+// 비트맵이 없는 글리프(공백 등)의 정보. 크기와 bearing만 담고 아틀라스 위치는 없다.
+export GlyphInfo CreateEmptyGlyphInfo(const GlyphMetrics& metrics)
 {
     GlyphInfo info;
 
-    auto& metrics = glyph.metrics;
-    info.width = metrics.width;
-    info.height = metrics.height;
-    info.bearingX = metrics.bearingX;
-    info.bearingY = metrics.bearingY;
-
-    return info;
-}
-
-export GlyphInfo CreateEmptyGlyphInfo(const MTSDFGlyph& glyph)
-{
-    GlyphInfo info;
-
-    auto& metrics = glyph.metrics;
     info.width = metrics.width;
     info.height = metrics.height;
     info.bearingX = metrics.bearingX;

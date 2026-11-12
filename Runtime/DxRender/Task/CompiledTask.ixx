@@ -10,5 +10,4 @@ export struct CompiledTask
     LocalTaskID localId{ InvalidLocalTaskID };
     TaskNode task{};
     std::vector<std::uint32_t> dependencies;
-    std::vector<std::uint32_t> dependents;
 };

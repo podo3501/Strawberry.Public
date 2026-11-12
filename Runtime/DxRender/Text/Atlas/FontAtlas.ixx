@@ -51,7 +51,8 @@ public:
     std::shared_ptr<BrushResource> GetSolidBrush() const;
 
 private:
-    void EnsureSolidPage();
+    bool EnsureSolidPage();
+    void ReportNoBucket(TextRenderMode mode, std::uint32_t size);
     FontAtlasBucket* GetOrCreateBucket(const FontBucketKey& key);
     FontAtlasBucket* FindBucket(const FontBucketKey& key) const;
     const Resource& GetAtlasResource(const FontBucketKey& key, std::uint16_t pageIndex) const;
@@ -63,4 +64,5 @@ private:
     TextConfig m_textConfig;
     std::unordered_map<FontBucketKey, std::unique_ptr<FontAtlasBucket>, FontBucketKeyHash> m_buckets;
     std::vector<AtlasGlyphBatch> m_pendingBatches;
+    std::unordered_set<std::uint64_t> m_reportedNoBucket; // 이미 오류를 남긴 (모드, 크기)
 };

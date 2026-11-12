@@ -37,8 +37,6 @@ void TaskScheduler::SubmitTask(const std::vector<CompiledTask>& compiledTasks, s
 
         for (const auto& depLocalId : compiled.dependencies)
             entry->task.dependencies.push_back(remap[depLocalId]);
-        for (const auto& depLocalId : compiled.dependents)
-            entry->dependents.push_back(remap[depLocalId]);
 
         // 자신이 파괴될 때만 부모의 카운트를 깎아주면 되므로 std::erase가 필요 없어짐
         for (const auto& depHandle : entry->task.dependencies)
@@ -75,9 +73,6 @@ void TaskScheduler::Execute()
             if (!AreDependenciesDone(entry))
                 return;
 
-            if (!IsDirectFenceReady(entry)) // release task용
-                return;
-
             ExecuteTask(entry);
         }
 
@@ -93,27 +88,6 @@ void TaskScheduler::Execute()
         if (TaskEntry* entry = m_tasks.Find(handle))
             RemoveTask(handle, *entry);
     }
-}
-
-void TaskScheduler::Cancel(TaskHandle handle)
-{
-    TaskEntry* entry = m_tasks.Find(handle);
-    if (!entry) return;
-
-    // 자신이 취소되므로 내 부모들에게서 나의 자식 지분을 제거
-    for (const auto& depHandle : entry->task.dependencies)
-    {
-        if (TaskEntry* parent = m_tasks.Find(depHandle))
-            parent->activeDependents.fetch_sub(1, std::memory_order_relaxed);
-    }
-
-    for (const auto& childHandle : entry->dependents)
-    {
-        if (TaskEntry* child = m_tasks.Find(childHandle))
-            std::erase(child->task.dependencies, handle); // 자식의 정방향 디펜던시에서 취소된 나를 지워줌
-    }
-
-    m_tasks.Remove(handle);
 }
 
 void TaskScheduler::Shutdown()
@@ -133,15 +107,6 @@ bool TaskScheduler::AreDependenciesDone(const TaskEntry& entry)
         if (!depEntry->finished) return false;
     }
     return true;
-}
-
-bool TaskScheduler::IsDirectFenceReady(const TaskEntry& entry) const
-{
-    if (entry.waitFenceID == InvalidFenceID)
-        return true;
-
-    auto queue = m_cmdScheduler.GetQueue(CommandType::Direct);
-    return queue->GetCompletedFence() >= entry.waitFenceID;
 }
 
 bool TaskScheduler::IsTaskFinished(const TaskEntry& entry)

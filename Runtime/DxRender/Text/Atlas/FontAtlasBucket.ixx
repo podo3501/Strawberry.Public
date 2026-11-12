@@ -35,7 +35,18 @@ public:
     const Resource& GetAtlasResource(std::uint16_t pageIndex) const;
 
 protected:
-    void CreatePage();
+    struct GlyphPlacement
+    {
+        std::uint16_t pageIndex{ 0 };
+        Core::Point pos{};
+    };
+
+    // 현재 페이지에 자리를 잡고, 가득 차면 새 페이지에 잡는다. 실패하면 Error를 남기고 nullopt이며 outUploadsPerPage는 페이지 수에 맞춘다.
+    std::optional<GlyphPlacement> AllocateGlyphRect(
+        const Core::Size& size,
+        std::vector<std::vector<GlyphUploadEntry>>& outUploadsPerPage);
+
+    bool CreatePage();
     std::uint16_t CurrentPageIndex() const;
     virtual GlyphFormat GetAtlasPageFormat() const = 0;
 

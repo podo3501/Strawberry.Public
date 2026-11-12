@@ -6,6 +6,7 @@ import :BitmapFontAtlasBucket;
 import :MTSDFFontAtlasBucket;
 import Core.Math;
 import Core.Assert;
+import Core.Logger;
 
 struct FontAtlasUpload
 {
@@ -19,10 +20,17 @@ FontAtlas::FontAtlas(Device& device, DescriptorFactory& factory)
 
 bool FontAtlas::Initialize(const TextConfig& config)
 {
-    m_textConfig = config;
-    EnsureSolidPage();
+    for (const auto& [name, size] : { std::pair{ "bitmap", config.bitmap.atlasSize }, std::pair{ "mtsdf", config.mtsdf.atlasSize } })
+    {
+        if (size.width == 0 || size.height == 0)
+        {
+            Core::Logger::Error("FontAtlas::Initialize: {} 아틀라스 크기가 올바르지 않다 ({}x{})", name, size.width, size.height);
+            return false;
+        }
+    }
 
-    return true;
+    m_textConfig = config;
+    return EnsureSolidPage();
 }
 
 void FontAtlas::EnsureGlyphs(const std::vector<ShapedText>& shapedTexts)
@@ -31,12 +39,20 @@ void FontAtlas::EnsureGlyphs(const std::vector<ShapedText>& shapedTexts)
 
     for (const auto& shapedText : shapedTexts)
     {
-        FontBucketID bucket = GetFontBucketID(shapedText.mode, shapedText.size);
+        const auto bucket = GetFontBucketID(shapedText.mode, shapedText.size);
+        if (!bucket)
+        {
+            ReportNoBucket(shapedText.mode, shapedText.size);
+            continue; // 버킷이 없는 크기의 텍스트는 그리지 않는다.
+        }
 
-        FontBucketKey key{ shapedText.mode, bucket };
+        FontBucketKey key{ shapedText.mode, *bucket };
         auto& upload = uploads[key];
 
         auto atlasBucket = GetOrCreateBucket(key);
+        if (!atlasBucket) // 모르는 렌더 모드는 Error가 이미 남았고 이 텍스트는 그리지 않는다.
+            continue;
+
         atlasBucket->EnsureGlyphs(
             shapedText,
             upload.pages);
@@ -67,9 +83,11 @@ const GlyphInfo* FontAtlas::FindGlyph(
     std::uint32_t glyphIndex,
     std::uint32_t size) const
 {
-    FontBucketID bucket = GetFontBucketID(mode, size);
+    const auto bucket = GetFontBucketID(mode, size);
+    if (!bucket)
+        return nullptr;
 
-    FontBucketKey key{ mode, bucket };
+    FontBucketKey key{ mode, *bucket };
     auto atlasBucket = FindBucket(key);
     if (!atlasBucket)
         return nullptr;
@@ -96,10 +114,24 @@ std::shared_ptr<BrushResource> FontAtlas::GetSolidBrush() const
     return m_solidPage.GetBrushResource();
 }
 
-void FontAtlas::EnsureSolidPage()
+void FontAtlas::ReportNoBucket(TextRenderMode mode, std::uint32_t size)
+{
+    // 매 프레임 불리므로 같은 모드와 크기는 한 번만 남긴다.
+    const auto key = (static_cast<std::uint64_t>(mode) << 32) | size;
+    if (!m_reportedNoBucket.insert(key).second)
+        return;
+
+    Core::Logger::Error("FontAtlas::EnsureGlyphs: 글자 크기 {}에 맞는 아틀라스 버킷이 없어 그리지 않는다 (mode={})", size, static_cast<int>(mode));
+}
+
+bool FontAtlas::EnsureSolidPage()
 {
     constexpr Core::Size SolidPageSize{ 4, 4 };
-    m_solidPage.Initialize(m_device, m_factory, SolidPageSize, GlyphFormat::RGBA8); // 알파 포함 RGBA 필요
+    if (!m_solidPage.Initialize(m_device, m_factory, SolidPageSize, GlyphFormat::RGBA8)) // 알파 포함 RGBA 필요
+    {
+        Core::Logger::Error("FontAtlas::EnsureSolidPage: 단색 페이지를 만들지 못했다");
+        return false;
+    }
 
     // 4x4를 전부 흰색(premultiplied RGBA = 255,255,255,255)으로 채워 1회 업로드
     auto format = GlyphFormat::RGBA8;
@@ -121,6 +153,7 @@ void FontAtlas::EnsureSolidPage()
     uploads.push_back(std::move(entry));
 
     m_pendingBatches.push_back({ &m_solidPage.GetAtlasResource(), std::move(uploads) });
+    return true;
 }
 
 FontAtlasBucket* FontAtlas::GetOrCreateBucket(const FontBucketKey& key)
@@ -142,7 +175,7 @@ FontAtlasBucket* FontAtlas::GetOrCreateBucket(const FontBucketKey& key)
         atlasSize = m_textConfig.mtsdf.atlasSize;
         break;
     default:
-        Core::Assert(false); // 알 수 없는 TextRenderMode
+        Core::Logger::Error("FontAtlas::GetOrCreateBucket: 알 수 없는 TextRenderMode ({})", static_cast<int>(key.mode));
         return nullptr;
     }
     fontAtlasBucket->Initialize(atlasSize);

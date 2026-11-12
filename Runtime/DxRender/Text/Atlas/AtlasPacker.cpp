@@ -7,10 +7,19 @@ module DxRender.Text;
 
 import :AtlasPacker;
 import Core.Assert;
+import Core.Logger;
 
-void AtlasPacker::Initialize(const Core::Size& textureSize)
+bool AtlasPacker::Initialize(const Core::Size& textureSize)
 {
     Reset();
+
+    constexpr std::uint32_t MaxSize = std::numeric_limits<int>::max(); // stb 패커가 int로 받는다
+    if (textureSize.width == 0 || textureSize.height == 0 ||
+        textureSize.width > MaxSize || textureSize.height > MaxSize)
+    {
+        Core::Logger::Error("AtlasPacker::Initialize: 텍스처 크기가 올바르지 않다 ({}x{})", textureSize.width, textureSize.height);
+        return false;
+    }
 
     m_textureSize = textureSize;
     m_nodes.resize(textureSize.width); // Skyline 알고리즘은 너비(width)만큼의 노드 공간이 필요합니다.
@@ -23,6 +32,7 @@ void AtlasPacker::Initialize(const Core::Size& textureSize)
         static_cast<int>(m_nodes.size())); // stb 패커 초기화
 
     m_initialized = true;
+    return true;
 }
 
 std::optional<Core::Point> AtlasPacker::AllocateRect(const Core::Size& size)

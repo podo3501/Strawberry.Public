@@ -19,7 +19,7 @@ public:
     AtlasPacker(AtlasPacker&&) = delete;
     AtlasPacker& operator=(AtlasPacker&&) = delete;
 
-    void Initialize(const Core::Size& textureSize);
+    bool Initialize(const Core::Size& textureSize); // 크기가 0이거나 너무 크면 Error와 false
     std::optional<Core::Point> AllocateRect(const Core::Size& size);
     void Reset();
 

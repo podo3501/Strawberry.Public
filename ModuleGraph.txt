@@ -65,7 +65,7 @@ DxRender.Resource -> Contract.Render.Assets, Contract.Render.Backend.Types, Cont
 DxRender.Shader -> Contract.Render.Assets, Contract.Render.Backend.Types, DxRender.Definition
 DxRender.SwapChainPresenter -> Core.Math, DxRender.Command, DxRender.Core
 DxRender.Task -> Core.Assert, Core.Handle, Core.Logger, DxRender.Command, DxRender.Core, DxRender.RGResourceID
-DxRender.Text -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract.Render.Shared.Types, Core.Assert, Core.Bit, Core.Math, Core.Utils, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Resource
+DxRender.Text -> Contract.Render.Assets, Contract.Render.Backend.Types, Contract.Render.Shared.Types, Core.Bit, Core.Logger, Core.Math, Core.Utils, DxRender.Core, DxRender.Definition, DxRender.Factory, DxRender.Resource
 DxRender.TransientMesh -> Contract.Render.Backend.Types, Core.Utils, DxRender.Allocator, DxRender.Core, DxRender.Factory, DxRender.Resource
 FileAsset -> Contract.Asset.Shared, Core.AssetPath, Core.BasicTypes
 FileAsset.AudioProcessing -> Contract.Audio.Assets, Core.Logger
@@ -107,7 +107,7 @@ DxRender.Allocator => Contract.Render.Backend.Types, Core.Logger, DxRender.Defin
 DxRender.Command => Core.Assert, Core.Logger, DxRender.DxCheck
 DxRender.Core => Core.Assert, Core.Logger
 DxRender.Factory => Core.Assert
-DxRender.Graph => DxRender.Helper
+DxRender.Graph => Core.Logger, DxRender.Helper
 DxRender.Packet => Contract.Render.Assets, Contract.Render.Backend, Contract.Render.Shared.View, Core.Assert, DxRender.Helper
 DxRender.Pipeline => DxRender.Helper
 DxRender.Pipeline.GraphBuilder => Core.Assert, Core.Bit, DxRender.Command, DxRender.Helper
@@ -117,7 +117,7 @@ DxRender.Provider => Core.Assert, Core.Bit, Core.TypeHierarchy, DxRender.Allocat
 DxRender.RGResourceID => Core.Logger
 DxRender.Shader => Core.BasicTypes, Core.Logger, Core.Utils
 DxRender.SwapChainPresenter => Core.Assert, DxRender.Definition
-DxRender.Text => DxRender.Helper
+DxRender.Text => Core.Assert, DxRender.Helper
 DxRender.TransientMesh => Core.Assert, Core.Logger
 FileAsset => Core.Logger, Core.Utils
 SDLAudio => Contract.Audio.Assets, Core.Assert, Core.Logger, Core.TypeHierarchy, Core.Utils
@@ -134,7 +134,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 28/420, impl-only 8/87 ==
+== removed as redundant: interface 28/420, impl-only 8/89 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)

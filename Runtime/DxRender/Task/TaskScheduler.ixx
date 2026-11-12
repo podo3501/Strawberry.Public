@@ -22,17 +22,15 @@ public:
     TaskScheduler() = delete;
     TaskScheduler(CommandScheduler& cmdScheduler);
 
-    TaskHandle AllocateHandle();
     void SubmitTask(const std::vector<CompiledTask>& compiledTasks, std::shared_ptr<ResourceContext> resources);
     void DeferRelease(std::vector<std::shared_ptr<void>> objects);
     void Execute();
-    void Cancel(TaskHandle handle);
     void Shutdown();
 
 private:
+    TaskHandle AllocateHandle();
     bool AreDependenciesDone(const TaskEntry& entry);
 
-    bool IsDirectFenceReady(const TaskEntry& entry) const;
     bool IsTaskFinished(const TaskEntry& entry);
 
     void ExecuteTask(TaskEntry& entry);

@@ -114,11 +114,17 @@ FT_GlyphSlot FontResource::GetGlyphSlot(uint32_t glyphIndex, uint32_t size) cons
     if (!SelectSize(size))
         return nullptr;
 
-    if (FT_Load_Glyph(m_ftFace, glyphIndex, FT_LOAD_DEFAULT))
+    if (const FT_Error error = FT_Load_Glyph(m_ftFace, glyphIndex, FT_LOAD_DEFAULT))
+    {
+        Core::Logger::Error("FontResource::GetGlyphSlot: 글리프를 불러오지 못했다 (glyphIndex={}, size={}, FreeType 오류 코드={})", glyphIndex, size, error);
         return nullptr;
+    }
 
-    if (FT_Render_Glyph(m_ftFace->glyph, FT_RENDER_MODE_NORMAL))
+    if (const FT_Error error = FT_Render_Glyph(m_ftFace->glyph, FT_RENDER_MODE_NORMAL))
+    {
+        Core::Logger::Error("FontResource::GetGlyphSlot: 글리프를 그리지 못했다 (glyphIndex={}, size={}, FreeType 오류 코드={})", glyphIndex, size, error);
         return nullptr;
+    }
 
     return m_ftFace->glyph;
 }
@@ -141,6 +147,10 @@ hb_font_t* FontResource::GetHbFont(uint32_t size)
         hb_ft_font_set_funcs(hbFont);
         hb_font_set_scale(hbFont, size << 6, size << 6); // 생성 시점에 해당 크기로 스케일 고정
         m_hbFonts[size] = hbFont;
+    }
+    else
+    {
+        Core::Logger::Error("FontResource::GetHbFont: HarfBuzz 폰트를 만들지 못했다 (size={})", size);
     }
     return hbFont;
 }

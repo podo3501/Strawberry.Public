@@ -20,7 +20,7 @@ public:
     AtlasPage(AtlasPage&&) noexcept = delete;
     AtlasPage& operator=(AtlasPage&&) noexcept = delete;
 
-    void Initialize(
+    bool Initialize(
         Device& device,
         DescriptorFactory& factory,
         const Core::Size& atlasTexSize,
@@ -31,7 +31,7 @@ public:
     std::shared_ptr<BrushResource> GetBrushResource() const { return m_brush; }
 
 private:
-    void CreateAtlasBrush(
+    bool CreateAtlasBrush(
         Device& device,
         DescriptorFactory& factory,
         const Core::Size& atlasTexSize,

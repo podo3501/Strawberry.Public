@@ -5,7 +5,7 @@ import :TextLayout;
 import :TextGeometry;
 import DxRender.Definition;
 import DxRender.Resource;
-import Core.Assert;
+import Core.Logger;
 
 TextSystem::TextSystem(Device& device, DescriptorFactory& factory)
     : m_fontAtlas{ device, factory }
@@ -43,14 +43,21 @@ std::vector<ShapedText> TextSystem::ShapeTexts(const std::vector<RenderTextItem>
     {
         const auto& item = items[index];
 
-        Core::Assert(item.fontRes);
-        auto font = static_cast<FontResource*>(item.fontRes.get());
-
+        // 호출하는 쪽이 위치로 짝을 맞추므로 항목마다 하나씩 만든다. 그릴 수 없는 항목은 글리프가 비어 있다.
         ShapedText shaped;
-        shaped.font = font;
         shaped.mode = item.mode;
         shaped.size = item.fontSize;
         shaped.index = index;
+
+        if (!item.fontRes)
+        {
+            Core::Logger::Error("TextSystem::ShapeTexts: 폰트가 없는 텍스트 항목이라 그리지 않는다 (index={})", index);
+            result.push_back(std::move(shaped));
+            continue;
+        }
+
+        auto font = static_cast<FontResource*>(item.fontRes.get());
+        shaped.font = font;
         shaped.glyphs = ShapeAndWrap(
             font,
             item.runs,

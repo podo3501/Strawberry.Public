@@ -68,4 +68,4 @@
 [x] UIVisualizer 모드를 켤 때 UI의 hover/누름/포커스를 풀기 (UserInterface::ReleaseInput, 켜진 프레임에 한 번)
 [x] UIVisualizer-Test가 끝날 때 나오던 CRT 누수 보고 수정 (SelectionFeed::Write가 선택 정보 파일의 시각을 쓰려고 std::chrono::current_zone()으로 시간대 데이터베이스를 읽어 종료 때까지 남던 것을 localtime_s로 바꿈. 시각 형식은 그대로)
 
-전체 컴파일 마지막 확인: 058bdb6
+전체 컴파일 마지막 확인: f7a354b

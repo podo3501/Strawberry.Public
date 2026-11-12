@@ -8,9 +8,9 @@ module DxRender.Text;
 import std;
 import :TextTypes;
 import :TextLayout;
-import Core.Assert;
 import DxRender.Resource;
 import Contract.Render.Backend.Types;
+import Core.Logger;
 
 namespace
 {
@@ -35,6 +35,7 @@ namespace
         std::uint32_t currentLine;
         float lineWidth;
         std::optional<std::size_t> lastBreak;
+        std::size_t lineStart; // 현재 줄의 첫 글리프. 줄 맨 앞 CJK 글자는 줄바꿈 지점이 될 수 없다 (앞에 아무것도 없어 줄이 비기만 한다).
     };
 
     // [breakAt, i] 구간을 새 줄로 시작한다. breakAt이 공백이면 그 공백은 어느 줄의 너비 계산에도 넣지 않고 건너뛴다.
@@ -50,6 +51,7 @@ namespace
         }
 
         ++state.currentLine;
+        state.lineStart = breakAt;
         state.lineWidth = 0.f;
         for (std::size_t k = breakAt; k <= i; ++k)
         {
@@ -73,11 +75,11 @@ namespace
             return baseLineIndex;
         }
 
-        WrapState state{ baseLineIndex, 0.f, std::nullopt };
-        
+        WrapState state{ baseLineIndex, 0.f, std::nullopt, start };
+
         for (std::size_t i = start; i < end; ++i)
         {
-            if (IsWhitespace(glyphs[i].codepoint) || IsCJK(glyphs[i].codepoint))
+            if (IsWhitespace(glyphs[i].codepoint) || (IsCJK(glyphs[i].codepoint) && i > state.lineStart))
                 state.lastBreak = i;
 
             float glyphWidth = glyphs[i].advanceX;
@@ -171,6 +173,12 @@ std::vector<ShapedGlyph> ShapeRuns(
     const std::vector<TextRun>& runs,
     std::uint32_t fontSize)
 {
+    if (!font)
+    {
+        Core::Logger::Error("ShapeRuns: 폰트가 없다 (size={})", fontSize);
+        return {};
+    }
+
     std::vector<ShapedGlyph> result;
 
     std::size_t runIdx = 0;
@@ -205,8 +213,8 @@ std::vector<ShapedGlyph> ShapeRuns(
 
             glyph.runIndex = static_cast<std::uint32_t>(groupStart + localRun);
             glyph.lineIndex = lineIndex;
-            Core::Assert(glyph.sourceIndex < combined.size()); // font->Shape()가 유효 범위를 벗어난 sourceIndex를 반환
-            glyph.codepoint = (glyph.sourceIndex < combined.size())
+            glyph.codepoint = (glyph.sourceIndex < combined.size()) // 범위를 벗어난 클러스터는 코드포인트 없음으로 둔다
+
                 ? combined[glyph.sourceIndex]
                 : U'\0';
 

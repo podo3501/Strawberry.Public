@@ -8,6 +8,7 @@ import :AtlasPage;
 import DxRender.Core;
 import DxRender.Helper;
 import Core.Assert;
+import Core.Logger;
 
 static Resource CreateFontAtlasResource(Device& device, const Core::Size& atlasSize, DXGI_FORMAT format)
 {
@@ -19,14 +20,16 @@ static Resource CreateFontAtlasResource(Device& device, const Core::Size& atlasS
         nullptr);
 }
 
-void AtlasPage::Initialize(
+bool AtlasPage::Initialize(
     Device& device,
     DescriptorFactory& factory,
     const Core::Size& atlasTexSize,
     GlyphFormat format)
 {
-    m_packer.Initialize(atlasTexSize);
-    CreateAtlasBrush(device, factory, atlasTexSize, format);
+    if (!m_packer.Initialize(atlasTexSize))
+        return false;
+
+    return CreateAtlasBrush(device, factory, atlasTexSize, format);
 }
 
 std::optional<Core::Point> AtlasPage::AllocateRect(const Core::Size& size)
@@ -43,7 +46,7 @@ const Resource& AtlasPage::GetAtlasResource() const
     return tex->Get();
 }
 
-void AtlasPage::CreateAtlasBrush(
+bool AtlasPage::CreateAtlasBrush(
     Device& device,
     DescriptorFactory& factory,
     const Core::Size& atlasTexSize,
@@ -51,11 +54,19 @@ void AtlasPage::CreateAtlasBrush(
 {
     auto dxFormat = GetDXGIFormat(format);
     auto resource = CreateFontAtlasResource(device, atlasTexSize, dxFormat);
-    Core::Assert(resource);
+    if (!resource)
+    {
+        Core::Logger::Error("AtlasPage::CreateAtlasBrush: 아틀라스 텍스처를 만들지 못했다 ({}x{})", atlasTexSize.width, atlasTexSize.height);
+        return false;
+    }
 
     // 셰이더에서 이 아틀라스를 바인딩해서 글자를 그릴 수 있도록 SRV만 생성합니다.
     UINT srvIndex = factory.CreateTextureSRV(resource, dxFormat);
-    Core::Assert(srvIndex != UINT_MAX);
+    if (srvIndex == UINT_MAX)
+    {
+        Core::Logger::Error("AtlasPage::CreateAtlasBrush: 아틀라스 텍스처의 SRV를 만들지 못했다");
+        return false;
+    }
 
     auto atlasTex = std::make_shared<TextureResource>();
     TextureDesc atlasTexDesc
@@ -73,4 +84,5 @@ void AtlasPage::CreateAtlasBrush(
     auto brushRes = std::make_shared<BrushResource>();
     brushRes->SetTexture(atlasTex);
     m_brush = brushRes;
+    return true;
 }

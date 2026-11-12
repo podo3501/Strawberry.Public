@@ -3,7 +3,6 @@ export module DxRender.Graph:Utils;
 import std;
 import :Definitions;
 import Core.Assert;
-import DxRender.Task;
 
 export std::vector<PassIndex> TopologicalSort(const std::vector<PassNode>& graph)
 {
@@ -42,27 +41,6 @@ export std::vector<PassIndex> TopologicalSort(const std::vector<PassNode>& graph
     Core::Assert(result.size() == graph.size()); // Dependency graph contains cycle.
 
     return result;
-}
-
-// 태스크 역방향 의존성(dependents) 빌드
-export void BuildDependents(std::vector<CompiledTask>& tasks)
-{
-    std::unordered_map<LocalTaskID, std::size_t> indexMap;
-    indexMap.reserve(tasks.size());
-
-    for (std::size_t i = 0; i < tasks.size(); ++i)
-        indexMap[tasks[i].localId] = i;
-
-    for (const auto& task : tasks)
-    {
-        for (const auto& dep : task.dependencies)
-        {
-            auto it = indexMap.find(dep);
-            Core::Assert(it != indexMap.end()); // 디펜던시가 존재하는데 task가 없다.
-
-            tasks[it->second].dependents.push_back(task.localId);
-        }
-    }
 }
 
 // std::ranges 기반 vector 중복 제거 템플릿 함수

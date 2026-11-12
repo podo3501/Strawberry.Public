@@ -9,7 +9,6 @@ import :BitmapGlyphGenerator;
 import DxRender.Resource;
 import DxRender.Definition;
 import Core.Math;
-import Core.Assert;
 
 export class BitmapFontAtlasBucket : public FontAtlasBucket
 {
@@ -41,51 +40,39 @@ public:
                     font,
                     glyphIndex,
                     shapedText.size,
-                    CreateEmptyGlyphInfo(bitmap));
+                    CreateEmptyGlyphInfo(bitmap.metrics));
 
                 continue;
-            }
-
-            if (m_pages.empty()) // 페이지가 클래스 생성 때는 없다.
-            {
-                CreatePage();
-                outUploadsPerPage.resize(m_pages.size());
             }
 
             Core::Size packSize{
                 bitmap.pixels.width + Padding * 2,
                 bitmap.pixels.height + Padding * 2 };
 
-            std::uint16_t pageIndex = CurrentPageIndex();
-            auto packPos = m_pages[pageIndex]->AllocateRect(packSize);
-
-            if (!packPos)
+            auto placement = AllocateGlyphRect(packSize, outUploadsPerPage);
+            if (!placement) // 자리를 못 잡은 글리프는 그리지 않고 다시 시도하지도 않는다.
             {
-                CreatePage();
-                outUploadsPerPage.resize(m_pages.size());
-
-                pageIndex = CurrentPageIndex();
-                packPos = m_pages[pageIndex]->AllocateRect(packSize);
-                Assert(packPos);
+                m_glyphCache.Insert(font, glyphIndex, shapedText.size, GlyphInfo{});
+                continue;
             }
 
             auto glyphInfo =
                 CreateGlyphInfo(
                     bitmap,
                     m_bucketID,
-                    pageIndex,
-                    *packPos,
+                    placement->pageIndex,
+                    placement->pos,
                     Padding,
                     m_atlasTextureSize);
 
             GlyphUploadEntry upload;
             if (CreateUploadEntry(
                 std::move(bitmap.pixels),
-                *packPos,
+                placement->pos,
                 Padding,
                 upload))
             {
-                outUploadsPerPage[pageIndex].push_back(
+                outUploadsPerPage[placement->pageIndex].push_back(
                     std::move(upload));
             }
 

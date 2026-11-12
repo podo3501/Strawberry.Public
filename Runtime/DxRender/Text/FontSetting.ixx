@@ -1,7 +1,6 @@
 export module DxRender.Text:FontSetting;
 
 import std;
-import Core.Assert;
 import Contract.Render.Shared.Types;
 
 // 폰트 크기는 atlas 페이지를 나누는 기준이 된다.
@@ -27,7 +26,13 @@ export namespace MTSDFBuckets
     inline constexpr FontBucketID Medium = 60;
 }
 
-export inline FontBucketID GetFontBucketID(TextRenderMode mode, std::uint32_t size)
+export inline FontBucketID GetMTSDFBucketID(std::uint32_t size)
+{
+    return size <= MTSDFBuckets::Small ? MTSDFBuckets::Small : MTSDFBuckets::Medium;
+}
+
+// 버킷이 없으면(모르는 모드, Large보다 큰 비트맵 크기) nullopt이다.
+export inline std::optional<FontBucketID> GetFontBucketID(TextRenderMode mode, std::uint32_t size)
 {
     switch (mode)
     {
@@ -35,17 +40,17 @@ export inline FontBucketID GetFontBucketID(TextRenderMode mode, std::uint32_t si
         if (size <= BitmapBuckets::Small)  return BitmapBuckets::Small;
         if (size <= BitmapBuckets::Medium) return BitmapBuckets::Medium;
         if (size <= BitmapBuckets::Large)  return BitmapBuckets::Large;
-        break;
+        return std::nullopt;
 
     case TextRenderMode::MTSDF:
-        if (size <= MTSDFBuckets::Small)   return MTSDFBuckets::Small;
-        return MTSDFBuckets::Medium;
-    }
+        return GetMTSDFBucketID(size);
 
-    Core::Unreachable();
+    default:
+        return std::nullopt;
+    }
 }
 
 export inline std::uint32_t GetMTSDFResolution(std::uint32_t size)
 {
-    return static_cast<std::uint32_t>(GetFontBucketID(TextRenderMode::MTSDF, size));
+    return static_cast<std::uint32_t>(GetMTSDFBucketID(size));
 }

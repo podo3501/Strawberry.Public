@@ -13,7 +13,7 @@ import :GlyphTypes;
 import :FontSetting;
 import DxRender.Definition;
 import DxRender.Resource;
-import Core.Assert;
+import Core.Logger;
 
 namespace
 {
@@ -55,7 +55,8 @@ namespace
 
     // bounds로부터 pxRange/padding/비트맵 크기/translate/margin을 계산.
     // bakeSize 기준으로 계산해 버킷 내 캐시 일관성을 유지.
-    MTSDFLayout ComputeMTSDFLayout(const msdfgen::Shape::Bounds& bounds, std::uint32_t bakeSize)
+    // 윤곽선 범위가 깨져 크기를 정할 수 없으면 nullopt이다.
+    std::optional<MTSDFLayout> ComputeMTSDFLayout(const msdfgen::Shape::Bounds& bounds, std::uint32_t bakeSize)
     {
         constexpr double kFillRangeAt40 = 2.0;    // 순수 fill/AA용 최소 range
         constexpr double kOutlineRangeAt40 = 6.0;  // 지원할 최대 outline 두께(px, size=40 기준)
@@ -75,6 +76,10 @@ namespace
 
         const double rawWidth = glyphWidthPx + padding * 2;
         const double rawHeight = glyphHeightPx + padding * 2;
+
+        constexpr double kMaxBitmapSize = 16384.0; // D3D12 텍스처 최대 크기. 정상 글리프는 이보다 한참 작다.
+        if (!std::isfinite(rawWidth) || !std::isfinite(rawHeight) || rawWidth > kMaxBitmapSize || rawHeight > kMaxBitmapSize)
+            return std::nullopt;
 
         layout.width = std::max(1, static_cast<int>(std::ceil(rawWidth)));
         layout.height = std::max(1, static_cast<int>(std::ceil(rawHeight)));
@@ -123,8 +128,7 @@ namespace
         outPixels.width = static_cast<std::uint32_t>(width);
         outPixels.height = static_cast<std::uint32_t>(height);
 
-        const std::size_t bytesPerPixel = GetBytesPerPixel(outPixels.format);
-        Core::Assert(bytesPerPixel == 4); // 이 함수는 RGBA8(4바이트/픽셀) 포맷만 지원
+        const std::size_t bytesPerPixel = GetBytesPerPixel(outPixels.format); // RGBA8: 4바이트/픽셀
         outPixels.buffer.resize(static_cast<std::size_t>(width) * height * bytesPerPixel);
 
         for (int y = 0; y < height; ++y)
@@ -154,27 +158,42 @@ export MTSDFGlyph GenerateMTSDFGlyph(
     std::uint32_t glyphIndex,
     std::uint32_t size)
 {
-    MTSDFGlyph result;
+    MTSDFGlyph result; // 만들지 못하면 빈 글리프(크기 0)를 돌려준다
 
     if (!font)
     {
-        Core::Assert(false); // Invalid font
+        Core::Logger::Error("GenerateMTSDFGlyph: 폰트가 없다 (glyphIndex={}, size={})", glyphIndex, size);
         return result;
     }
 
     FT_Face ftFace = font->GetFtFace();
-    if (!ftFace || size == 0)
+    if (!ftFace)
+    {
+        Core::Logger::Error("GenerateMTSDFGlyph: 폰트가 준비되지 않았다 (glyphIndex={}, size={})", glyphIndex, size);
         return result;
+    }
+
+    if (size == 0)
+    {
+        Core::Logger::Error("GenerateMTSDFGlyph: 글자 크기가 0이다 (glyphIndex={})", glyphIndex);
+        return result;
+    }
 
     const std::uint32_t bakeSize = GetMTSDFResolution(size);
     MsdfFontPtr msdfFont(msdfgen::adoptFreetypeFont(ftFace));
     if (!msdfFont)
+    {
+        Core::Logger::Error("GenerateMTSDFGlyph: msdfgen 폰트를 열지 못했다 (glyphIndex={}, size={})", glyphIndex, size);
         return result;
+    }
 
     msdfgen::Shape shape;
     double advance = 0.0;
     if (!LoadShape(msdfFont.get(), glyphIndex, shape, advance))
+    {
+        Core::Logger::Error("GenerateMTSDFGlyph: 글리프 윤곽선을 불러오지 못했다 (glyphIndex={}, size={})", glyphIndex, size);
         return result;
+    }
 
     // advance는 이후 모든 경로(공백 glyph 포함)에서 공통으로 필요하므로 한 번만 계산
     result.metrics.advanceX = static_cast<float>(advance) * static_cast<float>(bakeSize);
@@ -189,7 +208,14 @@ export MTSDFGlyph GenerateMTSDFGlyph(
     msdfgen::edgeColoringSimple(shape, 3.0);
     msdfgen::Shape::Bounds bounds = shape.getBounds();
 
-    const MTSDFLayout layout = ComputeMTSDFLayout(bounds, bakeSize);
+    const auto computed = ComputeMTSDFLayout(bounds, bakeSize);
+    if (!computed)
+    {
+        Core::Logger::Error("GenerateMTSDFGlyph: 글리프 윤곽선 범위가 올바르지 않아 비트맵 크기를 정할 수 없다 (glyphIndex={}, size={})", glyphIndex, size);
+        return result;
+    }
+
+    const MTSDFLayout& layout = *computed;
     msdfgen::Bitmap<float, 4> mtsdf = RenderMTSDFBitmap(shape, layout, bakeSize);
     ConvertMTSDFToRGBA8(mtsdf, layout.width, layout.height, result.pixels);
 

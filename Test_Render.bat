@@ -1,7 +1,7 @@
 @echo off
 rem Build the runtime test solution (Debug x64) and run the render Agent tests (no window).
 rem Usage: Test_Render.bat [gtest_filter]   e.g. Test_Render.bat RGResourceIDAllocatorAgent.*
-rem Default filter is *Agent.*. The old T tests (RenderServiceT, RenderGraphT) open windows and are never run here.
+rem Default filter is *Agent.*. The old T tests (RenderServiceT etc.) open windows and are never run here.
 rem Console shows errors only (English). The full build log is Testing\x64\build_render.log.
 setlocal
 set VSLANG=1033
