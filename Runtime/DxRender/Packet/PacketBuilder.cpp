@@ -9,8 +9,11 @@ import Core.Math;
 import DxRender.Definition;
 import DxRender.Text;
 import DxRender.TransientMesh;
+import DxRender.Resource;
 import Contract.Render.Shared.View;
 import Contract.Render.Backend.View;
+import Core.Logger;
+import Core.TypeHierarchy;
 
 namespace
 {
@@ -38,7 +41,13 @@ namespace
         auto packet = std::make_shared<SceneViewPacket>();
         FillTarget(packet->target, view.context.target, screenSize);
 
-        if (view.draws.environment) packet->environment = view.draws.environment;
+        if (view.draws.environment)
+        {
+            if (Core::Cast<EnvironmentResource>(view.draws.environment))
+                packet->environment = view.draws.environment;
+            else
+                Core::Logger::Error("BuildSceneViewPacket: 환경 리소스가 아니라 스카이박스를 그리지 않는다");
+        }
         packet->surface = BuildSurfaceItems(view.draws.surfaces, view.context.renderOverride.rasterPreset);
         packet->debugSurface = BuildDebugSurfaceItems(view.draws.debugSurfaces);
 
@@ -94,6 +103,11 @@ namespace
 
         for (auto& caster : casters)
         {
+            if (!Core::Cast<MeshResource>(caster.mesh))
+            {
+                Core::Logger::Error("BuildShadowCasters: 메시가 올바른 리소스가 아니라 그림자를 만들지 않는다");
+                continue;
+            }
             result.push_back(
                 RenderShadowCasterItem{
                     std::move(caster.mesh),

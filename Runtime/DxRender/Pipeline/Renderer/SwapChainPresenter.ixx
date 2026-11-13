@@ -24,6 +24,7 @@ public:
     ~SwapChainPresenter();
     SwapChainPresenter(CommandScheduler& cmdScheduler);
 
+    // 크기가 0이거나 frameCount가 0이면 Error와 false. 시작할 때 한 번만 부른다.
     bool Initialize(Device& device, const SwapChainDesc& desc);
     void Clear(CommandList& cmd, float r, float g, float b, float a);
 
@@ -33,9 +34,12 @@ public:
     void TransitionToRenderTarget(CommandList& cmd);
     void TransitionToPresent(CommandList& cmd);
 
-    bool Present(bool vsync);
+    bool Present(bool vsync); // 그릴 수 없는 상태(IsReady가 false)면 Error와 false
+    // 크기 0은 Error와 false에 이전 상태를 유지한다. 실패하면 백버퍼가 없는 상태(IsReady false)로 남고, 다시 Resize하면 복구를 시도한다.
     bool Resize(Device& device, const Core::Size& size);
 
+    // 백버퍼와 깊이 버퍼가 모두 있어 그릴 수 있는 상태인지 (Resize 실패나 장치 손실 뒤에는 false)
+    bool IsReady() const noexcept { return m_ready; }
     const Core::Size& GetSize() const noexcept { return m_size; }
     D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentRTV() const;
     D3D12_CPU_DESCRIPTOR_HANDLE GetDSV() const;
@@ -70,6 +74,7 @@ private:
     Core::Size m_size{};
     bool m_tearing{ false };
     bool m_offscreen{ false };
+    bool m_ready{ false };
     std::uint32_t m_frameIndex = 0;
     std::uint32_t m_rtvDescriptorSize = 0;
     std::uint32_t m_frameCount{ 2 };

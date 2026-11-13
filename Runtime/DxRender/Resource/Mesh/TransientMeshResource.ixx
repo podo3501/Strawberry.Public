@@ -5,8 +5,9 @@ module;
 export module DxRender.Resource:TransientMesh;
 
 import :Mesh;
+import Core.TypeHierarchy;
 
-export class TransientMeshResource : public MeshResource
+export class TransientMeshResource : public Core::TypeNode<TransientMeshResource, MeshResource>
 {
 public:
     TransientMeshResource() = default;

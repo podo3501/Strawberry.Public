@@ -6,7 +6,7 @@ module;
 
 module DxRender.SwapChainPresenter;
 
-import Core.Assert;
+import Core.Logger;
 import DxRender.Definition;
 
 SwapChainPresenter::~SwapChainPresenter()
@@ -20,6 +20,18 @@ SwapChainPresenter::SwapChainPresenter(CommandScheduler& cmdScheduler)
 
 bool SwapChainPresenter::Initialize(Device& device, const SwapChainDesc& desc)
 {
+    if (desc.size.width == 0 || desc.size.height == 0)
+    {
+        Core::Logger::Error("SwapChainPresenter::Initialize: 크기가 0이다 ({}x{})", desc.size.width, desc.size.height);
+        return false;
+    }
+
+    if (desc.frameCount == 0)
+    {
+        Core::Logger::Error("SwapChainPresenter::Initialize: frameCount가 0이다");
+        return false;
+    }
+
     m_frameCount = desc.frameCount;
     m_renderTargets.resize(m_frameCount);
 
@@ -37,6 +49,7 @@ bool SwapChainPresenter::Initialize(Device& device, const SwapChainDesc& desc)
 
     m_frameIndex = m_swapChain ? m_swapChain->GetCurrentBackBufferIndex() : 0;
 
+    m_ready = true;
     return true;
 }
 
@@ -80,6 +93,12 @@ void SwapChainPresenter::TransitionToPresent(CommandList& cmd)
 
 bool SwapChainPresenter::Present(bool vsync)
 {
+    if (!m_ready)
+    {
+        Core::Logger::Error("SwapChainPresenter::Present: 그릴 수 없는 상태다 (크기 변경 실패나 장치 손실 뒤)");
+        return false;
+    }
+
     if (IsOffscreen())
     {
         m_cmdScheduler.SignalQueue(CommandType::Direct);
@@ -93,6 +112,8 @@ bool SwapChainPresenter::Present(bool vsync)
     HRESULT hr = m_swapChain->Present(syncInterval, flags);
     if (FAILED(hr))
     {
+        Core::Logger::Error("SwapChainPresenter::Present: 화면에 내보내지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+
         if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
             HandleDeviceLost();
 
@@ -107,28 +128,46 @@ bool SwapChainPresenter::Present(bool vsync)
 bool SwapChainPresenter::Resize(Device& device, const Core::Size& size)
 {
     if (size.width == 0 || size.height == 0)
+    {
+        Core::Logger::Error("SwapChainPresenter::Resize: 크기가 0이다 ({}x{}). 이전 상태를 유지한다", size.width, size.height);
         return false;
+    }
 
-    if (m_size == size)
+    if (m_ready && m_size == size)
         return true;
 
+    if (!IsOffscreen() && !m_swapChain)
+    {
+        Core::Logger::Error("SwapChainPresenter::Resize: 스왑 체인이 없다 (장치 손실 뒤에는 다시 만들 수 없다)");
+        return false;
+    }
+
+    m_ready = false; // 아래에서 하나라도 실패하면 백버퍼가 없는 채로 남으므로 끝까지 성공해야 다시 켠다
     m_cmdScheduler.WaitIdle(); // GPU 작업 끝날 때까지 대기
 
     for (std::uint32_t i = 0; i < m_frameCount; ++i)
         m_renderTargets[i].Reset(); // 기존 RTV 리소스 해제
 
     m_depthBuffer.Reset();
+    m_readbackBuffer.Reset();
 
     if (IsOffscreen())
     {
         m_size = size;
         m_frameIndex = 0;
-        return CreateFrameRTVs(device) && CreateDepthBuffer(device) && CreateReadbackBuffer(device);
+        if (!CreateFrameRTVs(device) || !CreateDepthBuffer(device) || !CreateReadbackBuffer(device))
+            return false;
+
+        m_ready = true;
+        return true;
     }
 
     DXGI_SWAP_CHAIN_DESC desc{}; // SwapChain Resize
-    if (FAILED(m_swapChain->GetDesc(&desc)))
+    if (const HRESULT hr = m_swapChain->GetDesc(&desc); FAILED(hr))
+    {
+        Core::Logger::Error("SwapChainPresenter::Resize: 스왑 체인 설명을 얻지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
         return false;
+    }
 
     UINT flags = desc.Flags;
     if (m_tearing)
@@ -136,13 +175,17 @@ bool SwapChainPresenter::Resize(Device& device, const Core::Size& size)
     else
         flags &= ~DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
 
-    if (FAILED(m_swapChain->ResizeBuffers(
+    if (const HRESULT hr = m_swapChain->ResizeBuffers(
         m_frameCount,
         size.width,
         size.height,
         DXGI_FORMAT_UNKNOWN,
-        flags)))
+        flags); FAILED(hr))
+    {
+        Core::Logger::Error("SwapChainPresenter::Resize: 버퍼 크기를 바꾸지 못했다 ({}x{}, hr={:#010x})",
+            size.width, size.height, static_cast<std::uint32_t>(hr));
         return false;
+    }
 
     m_size = size;
     m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
@@ -150,6 +193,7 @@ bool SwapChainPresenter::Resize(Device& device, const Core::Size& size)
     if (!CreateFrameRTVs(device)) return false;
     if (!CreateDepthBuffer(device)) return false;
 
+    m_ready = true;
     return true;
 }
 
@@ -186,21 +230,34 @@ bool SwapChainPresenter::CreateSwapChain(Device& device, ID3D12CommandQueue* que
 
     auto factory = device.GetFactory();
     if (!factory)
+    {
+        Core::Logger::Error("SwapChainPresenter::CreateSwapChain: DXGI 팩토리가 없다 (디바이스를 먼저 초기화해야 한다)");
         return false;
+    }
 
     Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain1;
-    if (FAILED(factory->CreateSwapChainForHwnd(
+    if (const HRESULT hr = factory->CreateSwapChainForHwnd(
         queue,
         desc.hwnd,
         &scDesc,
         nullptr,
         nullptr,
-        &swapChain1)))
+        &swapChain1); FAILED(hr))
+    {
+        Core::Logger::Error("SwapChainPresenter::CreateSwapChain: 스왑 체인을 만들지 못했다 ({}x{}, frameCount={}, hr={:#010x})",
+            desc.size.width, desc.size.height, m_frameCount, static_cast<std::uint32_t>(hr));
         return false;
+    }
 
     factory->MakeWindowAssociation(desc.hwnd, DXGI_MWA_NO_ALT_ENTER);
 
-    return SUCCEEDED(swapChain1.As(&m_swapChain));
+    if (const HRESULT hr = swapChain1.As(&m_swapChain); FAILED(hr))
+    {
+        Core::Logger::Error("SwapChainPresenter::CreateSwapChain: IDXGISwapChain4를 얻지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
+        return false;
+    }
+
+    return true;
 }
 
 bool SwapChainPresenter::CreateRTV(Device& device)
@@ -246,8 +303,11 @@ bool SwapChainPresenter::CreateFrameRTVs(Device& device)
             if (!m_renderTargets[i])
                 return false;
         }
-        else if (FAILED(m_swapChain->GetBuffer(i, IID_PPV_ARGS(m_renderTargets[i].GetAddressOf()))))
+        else if (const HRESULT hr = m_swapChain->GetBuffer(i, IID_PPV_ARGS(m_renderTargets[i].GetAddressOf())); FAILED(hr))
+        {
+            Core::Logger::Error("SwapChainPresenter::CreateFrameRTVs: {}번 백버퍼를 얻지 못했다 (hr={:#010x})", i, static_cast<std::uint32_t>(hr));
             return false;
+        }
 
         D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
         rtvDesc.Format = RenderFormat::BackBufferSRGBView;
@@ -264,9 +324,6 @@ bool SwapChainPresenter::CreateFrameRTVs(Device& device)
 
 bool SwapChainPresenter::CreateDepthBuffer(Device& device)
 {
-    Core::Assert(m_size.width > 0);
-    Core::Assert(m_size.height > 0);
-
     D3D12_RESOURCE_DESC desc =
         CD3DX12_RESOURCE_DESC::Tex2D(
             m_depthFormat,
@@ -322,7 +379,7 @@ bool SwapChainPresenter::CreateReadbackBuffer(Device& device)
 
 void SwapChainPresenter::RecordReadback(CommandList& cmd)
 {
-    if (!m_readbackBuffer) return;
+    if (!m_ready || !m_readbackBuffer) return; // 오프스크린이 아니거나 그릴 수 없는 상태면 복사할 화면이 없다
 
     Resource& backBuffer = m_renderTargets[m_frameIndex];
     CommandUtils::Transition(cmd, backBuffer,
@@ -347,7 +404,11 @@ void SwapChainPresenter::RecordReadback(CommandList& cmd)
 
 bool SwapChainPresenter::ReadPixels(std::vector<std::uint8_t>& out)
 {
-    if (!m_readbackBuffer) return false;
+    if (!m_ready || !m_readbackBuffer)
+    {
+        Core::Logger::Error("SwapChainPresenter::ReadPixels: 읽을 수 있는 화면이 없다 (오프스크린이 아니거나 크기 변경 실패 뒤)");
+        return false;
+    }
 
     m_cmdScheduler.WaitIdle(); // 복사가 끝날 때까지 기다린다
 
@@ -355,8 +416,11 @@ bool SwapChainPresenter::ReadPixels(std::vector<std::uint8_t>& out)
     const std::uint32_t rowBytes = m_size.width * 4;
 
     std::uint8_t* data = nullptr;
-    if (FAILED(m_readbackBuffer->Map(0, nullptr, reinterpret_cast<void**>(&data))))
+    if (const HRESULT hr = m_readbackBuffer->Map(0, nullptr, reinterpret_cast<void**>(&data)); FAILED(hr))
+    {
+        Core::Logger::Error("SwapChainPresenter::ReadPixels: 읽기 버퍼를 매핑하지 못했다 (hr={:#010x})", static_cast<std::uint32_t>(hr));
         return false;
+    }
 
     out.resize(static_cast<std::size_t>(rowBytes) * m_size.height);
     for (std::uint32_t y = 0; y < m_size.height; ++y)
@@ -377,6 +441,7 @@ void SwapChainPresenter::HandleDeviceLost()
     // - 여기서는 GPU 리소스 release + pointer invalidate까지만 수행
     // - Device + SwapChain 재생성은 DeviceManager 레벨에서 담당
 
+    m_ready = false; // 이후 Render는 프레임을 건너뛰고 Present와 Resize는 Error로 거절한다
     m_cmdScheduler.WaitIdle();
 
     // GPU 리소스 invalidate

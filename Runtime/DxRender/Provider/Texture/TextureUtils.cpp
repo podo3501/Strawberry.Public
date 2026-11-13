@@ -12,6 +12,7 @@ import DxRender.Allocator;
 import DxRender.Resource;
 import DxRender.Factory;
 import Contract.Render.Assets;
+import Core.Logger;
 
 namespace
 {
@@ -68,6 +69,64 @@ bool CanGenerateMips(const TextureAsset& asset, bool generateMips)
 {
     DXGI_FORMAT format = ToDXGIFormat(asset.format);
     return generateMips && IsUAVCompatibleFormat(format);
+}
+
+bool IsValidTextureAsset(const TextureAsset& asset)
+{
+    if (asset.format == PixelFormat::Unknown)
+    {
+        Core::Logger::Error("TextureUtils: 텍스처 에셋의 형식을 알 수 없다");
+        return false;
+    }
+    if (asset.size.width <= 0 || asset.size.height <= 0)
+    {
+        Core::Logger::Error("TextureUtils: 텍스처 에셋의 크기가 0 이하이다 ({}x{})", asset.size.width, asset.size.height);
+        return false;
+    }
+
+    const auto requiredBytes = static_cast<std::uint64_t>(asset.stride) * static_cast<std::uint64_t>(asset.size.height);
+    if (asset.stride == 0 || asset.pixels.size() < requiredBytes)
+    {
+        Core::Logger::Error("TextureUtils: 텍스처 에셋의 픽셀이 모자라다 (줄 간격 {}, 높이 {}, 픽셀 {}바이트)",
+            asset.stride, asset.size.height, asset.pixels.size());
+        return false;
+    }
+    return true;
+}
+
+bool IsValidTextureCubeAsset(const TextureCubeAsset& asset)
+{
+    if (asset.format == PixelFormat::Unknown)
+    {
+        Core::Logger::Error("TextureUtils: 큐브 텍스처 에셋의 형식을 알 수 없다");
+        return false;
+    }
+    if (asset.width == 0 || asset.height == 0 || asset.mipCount == 0)
+    {
+        Core::Logger::Error("TextureUtils: 큐브 텍스처 에셋의 크기나 밉 개수가 0이다 ({}x{}, 밉 {})", asset.width, asset.height, asset.mipCount);
+        return false;
+    }
+    if (asset.faceCount != 6)
+    {
+        Core::Logger::Error("TextureUtils: 큐브 텍스처 에셋의 면 개수가 6이 아니다 ({})", asset.faceCount);
+        return false;
+    }
+
+    const auto expected = static_cast<std::size_t>(asset.mipCount) * asset.faceCount;
+    if (asset.subImages.size() != expected)
+    {
+        Core::Logger::Error("TextureUtils: 큐브 텍스처 에셋의 이미지 개수가 밉 x 면과 다르다 ({} != {})", asset.subImages.size(), expected);
+        return false;
+    }
+    for (const auto& sub : asset.subImages)
+    {
+        if (sub.rowPitch == 0 || sub.pixels.empty())
+        {
+            Core::Logger::Error("TextureUtils: 큐브 텍스처 에셋에 비어 있는 이미지가 있다");
+            return false;
+        }
+    }
+    return true;
 }
 
 void UploadTexture(
@@ -139,7 +198,11 @@ bool CreateTextureViews(
     std::vector<UINT>* outMipSrvIndices,
     std::vector<UINT>* outMipUavIndices)
 {
-    if (!texRes) return false;
+    if (!texRes || !texRes->Get())
+    {
+        Core::Logger::Error("TextureUtils::CreateTextureViews: 텍스처 리소스가 없다");
+        return false;
+    }
 
     auto& res = texRes->Get();
     const auto& resDesc = res->GetDesc();
@@ -179,7 +242,11 @@ bool CreateTextureCubeViews(
     DescriptorFactory& descFactory,
     TextureCubeResource* texRes)
 {
-    if (!texRes) return false;
+    if (!texRes || !texRes->Get())
+    {
+        Core::Logger::Error("TextureUtils::CreateTextureCubeViews: 큐브 텍스처 리소스가 없다");
+        return false;
+    }
 
     auto& res = texRes->Get();
     const auto& resDesc = res->GetDesc();

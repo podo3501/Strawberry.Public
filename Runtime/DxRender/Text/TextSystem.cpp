@@ -6,6 +6,7 @@ import :TextGeometry;
 import DxRender.Definition;
 import DxRender.Resource;
 import Core.Logger;
+import Core.TypeHierarchy;
 
 TextSystem::TextSystem(Device& device, DescriptorFactory& factory)
     : m_fontAtlas{ device, factory }
@@ -49,14 +50,14 @@ std::vector<ShapedText> TextSystem::ShapeTexts(const std::vector<RenderTextItem>
         shaped.size = item.fontSize;
         shaped.index = index;
 
-        if (!item.fontRes)
+        FontResource* font = Core::Cast<FontResource>(item.fontRes.get());
+        if (!font)
         {
-            Core::Logger::Error("TextSystem::ShapeTexts: 폰트가 없는 텍스트 항목이라 그리지 않는다 (index={})", index);
+            Core::Logger::Error("TextSystem::ShapeTexts: 폰트가 없거나 폰트 리소스가 아닌 텍스트 항목이라 그리지 않는다 (index={})", index);
             result.push_back(std::move(shaped));
             continue;
         }
 
-        auto font = static_cast<FontResource*>(item.fontRes.get());
         shaped.font = font;
         shaped.glyphs = ShapeAndWrap(
             font,

@@ -9,8 +9,8 @@ module DxRender.Pipeline.Renderer;
 import :UI;
 import :Utils;
 import DxRender.Core;
+import DxRender.Allocator;
 import DxRender.Helper;
-import Core.Assert;
 import Core.Utils;
 import Contract.Render.Backend.Types;
 
@@ -57,22 +57,26 @@ void UIRenderer::BeginFrame(CommandList& cmd)
     cmd.SetPipelineState(m_pso, PrimitiveTopologyType::Triangle);
 }
 
-void UIRenderer::Draw(
+bool UIRenderer::Draw(
     CommandList& cmd,
     MeshResource& mesh,
     const Core::Matrix& viewProj)
 {
+    auto drawCBAddress = UploadDrawCB(viewProj);
+    if (drawCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
+
     uint32_t resIndices[2] =
     {
         mesh.GetVertexHeapIndex(),
         mesh.GetIndexHeapIndex()
     };
-    auto drawCBAddress = UploadDrawCB(viewProj);
 
     cmd->SetGraphicsRoot32BitConstants(Core::ToIndex(RootSlot::ResourceIndices), 2, resIndices, 0);
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::DrawCB), drawCBAddress);
 
     cmd->DrawInstanced(mesh.GetIndexCount(), 1, 0, 0);
+    return true;
 }
 
 bool UIRenderer::CreateRootSignature(Device& device)

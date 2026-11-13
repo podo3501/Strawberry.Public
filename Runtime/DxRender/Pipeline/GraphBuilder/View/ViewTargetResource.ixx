@@ -12,8 +12,8 @@ export struct ViewTargetResourceDesc
     std::uint32_t colorRTVIndex{ std::numeric_limits<std::uint32_t>::max() };
     std::uint32_t depthDSVIndex{ std::numeric_limits<std::uint32_t>::max() };
     std::uint32_t heapIndex{ std::numeric_limits<std::uint32_t>::max() };
-    RGResourceID colorID{};
-    RGResourceID depthID{};
+    RGResourceID colorID{ InvalidRGID };
+    RGResourceID depthID{ InvalidRGID };
     Core::Size size{};
 };
 

@@ -9,6 +9,7 @@ module DxRender.Pipeline.Renderer;
 import :DebugSurface;
 import :Constants;
 import DxRender.Core;
+import DxRender.Allocator;
 import DxRender.Helper;
 import DxRender.Definition;
 import Core.Bit;
@@ -47,28 +48,40 @@ void DebugSurfaceRenderer::ResetFrameResources(std::uint32_t slot)
     m_frameCBAllocator.Reset(slot);
 }
 
-void DebugSurfaceRenderer::PrepareDraw(CommandList& cmd, const CameraData& camera)
+bool DebugSurfaceRenderer::PrepareDraw(CommandList& cmd, const CameraData& camera)
 {
     auto frameCBAddress = UploadFrameCB(camera);
+    if (frameCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
 
     cmd.SetGraphicsRootSignature(m_rootSignature.Get());
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::FrameCB), frameCBAddress);
+    return true;
 }
 
-void DebugSurfaceRenderer::BindPipeline(CommandList& cmd, const PipelineState& pipelineState)
+bool DebugSurfaceRenderer::BindPipeline(CommandList& cmd, const PipelineState& pipelineState)
 {
-    cmd.SetPipelineState(GetPipeline(pipelineState), pipelineState.topologyType);
+    auto* pso = GetPipeline(pipelineState);
+    if (!pso)
+        return false; // 원인은 PipelineCache가 이미 Error로 남겼다
+
+    cmd.SetPipelineState(pso, pipelineState.topologyType);
+    return true;
 }
 
-void DebugSurfaceRenderer::Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world)
+bool DebugSurfaceRenderer::Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world)
 {
     auto objectCBAddress = UploadObjectCB(world);
+    if (objectCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
+
     std::uint32_t vbIndex = mesh.GetVertexHeapIndex();
 
     cmd->SetGraphicsRoot32BitConstants(Core::ToIndex(RootSlot::VertexIndex), 1, &vbIndex, 0);
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::ObjectCB), objectCBAddress);
 
     cmd->DrawInstanced(mesh.GetVertexCount(), 1, 0, 0);
+    return true;
 }
 
 bool DebugSurfaceRenderer::CreateRootSignature(Device& device)

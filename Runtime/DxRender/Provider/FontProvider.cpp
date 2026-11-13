@@ -4,19 +4,21 @@ import std;
 import :Font;
 import DxRender.Resource;
 import Contract.Render.Assets;
+import Core.Logger;
+import Core.TypeHierarchy;
 
 std::shared_ptr<IResource> FontProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
-    if (!asset)
-        return nullptr;
-
-    auto binAsset = std::static_pointer_cast<BinaryAsset>(asset);
+    auto binAsset = Core::Cast<BinaryAsset>(asset);
     if (!binAsset || binAsset->buffer.empty())
+    {
+        Core::Logger::Error("FontProvider::CreateResource: 폰트 파일 에셋이 없거나 비어 있다");
         return nullptr;
+    }
 
     auto fontRes = std::make_shared<FontResource>();
     if (!fontRes->Initialize(m_ftLibrary, std::move(binAsset)))
-        return nullptr;
+        return nullptr; // 원인은 FontResource가 남김
 
     return fontRes;
 }

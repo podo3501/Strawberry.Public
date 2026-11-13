@@ -25,7 +25,8 @@ public:
     bool Initialize(Device& device);
     void ResetFrameResources(uint32_t slot);
     void BeginFrame(CommandList& cmd);
-    void Draw(
+    // 상수 버퍼의 한도를 넘으면 false이고 그리지 않는다. 부르는 쪽이 그 항목을 건너뛴다.
+    [[nodiscard]] bool Draw(
         CommandList& cmd,
         MeshResource& mesh,
         const Core::Matrix& viewProj);

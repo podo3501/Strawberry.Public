@@ -3,6 +3,7 @@ export module DxRender.Provider:TextureCreateGraphBuilder;
 import std;
 import :MipGenerator;
 import :TextureLoadRequest;
+import DxRender.Core;
 import DxRender.Graph;
 import DxRender.Resource;
 import DxRender.Task;
@@ -48,7 +49,7 @@ private:
     std::shared_ptr<ResourceContext> CreateResourceContext(
         std::shared_ptr<std::vector<TextureUploadEntry>> textureUploads,
         RGResourceID uploadResID,
-        std::size_t totalUploadSize);
+        Resource uploadBuffer);
 
     void BuildUploadPass(
         std::shared_ptr<std::vector<TextureUploadEntry>> textureUploads,
@@ -57,6 +58,10 @@ private:
     void BuildMipPass(
         std::shared_ptr<std::vector<TextureUploadEntry>> textureUploads);
 
+    void ReleaseMipViews(
+        const std::vector<std::uint32_t>& mipSrvIndices,
+        const std::vector<std::uint32_t>& mipUavIndices);
+    void ReleaseViews(const std::vector<TextureUploadEntry>& textureUploads);
     void FinalizeTextures(std::vector<TextureUploadEntry>& textureUploads);
 
     TaskScheduler& m_taskScheduler;

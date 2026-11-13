@@ -6,8 +6,9 @@ import Contract.Render.IResource;
 import Contract.Render.Shared.Types;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
+import Core.TypeHierarchy;
 
-export class MaterialResource : public IResource
+export class MaterialResource : public Core::TypeNode<MaterialResource, IResource>
 {
 public:
     ~MaterialResource() override = default;

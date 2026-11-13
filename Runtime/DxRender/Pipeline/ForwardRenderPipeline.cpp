@@ -20,6 +20,7 @@ import DxRender.Pipeline.GraphBuilder;
 import DxRender.Pipeline.Renderer;
 import DxRender.Pipeline.Inspector;
 import Core.Math;
+import Core.Logger;
 
 namespace
 {
@@ -52,7 +53,7 @@ ForwardRenderPipeline::ForwardRenderPipeline(
     , m_renderers{ device, shaderLibrary }
     , m_viewComposition{ device, taskScheduler, descFactory, m_renderers, swapChain, m_graph, m_idAllocator }
     , m_inspectorRenderers{ device, shaderLibrary }
-    , m_fontUploadBuilder{ resFactory }
+    , m_fontUploadBuilder{ resFactory, taskScheduler }
     , m_clearBuilder{ m_swapChain }
     , m_shadowBuilder{ m_renderers.GetShadowRenderer(), descFactory, m_shadowRes }
     , m_inspectorBuilder{ m_inspectorRenderers.GetInspectorImageRenderer(), descFactory, m_swapChain }
@@ -68,7 +69,10 @@ bool ForwardRenderPipeline::Initialize(const Core::Size& screenSize)
 
     if (!m_shadowRes.Initialize(std::move(shadow), dsv, srv)) return false;
     if (!m_renderers.Initialize()) return false;
-    if (!m_inspectorRenderers.Initialize(screenSize)) return false;
+
+    // 디버그 전용이라 실패해도 그리는 데는 영향이 없다. 오류만 남기고 계속한다.
+    if (!m_inspectorRenderers.Initialize(screenSize))
+        Core::Logger::Error("ForwardRenderPipeline::Initialize: 인스펙터 이미지 렌더러를 초기화하지 못했다. 인스펙터 없이 계속한다");
 
     m_hBackBuffer = m_idAllocator.AllocatePersistent();
     m_hShadow = m_idAllocator.AllocatePersistent();

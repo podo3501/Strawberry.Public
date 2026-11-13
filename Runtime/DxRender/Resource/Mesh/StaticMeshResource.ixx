@@ -8,8 +8,9 @@ import std;
 import :Mesh;
 import DxRender.Core;
 import Contract.Render.Assets;
+import Core.TypeHierarchy;
 
-export class StaticMeshResource : public MeshResource
+export class StaticMeshResource : public Core::TypeNode<StaticMeshResource, MeshResource>
 {
 public:
     ~StaticMeshResource() override = default;

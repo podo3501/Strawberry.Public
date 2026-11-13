@@ -21,6 +21,9 @@ namespace TextureAlignment
 
 export constexpr std::uint32_t FrameBufferCount = 3;
 
+// 한 패스가 항목을 나눠 병렬로 기록하는 명령 목록의 최대 수. 목록마다 프레임 상수를 하나씩 올리므로 상수 버퍼 개수도 이 수에 맞춘다.
+export constexpr std::uint32_t MaxParallelRecordLists = 3;
+
 namespace RenderFormat
 {
     export inline constexpr DXGI_FORMAT BackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;

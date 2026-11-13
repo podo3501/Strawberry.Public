@@ -32,10 +32,17 @@ export struct TextConfig
     MTSDFConfig mtsdf;
 };
 
+export enum class RenderAdapter
+{
+    Auto, // 하드웨어 어댑터를 먼저 시도하고 없으면 WARP
+    Warp  // 소프트웨어 렌더러로 고정 (결과가 기계마다 같다)
+};
+
 export struct RenderConfig
 {
     bool enableDebugLayer{ true };
     bool allowTearing{ true };
+    RenderAdapter adapter{ RenderAdapter::Auto };
 
     CommandPoolConfig commandPools;
     DescriptorConfig descriptors;

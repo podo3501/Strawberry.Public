@@ -21,8 +21,8 @@ export struct IRenderService
 	virtual ShaderID RegisterShader(const Core::ResourceID& resourceID, ShaderType type) = 0;
 
 	virtual void Update() = 0;
-	virtual void Render() = 0;
-	virtual void Resize(const Core::Size& size) = 0;
+	virtual bool Render() = 0; // 그리지 못했거나 화면에 내보내지 못했으면 false (원인은 백엔드가 Error로 남긴다)
+	virtual bool Resize(const Core::Size& size) = 0; // 실패하면 다시 Resize할 때까지 프레임을 그리지 못한다
 
 	virtual IRenderResources& GetResources() = 0;
 	virtual IFrameRecorder& GetFrameRecorder() = 0;

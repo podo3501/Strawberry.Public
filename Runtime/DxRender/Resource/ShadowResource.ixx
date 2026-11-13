@@ -28,6 +28,12 @@ public:
             return false;
         }
 
+        if (resource)
+        {
+            const D3D12_RESOURCE_DESC desc = resource->GetDesc();
+            m_width = static_cast<UINT>(desc.Width);
+            m_height = desc.Height;
+        }
         m_resource = std::move(resource);
         m_dsvIndex = dsvIndex;
         m_srvIndex = srvIndex;
@@ -38,11 +44,15 @@ public:
     const Resource& GetResource() const noexcept { return m_resource; }
     Resource& GetResource() noexcept { return m_resource; }
 
+    UINT GetWidth() const noexcept { return m_width; }   // 텍스처 크기. 그림자 패스의 뷰포트가 이 값을 쓴다
+    UINT GetHeight() const noexcept { return m_height; }
     UINT GetDSVIndex() const noexcept { return m_dsvIndex; } // 쓰기용 인덱스
     UINT GetSRVIndex() const noexcept { return m_srvIndex; } // 읽기용 Bindless 인덱스
 
 private:
     Resource m_resource{};
+    UINT m_width{ 0 };
+    UINT m_height{ 0 };
     UINT m_dsvIndex{ UINT_MAX };
     UINT m_srvIndex{ UINT_MAX };
 };

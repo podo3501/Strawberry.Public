@@ -24,7 +24,8 @@ public:
     void BeginFrame(CommandList& cmd);
     void BindPipeline(CommandList& cmd);
 
-    void Draw(CommandList& cmd, UINT srvIndex);
+    // 상수 버퍼의 한도를 넘으면 false이고 그리지 않는다.
+    [[nodiscard]] bool Draw(CommandList& cmd, UINT srvIndex);
     void SetScreenSize(const Core::Size& size);
 
 private:

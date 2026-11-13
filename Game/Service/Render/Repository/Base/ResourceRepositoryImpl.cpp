@@ -43,7 +43,8 @@ bool ResourceRepositoryImpl::Release(RawHandle handle)
     m_cache.erase(entry->key);
     std::erase(m_loadingList, handle);
 
-    m_provider->ReleaseResource(std::move(entry->res));
+    if (entry->res) // 에셋을 읽는 중이면 아직 만든 리소스가 없다
+        m_provider->ReleaseResource(std::move(entry->res));
     return m_loadedResources.Remove(handle);
 }
 
@@ -137,7 +138,7 @@ void ResourceRepositoryImpl::ProcessResourcePending()
         auto res = m_provider->CreateResource(work.asset);
         if (!res)
         {
-            Core::Assert(false); // 로딩하다가 실패함.
+            Core::Logger::Error("ResourceRepository: 프로바이더가 리소스를 만들지 못함");
             entry->state = LoadState::Failed;
             continue;
         }

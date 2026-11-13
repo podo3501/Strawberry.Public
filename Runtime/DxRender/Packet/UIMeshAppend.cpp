@@ -9,17 +9,24 @@ import :UIMeshAppend;
 import DxRender.Helper;
 import DxRender.Definition;
 import DxRender.Resource;
-import Core.Assert;
+import Core.Logger;
 import Core.Math;
+import Core.TypeHierarchy;
 import Contract.Render.Assets;
 import Contract.Render.Backend;
 
 namespace
 {
-    std::span<const UIVertex> AsUIVertices(const MeshAsset& asset)
+    // UI 정점 모양이 아닌 템플릿이면 Error를 남기고 nullopt
+    std::optional<std::span<const UIVertex>> AsUIVertices(const MeshAsset& asset)
     {
-        Core::Assert(asset.format == VertexFormat::UI);
-        Core::Assert(asset.vertexStride == sizeof(UIVertex));
+        if (asset.format != VertexFormat::UI || asset.vertexStride != sizeof(UIVertex) ||
+            asset.vertices.size() != static_cast<std::size_t>(asset.vertexCount) * sizeof(UIVertex))
+        {
+            Core::Logger::Error("UIMeshAppend: UI 정점 모양이 아닌 메시라 그리지 않는다 (형식 {}, 보폭 {}, 정점 {}, 바이트 {})",
+                static_cast<int>(asset.format), asset.vertexStride, asset.vertexCount, asset.vertices.size());
+            return std::nullopt;
+        }
 
         const UIVertex* data = reinterpret_cast<const UIVertex*>(asset.vertices.data());
         return std::span<const UIVertex>(data, asset.vertexCount);
@@ -77,16 +84,27 @@ void AppendUIItem(
     const DrawUIItem& ui,
     UIBatchBuffer& buffer)
 {
-    auto* meshRes = static_cast<StaticMeshResource*>(ui.mesh.get());
+    auto meshRes = Core::Cast<StaticMeshResource>(ui.mesh);
+    auto brush = Core::Cast<BrushResource>(ui.brush);
+    if (!meshRes || !brush)
+    {
+        Core::Logger::Error("AppendUIItem: 메시나 브러시가 올바른 리소스가 아니라 그리지 않는다 (메시 {}, 브러시 {})",
+            meshRes != nullptr, brush != nullptr);
+        return;
+    }
+
     const MeshAsset* tmpl = meshRes->GetCPUTemplate();
     if (!tmpl)
         return; // ui는 이 cpu asset을 다 들고 있다고 가정한다. 만약 다른 메쉬종류가 template를 쓰거나 ui가 불필요한 asset을 카피한다고 생각된다면 수정해야 한다.
 
-    auto* brush = static_cast<BrushResource*>(ui.brush.get());
+    const auto vertices = AsUIVertices(*tmpl);
+    if (!vertices)
+        return;
+
     Core::Vector4 uvTransform = brush->CalcUVTransform(ui.source);
     AppendUIMesh(
         buffer,
-        AsUIVertices(*tmpl),
+        *vertices,
         tmpl->indices,
         ui.world,
         uvTransform,

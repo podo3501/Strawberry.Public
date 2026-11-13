@@ -8,6 +8,7 @@ module DxRender.Pipeline.Renderer;
 
 import :Shadow;
 import DxRender.Core;
+import DxRender.Allocator;
 import DxRender.Definition;
 import DxRender.Helper;
 import Core.Bit;
@@ -62,23 +63,30 @@ void ShadowRenderer::ResetFrameResources(std::uint32_t slot)
     m_frameCBAllocator.Reset(slot);
 }
 
-void ShadowRenderer::PrepareDraw(CommandList& cmd, const DirectionalLightData& light)
+bool ShadowRenderer::PrepareDraw(CommandList& cmd, const DirectionalLightData& light)
 {
     auto frameCBAddress = UploadFrameCB(light);
+    if (frameCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
 
     cmd.SetGraphicsRootSignature(m_rootSignature.Get());
     cmd.SetPipelineState(m_shadowPSO, PrimitiveTopologyType::Triangle); // 섀도우 맵은 항상 삼각형 리스트로 빌드업
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::FrameCB), frameCBAddress);
+    return true;
 }
 
-void ShadowRenderer::Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world)
+bool ShadowRenderer::Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world)
 {
     auto objectCBAddress = UploadObjectCB(world);
+    if (objectCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
+
     std::uint32_t meshData[2] = { mesh.GetVertexHeapIndex(), mesh.GetIndexHeapIndex() };
 
     cmd->SetGraphicsRoot32BitConstants(Core::ToIndex(RootSlot::MeshData), 2, meshData, 0);
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::ObjectCB), objectCBAddress);
     cmd->DrawInstanced(mesh.GetIndexCount(), 1, 0, 0);
+    return true;
 }
 
 bool ShadowRenderer::CreateRootSignature(Device& device)

@@ -121,7 +121,8 @@ void Application::Frame(float dt)
     if (size != m_size)
     {
         m_size = size;
-        m_renderService->Resize(size);
+        if (!m_renderService->Resize(size)) // 원인은 백엔드가 남겼다. 창 크기를 다시 바꾸면 다시 시도한다
+            Core::Logger::Error("Application::Frame: 렌더 크기를 {}x{}로 바꾸지 못했다", size.width, size.height);
         m_ui.Resize(static_cast<float>(size.width), static_cast<float>(size.height));
     }
 
@@ -148,7 +149,8 @@ void Application::Frame(float dt)
     m_visualizer.Draw(overlay, m_size);   // UI 위에 덧그린다
 
     m_renderService->Update();
-    m_renderService->Render();
+    if (!m_renderService->Render())   // 그릴 수 없는 상태: 쉬어서 바쁜 반복을 막는다 (원인은 백엔드가 남겼다)
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
 
 void Application::ForwardKeysToUi()

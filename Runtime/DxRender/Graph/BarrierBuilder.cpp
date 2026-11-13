@@ -67,6 +67,7 @@ D3D12_RESOURCE_STATES ToD3D12(RGAccess access)
     {
     case RGAccess::CopyDest:   return D3D12_RESOURCE_STATE_COMMON; // 가져오는 리소스는 만든 직후라 COMMON이다.
     case RGAccess::SRV:        return D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    case RGAccess::SRVNonPixel: return D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
     case RGAccess::UAV:        return D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
     case RGAccess::RTV:        return D3D12_RESOURCE_STATE_RENDER_TARGET;
     case RGAccess::DepthWrite: return D3D12_RESOURCE_STATE_DEPTH_WRITE;

@@ -2,8 +2,9 @@ export module DxRender.Resource:DebugMaterial;
 
 import DxRender.Definition;
 import Contract.Render.IResource;
+import Core.TypeHierarchy;
 
-export class DebugMaterialResource : public IResource
+export class DebugMaterialResource : public Core::TypeNode<DebugMaterialResource, IResource>
 {
 public:
     ~DebugMaterialResource() override = default;

@@ -15,6 +15,10 @@ export D3D12_RESOURCE_DESC CreateTexture2DDesc(const TextureAsset& asset, bool m
 export D3D12_RESOURCE_DESC CreateTextureCubeDesc(const TextureCubeAsset& asset);
 export bool CanGenerateMips(const TextureAsset& asset, bool generateMips);
 
+// 형식, 크기, 줄 간격, 픽셀 바이트 수가 업로드할 수 있는 에셋인지 확인한다 (아니면 이유와 함께 Error)
+export bool IsValidTextureAsset(const TextureAsset& asset);
+export bool IsValidTextureCubeAsset(const TextureCubeAsset& asset);
+
 export void UploadTexture(
     CommandList& uploadCmd,
     const TextureAsset& asset,

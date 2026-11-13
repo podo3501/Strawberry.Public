@@ -5,8 +5,9 @@ import :IPendingResource;
 import :TextureCube;
 import Core.Math;
 import Contract.Render.IResource;
+import Core.TypeHierarchy;
 
-export class EnvironmentResource : public IResource, public IPendingResource
+export class EnvironmentResource : public Core::TypeNode<EnvironmentResource, IResource>, public IPendingResource
 {
 public:
     ~EnvironmentResource() override = default;

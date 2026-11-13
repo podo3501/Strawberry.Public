@@ -53,7 +53,8 @@ public:
         m_cbAllocator.Reset(slot);
     }
 
-    void Draw(CommandList& cmd, const CameraData& camera, TextureCubeResource& skybox)
+    // 상수 버퍼의 한도를 넘으면 false이고 그리지 않는다. 부르는 쪽이 그 뷰의 스카이박스를 건너뛴다.
+    [[nodiscard]] bool Draw(CommandList& cmd, const CameraData& camera, TextureCubeResource& skybox)
     {
         // translation 제거 - 카메라 위치를 원점으로 고정해서 스카이박스가 "무한히 먼 배경"처럼 보이게 함
         DirectX::XMMATRIX view = ToDXMatrix(camera.view);
@@ -67,11 +68,14 @@ public:
         cb.skyboxTextureIndex = skybox.GetHeapIndex();
 
         auto cbAddress = m_cbAllocator.AllocateConstant(cb);
+        if (cbAddress == FrameConstantAllocator::InvalidAddress)
+            return false;
 
         cmd.SetGraphicsRootSignature(m_rootSignature.Get());
         cmd.SetPipelineState(m_pso, PrimitiveTopologyType::Triangle);
         cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::FrameCB), cbAddress);
         cmd->DrawInstanced(3, 1, 0, 0); // 풀스크린 트라이앵글 - 버텍스/인덱스 버퍼 없음
+        return true;
     }
 
 private:

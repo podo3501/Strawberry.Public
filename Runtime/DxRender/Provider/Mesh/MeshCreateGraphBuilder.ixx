@@ -17,7 +17,7 @@ struct MeshUploadEntry
     UploadRegion vbRegion;
     UploadRegion ibRegion;
 
-    std::shared_ptr<MeshResource> resource;
+    std::shared_ptr<StaticMeshResource> resource;
     std::shared_ptr<MeshAsset> asset;
 
     std::uint32_t vbHeapIndex{ std::numeric_limits<std::uint32_t>::max() };
@@ -45,7 +45,7 @@ private:
     std::shared_ptr<ResourceContext> CreateResourceContext(
         std::shared_ptr<std::vector<MeshUploadEntry>> meshUploads,
         RGResourceID uploadResID,
-        std::size_t totalUploadSize);
+        Resource uploadBuffer);
 
     void BuildUploadPass(
         std::shared_ptr<std::vector<MeshUploadEntry>> meshUploads,

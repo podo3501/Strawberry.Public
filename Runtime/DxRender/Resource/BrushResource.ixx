@@ -10,8 +10,9 @@ import :IPendingResource;
 import :Texture;
 import Core.Math;
 import Contract.Render.IResource;
+import Core.TypeHierarchy;
 
-export class BrushResource : public IResource, public IPendingResource
+export class BrushResource : public Core::TypeNode<BrushResource, IResource>, public IPendingResource
 {
 public:
     ~BrushResource() override = default;

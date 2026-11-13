@@ -8,15 +8,15 @@ import DxRender.Definition;
 import DxRender.Text;
 import DxRender.Resource;
 import DxRender.TransientMesh;
-import Core.Assert;
+import Core.Logger;
 import Core.Math;
+import Core.TypeHierarchy;
 import Contract.Render.Backend.View;
 
 namespace
 {
     RenderTextItem ToRenderTextItem(DrawTextItem& text)
     {
-        Core::Assert(text.font);
         Core::Rect normalized = text.bounds;
         normalized.Normalize(); // 뒤집힌 rect 방어
 
@@ -43,6 +43,11 @@ namespace
         {
             if (texts[i].runs.empty())
                 continue;
+            if (!Core::Cast<FontResource>(texts[i].font))
+            {
+                Core::Logger::Error("BuildUIItems: 폰트가 없거나 폰트 리소스가 아닌 글자 항목이라 그리지 않는다 (index={})", i);
+                continue;
+            }
             slots[i] = static_cast<std::ptrdiff_t>(result.size());
             result.push_back(ToRenderTextItem(texts[i]));
         }

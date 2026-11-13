@@ -8,6 +8,7 @@ import :ShaderStageBuilder;
 import Service.Render.Repository;
 import Service.AssetAsyncHelper;
 import Core.Assert;
+import Core.Logger;
 import Core.Type;
 import Contract.Render.Assets;
 import Contract.Render.Backend.Types;
@@ -53,7 +54,10 @@ RenderService::RenderService(std::unique_ptr<IRenderBackend> backend, IAssetAsyn
 bool RenderService::Initialize(HWND hwnd, const Core::Size& screenSize)
 {
     auto shaderDescs = SetupRegistryShaders();
-    if (!m_backend->Initialize(hwnd, screenSize, shaderDescs))
+    if (!shaderDescs)
+        return false; // 원인은 SetupRegistryShaders가 남겼다
+
+    if (!m_backend->Initialize(hwnd, screenSize, *shaderDescs))
         return false;
 
     return true;
@@ -73,6 +77,11 @@ ShaderID RenderService::RegisterShader(const Core::ResourceID& resourceID, Shade
 
     auto requestID = PushRequest<ShaderAsset>(m_asyncLoader, resourceID);
     auto shaderAsset = Wait<ShaderAsset>(m_asyncLoader, requestID);
+    if (!shaderAsset) // 읽지 못한 셰이더는 등록하지도 캐시하지도 않는다 (나중에 다시 시도할 수 있다)
+    {
+        Core::Logger::Error("RenderService::RegisterShader: 셰이더 파일을 읽지 못함 ({})", resourceID.GetValue());
+        return InvalidShaderID;
+    }
 
     auto shaderDesc = BuildShader(type, shaderAsset);
     auto shaderID = m_backend->RegisterShader(shaderDesc);
@@ -87,17 +96,17 @@ void RenderService::Update()
     m_backend->Update();
 }
 
-void RenderService::Render()
+bool RenderService::Render()
 {
-    m_backend->Render(m_frameRecorder.Flush());
+    return m_backend->Render(m_frameRecorder.Flush());
 }
 
-void RenderService::Resize(const Core::Size& size)
+bool RenderService::Resize(const Core::Size& size)
 {
-    m_backend->Resize(size);
+    return m_backend->Resize(size);
 }
 
-std::vector<RegistryShaderEntry> RenderService::LoadRegistryShaderEntries()
+std::optional<std::vector<RegistryShaderEntry>> RenderService::LoadRegistryShaderEntries()
 {
     std::vector<AssetRequest> requests;
     requests.reserve(std::size(g_shaderRegistry));
@@ -110,6 +119,18 @@ std::vector<RegistryShaderEntry> RenderService::LoadRegistryShaderEntries()
     auto requestIDs = PushRequests(m_asyncLoader, requests);
     auto assets = WaitAll(m_asyncLoader, requestIDs);
     auto shaderAssets = Core::CastAll<ShaderAsset>(assets);
+
+    bool allLoaded = true;
+    for (std::size_t i = 0; i < std::size(g_shaderRegistry); ++i)
+    {
+        if (shaderAssets[i])
+            continue;
+
+        Core::Logger::Error("RenderService: 레지스트리 셰이더 파일을 읽지 못함 ({})", g_shaderRegistry[i].resID.GetValue());
+        allLoaded = false;
+    }
+    if (!allLoaded)
+        return std::nullopt;
 
     std::vector<RegistryShaderEntry> shaderEntries;
     shaderEntries.reserve(std::size(g_shaderRegistry));
@@ -127,14 +148,16 @@ std::vector<RegistryShaderEntry> RenderService::LoadRegistryShaderEntries()
     return shaderEntries;
 }
 
-std::vector<RegistryShaderDesc> RenderService::SetupRegistryShaders()
+std::optional<std::vector<RegistryShaderDesc>> RenderService::SetupRegistryShaders()
 {
     auto shaderEntries = LoadRegistryShaderEntries();
+    if (!shaderEntries)
+        return std::nullopt;
 
     std::vector<RegistryShaderDesc> shaderDescs;
-    shaderDescs.reserve(shaderEntries.size());
+    shaderDescs.reserve(shaderEntries->size());
 
-    for (const auto& shader : shaderEntries)
+    for (const auto& shader : *shaderEntries)
     {
         shaderDescs.emplace_back(shader.desc);
         m_shaderCache.emplace(shader.resID, shader.desc.first);

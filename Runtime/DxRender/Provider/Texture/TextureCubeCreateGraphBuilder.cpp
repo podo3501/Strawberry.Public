@@ -5,6 +5,7 @@ import :TextureUtils;
 import DxRender.Constants;
 import Core.Utils;
 import Core.Bit;
+import Core.Logger;
 
 TextureCubeCreateGraphBuilder::TextureCubeCreateGraphBuilder(
     TaskScheduler& taskScheduler,
@@ -23,6 +24,12 @@ void TextureCubeCreateGraphBuilder::LoadTextureCubes(const std::vector<TextureCu
     std::size_t totalUploadSize = 0;
     auto textureUploads = std::make_shared<std::vector<TextureCubeUploadEntry>>(
         BuildTextureCubeUploads(requests, totalUploadSize));
+    if (textureUploads->empty())
+        return; // 만들지 못한 큐브는 준비되지 않은 채로 남는다 (원인은 만든 곳에서 남김)
+
+    Resource uploadBuffer = m_resFactory.CreateResource(totalUploadSize, ResInitType::Upload);
+    if (!uploadBuffer)
+        return; // 원인은 Device가 남김. 이번 묶음의 큐브는 준비되지 않는다
 
     RGResourceID uploadResID = m_idGenerator.Generate();
 
@@ -37,8 +44,9 @@ void TextureCubeCreateGraphBuilder::LoadTextureCubes(const std::vector<TextureCu
 
     auto compiledTasks = m_graph.Compile();
 
-    auto resContext = CreateResourceContext(textureUploads, uploadResID, totalUploadSize);
+    auto resContext = CreateResourceContext(textureUploads, uploadResID, std::move(uploadBuffer));
     m_taskScheduler.SubmitTask(compiledTasks, resContext);
+    m_graph.Reset(); // 패스의 실행 함수가 업로드 목록(에셋과 리소스)을 들고 있으므로 다음 묶음까지 붙잡지 않게 비운다
 }
 
 std::vector<TextureCubeUploadEntry> TextureCubeCreateGraphBuilder::BuildTextureCubeUploads(
@@ -51,15 +59,23 @@ std::vector<TextureCubeUploadEntry> TextureCubeCreateGraphBuilder::BuildTextureC
     std::size_t offset = 0;
     for (const auto& req : requests)
     {
-        RGResourceID texResID = m_idGenerator.Generate();
-
         auto resDesc = CreateTextureCubeDesc(*req.asset);
         auto texRes = m_resFactory.CreateTextureResource(resDesc);
+        if (!texRes)
+            continue; // 원인은 Device가 남김
 
         auto& textureCubeResource = req.resource;
         textureCubeResource->Set(texRes);
         textureCubeResource->SetSize(Core::Size{ req.asset->width, req.asset->height });
-        CreateTextureCubeViews(m_descFactory, textureCubeResource.get());
+        if (!CreateTextureCubeViews(m_descFactory, textureCubeResource.get()))
+        {
+            Core::Logger::Error("TextureCubeCreateGraphBuilder: 큐브 텍스처의 뷰를 만들지 못해 건너뛴다 ({}x{})",
+                req.asset->width, req.asset->height);
+            textureCubeResource->Set(Resource{});
+            continue;
+        }
+
+        RGResourceID texResID = m_idGenerator.Generate();
 
         offset = Core::AlignUp(offset, TextureAlignment::Placement);
         uploads.push_back({ texResID, textureCubeResource, req.asset, offset });
@@ -76,13 +92,13 @@ std::vector<TextureCubeUploadEntry> TextureCubeCreateGraphBuilder::BuildTextureC
 std::shared_ptr<ResourceContext> TextureCubeCreateGraphBuilder::CreateResourceContext(
     std::shared_ptr<std::vector<TextureCubeUploadEntry>> textureUploads,
     RGResourceID uploadResID,
-    std::size_t totalUploadSize)
+    Resource uploadBuffer)
 {
     auto* rawContext = new ResourceContext(m_idGenerator.Count());
 
     for (const auto& upload : *textureUploads)
         rawContext->Set(upload.resID, upload.resource->Get());
-    rawContext->Set(uploadResID, m_resFactory.CreateResource(totalUploadSize, ResInitType::Upload));
+    rawContext->Set(uploadResID, std::move(uploadBuffer));
 
     // GPU 작업 완료 후 TaskScheduler가 컨텍스트를 놓는 시점에 finalize.
     return std::shared_ptr<ResourceContext>(

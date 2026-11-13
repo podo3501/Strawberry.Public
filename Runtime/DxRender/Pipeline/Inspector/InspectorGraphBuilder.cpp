@@ -36,6 +36,7 @@ void InspectorGraphBuilder::Build(
             imageInspector.BeginFrame(cmd);
 
             imageInspector.BindPipeline(cmd);
-            imageInspector.Draw(cmd, srvIndex);
+            if (!imageInspector.Draw(cmd, srvIndex))
+                return; // 상수 버퍼 한도를 넘었다: 이번 프레임의 이미지는 그리지 않는다
         };
 }

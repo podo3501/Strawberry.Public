@@ -3,7 +3,9 @@ module DxRender.Provider;
 import std;
 import :Texture;
 import :Budget;
+import :TextureUtils;
 import Core.Assert;
+import Core.Logger;
 import Core.Utils;
 import Core.Math;
 
@@ -11,6 +13,7 @@ static std::shared_ptr<TextureAsset> CreateColorAsset(const Core::Color& color, 
 {
     auto asset = std::make_shared<TextureAsset>();
     asset->size = Core::ToSize(1, 1);
+    asset->stride = sizeof(std::uint32_t);
     asset->pixels.resize(sizeof(std::uint32_t));
 
     // 비트 연산을 통해 엔디안에 무관하게 항상 R, G, B, A 순서로 메모리 배치
@@ -59,7 +62,13 @@ std::shared_ptr<TextureResource> TextureProvider::CreateResource()
 
 bool TextureProvider::LoadResource(std::shared_ptr<TextureResource> resource, std::shared_ptr<TextureAsset> asset)
 {
-    if (!asset) return false;
+    if (!resource || !asset)
+    {
+        Core::Logger::Error("TextureProvider::LoadResource: 리소스나 에셋이 없다");
+        return false;
+    }
+    if (!IsValidTextureAsset(*asset))
+        return false;
 
     TextureDesc desc{ asset->colorSpace, asset->generateMipmaps, asset->isPremultipliedAlpha };
     resource->SetDesc(desc);

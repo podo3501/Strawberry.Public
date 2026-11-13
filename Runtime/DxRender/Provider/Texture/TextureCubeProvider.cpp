@@ -2,6 +2,8 @@ module DxRender.Provider;
 
 import :TextureCube;
 import :Budget;
+import :TextureUtils;
+import Core.Logger;
 
 static std::size_t EstimateBytes(const TextureCubeAsset& asset)
 {
@@ -36,7 +38,13 @@ bool TextureCubeProvider::LoadResource(
     std::shared_ptr<TextureCubeResource> resource,
     std::shared_ptr<TextureCubeAsset> asset)
 {
-    if (!asset) return false;
+    if (!resource || !asset)
+    {
+        Core::Logger::Error("TextureCubeProvider::LoadResource: 리소스나 에셋이 없다");
+        return false;
+    }
+    if (!IsValidTextureCubeAsset(*asset))
+        return false;
 
     TextureCubeDesc desc{ asset->colorSpace }; // 항상 Linear
     resource->SetDesc(desc);

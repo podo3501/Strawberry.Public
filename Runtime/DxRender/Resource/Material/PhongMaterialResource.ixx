@@ -7,14 +7,15 @@ import :Material;
 import DxRender.Definition;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
+import Core.TypeHierarchy;
 
-export class PhongMaterialResource final : public MaterialResource, public IPendingResource
+export class PhongMaterialResource final : public Core::TypeNode<PhongMaterialResource, MaterialResource>, public IPendingResource
 {
 public:
     ~PhongMaterialResource() override = default;
 
     PhongMaterialResource() :
-        MaterialResource{
+        TypeNode{
             MaterialType::Phong,
             PipelineLibrary::Get(
                 RegistryShader::Phong,

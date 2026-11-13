@@ -5,8 +5,9 @@ module;
 export module DxRender.Resource:Mesh;
 
 import Contract.Render.IResource;
+import Core.TypeHierarchy;
 
-export class MeshResource : public IResource
+export class MeshResource : public Core::TypeNode<MeshResource, IResource>
 {
 public:
     ~MeshResource() override = default;

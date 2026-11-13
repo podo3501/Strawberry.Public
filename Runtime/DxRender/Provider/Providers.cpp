@@ -1,6 +1,7 @@
 module DxRender.Provider;
 
 import :Providers;
+import Core.Logger;
 import Core.Utils;
 
 ResourceProviderSet::ResourceProviderSet(
@@ -54,7 +55,13 @@ ResourceProviderSet::ResourceProviderSet(
 
 IResourceProvider* ResourceProviderSet::GetProvider(ProviderType type) noexcept
 {
-    return m_providers[static_cast<std::size_t>(type)];
+    const auto index = static_cast<std::size_t>(type);
+    if (index >= m_providers.size())
+    {
+        Core::Logger::Error("ResourceProviderSet::GetProvider: 알 수 없는 프로바이더 종류 {}", index);
+        return nullptr;
+    }
+    return m_providers[index];
 }
 
 bool ResourceProviderSet::Initialize(ShaderLibrary& shaderLibrary)

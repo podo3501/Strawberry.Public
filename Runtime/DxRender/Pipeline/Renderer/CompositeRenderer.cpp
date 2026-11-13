@@ -8,7 +8,6 @@ import :Composite;
 import :Utils;
 import DxRender.Core;
 import DxRender.Definition;
-import Core.Math;
 import Core.Utils;
 import Contract.Render.Backend.Types;
 

@@ -2,7 +2,7 @@ module DxRender.Provider;
 
 import :Material;
 import DxRender.Resource;
-import Core.Assert;
+import Core.Logger;
 import Core.TypeHierarchy;
 import Contract.Render.Assets;
 
@@ -22,25 +22,36 @@ std::shared_ptr<IResource> MaterialProvider::CreateResource(std::shared_ptr<Asse
 
     auto matAsset = Core::Cast<MaterialAsset>(asset);
     if (!matAsset)
+    {
+        Core::Logger::Error("MaterialProvider::CreateResource: 재질 에셋이 아니다");
         return nullptr;
+    }
 
     switch (matAsset->type)
     {
     case MaterialType::PBR:
     {
         auto pbrAsset = Core::Cast<PbrMaterialAsset>(asset);
-        if (!pbrAsset) return nullptr;
+        if (!pbrAsset)
+        {
+            Core::Logger::Error("MaterialProvider::CreateResource: PBR 재질인데 PBR 에셋이 아니다");
+            return nullptr;
+        }
         return BuildPbrResource(pbrAsset->albedo, pbrAsset->normal, pbrAsset->arm, pbrAsset->surface);
     }
     case MaterialType::Phong:
     {
         auto phongAsset = Core::Cast<PhongMaterialAsset>(asset);
-        if (!phongAsset) return nullptr;
+        if (!phongAsset)
+        {
+            Core::Logger::Error("MaterialProvider::CreateResource: Phong 재질인데 Phong 에셋이 아니다");
+            return nullptr;
+        }
         return BuildPhongResource(phongAsset->albedo, phongAsset->normal, phongAsset->surface);
     }
     }
-    Core::Assert(false);
 
+    Core::Logger::Error("MaterialProvider::CreateResource: 알 수 없는 재질 종류 {}", static_cast<int>(matAsset->type));
     return nullptr;
 }
 
@@ -57,11 +68,13 @@ std::shared_ptr<IResource> MaterialProvider::BuildPbrResource(
     const PbrSurface& surface)
 {
     auto albedoRes = CreateTexResourceOrFallback(albedoAsset, BuiltinTextureType::White);
-    if (!albedoRes)
-        return nullptr;
-
     auto normalRes = CreateTexResourceOrFallback(normalAsset, BuiltinTextureType::FlatNormal);
     auto armRes = CreateTexResourceOrFallback(armAsset, BuiltinTextureType::DefaultARM);
+    if (!albedoRes || !normalRes || !armRes)
+    {
+        Core::Logger::Error("MaterialProvider::BuildPbrResource: 텍스처를 얻지 못했다 (기본 텍스처가 준비되지 않았을 수 있다)");
+        return nullptr;
+    }
 
     auto pbrRes = std::make_shared<PbrMaterialResource>();
     pbrRes->SetAlbedo(albedoRes);
@@ -79,10 +92,12 @@ std::shared_ptr<IResource> MaterialProvider::BuildPhongResource(
     const PhongSurface& surface)
 {
     auto albedoRes = CreateTexResourceOrFallback(albedoAsset, BuiltinTextureType::White);
-    if (!albedoRes)
-        return nullptr;
-
     auto normalRes = CreateTexResourceOrFallback(normalAsset, BuiltinTextureType::FlatNormal);
+    if (!albedoRes || !normalRes)
+    {
+        Core::Logger::Error("MaterialProvider::BuildPhongResource: 텍스처를 얻지 못했다 (기본 텍스처가 준비되지 않았을 수 있다)");
+        return nullptr;
+    }
 
     auto phongRes = std::make_shared<PhongMaterialResource>();
     phongRes->SetAlbedo(albedoRes);

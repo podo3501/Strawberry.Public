@@ -10,6 +10,7 @@ import std;
 import :MipGenerator;
 import DxRender.Core;
 import DxRender.Definition;
+import Core.Logger;
 import Core.Utils;
 import Contract.Render.Assets;
 import Contract.Render.Backend.Types;
@@ -26,6 +27,22 @@ namespace
         MipType type;
         std::vector<ShaderMacroDesc> macros;
     };
+
+    // 한 서브리소스의 상태를 바꾸는 배리어
+    D3D12_RESOURCE_BARRIER MakeTransition(
+        ID3D12Resource* resource,
+        UINT subresource,
+        D3D12_RESOURCE_STATES before,
+        D3D12_RESOURCE_STATES after)
+    {
+        D3D12_RESOURCE_BARRIER barrier{};
+        barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+        barrier.Transition.pResource = resource;
+        barrier.Transition.Subresource = subresource;
+        barrier.Transition.StateBefore = before;
+        barrier.Transition.StateAfter = after;
+        return barrier;
+    }
 
     MipType GetMipType(ColorSpace colorSpace)
     {
@@ -57,8 +74,11 @@ void MipGenerator::GenerateMips(
     const std::vector<UINT>& mipSrvIndices,
     const std::vector<UINT>& mipUavIndices)
 {
-    if (!texResource)
+    if (!texResource || !texResource->Get())
+    {
+        Core::Logger::Error("MipGenerator::GenerateMips: 텍스처 리소스가 없다");
         return;
+    }
 
     auto& texRes = texResource->Get();
     const D3D12_RESOURCE_DESC desc = texRes->GetDesc();
@@ -67,11 +87,22 @@ void MipGenerator::GenerateMips(
     if (mipCount <= 1)
         return;
 
+    if (mipSrvIndices.size() < mipCount || mipUavIndices.size() < mipCount)
+    {
+        Core::Logger::Error("MipGenerator::GenerateMips: 밉 뷰가 모자라다 (밉 {}, SRV {}, UAV {})",
+            mipCount, mipSrvIndices.size(), mipUavIndices.size());
+        return;
+    }
+
     cmd->SetComputeRootSignature(m_rootSignature.Get());
 
     const MipType mipType = GetMipType(texResource->GetDesc().colorSpace);
     auto* pso = GetPSO(mipType);
-    if (!pso) return;
+    if (!pso)
+    {
+        Core::Logger::Error("MipGenerator::GenerateMips: 밉 종류 {}의 파이프라인이 없다", Core::ToIndex(mipType));
+        return;
+    }
     cmd.SetPipelineState(pso);
 
     for (UINT srcMip = 0; srcMip < mipCount - 1; ++srcMip)
@@ -92,12 +123,19 @@ void MipGenerator::GenerateMips(
         };
         cmd->SetComputeRoot32BitConstants(Core::ToIndex(RootSlot::Constants), 4, constants, 0);
 
+        // 원본 밉은 SRV로 읽으므로 읽는 동안만 셰이더 리소스 상태로 둔다 (그래프가 보는 텍스처 전체 상태는 UAV 그대로)
+        D3D12_RESOURCE_BARRIER toRead = MakeTransition(texRes.Get(), srcMip,
+            D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+        cmd->ResourceBarrier(1, &toRead);
+
         cmd->Dispatch((width + 7) / 8, (height + 7) / 8, 1);
 
-        D3D12_RESOURCE_BARRIER barrier{};
-        barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-        barrier.UAV.pResource = texRes.Get();
-        cmd->ResourceBarrier(1, &barrier);
+        D3D12_RESOURCE_BARRIER barriers[2]{};
+        barriers[0] = MakeTransition(texRes.Get(), srcMip,
+            D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+        barriers[1].Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+        barriers[1].UAV.pResource = texRes.Get();
+        cmd->ResourceBarrier(2, barriers);
     }
 }
 
@@ -122,7 +160,12 @@ bool MipGenerator::LoadShader(ShaderLibrary& shaderLibrary)
         }
     }
 
-    return loadedCount == std::size(shaders);
+    if (loadedCount != std::size(shaders))
+    {
+        Core::Logger::Error("MipGenerator::LoadShader: 밉 셰이더 {}개 중 {}개만 찾았다", std::size(shaders), loadedCount);
+        return false;
+    }
+    return true;
 }
 
 bool MipGenerator::CreateRootSignature()
@@ -131,7 +174,12 @@ bool MipGenerator::CreateRootSignature()
     builder.Add32BitConstants(Core::ToIndex(RootSlot::Constants), 4);
 
     m_rootSignature = builder.Build(m_device);
-    return m_rootSignature != nullptr;
+    if (!m_rootSignature)
+    {
+        Core::Logger::Error("MipGenerator::CreateRootSignature: 루트 시그니처를 만들지 못했다");
+        return false;
+    }
+    return true;
 }
 
 bool MipGenerator::CreatePSO()
@@ -150,7 +198,13 @@ bool MipGenerator::CreatePSO()
             blob->GetBufferSize()
         };
 
-        if (FAILED(m_device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&m_psoMap[i])))) return false;
+        const HRESULT hr = m_device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&m_psoMap[i]));
+        if (FAILED(hr))
+        {
+            Core::Logger::Error("MipGenerator::CreatePSO: 밉 종류 {}의 파이프라인을 만들지 못했다 (hr={:#010x})",
+                i, static_cast<std::uint32_t>(hr));
+            return false;
+        }
     }
 
     return true;

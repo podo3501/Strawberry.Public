@@ -1,6 +1,7 @@
 module DxRender.Provider;
 
 import :Environment;
+import Core.Logger;
 import Core.TypeHierarchy;
 import DxRender.Resource;
 import Contract.Render.Assets;
@@ -16,12 +17,12 @@ EnvironmentProvider::EnvironmentProvider(
 
 std::shared_ptr<IResource> EnvironmentProvider::CreateResource(std::shared_ptr<Asset> asset)
 {
-    if (!asset)
-        return nullptr;
-
     auto envAsset = Core::Cast<EnvironmentAsset>(asset);
     if (!envAsset || !envAsset->skybox || !envAsset->reflection || !envAsset->irradiance)
+    {
+        Core::Logger::Error("EnvironmentProvider::CreateResource: 환경 에셋이 없거나 스카이박스, 반사, 복사조도 중 빠진 것이 있다");
         return nullptr;
+    }
 
     auto skyboxRes = CreateCubeResource(envAsset->skybox);
     if (!skyboxRes)

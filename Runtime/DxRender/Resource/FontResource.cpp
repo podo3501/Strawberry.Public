@@ -11,6 +11,19 @@ module DxRender.Resource;
 import :Font;
 import Core.Logger;
 
+namespace
+{
+    std::uint64_t NextFontID() noexcept
+    {
+        static std::atomic<std::uint64_t> next{ 1 };
+        return next.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+FontResource::FontResource() :
+    m_id{ NextFontID() }
+{}
+
 FontResource::~FontResource()
 {
     for (auto& [size, hbFont] : m_hbFonts)

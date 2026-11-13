@@ -35,7 +35,7 @@ public:
         const FramePassContext& frameCtx);
 
 private:
-    ViewTargetResources& AcquireActiveViewTarget(
+    ViewTargetResources* AcquireActiveViewTarget(
         const ViewTargetPacket& targetInfo,
         std::bitset<MaxViewCount>& activeViews);
 

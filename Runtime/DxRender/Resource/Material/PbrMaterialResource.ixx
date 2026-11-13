@@ -7,14 +7,15 @@ import :Material;
 import DxRender.Definition;
 import Contract.Render.Backend.Types;
 import Contract.Render.Assets;
+import Core.TypeHierarchy;
 
-export class PbrMaterialResource final : public MaterialResource, public IPendingResource
+export class PbrMaterialResource final : public Core::TypeNode<PbrMaterialResource, MaterialResource>, public IPendingResource
 {
 public:
     ~PbrMaterialResource() override = default;
 
     PbrMaterialResource() :
-        MaterialResource{
+        TypeNode{
             MaterialType::PBR,
             PipelineLibrary::Get(
                 RegistryShader::PBR,

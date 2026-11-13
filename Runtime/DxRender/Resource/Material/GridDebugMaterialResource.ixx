@@ -3,12 +3,13 @@ export module DxRender.Resource:GridDebugMaterial;
 import :DebugMaterial;
 import DxRender.Definition;
 import Contract.Render.Backend.Types;
+import Core.TypeHierarchy;
 
-export class GridDebugMaterialResource : public DebugMaterialResource
+export class GridDebugMaterialResource : public Core::TypeNode<GridDebugMaterialResource, DebugMaterialResource>
 {
 public:
     GridDebugMaterialResource() : 
-        DebugMaterialResource{
+        TypeNode{
             PipelineLibrary::Get(
                 RegistryShader::Grid,
                 RasterPreset::Default,

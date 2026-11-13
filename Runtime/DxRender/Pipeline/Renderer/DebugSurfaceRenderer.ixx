@@ -25,9 +25,12 @@ public:
 
     bool Initialize(Device& device);
     void ResetFrameResources(std::uint32_t slot);
-    void PrepareDraw(CommandList& cmd, const CameraData& camera);
-    void BindPipeline(CommandList& cmd, const PipelineState& pipelineState);
-    void Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world);
+    // 프레임 상수 버퍼의 한도를 넘으면 false이고 아무것도 정하지 않는다. 부르는 쪽이 그 목록의 그리기를 건너뛴다.
+    [[nodiscard]] bool PrepareDraw(CommandList& cmd, const CameraData& camera);
+    // PSO를 얻지 못하면 false이고 아무것도 정하지 않는다. 부르는 쪽이 그 항목의 그리기를 건너뛴다.
+    [[nodiscard]] bool BindPipeline(CommandList& cmd, const PipelineState& pipelineState);
+    // 항목 상수 버퍼의 한도를 넘으면 false이고 그리지 않는다. 부르는 쪽이 나머지 항목을 건너뛴다.
+    [[nodiscard]] bool Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world);
 
 private:
     bool CreateRootSignature(Device& device);

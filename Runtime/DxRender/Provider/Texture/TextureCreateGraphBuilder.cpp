@@ -4,6 +4,7 @@ import :TextureCreateGraphBuilder;
 import :TextureUtils;
 import DxRender.Constants;
 import Core.Bit;
+import Core.Logger;
 
 TextureCreateGraphBuilder::TextureCreateGraphBuilder(
     Device& device,
@@ -30,6 +31,15 @@ void TextureCreateGraphBuilder::LoadTextures(const std::vector<TextureLoadReques
     bool hasMipTask = false;
     auto textureUploads = std::make_shared<std::vector<TextureUploadEntry>>(
         BuildTextureUploads(requests, totalUploadSize, hasMipTask));
+    if (textureUploads->empty())
+        return; // 만들지 못한 텍스처는 준비되지 않은 채로 남는다 (원인은 만든 곳에서 남김)
+
+    Resource uploadBuffer = m_resFactory.CreateResource(totalUploadSize, ResInitType::Upload);
+    if (!uploadBuffer)
+    {
+        ReleaseViews(*textureUploads);
+        return; // 원인은 Device가 남김. 이번 묶음의 텍스처는 준비되지 않는다
+    }
 
     RGResourceID uploadResID = m_idGenerator.Generate();
 
@@ -46,8 +56,9 @@ void TextureCreateGraphBuilder::LoadTextures(const std::vector<TextureLoadReques
 
     auto compiledTasks = m_graph.Compile();
 
-    auto resContext = CreateResourceContext(textureUploads, uploadResID, totalUploadSize);
+    auto resContext = CreateResourceContext(textureUploads, uploadResID, std::move(uploadBuffer));
     m_taskScheduler.SubmitTask(compiledTasks, resContext);
+    m_graph.Reset(); // 패스의 실행 함수가 업로드 목록(에셋과 리소스)을 들고 있으므로 다음 묶음까지 붙잡지 않게 비운다
 }
 
 std::vector<TextureUploadEntry> TextureCreateGraphBuilder::BuildTextureUploads(
@@ -63,23 +74,31 @@ std::vector<TextureUploadEntry> TextureCreateGraphBuilder::BuildTextureUploads(
 
     for (const auto& req : requests)
     {
-        RGResourceID texResID = m_idGenerator.Generate();
-
         auto& texDesc = req.resource->GetDesc();
         auto mips = CanGenerateMips(*req.asset, texDesc.generateMipmaps);
         auto resDesc = CreateTexture2DDesc(*req.asset, mips);
         auto texRes = m_resFactory.CreateTextureResource(resDesc);
+        if (!texRes)
+            continue; // 원인은 Device가 남김
 
         auto& textureResource = req.resource;
         textureResource->Set(texRes);
         textureResource->SetSize(req.asset->size);
 
         std::vector<std::uint32_t> mipSrv, mipUav;
-        CreateTextureViews(
+        if (!CreateTextureViews(
             m_descFactory,
             textureResource.get(), mips,
-            &mipSrv, &mipUav);
+            &mipSrv, &mipUav))
+        {
+            Core::Logger::Error("TextureCreateGraphBuilder: 텍스처의 뷰를 만들지 못해 건너뛴다 ({}x{})",
+                req.asset->size.width, req.asset->size.height);
+            ReleaseMipViews(mipSrv, mipUav);
+            textureResource->Set(Resource{});
+            continue;
+        }
 
+        RGResourceID texResID = m_idGenerator.Generate();
         outHasMipTask |= mips;
         offset = Core::AlignUp(offset, TextureAlignment::Placement);
         uploads.push_back({
@@ -93,16 +112,33 @@ std::vector<TextureUploadEntry> TextureCreateGraphBuilder::BuildTextureUploads(
     return uploads;
 }
 
+void TextureCreateGraphBuilder::ReleaseMipViews(
+    const std::vector<std::uint32_t>& mipSrvIndices,
+    const std::vector<std::uint32_t>& mipUavIndices)
+{
+    auto& allocator = m_descFactory.GetBindlessAllocator();
+    for (std::uint32_t srvIndex : mipSrvIndices)
+        allocator.FreeDynamic(srvIndex);
+    for (std::uint32_t uavIndex : mipUavIndices)
+        allocator.FreeDynamic(uavIndex);
+}
+
+void TextureCreateGraphBuilder::ReleaseViews(const std::vector<TextureUploadEntry>& textureUploads)
+{
+    for (const auto& tex : textureUploads)
+        ReleaseMipViews(tex.mipSrvIndices, tex.mipUavIndices);
+}
+
 std::shared_ptr<ResourceContext> TextureCreateGraphBuilder::CreateResourceContext(
     std::shared_ptr<std::vector<TextureUploadEntry>> textureUploads,
     RGResourceID uploadResID,
-    std::size_t totalUploadSize)
+    Resource uploadBuffer)
 {
     auto* rawContext = new ResourceContext(m_idGenerator.Count());
 
     for (const auto& upload : *textureUploads)
         rawContext->Set(upload.resID, upload.resource->Get());
-    rawContext->Set(uploadResID, m_resFactory.CreateResource(totalUploadSize, ResInitType::Upload));
+    rawContext->Set(uploadResID, std::move(uploadBuffer));
 
     // resContext가 소멸될 때(= GPU 작업 완료 후 TaskScheduler가 참조를 놓을 때) finalize 수행.
     return std::shared_ptr<ResourceContext>(
@@ -174,15 +210,9 @@ void TextureCreateGraphBuilder::BuildMipPass(
 
 void TextureCreateGraphBuilder::FinalizeTextures(std::vector<TextureUploadEntry>& textureUploads)
 {
-    auto& allocator = m_descFactory.GetBindlessAllocator();
-
     for (auto& tex : textureUploads)
     {
-        for (std::uint32_t srvIndex : tex.mipSrvIndices)
-            allocator.FreeDynamic(srvIndex);
-        for (std::uint32_t uavIndex : tex.mipUavIndices)
-            allocator.FreeDynamic(uavIndex);
-
+        ReleaseMipViews(tex.mipSrvIndices, tex.mipUavIndices);
         tex.resource->MarkReady();
     }
 }

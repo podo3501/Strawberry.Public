@@ -6,7 +6,7 @@ import DxRender.Resource;
 
 export struct MeshLoadRequest
 {
-    std::shared_ptr<MeshResource> resource;
+    std::shared_ptr<StaticMeshResource> resource;
     std::shared_ptr<MeshAsset> asset;
 
     std::size_t vbBytes{ 0 };

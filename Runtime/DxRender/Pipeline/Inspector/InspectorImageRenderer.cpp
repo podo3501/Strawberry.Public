@@ -9,6 +9,7 @@ module DxRender.Pipeline.Inspector;
 import :ImageRenderer;
 import Core.Utils;
 import DxRender.Pipeline.Renderer;
+import DxRender.Allocator;
 import DxRender.Helper;
 import DxRender.Definition;
 import Contract.Render.Backend.Types;
@@ -72,16 +73,20 @@ void InspectorImageRenderer::BindPipeline(CommandList& cmd)
     cmd.SetPipelineState(GetPipeline(m_pipelineState), m_pipelineState.topologyType);
 }
 
-void InspectorImageRenderer::Draw(CommandList& cmd, UINT srvIndex)
+bool InspectorImageRenderer::Draw(CommandList& cmd, UINT srvIndex)
 {
+    auto cb = UploadDrawCB();
+    if (cb == FrameConstantAllocator::InvalidAddress)
+        return false;
+
     InspectorTextureCB indices{};
     indices.srvIndex = srvIndex;
-    auto cb = UploadDrawCB();
 
     cmd->SetGraphicsRoot32BitConstants(Core::ToIndex(RootSlot::ResourceIndices), 1, &indices, 0);
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::DrawCB), cb);
 
     cmd->DrawInstanced(6, 1, 0, 0);
+    return true;
 }
 
 void InspectorImageRenderer::SetScreenSize(const Core::Size& size)

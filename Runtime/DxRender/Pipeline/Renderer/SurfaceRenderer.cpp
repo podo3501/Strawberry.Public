@@ -8,6 +8,7 @@ module DxRender.Pipeline.Renderer;
 import :Surface;
 import :Constants;
 import DxRender.Core;
+import DxRender.Allocator;
 import DxRender.Resource;
 import DxRender.Helper;
 import DxRender.Definition;
@@ -76,7 +77,8 @@ bool SurfaceRenderer::Initialize(Device& device)
 {
     if (!m_objectCBAllocator.Initialize<ObjectCB>(device, m_config.maxObjectCount)) return false;
     if (!m_materialCBAllocator.Initialize<MaterialConstantBuffer>(device, m_config.maxObjectCount)) return false;
-    if (!m_frameCBAllocator.Initialize<MeshFrameCB>(device, MaxViewCount)) return false;
+    // 병렬로 기록하는 목록마다 PrepareDraw가 프레임 상수를 하나씩 올리므로 뷰 수 × 병렬 목록 수만큼 필요하다
+    if (!m_frameCBAllocator.Initialize<MeshFrameCB>(device, static_cast<UINT>(MaxViewCount) * MaxParallelRecordLists)) return false;
 
     if (!CreateRootSignature(device)) return false;
     if (!CreateDefaultPSOs()) return false;
@@ -91,7 +93,7 @@ void SurfaceRenderer::ResetFrameResources(uint32_t slot)
     m_frameCBAllocator.Reset(slot);
 }
 
-void SurfaceRenderer::PrepareDraw(
+bool SurfaceRenderer::PrepareDraw(
     CommandList& cmd,
     const DirectionalLightData& light,
     const CameraData& camera,
@@ -103,25 +105,38 @@ void SurfaceRenderer::PrepareDraw(
         camera,
         shadowSRVIndex,
         envRes);
+    if (frameCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
 
     cmd.SetGraphicsRootSignature(m_rootSignature.Get());
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::FrameCB), frameCBAddress);
+    return true;
 }
 
-void SurfaceRenderer::BindPipeline(CommandList& cmd, const PipelineState& pipelineState)
+bool SurfaceRenderer::BindPipeline(CommandList& cmd, const PipelineState& pipelineState)
 {
     auto* pso = GetPipeline(pipelineState);
+    if (!pso)
+        return false; // 원인은 PipelineCache가 이미 Error로 남겼다
+
     cmd.SetPipelineState(pso, pipelineState.topologyType);
+    return true;
 }
 
-void SurfaceRenderer::Draw(
+bool SurfaceRenderer::Draw(
     CommandList& cmd,
     MeshResource& mesh,
     MaterialResource& material,
     const Core::Matrix& world)
 {
     auto objectCBAddress = UploadObjectCB(world);
-    auto materialCBAddress = UploadMaterialCB(material);
+    if (objectCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
+
+    auto materialCBAddress = UploadMaterialCB(material); // 같은 항목이 쓰는 같은 개수의 칸이라 오브젝트가 실패하면 여기서 또 오류를 남기지 않는다
+    if (materialCBAddress == FrameConstantAllocator::InvalidAddress)
+        return false;
+
     uint32_t meshIndices[2] = { mesh.GetVertexHeapIndex(), mesh.GetIndexHeapIndex() };
 
     cmd->SetGraphicsRoot32BitConstants(Core::ToIndex(RootSlot::MeshData), 2, meshIndices, 0);
@@ -129,6 +144,7 @@ void SurfaceRenderer::Draw(
     cmd->SetGraphicsRootConstantBufferView(Core::ToIndex(RootSlot::MaterialCB), materialCBAddress);
 
     cmd->DrawInstanced(mesh.GetIndexCount(), 1, 0, 0);
+    return true;
 }
 
 bool SurfaceRenderer::CreateRootSignature(Device& device)

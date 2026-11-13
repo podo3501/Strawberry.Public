@@ -33,8 +33,8 @@ public:
     ShaderID RegisterShader(const Core::ResourceID& resourceID, ShaderType type) override;
 
     void Update() override;
-    void Render() override;
-    void Resize(const Core::Size& size) override;
+    bool Render() override;
+    bool Resize(const Core::Size& size) override;
 
     IRenderResources& GetResources() override { return m_resources; }
     IFrameRecorder& GetFrameRecorder() override { return m_frameRecorder; }
@@ -43,8 +43,9 @@ public:
     bool ReadbackFrame(FrameImage& out) override { return m_backend->ReadbackFrame(out); }
 
 private:
-    std::vector<RegistryShaderEntry> LoadRegistryShaderEntries();
-    std::vector<RegistryShaderDesc> SetupRegistryShaders();
+    // 레지스트리 셰이더 파일을 하나라도 읽지 못하면 오류를 남기고 값이 없다.
+    std::optional<std::vector<RegistryShaderEntry>> LoadRegistryShaderEntries();
+    std::optional<std::vector<RegistryShaderDesc>> SetupRegistryShaders();
 
     std::unique_ptr<IRenderBackend> m_backend;
     IAssetAsyncLoader* m_asyncLoader{ nullptr };

@@ -34,9 +34,9 @@ public:
         const std::vector<RegistryShaderDesc>& registryShaders) override;
 
 	ShaderID RegisterShader(const ShaderDesc& desc) override;
-	void Resize(const Core::Size& size) override;
+	bool Resize(const Core::Size& size) override;
 	void Update() override;
-	void Render(SceneFrameData frame) override;
+	bool Render(SceneFrameData frame) override;
 	void Shutdown() override;
 	IResourceProvider* GetProvider(ProviderType type) override;
 
@@ -66,4 +66,5 @@ private:
     ForwardRenderPipeline m_pipeline;
 
     std::uint64_t m_frameIndex{ 0 };
+    bool m_notReadyLogged{ false }; // 그릴 수 없는 상태의 Error를 프레임마다 남기지 않으려고 한 번만 남겼는지
 };

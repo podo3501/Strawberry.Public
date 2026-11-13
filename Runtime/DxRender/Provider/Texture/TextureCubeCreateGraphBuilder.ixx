@@ -3,6 +3,7 @@ export module DxRender.Provider:TextureCubeCreateGraphBuilder;
 import std;
 import :TextureCubeLoadRequest;
 import DxRender.Resource;
+import DxRender.Core;
 import DxRender.Graph;
 import DxRender.Task;
 import DxRender.Factory;
@@ -36,7 +37,7 @@ private:
     std::shared_ptr<ResourceContext> CreateResourceContext(
         std::shared_ptr<std::vector<TextureCubeUploadEntry>> textureUploads,
         RGResourceID uploadResID,
-        std::size_t totalUploadSize);
+        Resource uploadBuffer);
 
     void BuildUploadPass(
         std::shared_ptr<std::vector<TextureCubeUploadEntry>> textureUploads,

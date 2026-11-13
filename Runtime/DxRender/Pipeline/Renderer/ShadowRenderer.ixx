@@ -26,8 +26,9 @@ public:
 
     bool Initialize(Device& device);
     void ResetFrameResources(std::uint32_t slot);
-    void PrepareDraw(CommandList& cmd, const DirectionalLightData& light);
-    void Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world);
+    // 상수 버퍼의 한도를 넘으면 false이고 아무것도 정하지 않거나 그리지 않는다. 부르는 쪽이 그 항목을 건너뛴다.
+    [[nodiscard]] bool PrepareDraw(CommandList& cmd, const DirectionalLightData& light);
+    [[nodiscard]] bool Draw(CommandList& cmd, MeshResource& mesh, const Core::Matrix& world);
 
 private:
     bool CreateRootSignature(Device& device);

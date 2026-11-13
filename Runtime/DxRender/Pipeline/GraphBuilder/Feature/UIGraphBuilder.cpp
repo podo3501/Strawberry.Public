@@ -3,7 +3,8 @@ module DxRender.Pipeline.GraphBuilder;
 import :UI;
 import DxRender.Command;
 import DxRender.Resource;
-import Core.Assert;
+import Core.Logger;
+import Core.TypeHierarchy;
 
 UIGraphBuilder::UIGraphBuilder(UIRenderer& uiRenderer, DescriptorFactory& descFactory) :
     m_uiRenderer{ uiRenderer },
@@ -15,6 +16,9 @@ void UIGraphBuilder::Build(
     std::shared_ptr<OverlayViewPacket> packet,
     const ViewTargetResources& target)
 {
+    if (!packet->ui)
+        return; // 그릴 UI가 없으면 패스를 만들지 않는다
+
     auto& ui = graph.AddGraphicsPass("UI_View" + std::to_string(packet->target.id));
     ui.Write(target.GetColorID(), RGAccess::RTV);
 
@@ -27,7 +31,12 @@ void UIGraphBuilder::Build(
         ]
         (TaskCommandLists cmds, TaskContext& ctx)
         {
-            Core::Assert(packet->ui.has_value());
+            auto mesh = Core::Cast<MeshResource>(packet->ui->mesh.get());
+            if (!mesh)
+            {
+                Core::Logger::Error("UIGraphBuilder: UI 메시가 올바른 리소스가 아니라 그리지 않는다");
+                return;
+            }
 
             CommandList& cmd = cmds.Single();
             auto rtv = descFactory.GetRTVHandle(colorRTVIndex);
@@ -37,8 +46,8 @@ void UIGraphBuilder::Build(
 
             uiRenderer.BeginFrame(cmd);
 
-            auto mesh = static_cast<MeshResource*>(packet->ui->mesh.get());
             Core::Matrix viewProj = packet->target.camera.view * packet->target.camera.proj;
-            uiRenderer.Draw(cmd, *mesh, viewProj);
+            if (!uiRenderer.Draw(cmd, *mesh, viewProj))
+                return; // 상수 버퍼 한도를 넘었다: 이 뷰의 UI는 그리지 않는다
         };
 }
