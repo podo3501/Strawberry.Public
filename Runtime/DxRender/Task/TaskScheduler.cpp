@@ -124,10 +124,32 @@ void TaskScheduler::ExecuteTask(TaskEntry& entry)
     CommandList* cmd = queue->Begin();
     if (!cmd) return;
 
+    WaitOnOtherQueueDependencies(entry);
+
     std::vector<CommandList*> cmds{ cmd };
     ExecuteTaskImmediate(cmds, entry.task, entry.context);
     entry.fenceID = queue->End();
     entry.started = true;
+}
+
+// 다른 종류의 큐에서 끝난 태스크에 의존하면 그 펜스를 GPU 쪽에서도 기다린다. CPU가 완료를 확인한 뒤 제출해도
+// 큐 사이의 순서는 GPU 쪽 대기로만 정해져서, 없으면 복사 큐 뒤의 리소스 상태 복귀(COMMON)가 이 큐의 배리어와 뒤섞일 수 있다.
+void TaskScheduler::WaitOnOtherQueueDependencies(const TaskEntry& entry)
+{
+    auto* queue = m_cmdScheduler.GetQueue(entry.task.type);
+    Core::Assert(queue);
+
+    for (const auto& depHandle : entry.task.dependencies)
+    {
+        const TaskEntry* depEntry = m_tasks.Find(depHandle);
+        Core::Assert(depEntry);
+
+        if (depEntry->task.type == entry.task.type)
+            continue; // 같은 큐는 제출 순서로 이미 정해져 있다
+
+        if (auto* producer = m_cmdScheduler.GetQueue(depEntry->task.type))
+            queue->WaitOnGpu(*producer, depEntry->fenceID);
+    }
 }
 
 bool TaskScheduler::CanDeleteTask(const TaskEntry& entry)

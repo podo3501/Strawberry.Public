@@ -43,7 +43,7 @@ Core.TypeHierarchy -> -
 Core.Utils -> Core.Logger
 DxInput -> Contract.Input.Backend, Contract.Input.Shared, Core.Utils
 DxRender -> Contract.Render.Backend, Contract.Render.Shared, Core.Math, DxRender.Command, DxRender.Core, DxRender.Definition, DxRender.Diagnostics, DxRender.Factory, DxRender.Packet, DxRender.Pipeline, DxRender.Provider, DxRender.Shader, DxRender.SwapChainPresenter, DxRender.Task, DxRender.Text, DxRender.TransientMesh
-DxRender.Allocator -> Core.Bit, Core.IndexAllocator, DxRender.Constants, DxRender.Core, DxRender.Resource
+DxRender.Allocator -> Contract.Render.Backend.Types, Core.Bit, Core.IndexAllocator, DxRender.Constants, DxRender.Core, DxRender.Resource
 DxRender.Command -> Contract.Render.Backend.Types, Core.Math, DxRender.Core, DxRender.Definition
 DxRender.Constants -> -
 DxRender.Core -> -
@@ -103,7 +103,7 @@ UserInterface.Widget -> Contract.Asset.Shared, Contract.Input.Shared, Contract.R
 App.Application => Contract.Input.Backend, Core.Assert, Core.Logger, Core.TypeHierarchy, Core.Utils
 DxInput => Core.Math
 DxRender => Core.Assert, Core.Logger, Core.TypeHierarchy
-DxRender.Allocator => Contract.Render.Backend.Types, Core.Assert, Core.Logger, DxRender.Definition
+DxRender.Allocator => Core.Assert, Core.Logger, DxRender.Definition
 DxRender.Command => Core.Assert, Core.Logger, DxRender.DxCheck
 DxRender.Core => Core.Assert, Core.Logger
 DxRender.Diagnostics => Core.Logger
@@ -136,7 +136,7 @@ UIVisualizer.WidgetNudger => UIVisualizer.KeyQuery
 UserInterface => Core.TypeHierarchy
 UserInterface.Widget => Core.Assert, Core.Utils
 
-== removed as redundant: interface 28/425, impl-only 8/96 ==
+== removed as redundant: interface 28/426, impl-only 8/95 ==
 [interface]
   Contract.Asset.Shared -> Core.AssetPath   (covered by Core.Type)
   Contract.Asset.Shared -> Core.BasicTypes   (covered by Core.Type)

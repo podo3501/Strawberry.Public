@@ -12,12 +12,12 @@ Visual Studio 2026(v18) + MSBuild, 솔루션은 `.slnx`, 플랫폼은 x64. 린�
 - **Core 빌드 + 테스트 한 번에**: `Test_Core.bat [gtest_filter]` (예: `Test_Core.bat AssetPathAgent.*`). `Testing\Foundation\Core-Test.slnx`를 Debug x64로 빌드하고 실행한다. 콘솔에는 오류와 실패한 테스트만 나오고 전체 빌드 로그는 `Testing\Foundation\x64\build_core.log`에 저장된다.
 - **Foundation 빌드 + 테스트 한 번에**: `Test_Foundation.bat [gtest_filter]`. `Testing\Foundation-Test.slnx`(Contract, Core, Serialization과 Core-Test, Serialization-Test)를 Debug x64로 빌드하고 두 테스트를 실행한다. 로그는 `Testing\x64\build_foundation.log`에 저장된다. 테스트는 개별 프로젝트(`Test_Core.bat` 등), 영역 단위(Foundation, Runtime), 전체로 돌릴 수 있게 나눈다.
 - **오디오 빌드 + 테스트 한 번에**: `Test_Audio.bat [gtest_filter]` (예: `Test_Audio.bat VoicePoolAgent.*`). `Runtime-Test.slnx`를 빌드하고 기본 필터 `*Agent.*`로 `SDLAudio-Test.exe`를 실행한다 (소리 장치 없이 `SDL_AUDIODRIVER=dummy`로 돈다). 사람이 듣는 `AudioServiceUser`는 필터에서 항상 빠진다. 콘솔에는 오류와 실패한 테스트만 나오고 전체 빌드 로그는 `Testing\x64\build_audio.log`에 저장된다.
-- **렌더 빌드 + 테스트 한 번에**: `Test_Render.bat [gtest_filter]` (예: `Test_Render.bat RGResourceIDAllocatorAgent.*`). `Runtime-Test.slnx`를 빌드하고 기본 필터 `*Agent.*`로 `DxRender-Test.exe`를 실행한다 (창 없이 돈다). 콘솔에는 오류와 실패한 테스트만 나오고 전체 빌드 로그는 `Testing\x64\build_render.log`에 저장된다.
+- **렌더 빌드 + 테스트 한 번에**: `Test_Render.bat [gtest_filter]` (예: `Test_Render.bat RGResourceIDAllocatorAgent.*`). `Runtime-Test.slnx`를 빌드하고 기본 필터 `*Agent.*`로 `DxRender-Test.exe`를 실행한다 (창 없이 돈다). 필터를 주지 않은 전체 실행은 gtest 샤드 4개(`TEST_SHARDS`로 바꾼다)로 나눠 동시에 돌고, 필터를 준 실행은 나누지 않는다. 모든 `Test_*.bat`가 같은 방식(`Testing\Run_Test_Shards.ps1`, 기본 개수는 렌더 4와 나머지 1)이고, 켜는 법은 `.claude/rules/testing.md`에 있다. GPU 기반 검증이 기본으로 켜져 있고 두 번째 인자 `nogbv`로 끈다. 콘솔에는 오류와 실패한 테스트만 나오고 전체 빌드 로그는 `Testing\x64\build_render.log`에 저장된다.
 - **런타임 컴파일 확인**: `Build_Strawberry.bat`은 루트의 `Strawberry.slnx`(테스트를 뺀 엔진/게임/툴 프로젝트 전체)를 빌드만 한다 (테스트 코드는 없다). 프로젝트를 추가하거나 위치를 옮기면 `Strawberry.slnx`도 함께 갱신한다. 약 80초로 오래 걸리므로 작업마다 돌리지 않고, 사용자가 "전체 컴파일 해 볼까?"처럼 요청할 때만 돌려서 이상 유무를 보고한다. 마지막으로 확인한 커밋은 `Archives/Todo.txt` 맨 아래 "전체 컴파일 마지막 확인: <커밋 해시>" 줄에 있다. 전체 컴파일을 하고 이상이 없으면 이 줄의 해시를 현재 HEAD로 바꾼다 (이 줄은 항목이 아니라 기록이므로 윗부분을 지울 때도 남긴다). (입력/렌더/에셋/오디오 쪽을 고쳤다면 다음 전체 컴파일 때 확인이 필요하다고 알려 준다.) 로그는 `x64\build_strawberry.log`.
 - 새 소스 파일은 `.vcxproj`와 `.vcxproj.filters`에 직접 등록해야 한다 (자동 포함되지 않는다). 빠뜨리면 컴파일 대상에서 조용히 빠지므로, 빌드 로그 파일(`build_ui.log`, `build_runtime.log`)에 새 파일이 나오는지 확인한다.
 
 - **다른 솔루션을 쓸 때**: 솔루션 목록(`Strawberry.slnx`, `Runtime-Test.slnx`, `FileAsset-Test.slnx` 등), 수동 빌드, 단일 테스트 실행, 공통 컴파일 옵션은 `.claude/rules/solutions.md`에 있다. 입력/렌더/에셋/오디오 작업은 `Testing/Runtime-Test.slnx`를 쓴다. 그 파일을 먼저 읽는다.
-- **`DxRender-Test.exe`는 직접 실행하지 않고 `Test_Render.bat`만 쓴다.** 필터 없이 실행하면 창을 띄워 사람이 눈으로 보는 옛 T 테스트(`RenderServiceT` 등)까지 돌아서 오래 걸린다.
+- **`DxRender-Test.exe`는 직접 실행하지 않고 `Test_Render.bat`만 쓴다.** 필터 없이 실행하면 창을 띄워 사람이 눈으로 보는 User 테스트(`RenderServiceUser` 등)까지 돌아서 오래 걸린다.
 - **`SDLAudio-Test.exe`는 직접 실행하지 않고 `Test_Audio.bat`만 쓴다.** 필터 없이 실행하면 사람이 듣는 `AudioServiceUser`까지 돌아서 실제로 소리가 난다.
 
 ## 아키텍처

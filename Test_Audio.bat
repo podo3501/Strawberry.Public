@@ -33,5 +33,9 @@ if errorlevel 1 (
 ) else (
     set "FILTER=%FILTER%:AudioServiceUser.*"
 )
-"x64\Debug\SDLAudio-Test.exe" --gtest_filter=%FILTER% --gtest_brief=1
+rem Shard count: default 1 (one process). TEST_SHARDS overrides it; a run with a filter is never split.
+set "SHARDS=1"
+if defined TEST_SHARDS set "SHARDS=%TEST_SHARDS%"
+if not "%~1"=="" set "SHARDS=1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0Testing\Run_Test_Shards.ps1" -Exe "x64\Debug\SDLAudio-Test.exe" -Name audio -Shards %SHARDS% -Filter "%FILTER%"
 exit /b %errorlevel%

@@ -41,6 +41,7 @@ public:
     void AbortFrame();
     FenceID Signal();
     void WaitIdle();
+    void WaitOnGpu(const CommandQueue& producer, FenceID fenceID); // producer 큐가 fenceID까지 끝낸 뒤에 이 큐의 다음 제출이 돌게 한다
 
     ID3D12CommandQueue* GetQueue() const { return m_queue.Get(); }
     FenceID GetCurrentFence() const noexcept { return m_fenceID; }

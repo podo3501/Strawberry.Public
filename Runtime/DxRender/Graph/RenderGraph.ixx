@@ -30,7 +30,7 @@ private:
     struct PlannedBarrier
     {
         BarrierGroups groups;
-        LocalTaskID generatedTaskId{ InvalidLocalTaskID }; // 생성된 배리어 태스크 ID
+        LocalTaskID generatedTaskId{ InvalidLocalTaskID }; // 이 배리어가 끝나는 태스크 (배리어 태스크, 패스에 넣었으면 그 패스 태스크)
     };
     using BarrierMap = std::unordered_map<PassIndex, std::vector<std::shared_ptr<PlannedBarrier>>>;
 
@@ -55,7 +55,8 @@ private:
         PassIndex passIndex,
         const std::vector<LocalTaskID>& baseDependencies,
         const BarrierMap& passToBarriersMap,
-        std::vector<CompiledTask>& outTasks);
+        std::vector<CompiledTask>& outTasks,
+        PlannedBarrier*& outInPassBarrier);
 
     LocalTaskID CreateLocalTaskID();
 

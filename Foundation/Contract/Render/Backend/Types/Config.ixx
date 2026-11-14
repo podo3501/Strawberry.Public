@@ -10,10 +10,18 @@ export struct CommandPoolConfig
     std::uint32_t compute{ 4 };
 };
 
+export struct BindlessDescriptorConfig
+{
+    std::uint32_t persistentCount{ 393216 }; // 해제 없는 영구 할당 (텍스처/머티리얼 등)
+    std::uint32_t dynamicCount{ 32768 };     // 개별 free 가능, fence 기반
+    std::uint32_t transientCount{ 32768 };   // 프레임 슬롯 하나 크기. 실제 사용량은 transientCount * FrameBufferCount
+};
+
 export struct DescriptorConfig
 {
     std::uint32_t rtvCount{ 64 }; // 할당 후 해제 가능하므로 64면 충분
     std::uint32_t dsvCount{ 64 }; // 주로 내부 Frame Resource 용도이므로 64면 충분
+    BindlessDescriptorConfig bindless;
 };
 
 export struct BitmapConfig

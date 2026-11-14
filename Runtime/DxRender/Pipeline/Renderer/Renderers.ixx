@@ -16,8 +16,9 @@ export class Renderers
 {
 public:
     ~Renderers() = default;
-    Renderers(Device& device, ShaderLibrary& shaderLibrary) : 
+    Renderers(Device& device, ShaderLibrary& shaderLibrary, const RendererConfig& config = {}) :
         m_device{ device },
+        m_config{ config },
         m_pipelineCache{ device, shaderLibrary },
         m_shadowRenderer{ m_config.shadow, m_pipelineCache },
         m_surfRenderer{ m_config.surface, m_pipelineCache },

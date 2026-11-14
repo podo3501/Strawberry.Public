@@ -141,7 +141,7 @@ void MipGenerator::GenerateMips(
 
 bool MipGenerator::LoadShader(ShaderLibrary& shaderLibrary)
 {
-    static const MipShaderDesc shaders[] =
+    const MipShaderDesc shaders[] =
     {
         { MipType::SRGB,{} },
         { MipType::Data,{ { "IS_DATA_MAP" } } }

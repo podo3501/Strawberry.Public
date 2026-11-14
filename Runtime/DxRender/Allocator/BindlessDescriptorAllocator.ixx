@@ -6,6 +6,7 @@ module;
 export module DxRender.Allocator:BindlessDescriptor;
 
 import std;
+import Contract.Render.Backend.Types;
 import DxRender.Core;
 import DxRender.Constants;
 import Core.IndexAllocator;
@@ -21,7 +22,7 @@ public:
     BindlessDescriptorAllocator(BindlessDescriptorAllocator&&) noexcept = default;
     BindlessDescriptorAllocator& operator=(BindlessDescriptorAllocator&&) noexcept = default;
 
-    bool Initialize(Device& device) noexcept;
+    bool Initialize(Device& device, const BindlessDescriptorConfig& config) noexcept;
     UINT AllocatePersistent() noexcept;
     UINT AllocateDynamic() noexcept; // 임시 할당. 프레임 단위가 아니라 fence에 따라 다름. 예약된 고정 크기가 있다.( ex. mipmap 같이 잠시 계산때 쓰고 버리는 거)
     UINT AllocateTransient(std::uint32_t slot, UINT count = 1) noexcept; // 프레임 끝나면 Free. 임시 할당

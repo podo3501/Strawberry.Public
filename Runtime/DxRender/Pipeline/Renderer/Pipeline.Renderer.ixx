@@ -1,5 +1,6 @@
 export module DxRender.Pipeline.Renderer;
 
+export import :Config;
 export import :Shadow;
 export import :UI;
 export import :Skybox;

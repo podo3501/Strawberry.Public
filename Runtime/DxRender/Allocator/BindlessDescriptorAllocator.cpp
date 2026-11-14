@@ -8,17 +8,12 @@ import std;
 import :BindlessDescriptor;
 import DxRender.Definition;
 import Core.Assert;
+import Core.Logger;
 import Contract.Render.Backend.Types;
 
 namespace BindlessDescriptors
 {
-    constexpr std::uint32_t MaxCount = 524288;          // 최대 1,000,000개 미만 제한
-    constexpr std::uint32_t PersistentCount = 393216;   // [0, persistentCount) - 해제 없는 영구 할당 (텍스처/머티리얼 등)
-    constexpr std::uint32_t DynamicCount = 32768;       // [persistentCount, persistentCount + dynamicCount) - 개별 free 가능, fence 기반
-    constexpr std::uint32_t TransientCount = 32768;     // 슬롯 하나 크기. 실제 사용량은 TransientCount * FrameBufferCount
-    constexpr std::uint32_t Count = PersistentCount + DynamicCount + TransientCount * FrameBufferCount;
-
-    static_assert(Count <= MaxCount, "BindlessDescriptorConfig: persistent + dynamic + transient*FrameBufferCount가 최대치를 초과했습니다.");
+    constexpr std::uint32_t MaxCount = 524288; // 최대 1,000,000개 미만 제한
 }
 
 BindlessDescriptorAllocator::~BindlessDescriptorAllocator()
@@ -26,25 +21,32 @@ BindlessDescriptorAllocator::~BindlessDescriptorAllocator()
     Core::Assert(!m_dynamicRegion.HasOutstanding()); // 작업중인 것이 없어야 한다.
 }
 
-bool BindlessDescriptorAllocator::Initialize(Device& device) noexcept
+bool BindlessDescriptorAllocator::Initialize(Device& device, const BindlessDescriptorConfig& config) noexcept
 {
-    if (!m_persistentRegion.Initialize(BindlessDescriptors::PersistentCount))
+    const std::uint64_t total = std::uint64_t{ config.persistentCount } + config.dynamicCount + std::uint64_t{ config.transientCount } * FrameBufferCount;
+    if (total > BindlessDescriptors::MaxCount)
+    {
+        Core::Logger::Error("BindlessDescriptorAllocator::Initialize: 서술자 {}개가 최대치 {}개를 넘는다", total, BindlessDescriptors::MaxCount);
+        return false;
+    }
+
+    if (!m_persistentRegion.Initialize(config.persistentCount)) // [0, persistentCount)
         return false;
 
-    m_dynamicOffset = BindlessDescriptors::PersistentCount;
-    if (!m_dynamicRegion.Initialize(BindlessDescriptors::DynamicCount))
+    m_dynamicOffset = config.persistentCount;
+    if (!m_dynamicRegion.Initialize(config.dynamicCount))
         return false;
 
-    m_transientOffset = m_dynamicOffset + BindlessDescriptors::DynamicCount;
+    m_transientOffset = m_dynamicOffset + config.dynamicCount;
     for (auto& region : m_transientRegion)
     {
-        if (!region.Initialize(BindlessDescriptors::TransientCount)) // 슬롯당 capacity는 여기서만 넘겨줌
+        if (!region.Initialize(config.transientCount)) // 슬롯당 capacity는 여기서만 넘겨줌
             return false;
     }
 
     m_heap = device.CreateDescriptorHeap(
         D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-        BindlessDescriptors::Count,
+        static_cast<UINT>(total),
         D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
     if (!m_heap)
         return false;

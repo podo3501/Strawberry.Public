@@ -25,10 +25,14 @@ echo [%time:~0,8%] Build succeeded. Running tests...
 
 set "FILTER=%~1"
 if not defined FILTER set "FILTER=*"
+rem Shard count: default 1 (one process per exe). TEST_SHARDS overrides it; a run with a filter is never split.
+set "SHARDS=1"
+if defined TEST_SHARDS set "SHARDS=%TEST_SHARDS%"
+if not "%~1"=="" set "SHARDS=1"
 set "RESULT=0"
 for %%t in (Core-Test Serialization-Test) do (
     echo [%%t]
-    "x64\Debug\%%t.exe" --gtest_filter=%FILTER% --gtest_brief=1
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0Testing\Run_Test_Shards.ps1" -Exe "x64\Debug\%%t.exe" -Name %%t -Shards %SHARDS% -Filter "%FILTER%"
     if errorlevel 1 set "RESULT=1"
 )
 exit /b %RESULT%

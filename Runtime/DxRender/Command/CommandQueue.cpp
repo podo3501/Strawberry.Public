@@ -170,6 +170,14 @@ FenceID CommandQueue::Signal()
     return id;
 }
 
+void CommandQueue::WaitOnGpu(const CommandQueue& producer, FenceID fenceID)
+{
+    if (fenceID == InvalidFenceID)
+        return;
+
+    DxCheck(m_queue->Wait(producer.m_fence.Get(), fenceID));
+}
+
 void CommandQueue::WaitIdle()
 {
     if (m_fenceID != InvalidFenceID)

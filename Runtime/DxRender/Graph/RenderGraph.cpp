@@ -136,8 +136,9 @@ std::vector<CompiledTask> RenderGraph::BuildCompiledTasks(
                 baseDependencies.push_back(it->second);
         }
 
+        PlannedBarrier* inPassBarrier = nullptr;
         std::vector<LocalTaskID> currentPassDependencies =
-            BuildBarrierTasks(passIndex, baseDependencies, passToBarriersMap, tasks);
+            BuildBarrierTasks(passIndex, baseDependencies, passToBarriersMap, tasks, inPassBarrier);
 
         if (!pass.execute)
             continue;
@@ -148,21 +149,46 @@ std::vector<CompiledTask> RenderGraph::BuildCompiledTasks(
         task.numParallel = pass.numParallel;
         task.execute = pass.execute;
 
+        if (inPassBarrier)
+        {
+            task.execute =
+                [
+                    barrier = CreateBarrierTask(pass.type, inPassBarrier->groups.at(pass.type)).execute,
+                    run = pass.execute
+                ]
+                (TaskCommandLists cmds, TaskContext& ctx)
+                {
+                    barrier(cmds, ctx);
+                    run(cmds, ctx);
+                };
+        }
+
         LocalTaskID taskId = CreateLocalTaskID();
         tasks.push_back({ taskId, std::move(task), currentPassDependencies });
 
         passToTaskId[passIndex] = taskId;
+        if (inPassBarrier)
+            inPassBarrier->generatedTaskId = taskId; // 이 배리어를 기다리는 다른 패스는 이 패스를 기다린다
     }
 
     return tasks;
 }
 
+// 패스와 큐 종류가 같은 배리어는 태스크로 만들지 않고 outInPassBarrier로 돌려줘서 패스의 명령 목록 맨 앞에 넣게 한다.
+// 배리어와 그 리소스를 쓰는 셰이더가 한 명령 목록에 있어야 GPU 기반 검증이 상태를 놓치지 않고, 제출 횟수도 준다.
 std::vector<LocalTaskID> RenderGraph::BuildBarrierTasks(
     PassIndex passIndex,
     const std::vector<LocalTaskID>& baseDependencies,
     const BarrierMap& passToBarriersMap,
-    std::vector<CompiledTask>& outTasks)
+    std::vector<CompiledTask>& outTasks,
+    PlannedBarrier*& outInPassBarrier)
 {
+    outInPassBarrier = nullptr;
+
+    // 실행 함수가 없는 패스(내보내기)와 명령 목록을 여러 개 쓰는 패스에는 넣을 수 없다.
+    const RenderPass& pass = m_passes[passIndex];
+    const bool canRunInPass = pass.execute && pass.numParallel <= 1;
+
     auto barrierIt = passToBarriersMap.find(passIndex);
     if (barrierIt == passToBarriersMap.end() || barrierIt->second.empty())
         return baseDependencies; // 배리어가 없으면 부모 의존성을 그대로 반환
@@ -182,6 +208,12 @@ std::vector<LocalTaskID> RenderGraph::BuildBarrierTasks(
                 if (groupIt == planned->groups.end())
                     continue;
 
+                if (canRunInPass && type == pass.type)
+                {
+                    outInPassBarrier = planned.get();
+                    continue;
+                }
+
                 lastBarrierId = CreateLocalTaskID();
                 outTasks.push_back({ lastBarrierId, CreateBarrierTask(type, groupIt->second), std::move(barrierDependencies) });
 
@@ -189,7 +221,9 @@ std::vector<LocalTaskID> RenderGraph::BuildBarrierTasks(
             }
             planned->generatedTaskId = lastBarrierId;
         }
-        barrierIds.push_back(planned->generatedTaskId);
+
+        if (planned->generatedTaskId != InvalidLocalTaskID) // 전부 패스에 넣었으면 기다릴 배리어 태스크가 없다
+            barrierIds.push_back(planned->generatedTaskId);
     }
 
     // 배리어가 이미 기다리는 앞 패스는 따로 기다리지 않는다. 다른 패스가 만든 배리어를 재사용하면 그 배리어가 기다리지 않는 앞 패스만 남는다.

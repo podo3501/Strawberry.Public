@@ -34,6 +34,7 @@ private:
     bool IsTaskFinished(const TaskEntry& entry);
 
     void ExecuteTask(TaskEntry& entry);
+    void WaitOnOtherQueueDependencies(const TaskEntry& entry);
     bool CanDeleteTask(const TaskEntry& entry);
     void RemoveTask(TaskHandle handle, TaskEntry& entry);
 
